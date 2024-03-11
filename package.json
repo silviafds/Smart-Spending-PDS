@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.9",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.16",
+    "cors": "^2.8.5",
+    "styled-components": "^6.1.8"
+  }
+}

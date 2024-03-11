@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "3a52b6de-7b90-4e31-b9bf-fc00e81a1252",
+		"name": "SmartSpending",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23899393"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json(); // Se a resposta é em JSON, ajuste conforme necessário\r",
+									"pm.globals.set(\"token\", jsonData.token); // Substitua \"access_token\" pelo campo correto em sua resposta\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"ikki\",\r\n    \"password\": \"ikki\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastroUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"ikki\",\r\n    \"sobrenome\": \"fenix\",\r\n    \"login\": \"ikki\",\r\n    \"datanascimento\": \"2013-10-05\",\r\n    \"email\": \"ikki@gmai.com\",\r\n    \"password\": \"ikki\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conta Interna",
+			"item": [
+				{
+					"name": "Atualizar nome da conta",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"nome\": \"conta nova de teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaInterna/editarConta",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaInterna",
+								"editarConta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar conta interna",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 14,\n    \"nome\": \"troca\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaInterna/deletarConta",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaInterna",
+								"deletarConta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar nome da conta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"conta93\",\r\n    \"novoNome\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaInterna/registrarConta",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaInterna",
+								"registrarConta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar todas as contas internas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaInterna/buscarConta",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaInterna",
+								"buscarConta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar conta interna por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaInterna/buscarContaInvidual/5",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaInterna",
+								"buscarContaInvidual",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Receitas",
+			"item": [
+				{
+					"name": "Cadastrar receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Proventos\",\n    \"titulo_contabil\": \"Pensão\",\n    \"dataReceita\": \"2024-03-04\",\n    \"valorReceita\": 1500.00,\n    \"origem\": \"Transferência\",\n    \"bancoOrigem\": \"Banco A\",\n    \"agenciaOrigem\": \"1234\",\n    \"numeroContaOrigem\": \"56789\",\n    \"bancoDestino\": \"Banco B\",\n    \"agenciaDestino\": \"9876\",\n    \"numeroContaDestino\": \"54321\",\n    \"descricao\": \"Pagamento de clientes\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/registrarReceita",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"registrarReceita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 22,\n    \"categoria\": \"Filantropia\",\n    \"titulo_contabil\": \"Presente\",\n    \"dataReceita\": \"2024-01-15\",\n    \"valorReceita\": \"200\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Itau\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"NuBank\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"contaInterna\": {\n            \"id\": 1,\n            \"nome\": \"troca\",\n            \"desabilitarConta\": true\n        },\n    \"descricao\": \"presente aniversario\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/editarReceita",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"editarReceita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 3,\n    \"contaInterna\": \"conta93\",\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"lucro de dividendos\",\n    \"dataReceita\": \"2024-01-15\",\n    \"valorReceita\": \"30000\",\n    \"bancoReceita\": \"Itau\",\n    \"agenciaReceita\": \"2345\",\n    \"contaReceita\": \"12399\",\n    \"descricao\": \"dividendos coca cola\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/deletarReceita",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"deletarReceita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar todas as categorias de receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/buscarCategoriaReceita",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"buscarCategoriaReceita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar todas as receitas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/buscarReceitas",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"buscarReceitas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar receita por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/buscarReceitasPorId/23",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"buscarReceitasPorId",
+								"23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Forma de Pagamento",
+			"item": [
+				{
+					"name": "buscar todas as formas de pagamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/origem/buscarOrigem",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"origem",
+								"buscarOrigem"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Titulo contabil",
+			"item": [
+				{
+					"name": "buscar Titulo Contabil Receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/buscarTituloContabilReceita/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"buscarTituloContabilReceita",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

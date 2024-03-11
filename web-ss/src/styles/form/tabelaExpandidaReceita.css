@@ -1,0 +1,18 @@
+@media (max-width: 1023px) {
+    .MuiTableContainer-root {
+        width: 90%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .MuiTableCell-root {
+        padding: 8px 4px;
+        font-size: 12px;
+    }
+}
+
+.tabela-expandida-receita {
+    max-height: 500px; /* Defina a altura máxima desejada */
+    overflow-y: auto; /* Adicione uma barra de rolagem vertical quando necessário */
+}

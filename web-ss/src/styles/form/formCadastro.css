@@ -1,0 +1,44 @@
+
+.inputs {
+    width: 100%;
+}
+
+.input-with-line {
+    border: none;
+    outline: none;
+    padding-bottom: 10px;
+}
+
+.line::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Mostrar a linha completa por padrão */
+    height: 1px;
+    background-color: #807F7F; /* Cor da linha */
+}
+
+.input-data-aniversario {
+    color: #8c8989;
+}
+
+p {
+    color: #bf1650;
+}
+
+p::before {
+    display: inline;
+    content: "⚠ ";
+}
+
+/* cor do botão de aviso de login/senha invalidos */
+.error-button {
+    background-color: #15803D !important;
+}
+
+/* tamanho da div do formulário de login*/
+.custom-height {
+    height: 50vh; /* Ou ajuste o valor conforme necessário */
+
+}

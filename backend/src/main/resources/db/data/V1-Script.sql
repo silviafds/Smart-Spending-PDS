@@ -4,6 +4,15 @@ CREATE TABLE categoria_receita (
       CONSTRAINT categoria_receita_pkey PRIMARY KEY (id)
 );
 
+insert into categoria_receita (nome)
+values ('Proventos'),
+       ('Investimento'),
+       ('Reembolso'),
+       ('Estorno'),
+       ('Vendas'),
+       ('Prestação de Serviço'),
+       ('Filantropia');
+
 CREATE TABLE conta_interna (
       id bigserial NOT NULL,
       nome varchar(255) NULL,
@@ -11,11 +20,23 @@ CREATE TABLE conta_interna (
       CONSTRAINT conta_interna_pkey PRIMARY KEY (id)
 );
 
+insert into conta_interna (nome, desabilitar_conta)
+values ('Conta 1', true),
+       ('Conta 2', false),
+       ('Conta 3', false),
+       ('Conta 4', false),
+       ('Conta 5', false);
+
 CREATE TABLE origem (
     id int4 NOT NULL,
     nome text NULL,
     CONSTRAINT origem_pkey PRIMARY KEY (id)
 );
+insert into origem (nome)
+values ('Cheque'),
+       ('Papel e moeda'),
+       ('Transferência'),
+       ('Pix');
 
 CREATE TABLE users (
       id bigserial NOT NULL,
@@ -38,6 +59,35 @@ CREATE TABLE titulos_contabeis_receita (
       CONSTRAINT titulos_contabeis_receita_categoria_receita_id_fkey FOREIGN KEY (categoria_receita_id) REFERENCES public.categoria_receita(id)
 );
 
+insert into titulos_contabeis_receita (nome, categoria_receita_id)
+values ('Salário', 1),
+       ('Pensão', 1),
+       ('Recebimento de aluguel imobiliário', 1),
+       ('Lucro de dividendos', 2),
+       ('Lucro de venda de ações', 2),
+       ('Lucro com moedas', 2),
+       ('Rendimento de juros', 2),
+       ('Lucro de dividendos', 2),
+       ('Dividendos', 2),
+       ('Farmácia', 3),
+       ('Perfumaria', 3),
+       ('Alimentação', 3),
+       ('Vestimenta', 3),
+       ('Consulta médica', 3),
+       ('Estorno bancário', 4),
+       ('Estorno compra', 4),
+       ('Cashback', 4),
+       ('Automóvel', 5),
+       ('Imóvel', 5),
+       ('Produto Acabado', 5),
+       ('Produto Semi-acabado', 5),
+       ('Recebimento de Comissão', 6),
+       ('Royalties', 6),
+       ('Recebimento de Seguros', 6),
+       ('Recebimento Por Manutenção', 6),
+       ('Doação', 7),
+       ('Presente', 7);
+
 
 CREATE TABLE receita (
     id bigserial NOT NULL,
@@ -57,6 +107,7 @@ CREATE TABLE receita (
     CONSTRAINT receita_pkey PRIMARY KEY (id),
     CONSTRAINT receita_conta_interna_id_fkey FOREIGN KEY (conta_interna_id) REFERENCES public.conta_interna(id)
 );
+
 
 CREATE TABLE conta_bancaria (
     id serial NOT NULL,

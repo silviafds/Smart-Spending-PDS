@@ -28,7 +28,7 @@ values ('Conta 1', true),
        ('Conta 5', false);
 
 CREATE TABLE origem (
-    id int4 NOT NULL,
+    id serial NOT NULL,
     nome text NULL,
     CONSTRAINT origem_pkey PRIMARY KEY (id)
 );

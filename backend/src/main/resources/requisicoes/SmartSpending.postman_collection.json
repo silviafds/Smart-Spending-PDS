@@ -471,7 +471,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarReceitasPorId/23",
+							"raw": "http://{{host}}:{{port}}/receita/buscarReceitasPorId/49",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -480,7 +480,7 @@
 							"path": [
 								"receita",
 								"buscarReceitasPorId",
-								"23"
+								"49"
 							]
 						}
 					},
@@ -489,10 +489,10 @@
 			]
 		},
 		{
-			"name": "Forma de Pagamento",
+			"name": "Origem",
 			"item": [
 				{
-					"name": "buscar todas as formas de pagamento",
+					"name": "buscar todas as origens",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -552,6 +552,242 @@
 								"receita",
 								"buscarTituloContabilReceita",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conta bancária",
+			"item": [
+				{
+					"name": "Cadastrar conta bancária",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeBanco\": \"Banco Santander\",\n    \"tipoConta\": \"Poupança\",\n    \"agencia\": \"6633\",\n    \"numeroConta\": \"78663312\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/registrarContaBancaria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"registrarContaBancaria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar conta bancária",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 7,\n    \"nomeBanco\": \"Banco Banrisul\",\n    \"tipoConta\": \"Corrente\",\n    \"agencia\": \"002233\",\n    \"numeroConta\": \"00223312\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/editarContaBancaria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"editarContaBancaria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar todas as contas bancárias",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancaria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"buscarContaBancaria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar conta bancaria por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorId/7",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"buscarContaBancariaPorId",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar conta bancaria por nome",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorNome",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"buscarContaBancariaPorNome"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar conta bancaria por nome Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarDadosBancariosPorBanco/PicPay",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"buscarDadosBancariosPorBanco",
+								"PicPay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar conta bancária",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/contaBancaria/deletarContaBancaria/19",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"contaBancaria",
+								"deletarContaBancaria",
+								"19"
 							]
 						}
 					},

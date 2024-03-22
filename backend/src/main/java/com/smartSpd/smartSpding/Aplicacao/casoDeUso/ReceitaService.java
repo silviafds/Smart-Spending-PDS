@@ -1,6 +1,5 @@
 package com.smartSpd.smartSpding.Aplicacao.casoDeUso;
 
-import com.smartSpd.smartSpding.Core.DTO.EditarReceitaDTO;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
@@ -16,14 +15,14 @@ public interface ReceitaService {
 
     Boolean editarReceita(ReceitaDTO data);
 
-    Boolean deletarReceita(EditarReceitaDTO data);
+    Boolean deletarReceita(Long id);
 
     List<CategoriaReceita> buscarTodasCategoriasReceitas();
 
     List<Receita> buscarTodasAsReceitas();
 
-    List<Receita> buscarReceitasPorId(int id);
+    List<Receita> buscarReceitasPorId(Integer id);
 
-    List<TituloContabilReceita> buscarTodosTitulosContabeisReceitas(int id);
+    List<TituloContabilReceita> buscarTodosTitulosContabeisReceitas(Integer id);
 
 }

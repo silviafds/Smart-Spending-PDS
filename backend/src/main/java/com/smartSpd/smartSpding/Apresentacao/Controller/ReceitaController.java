@@ -1,7 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ReceitaService;
-import com.smartSpd.smartSpding.Core.DTO.EditarReceitaDTO;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
@@ -42,16 +41,20 @@ public class ReceitaController {
     @Transactional
     public ResponseEntity register(@RequestBody @Valid ReceitaDTO data) {
         try {
-            boolean contaCriada = receitaService.cadastrarReceita(data);
-            String mensagem = contaCriada ? "Receita registrada." : "Receita nãom registrada.";
-
-            return ResponseEntity.ok()
+            System.out.println("RECEITA CONTROLLER: "+data);
+            boolean receitaRegistrada = receitaService.cadastrarReceita(data);
+            if (receitaRegistrada) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body("{\"message\": \"Receita registrada.\"}");
+            }
+            return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"" + mensagem + "\"}");
+                    .body("{\"message\": \"Receita não registrada.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao cadastrar nova receita. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar nova receita receita.");
+                    .body("Erro ao cadastrar nova receita.");
         }
     }
 
@@ -60,11 +63,14 @@ public class ReceitaController {
     public ResponseEntity editarReceita(@RequestBody @Valid ReceitaDTO data) {
         try {
             boolean contaCriada = receitaService.editarReceita(data);
-            String mensagem = contaCriada ? "Conta atualizada com sucesso." : "Conta Interna não atualizada.";
-
-            return ResponseEntity.ok()
+            if(contaCriada) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body("{\"message\": \"Receita atualizada com sucesso.\"}");
+            }
+            return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"" + mensagem + "\"}");
+                    .body("{\"message\": \"Erro ao atualizar receita.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao atualizar receita. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -72,15 +78,19 @@ public class ReceitaController {
         }
     }
 
-    @DeleteMapping("/deletarReceita")
+    @DeleteMapping("/deletarReceita/{id}")
     @Transactional
-    public ResponseEntity deletarReceita(@RequestBody @Valid EditarReceitaDTO data) {
+    public ResponseEntity deletarReceita(@PathVariable Long id) {
         try {
-            boolean contaCriada = receitaService.deletarReceita(data);
-            String mensagem = contaCriada ? "Receita deletada com sucesso." : "Receita não deletada.";
-            return ResponseEntity.ok()
+            boolean contaDeletada = receitaService.deletarReceita(id);
+            if(contaDeletada) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body("{\"message\": \"Receita deletada com sucesso.\"}");
+            }
+            return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"" + mensagem + "\"}");
+                    .body("{\"message\": \"Houve um problema ao deletar a receita.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao deletar receita. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -103,21 +113,6 @@ public class ReceitaController {
         }
     }
 
-    /*@GetMapping("/buscarReceitas")
-    @Transactional
-    public ResponseEntity buscarReceitas() {
-        try {
-            List<Receita> receitas = receitaService.buscarTodasAsReceitas();
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(receitas);
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar receitas. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar receitas. ");
-        }
-    }*/
-
     @GetMapping("/buscarReceitas")
     @Transactional
     public ResponseEntity buscarReceitas() {
@@ -135,7 +130,7 @@ public class ReceitaController {
 
     @GetMapping("/buscarReceitasPorId/{id}")
     @Transactional
-    public ResponseEntity buscarReceitasPorId(@PathVariable int id) {
+    public ResponseEntity buscarReceitasPorId(@PathVariable Integer id) {
         try {
             List<Receita> receitas = receitaService.buscarReceitasPorId(id);
 
@@ -151,7 +146,7 @@ public class ReceitaController {
 
     @GetMapping("/buscarTituloContabilReceita/{id}")
     @Transactional
-    public ResponseEntity buscarTituloContabilReceita(@PathVariable int id) {
+    public ResponseEntity buscarTituloContabilReceita(@PathVariable Integer id) {
         try {
             List<TituloContabilReceita> titulos = receitaService.buscarTodosTitulosContabeisReceitas(id);
             return ResponseEntity.ok()

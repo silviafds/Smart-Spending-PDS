@@ -30,7 +30,4 @@ public class CategoriaReceita {
         this.nome = nome;
     }
 
-    public CategoriaReceita(String nome) {
-    }
-
 }

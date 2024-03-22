@@ -1,12 +1,11 @@
 package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
 
+import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorReceita;
 import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ReceitaService;
-import com.smartSpd.smartSpding.Core.DTO.EditarReceitaDTO;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import com.smartSpd.smartSpding.Core.Dominio.TituloContabilReceita;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.ContaInternaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -27,39 +27,20 @@ public class ReceitaServiceImpl implements ReceitaService {
     private final ReceitaRepository receitaRepository;
 
     @Autowired
-    private ContaInternaRepository contaInternaRepository;
+    private GerenciadorReceita gerenciadorReceita;
 
     public ReceitaServiceImpl(ReceitaRepository receitaRepository) {
         this.receitaRepository = receitaRepository;
     }
 
-    private String[] reformulaDadosBancarios(String dadosBancariosDestino) {
-        return dadosBancariosDestino.split("/");
-    }
 
     @Transactional
     @Override
     public Boolean cadastrarReceita(ReceitaDTO data) {
         if (data.getId() == null) {
             try {
-                String[] dadosReformulados = reformulaDadosBancarios(data.getDadosBancariosDestino());
-
-                Receita receita = new Receita();
-                receita.setId(data.getId());
-                receita.setCategoria(data.getCategoria());
-                receita.setTitulo_contabil(data.getTitulo_contabil());
-                receita.setDataReceita(data.getDataReceita());
-                receita.setValorReceita(data.getValorReceita());
-                receita.setOrigem(data.getOrigem());
-                receita.setBancoOrigem(data.getBancoOrigem());
-                receita.setAgenciaOrigem(data.getAgenciaOrigem());
-                receita.setNumeroContaOrigem(data.getNumeroContaOrigem());
-                receita.setBancoDestino(data.getBancoDestino());
-                receita.setAgenciaDestino(dadosReformulados[1]);
-                receita.setNumeroContaDestino(dadosReformulados[2]);
-                receita.setDescricao(data.getDescricao());
-                receita.setContaInterna(data.getContaInterna());
-                receita.setTipoContaDestino(dadosReformulados[0]);
+                String[] dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
+                Receita receita = gerenciadorReceita.mapeiaDTOparaReceita(data, dadosReformulados);
                 receitaRepository.save(receita);
                 return true;
             } catch (Exception e) {
@@ -72,11 +53,25 @@ public class ReceitaServiceImpl implements ReceitaService {
     @Transactional
     @Override
     public Boolean editarReceita(ReceitaDTO data) {
-            String[] dadosReformulados = reformulaDadosBancarios(data.getDadosBancariosDestino());
-        if (data.getOrigem().equals("Pix")) {
-            data.setAgenciaOrigem("");
-            data.setNumeroContaOrigem("");
+        try {
+            gerenciadorReceita.validarEntrada(data);
+
+            gerenciadorReceita.validarCamposObrigatorios(data);
+
+            gerenciadorReceita.ajustarOrigem(data);
+
+            String[] dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
+
+            salvarReceitaEditada(data, dadosReformulados);
+
+            return true;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao editar receita no service.", e);
+            return false;
         }
+    }
+
+    public void salvarReceitaEditada(ReceitaDTO data, String[] dadosReformulados) {
         receitaRepository.editarReceita(
                 data.getId(),
                 data.getCategoria(),
@@ -88,67 +83,85 @@ public class ReceitaServiceImpl implements ReceitaService {
                 data.getAgenciaOrigem(),
                 data.getNumeroContaOrigem(),
                 data.getBancoDestino(),
+                dadosReformulados[0],
                 dadosReformulados[1],
                 dadosReformulados[2],
                 data.getDescricao(),
                 data.getContaInterna()
         );
-
-        return true;
     }
 
     @Transactional
     @Override
-    public Boolean deletarReceita(EditarReceitaDTO data) {
-        Optional<Receita> receitaOptional = receitaRepository.findById(data.id());
-        if (receitaOptional.isPresent()) {
-            receitaRepository.delete(receitaOptional.get());
-            return true;
-        } else {
+    public Boolean deletarReceita(Long id) {
+        try {
+            gerenciadorReceita.validarId(id);
+            Optional<Receita> receitaOptional = receitaRepository.findById(id);
+            if (receitaOptional.isPresent()) {
+                receitaRepository.delete(receitaOptional.get());
+                return true;
+            }
+
+            return false;
+        } catch (IllegalArgumentException e) {
+            log.warning("Id de receita está nulo.");
+            return false;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao deletar receita no service.", e);
             return false;
         }
     }
 
     @Override
     public List<CategoriaReceita> buscarTodasCategoriasReceitas() {
-        return receitaRepository.findByAllCategoriaReceita();
+        return receitaRepository.buscarTodasAsCategoriaReceita();
     }
 
     @Override
     public List<Receita> buscarTodasAsReceitas() {
-        List<Receita> receitas = receitaRepository.returnAllReceitas();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            List<Receita> receitas = receitaRepository.buscarTodasReceitas();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        receitas.forEach(receita -> {
-            LocalDate dataReceita = receita.getDataReceita();
-            String dataFormatada = dataReceita.format(formatter);
-            receita.setDataFormatada(dataFormatada);
-        });
+            receitas.forEach(receita -> {
+                LocalDate dataReceita = receita.getDataReceita();
+                String dataFormatada = dataReceita.format(formatter);
+                receita.setDataFormatada(dataFormatada);
+            });
 
-        return receitas;
-    }
-
-    @Override
-    public List<Receita> buscarReceitasPorId(int id) {
-        List<Receita> lista = receitaRepository.findReceitaById(id);
-        String tipoConta;
-        String agencia;
-        String conta;
-        String dadosBancarios;
-        for(Receita receita : lista) {
-            tipoConta = receita.getTipoContaDestino();
-            agencia = receita.getAgenciaDestino();
-            conta = receita.getNumeroContaDestino();
-            dadosBancarios = tipoConta + "/" + agencia + "/" + conta;
-            receita.setDadosBancarios(dadosBancarios);
+            return receitas;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todas as receitas no service.", e);
+            return Collections.emptyList();
         }
-        return receitaRepository.findReceitaById(id);
     }
 
     @Override
-    public List<TituloContabilReceita>buscarTodosTitulosContabeisReceitas(int id) {
-        return receitaRepository.findByAllTitulosContabeisReceita(id);
+    public List<Receita> buscarReceitasPorId(Integer id) {
+        if(id != null) {
+            List<Receita> lista = receitaRepository.buscarReceitaPorId(id);
+            String tipoConta;
+            String agencia;
+            String conta;
+            String dadosBancarios;
+            for(Receita receita : lista) {
+                tipoConta = receita.getTipoContaDestino();
+                agencia = receita.getAgenciaDestino();
+                conta = receita.getNumeroContaDestino();
+                dadosBancarios = tipoConta + "/" + agencia + "/" + conta;
+                receita.setDadosBancarios(dadosBancarios);
+            }
+            return receitaRepository.buscarReceitaPorId(id);
+        }
+        throw new NullPointerException("Id é null.");
     }
 
+    @Override
+    public List<TituloContabilReceita>buscarTodosTitulosContabeisReceitas(Integer id) {
+        if(id != null) {
+            return receitaRepository.findByAllTitulosContabeisReceita(id);
+        }
+        throw new NullPointerException("Id é null.");
+    }
 
 }

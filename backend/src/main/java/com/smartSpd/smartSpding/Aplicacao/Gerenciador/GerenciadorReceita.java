@@ -28,6 +28,7 @@ public class GerenciadorReceita {
             receita.setDataReceita(data.getDataReceita());
             receita.setValorReceita(data.getValorReceita());
             receita.setOrigem(data.getOrigem());
+            receita.setPagador(data.getPagador());
             receita.setBancoOrigem(data.getBancoOrigem());
             receita.setAgenciaOrigem(data.getAgenciaOrigem());
             receita.setNumeroContaOrigem(data.getNumeroContaOrigem());
@@ -47,7 +48,7 @@ public class GerenciadorReceita {
         return data.getContaInterna() != null && data.getCategoria() != null &&
                 data.getTitulo_contabil() != null && data.getOrigem() != null &&
                 data.getValorReceita() != null && data.getDataReceita() != null &&
-                data.getDescricao() != null;
+                data.getDescricao() != null && data.getPagador() != null;
     }
 
     public void validarEntrada(ReceitaDTO data) {
@@ -62,6 +63,7 @@ public class GerenciadorReceita {
                 data.getCategoria() == null ||
                 data.getTitulo_contabil() == null ||
                 data.getValorReceita() == null ||
+                data.getPagador() == null ||
                 data.getOrigem() == null ||
                 data.getDescricao() == null ||
                 data.getDataReceita() == null ||

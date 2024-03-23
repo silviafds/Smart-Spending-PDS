@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Proventos\",\n    \"titulo_contabil\": \"Pensão\",\n    \"dataReceita\": \"2024-03-04\",\n    \"valorReceita\": 1500.00,\n    \"origem\": \"Transferência\",\n    \"bancoOrigem\": \"Banco A\",\n    \"agenciaOrigem\": \"1234\",\n    \"numeroContaOrigem\": \"56789\",\n    \"bancoDestino\": \"Banco B\",\n    \"agenciaDestino\": \"9876\",\n    \"numeroContaDestino\": \"54321\",\n    \"descricao\": \"Pagamento de clientes\"\n}\n\n",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 3000.00,\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco Ricco\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"descricao\": \"Lucro com venda de dollar\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,7 +334,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 22,\n    \"categoria\": \"Filantropia\",\n    \"titulo_contabil\": \"Presente\",\n    \"dataReceita\": \"2024-01-15\",\n    \"valorReceita\": \"200\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Itau\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"NuBank\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"contaInterna\": {\n            \"id\": 1,\n            \"nome\": \"troca\",\n            \"desabilitarConta\": true\n        },\n    \"descricao\": \"presente aniversario\"\n}",
+							"raw": "{\n    \"id\": 68,\n    \"contaInterna\": {\n        \"id\": 42,\n        \"nome\": \"conta 5\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 1200.00,\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco Inter\",\n    \"dadosBancariosDestino\": \"Investimento/1027/10275678\",\n    \"descricao\": \"Lucro com venda de euro\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -342,7 +342,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/editarReceita",
+							"raw": "http://{{host}}:{{port}}/receita/editarReceita/64",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -350,7 +350,8 @@
 							"port": "{{port}}",
 							"path": [
 								"receita",
-								"editarReceita"
+								"editarReceita",
+								"64"
 							]
 						}
 					},
@@ -371,17 +372,8 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 3,\n    \"contaInterna\": \"conta93\",\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"lucro de dividendos\",\n    \"dataReceita\": \"2024-01-15\",\n    \"valorReceita\": \"30000\",\n    \"bancoReceita\": \"Itau\",\n    \"agenciaReceita\": \"2345\",\n    \"contaReceita\": \"12399\",\n    \"descricao\": \"dividendos coca cola\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/deletarReceita",
+							"raw": "http://{{host}}:{{port}}/receita/deletarReceita/61",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -389,37 +381,8 @@
 							"port": "{{port}}",
 							"path": [
 								"receita",
-								"deletarReceita"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "buscar todas as categorias de receita",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarCategoriaReceita",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"buscarCategoriaReceita"
+								"deletarReceita",
+								"61"
 							]
 						}
 					},
@@ -552,6 +515,37 @@
 								"receita",
 								"buscarTituloContabilReceita",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar titulo contabil despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/buscarTituloContabilDespesa/2",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"buscarTituloContabilDespesa",
+								"2"
 							]
 						}
 					},
@@ -788,6 +782,246 @@
 								"contaBancaria",
 								"deletarContaBancaria",
 								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "buscar todas as categorias de despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/buscarCategoriaDespesa",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"buscarCategoriaDespesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar todas as categorias de receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/receita/buscarCategoriaReceita",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"receita",
+								"buscarCategoriaReceita"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Despesas",
+			"item": [
+				{
+					"name": "Editar despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataDespesa\": \"2024-03-22\",\n    \"valorDespesa\": 6000.00,\n    \"tipoContaOrigem\": \"Corrente\",\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra eletronico\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/editarDespesa",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"editarDespesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrar despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Lazer\",\n    \"titulo_contabil\": \"Festa\",\n    \"dataDespesa\": \"2024-03-23\",\n    \"valorDespesa\": 1000.00,\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosOrigem\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Quiosque\",\n    \"bancoDestino\": \"Nubank\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"festa na praia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/registrarDespesa",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"registrarDespesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/deletarDespesa/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"deletarDespesa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar despesas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/buscarDespesa",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"buscarDespesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar receita por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/despesa/buscarDespesasPorId/6",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"despesa",
+								"buscarDespesasPorId",
+								"6"
 							]
 						}
 					},

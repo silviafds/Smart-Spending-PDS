@@ -19,14 +19,15 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
             "r.dataReceita = :dataReceita, r.valorReceita = :valorReceita, r.origem = :origem, " +
             "r.bancoOrigem = :bancoOrigem, r.agenciaOrigem = :agenciaOrigem, r.numeroContaOrigem = :numeroContaOrigem, " +
             "r.bancoDestino = :bancoDestino, r.agenciaDestino = :agenciaDestino, r.numeroContaDestino = :numeroContaDestino, " +
-            "r.descricao = :descricao, r.contaInterna = :contaInterna, r.tipoContaDestino = :tipo_conta_destino " +
-            "WHERE r.id = :idReceita")
+            "r.descricao = :descricao, r.contaInterna = :contaInterna, r.tipoContaDestino = :tipo_conta_destino, " +
+            "r.pagador = :pagador WHERE r.id = :idReceita")
     int editarReceita(
             @Param("idReceita") Long idReceita,
             @Param("categoria") String categoria,
             @Param("titulo_contabil") String titulo_contabil,
             @Param("dataReceita") LocalDate dataReceita,
             @Param("valorReceita") Double valorReceita,
+            @Param("pagador") String pagador,
             @Param("origem") String origem,
             @Param("bancoOrigem") String bancoOrigem,
             @Param("agenciaOrigem") String agenciaOrigem,

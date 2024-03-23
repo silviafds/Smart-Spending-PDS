@@ -140,3 +140,48 @@ VALUES ('Banco do Brasil', 'Corrente', '1234', '12345678'),
        ('Banco Inter', 'Poupança', '1025', '10255678'),
        ('Banco Inter', 'Investimento', '1026', '10265678'),
        ('Banco Inter', 'Investimento', '1027', '10275678');
+
+
+CREATE TABLE despesa (
+     id bigserial NOT NULL,
+     categoria varchar(255) NULL,
+     titulo_contabil varchar(255) NULL,
+     data_despesa date NULL,
+     valor_despesa float8 NULL,
+     descricao varchar(255) NULL,
+     conta_interna_id int8 NULL,
+     categoria_transacao varchar(250) NULL,
+     tipo_conta_origem varchar(205) NULL,
+     banco_origem varchar(250) NULL,
+     agencia_origem varchar(250) NULL,
+     numero_conta_origem varchar(250) NULL,
+     banco_destino varchar(250) NULL,
+     agencia_destino varchar(250) NULL,
+     numero_conta_destino varchar(250) NULL,
+     CONSTRAINT despesa_pkey PRIMARY KEY (id),
+     CONSTRAINT despesa_conta_interna_id_fkey FOREIGN KEY (conta_interna_id) REFERENCES public.conta_interna(id)
+);
+
+create table categoria_despesa (
+    id bigserial NOT NULL PRIMARY KEY,
+    nome varchar(255) NULL
+);
+
+insert into categoria_despesa (nome)
+values ('Despesas Fixas'),
+       ('Lazer');
+
+CREATE TABLE titulos_contabeis_despesa (
+   id bigserial NOT NULL,
+   nome text NULL,
+   categoria_despesa_id int4 NULL,
+   CONSTRAINT titulos_contabeis_despesa_pkey PRIMARY KEY (id),
+   CONSTRAINT titulos_contabeis_despesa_categoria_despesa_id_fkey FOREIGN KEY (categoria_despesa_id) REFERENCES public.categoria_despesa(id)
+);
+
+insert into titulos_contabeis_despesa (nome, categoria_despesa_id)
+values ('Internet', 1),
+       ('Água encanada', 1),
+       ('Cosern', 1),
+       ('Passeio na Praia', 2),
+       ('Passeio no Shopping', 2);

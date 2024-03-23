@@ -78,6 +78,7 @@ public class ReceitaServiceImpl implements ReceitaService {
                 data.getTitulo_contabil(),
                 data.getDataReceita(),
                 data.getValorReceita(),
+                data.getPagador(),
                 data.getOrigem(),
                 data.getBancoOrigem(),
                 data.getAgenciaOrigem(),

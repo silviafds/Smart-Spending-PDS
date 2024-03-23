@@ -11,6 +11,7 @@ public class ReceitaDTO {
     private String titulo_contabil;
     private LocalDate dataReceita;
     private Double valorReceita;
+    private String pagador;
     private String origem;
     private String bancoOrigem;
     private String agenciaOrigem;
@@ -20,7 +21,7 @@ public class ReceitaDTO {
     private String descricao;
 
     public ReceitaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil, LocalDate dataReceita,
-                      Double valorReceita, String origem, String bancoOrigem, String agenciaOrigem,
+                      Double valorReceita, String pagador, String origem, String bancoOrigem, String agenciaOrigem,
                       String numeroContaOrigem, String bancoDestino, String dadosBancariosDestino, String descricao) {
         this.id = id;
         this.contaInterna = contaInterna;
@@ -28,6 +29,7 @@ public class ReceitaDTO {
         this.titulo_contabil = titulo_contabil;
         this.dataReceita = dataReceita;
         this.valorReceita = valorReceita;
+        this.pagador = pagador;
         this.origem = origem;
         this.bancoOrigem = bancoOrigem;
         this.agenciaOrigem = agenciaOrigem;
@@ -71,6 +73,14 @@ public class ReceitaDTO {
 
     public LocalDate getDataReceita() {
         return dataReceita;
+    }
+
+    public String getPagador() {
+        return pagador;
+    }
+
+    public void setPagador(String pagador) {
+        this.pagador = pagador;
     }
 
     public void setDataReceita(LocalDate dataReceita) {

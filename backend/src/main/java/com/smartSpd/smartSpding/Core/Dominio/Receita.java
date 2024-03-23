@@ -28,6 +28,7 @@ public class Receita {
     @Temporal(TemporalType.DATE)
     private LocalDate dataReceita;
     private Double valorReceita;
+    private String pagador;
     private String origem;
     private String bancoOrigem;
     private String agenciaOrigem;

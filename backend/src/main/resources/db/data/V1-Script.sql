@@ -95,6 +95,7 @@ CREATE TABLE receita (
     titulo_contabil varchar(255) NULL,
     data_receita date NULL,
     valor_receita float8 NULL,
+    pagador varchar(255) NULL,
     descricao varchar(255) NULL,
     conta_interna_id int8 NULL,
     origem varchar(250) NULL,

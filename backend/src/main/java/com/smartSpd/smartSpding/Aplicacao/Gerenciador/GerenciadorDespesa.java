@@ -19,7 +19,7 @@ public class GerenciadorDespesa {
         }
     }
 
-    public Despesa mapeiaDTOparaReceita(DespesaDTO data, String[] dadosReformulados) {
+    public Despesa mapeiaDTOparaDespesa(DespesaDTO data, String[] dadosReformulados) {
             if(camposObrigatoriosNaoNulos(data)) {
             Despesa despesa = new Despesa();
             despesa.setCategoria(data.getCategoria());

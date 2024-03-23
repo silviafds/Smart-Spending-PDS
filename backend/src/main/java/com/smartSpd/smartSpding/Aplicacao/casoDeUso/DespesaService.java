@@ -14,7 +14,7 @@ public interface DespesaService {
 
     Boolean editarDespesa(DespesaDTO data);
 
-    Boolean deletarReceita(Long id);
+    Boolean deletarDespesa(Long id);
 
     List<CategoriaDespesa> buscarTodasCategoriasDespesa();
 

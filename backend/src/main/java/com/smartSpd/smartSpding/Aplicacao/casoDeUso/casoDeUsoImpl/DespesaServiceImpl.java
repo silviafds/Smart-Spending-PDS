@@ -37,7 +37,7 @@ public class DespesaServiceImpl implements DespesaService {
         if (data.getId() == null) {
             try {
                 String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
-                Despesa despesa = gerenciadorDespesa.mapeiaDTOparaReceita(data, dadosReformulados);
+                Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
                 despesaRepository.save(despesa);
                 return true;
             } catch (Exception e) {
@@ -63,7 +63,7 @@ public class DespesaServiceImpl implements DespesaService {
 
             return true;
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao editar receita no service.", e);
+            log.log(Level.SEVERE, "Erro ao editar despesa no service.", e);
             return false;
         }
     }
@@ -91,12 +91,12 @@ public class DespesaServiceImpl implements DespesaService {
 
     @Transactional
     @Override
-    public Boolean deletarReceita(Long id) {
+    public Boolean deletarDespesa(Long id) {
         try {
             gerenciadorDespesa.validarId(id);
-            Optional<Despesa> receitaOptional = despesaRepository.findById(id);
-            if (receitaOptional.isPresent()) {
-                despesaRepository.delete(receitaOptional.get());
+            Optional<Despesa> despesaOptional = despesaRepository.findById(id);
+            if (despesaOptional.isPresent()) {
+                despesaRepository.delete(despesaOptional.get());
                 return true;
             }
 

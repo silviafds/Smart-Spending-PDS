@@ -72,7 +72,7 @@ public class DespesaController {
     @Transactional
     public ResponseEntity<String> deletarDespesa(@PathVariable Long id) {
         try {
-            boolean despesaDeletada = despesaService.deletarReceita(id);
+            boolean despesaDeletada = despesaService.deletarDespesa(id);
             if(despesaDeletada) {
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)

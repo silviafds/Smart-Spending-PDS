@@ -37,7 +37,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
             @Param("contaInterna") ContaInterna contaInterna
     );
 
-
     @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa(c.id, c.nome) FROM categoria_despesa c")
     List<CategoriaDespesa> buscarTodasAsCategoriaDespesa();
 
@@ -47,18 +46,7 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.TituloContabilDespesa(tcd.id, tcd.nome) FROM titulos_contabeis_despesa tcd WHERE tcd.categoriaDespesa.id = :idCategoria")
     List<TituloContabilDespesa> findByAllTitulosContabeisDespesa(int idCategoria);
 
-
     @Query("SELECT d FROM despesa d WHERE d.id = :idDespesa")
     List<Despesa> buscarDespesaPorId(int idDespesa);
-
-   /* @Query("SELECT cr.id, cr.nome, tcr.nome FROM categoria_receita cr LEFT JOIN cr.titulosContabeis tcr")
-    List<Object[]> buscarTodasAsCategoriaReceitaComTituloContabil();
-
-    @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.TituloContabilReceita(tcr.id, tcr.nome) FROM titulos_contabeis_receita tcr WHERE tcr.categoriaReceita.id = :idCategoria")
-    List<TituloContabilReceita> findByAllTitulosContabeisReceita(int idCategoria);
-
-
-
-  */
 
 }

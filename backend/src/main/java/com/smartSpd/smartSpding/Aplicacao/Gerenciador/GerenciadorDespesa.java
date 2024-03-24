@@ -20,27 +20,38 @@ public class GerenciadorDespesa {
     }
 
     public Despesa mapeiaDTOparaDespesa(DespesaDTO data, String[] dadosReformulados) {
+        Despesa despesa = new Despesa();
+        try {
+            if(dadosReformulados == null ||dadosReformulados.length == 0) {
+                if(camposObrigatoriosNaoNulos(data)) {
+                    despesa.setTipoContaOrigem("");
+                    despesa.setAgenciaOrigem("");
+                    despesa.setNumeroContaOrigem("");
+                } else {
+                    despesa.setTipoContaOrigem(dadosReformulados[0]);
+                    despesa.setAgenciaOrigem(dadosReformulados[1]);
+                    despesa.setNumeroContaOrigem(dadosReformulados[2]);
+                }
+            }
             if(camposObrigatoriosNaoNulos(data)) {
-            Despesa despesa = new Despesa();
-            despesa.setCategoria(data.getCategoria());
-            despesa.setTitulo_contabil(data.getTitulo_contabil());
-            despesa.setDataDespesa(data.getDataDespesa());
-            despesa.setValorDespesa(data.getValorDespesa());
-            despesa.setCategoriaTransacao(data.getCategoriaTransacao());
-            despesa.setBancoOrigem(data.getBancoOrigem());
-            despesa.setTipoContaOrigem(dadosReformulados[0]);
-            despesa.setAgenciaOrigem(dadosReformulados[1]);
-            despesa.setNumeroContaOrigem(dadosReformulados[2]);
-            despesa.setBeneficiario(data.getBeneficiario());
-            despesa.setBancoDestino(data.getBancoDestino());
-            despesa.setAgenciaDestino(data.getAgenciaDestino());
-            despesa.setNumeroContaDestino(data.getNumeroContaDestino());
-            despesa.setDescricao(data.getDescricao());
-            despesa.setContaInterna(data.getContaInterna());
-            return despesa;
-        } else {
+                despesa.setCategoria(data.getCategoria());
+                despesa.setTitulo_contabil(data.getTitulo_contabil());
+                despesa.setDataDespesa(data.getDataDespesa());
+                despesa.setValorDespesa(data.getValorDespesa());
+                despesa.setCategoriaTransacao(data.getCategoriaTransacao());
+                despesa.setBancoOrigem(data.getBancoOrigem());
+                despesa.setBeneficiario(data.getBeneficiario());
+                despesa.setBancoDestino(data.getBancoDestino());
+                despesa.setAgenciaDestino(data.getAgenciaDestino());
+                despesa.setNumeroContaDestino(data.getNumeroContaDestino());
+                despesa.setDescricao(data.getDescricao());
+                despesa.setContaInterna(data.getContaInterna());
+            }
+        } catch (NullPointerException e) {
+            log.severe("Dados de despesa estão nulos.");
             throw new IllegalArgumentException("Dados de despesa estão nulos.");
         }
+        return despesa;
     }
 
     private boolean camposObrigatoriosNaoNulos(DespesaDTO data) {

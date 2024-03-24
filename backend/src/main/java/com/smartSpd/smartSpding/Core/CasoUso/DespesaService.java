@@ -1,4 +1,4 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso;
+package com.smartSpd.smartSpding.Core.CasoUso;
 
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;

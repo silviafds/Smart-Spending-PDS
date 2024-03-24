@@ -4,7 +4,7 @@ import com.smartSpd.smartSpding.Core.Dominio.Origem;
 import jakarta.transaction.Transactional;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.OrigemService;
+import com.smartSpd.smartSpding.Core.CasoUso.OrigemService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

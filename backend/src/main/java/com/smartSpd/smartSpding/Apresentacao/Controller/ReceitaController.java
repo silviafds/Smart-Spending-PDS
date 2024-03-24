@@ -1,6 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ReceitaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ReceitaService;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;

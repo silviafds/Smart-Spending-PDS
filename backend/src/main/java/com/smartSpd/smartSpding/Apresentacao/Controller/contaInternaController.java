@@ -1,6 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ContaInternaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ContaInternaService;
 import com.smartSpd.smartSpding.Core.DTO.ContaInternaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
 import jakarta.transaction.Transactional;

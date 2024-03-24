@@ -1,9 +1,8 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ContaBancariaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ContaBancariaService;
 import com.smartSpd.smartSpding.Core.Classes.Bancos;
 import com.smartSpd.smartSpding.Core.Classes.DadosBancarios;
-import com.smartSpd.smartSpding.Core.DTO.BuscarBancosDTO;
 import com.smartSpd.smartSpding.Core.DTO.ContaBancariaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaBancaria;
 import jakarta.transaction.Transactional;
@@ -15,7 +14,6 @@ import org.springframework.javapoet.ClassName;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

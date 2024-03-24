@@ -1,9 +1,8 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ContaBancariaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ContaBancariaService;
 import com.smartSpd.smartSpding.Core.Classes.Bancos;
 import com.smartSpd.smartSpding.Core.Classes.DadosBancarios;
-import com.smartSpd.smartSpding.Core.DTO.BuscarBancosDTO;
 import com.smartSpd.smartSpding.Core.DTO.ContaBancariaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaBancaria;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ContaBancariaRepository;

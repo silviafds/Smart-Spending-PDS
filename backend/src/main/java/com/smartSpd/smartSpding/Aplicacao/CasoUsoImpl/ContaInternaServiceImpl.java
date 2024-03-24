@@ -1,6 +1,6 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ContaInternaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ContaInternaService;
 import com.smartSpd.smartSpding.Core.DTO.ContaInternaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ContaInternaRepository;

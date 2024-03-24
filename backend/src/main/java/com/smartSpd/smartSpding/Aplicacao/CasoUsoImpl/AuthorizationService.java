@@ -1,4 +1,4 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorDespesa;
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.DespesaService;
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;

@@ -1,7 +1,7 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorReceita;
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.ReceitaService;
+import com.smartSpd.smartSpding.Core.CasoUso.ReceitaService;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;

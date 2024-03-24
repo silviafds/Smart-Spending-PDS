@@ -1,6 +1,6 @@
-package com.smartSpd.smartSpding.Aplicacao.casoDeUso.casoDeUsoImpl;
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.OrigemService;
+import com.smartSpd.smartSpding.Core.CasoUso.OrigemService;
 import com.smartSpd.smartSpding.Core.Dominio.Origem;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.OrigemRepository;
 import org.springframework.stereotype.Component;

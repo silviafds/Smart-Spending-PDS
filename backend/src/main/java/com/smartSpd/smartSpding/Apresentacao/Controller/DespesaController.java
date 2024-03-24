@@ -1,10 +1,8 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Aplicacao.casoDeUso.DespesaService;
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
-import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

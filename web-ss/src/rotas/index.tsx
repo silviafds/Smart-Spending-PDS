@@ -4,25 +4,27 @@ import { Login } from "../paginas/usuario/login";
 import CadastroUsuario from '../paginas/usuario/cadastroUsuario';
 
 import { RotaPrivada } from "./rotaPrivada";
-import Home from "../paginas/principal/home";
-import Receita from "../paginas/principal/Receita"
-import Despesa from "../paginas/principal/Despesa"
-import Metas from "../paginas/principal/Metas";
-import Projetos from "../paginas/principal/Projetos"
-import Patrimonio from "../paginas/principal/Patrimonio"
-import Balanco from "../paginas/principal/Balanco";
-import Dashboard from "../paginas/principal/Dashboard";
-import ContaInterna from "../paginas/principal/ContaInterna";
-import CadastroContaInterna from "../paginas/formularios/ContaInterna/CadastroContaInterna";
-import EditarContaInterna from "../paginas/formularios/ContaInterna/EditarContaInterna";
-import CadastroReceita from "../paginas/formularios/Receita/CadastroReceita";
-import CadastroDespesa from "../paginas/formularios/Despesa/CadastroDespesa";
-import ContaBancaria from "../paginas/principal/ContaBancaria";
-import CadastroContaBancaria from "../paginas/formularios/ContaBancaria/CadastroContaBancaria";
-import EditarContaBancaria from "../paginas/formularios/ContaBancaria/EditarContaBancaria";
+import Home from "../paginas/Principal/home";
+import Receita from "../paginas/Principal/Receita"
+import Despesa from "../paginas/Principal/Despesa"
+import Metas from "../paginas/Principal/Metas";
+import Projetos from "../paginas/Principal/Projetos"
+import Patrimonio from "../paginas/Principal/Patrimonio"
+import Balanco from "../paginas/Principal/Balanco";
+import Dashboard from "../paginas/Principal/Dashboard";
+import ContaInterna from "../paginas/Principal/ContaInterna";
+import CadastroContaInterna from "../paginas/Formularios/ContaInterna/CadastroContaInterna";
+import EditarContaInterna from "../paginas/Formularios/ContaInterna/EditarContaInterna";
+import CadastroReceita from "../paginas/Formularios/Receita/CadastroReceita";
+import CadastroDespesa from "../paginas/Formularios/Despesa/CadastroDespesa";
+import ContaBancaria from "../paginas/Principal/ContaBancaria";
+import CadastroContaBancaria from "../paginas/Formularios/ContaBancaria/CadastroContaBancaria";
+import EditarContaBancaria from "../paginas/Formularios/ContaBancaria/EditarContaBancaria";
 import LancamentoBalanco from "../paginas/Balanco/LancamentoBalanco";
 import MetasBalanco from "../paginas/Balanco/MetasBalanco";
 import ProjetosBalanco from "../paginas/Balanco/ProjetosBalanco";
+import TelaConfiguracao from "../paginas/Principal/TelaConfiguracao";
+import TelaCategoria from "../paginas/Configuracao/Categoria/TelaCategoria";
 
 export const AppRouter = () => {
     return (
@@ -108,6 +110,13 @@ export const AppRouter = () => {
                     <Route path="/ProjetosBalanco" element={<ProjetosBalanco />} />
                 </Route>
 
+                <Route path="/TelaConfiguracao" element={<TelaConfiguracao />} >
+                    <Route path="/TelaConfiguracao" element={<TelaConfiguracao />} />
+                </Route>
+
+                <Route path="/TelaCategoria" element={<TelaCategoria />} >
+                    <Route path="/TelaCategoria" element={<TelaCategoria />} />
+                </Route>
 
             </Routes>
         </Router>

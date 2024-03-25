@@ -3,6 +3,7 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import { IoWalletOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoBarChartOutline } from "react-icons/io5";
+import { GrConfigure } from "react-icons/gr";
 import { TbPigMoney } from "react-icons/tb";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import {MdAttachMoney, MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
@@ -25,12 +26,13 @@ export function Sidebar() {
             ],
         },
         { id: 5, title: "Projetos", icon: <TbPigMoney /> },
+        { id: 4, title: "Saldo", icon: <MdAttachMoney /> },
         { id: 6, title: "Balanço", spacing: true, icon: <IoBarChartOutline /> },
         { id: 7, title: "Dashboard", icon: <LuLayoutDashboard /> },
-        { id: 8, title: "Saldo", spacing: true, icon: <MdAttachMoney /> },
-        { id: 9, title: "Conta Interna", icon: <MdOutlineAccountTree /> },
+        { id: 8, title: "Configurações", spacing: true, icon: <GrConfigure /> },
+        /*{ id: 9, title: "Conta Interna", icon: <MdOutlineAccountTree /> },
         { id: 10, title: "Conta Bancária", icon: <BsBank /> },
-        { id: 11, title: "Categorização", icon: <MdOutlineSubtitles /> },
+        { id: 11, title: "Categorização", icon: <MdOutlineSubtitles /> },*/
     ];
 
     const handleMenuClick = ({ title }: { title: any }) => {
@@ -55,6 +57,9 @@ export function Sidebar() {
                 break;
             case 'Conta Bancária':
                 window.location.href = "/contaBancaria/";
+                break;
+            case 'Configurações':
+                window.location.href = "/telaConfiguracao/";
                 break;
             default:
                 break;

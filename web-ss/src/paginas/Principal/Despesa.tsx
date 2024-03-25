@@ -76,7 +76,6 @@ function Despesa() {
         fetchData();
     }, []);
 
-
     const handleCadastro = async () => {
         window.location.href = "/cadastroDespesa/";
     };

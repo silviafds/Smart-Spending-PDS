@@ -3,8 +3,6 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import { IoWalletOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoBarChartOutline } from "react-icons/io5";
-import { AiOutlineDotChart } from "react-icons/ai";
-import { FaCar } from "react-icons/fa";
 import { TbPigMoney } from "react-icons/tb";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import {MdAttachMoney, MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";

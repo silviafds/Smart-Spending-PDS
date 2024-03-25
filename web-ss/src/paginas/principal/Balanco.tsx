@@ -4,7 +4,6 @@ import {Sidebar} from "../../components/sidebar/sidebar";
 import {Ajuda} from "../../components/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
 import { IoWalletOutline } from "react-icons/io5";
-import { AiOutlineDotChart } from "react-icons/ai";
 import { TbPigMoney } from "react-icons/tb";
 import { Link } from 'react-router-dom'; // Importe o Link do react-router-dom
 

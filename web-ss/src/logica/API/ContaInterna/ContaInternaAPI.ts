@@ -2,6 +2,7 @@ import axios from "../../../contexto/axios";
 import {BACKEND_URL} from "../../../core/config";
 import { ContaInterna } from "../../../core/Dominio/ContaInterna";
 import {editarReceita, salvarReceita} from "../Receita/ReceitaAPI";
+import {editarDespesa, salvarDespesa} from "../Despesa/DespesaAPI";
 
 export async function buscarTodasContaInterna() {
     try {
@@ -30,8 +31,14 @@ export async function verificaContaInterna(DadosJsonReceita: any, tipo: string) 
                 case "salvarReceita":
                     await salvarReceita(DadosJsonReceita);
                     break;
+                case "salvarDespesa":
+                    await salvarDespesa(DadosJsonReceita);
+                    break;
                 case "editarReceita":
                     await editarReceita(DadosJsonReceita);
+                    break;
+                case "editarDespesa":
+                    await editarDespesa(DadosJsonReceita);
                     break;
                 default:
                     console.error('Tipo de ação inválido:', tipo);

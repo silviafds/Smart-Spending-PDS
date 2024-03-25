@@ -19,7 +19,6 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
 
     let mensagemAjuda = '';
 
-    // Definir a mensagem com base no tipo de ajuda
     switch (tipoAjuda) {
         case AjudaEnum.DEFINICAO_CONTA_INTERNA:
             mensagemAjuda = AjudaEnum.DEFINICAO_CONTA_INTERNA;
@@ -38,6 +37,12 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
             break;
         case AjudaEnum.DEFINICAO_ANALISE:
             mensagemAjuda = AjudaEnum.DEFINICAO_ANALISE;
+            break;
+        case AjudaEnum.DEFINICAO_DESPESA:
+            mensagemAjuda = AjudaEnum.DEFINICAO_DESPESA;
+            break;
+        case AjudaEnum.CADASTRO_DESPESA:
+            mensagemAjuda = AjudaEnum.CADASTRO_DESPESA;
             break;
         default:
             mensagemAjuda = 'Mensagem padrão de ajuda.';

@@ -36,7 +36,7 @@ public class DespesaServiceImpl implements DespesaService {
     public Boolean cadastrarDespesa(DespesaDTO data) {
         if (data.getId() == null) {
             try {
-                String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
+                String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
                 Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
                 despesaRepository.save(despesa);
                 return true;
@@ -57,7 +57,7 @@ public class DespesaServiceImpl implements DespesaService {
 
             gerenciadorDespesa.ajustarOrigem(data);
 
-            String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
+            String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
 
             salvarDespesaEditada(data, dadosReformulados);
 

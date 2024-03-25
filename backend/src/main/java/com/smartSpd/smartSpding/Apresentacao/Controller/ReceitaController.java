@@ -41,7 +41,6 @@ public class ReceitaController {
     @Transactional
     public ResponseEntity<String> register(@RequestBody @Valid ReceitaDTO data) {
         try {
-            System.out.println("RECEITA CONTROLLER: "+data);
             boolean receitaRegistrada = receitaService.cadastrarReceita(data);
             if (receitaRegistrada) {
                 return ResponseEntity.ok()

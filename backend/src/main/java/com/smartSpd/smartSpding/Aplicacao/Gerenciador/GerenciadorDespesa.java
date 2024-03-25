@@ -5,34 +5,37 @@ import com.smartSpd.smartSpding.Core.Dominio.Despesa;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @Component
 public class GerenciadorDespesa {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
-    public String[] reformulaDadosBancarios(String dadosBancariosOrigem) {
-        if (dadosBancariosOrigem != null) {
-            return dadosBancariosOrigem.split("/");
-        } else {
-            throw new NullPointerException("Os dados bancários de destino não podem ser nulos.");
+    public String[] reformulaDadosBancarios(String dadosBancariosOrigem, String tipoTransacao) {
+        if(Objects.equals(tipoTransacao, "Pix") || Objects.equals(tipoTransacao, "Transferência")) {
+            if (dadosBancariosOrigem != null) {
+                return dadosBancariosOrigem.split("/");
+            } else {
+                throw new NullPointerException("Os dados bancários de destino não podem ser nulos.");
+            }
         }
+        return new String[]{};
     }
 
     public Despesa mapeiaDTOparaDespesa(DespesaDTO data, String[] dadosReformulados) {
         Despesa despesa = new Despesa();
         try {
             if(dadosReformulados == null ||dadosReformulados.length == 0) {
-                if(camposObrigatoriosNaoNulos(data)) {
-                    despesa.setTipoContaOrigem("");
-                    despesa.setAgenciaOrigem("");
-                    despesa.setNumeroContaOrigem("");
-                } else {
-                    despesa.setTipoContaOrigem(dadosReformulados[0]);
-                    despesa.setAgenciaOrigem(dadosReformulados[1]);
-                    despesa.setNumeroContaOrigem(dadosReformulados[2]);
-                }
+                despesa.setTipoContaOrigem("");
+                despesa.setAgenciaOrigem("");
+                despesa.setNumeroContaOrigem("");
+            } else {
+                despesa.setTipoContaOrigem(dadosReformulados[0]);
+                despesa.setAgenciaOrigem(dadosReformulados[1]);
+                despesa.setNumeroContaOrigem(dadosReformulados[2]);
             }
+
             if(camposObrigatoriosNaoNulos(data)) {
                 despesa.setCategoria(data.getCategoria());
                 despesa.setTitulo_contabil(data.getTitulo_contabil());
@@ -55,11 +58,17 @@ public class GerenciadorDespesa {
     }
 
     private boolean camposObrigatoriosNaoNulos(DespesaDTO data) {
+        if(Objects.equals(data.getCategoriaTransacao(), "Pix") || Objects.equals(data.getCategoriaTransacao(), "Transferência")) {
+            return data.getContaInterna() != null && data.getCategoria() != null &&
+                    data.getTitulo_contabil() != null && data.getCategoriaTransacao() != null &&
+                    data.getValorDespesa() != null && data.getDataDespesa() != null &&
+                    data.getDescricao() != null && data.getDadosBancariosOrigem() != null &&
+                    data.getBeneficiario() != null;
+        }
         return data.getContaInterna() != null && data.getCategoria() != null &&
                 data.getTitulo_contabil() != null && data.getCategoriaTransacao() != null &&
                 data.getValorDespesa() != null && data.getDataDespesa() != null &&
-                data.getDescricao() != null && data.getDadosBancariosOrigem() != null &&
-                data.getBeneficiario() != null;
+                data.getDescricao() != null && data.getBeneficiario() != null;
     }
 
     public void validarEntrada(DespesaDTO data) {

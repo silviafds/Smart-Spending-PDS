@@ -16,6 +16,7 @@ import ContaInterna from "../paginas/principal/ContaInterna";
 import CadastroContaInterna from "../paginas/formularios/ContaInterna/CadastroContaInterna";
 import EditarContaInterna from "../paginas/formularios/ContaInterna/EditarContaInterna";
 import CadastroReceita from "../paginas/formularios/Receita/CadastroReceita";
+import CadastroDespesa from "../paginas/formularios/Despesa/CadastroDespesa";
 import ContaBancaria from "../paginas/principal/ContaBancaria";
 import CadastroContaBancaria from "../paginas/formularios/ContaBancaria/CadastroContaBancaria";
 import EditarContaBancaria from "../paginas/formularios/ContaBancaria/EditarContaBancaria";
@@ -41,7 +42,10 @@ export const AppRouter = () => {
 
                 <Route path="/cadastroReceita" element={<RotaPrivada />} >
                     <Route path="/cadastroReceita/:id?" element={<CadastroReceita />} />
+                </Route>
 
+                <Route path="/cadastroDespesa" element={<RotaPrivada />} >
+                    <Route path="/cadastroDespesa/:id?" element={<CadastroDespesa />} />
                 </Route>
 
                 <Route path="/despesa" element={<RotaPrivada />} >

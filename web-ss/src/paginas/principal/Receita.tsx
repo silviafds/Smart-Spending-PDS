@@ -38,6 +38,7 @@ interface Data extends DataIndexable {
     titulo_contabil: string;
     valorReceita: number;
     dataFormatada: string;
+    pagador: string;
     origem: string;
     bancoOrigem: string;
     agenciaOrigem: string;
@@ -161,6 +162,7 @@ function Receita() {
                                         <TableCell>Categoria</TableCell>
                                         <TableCell>Título Contábil</TableCell>
                                         <TableCell>Origem</TableCell>
+                                        <TableCell>Pagador</TableCell>
                                         <TableCell>Data</TableCell>
                                         <TableCell>Valor $</TableCell>
                                         <TableCell>Descrição</TableCell>
@@ -190,6 +192,7 @@ function Receita() {
                                                 <TableCell>{receita.categoria}</TableCell>
                                                 <TableCell>{receita.titulo_contabil}</TableCell>
                                                 <TableCell>{receita.origem}</TableCell>
+                                                <TableCell>{receita.pagador}</TableCell>
                                                 <TableCell>{receita.dataFormatada}</TableCell>
                                                 <TableCell>
                                                     {new Intl.NumberFormat('pt-BR', {

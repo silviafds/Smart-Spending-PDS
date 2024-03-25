@@ -44,6 +44,9 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
         case AjudaEnum.CADASTRO_DESPESA:
             mensagemAjuda = AjudaEnum.CADASTRO_DESPESA;
             break;
+        case AjudaEnum.GERENCIADOR_CATEGORIA:
+            mensagemAjuda = AjudaEnum.GERENCIADOR_CATEGORIA;
+            break;
         default:
             mensagemAjuda = 'Mensagem padrão de ajuda.';
             break;

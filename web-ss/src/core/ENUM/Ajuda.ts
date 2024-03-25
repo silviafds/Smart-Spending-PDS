@@ -7,5 +7,6 @@ export enum AjudaEnum {
     CADASTRO_RECEITA = "Preencha o formulário para realizar o cadastro de uma receita.",
     CADASTRO_DESPESA = "Preencha o formulário para realizar o cadastro de uma despesa.",
     DEFINICAO_CONTA_BANCARIA = "A conta bancária é usada para registrar movimentações de receitas e despesas.",
-    CADASTRO_CONTA_BANCARIA = "Preencha o formulário para realizar o cadastro de uma conta bancária."
+    CADASTRO_CONTA_BANCARIA = "Preencha o formulário para realizar o cadastro de uma conta bancária.",
+    GERENCIADOR_CATEGORIA = "Nesta página é possível acessar todas as categorias que foram previamente cadastradas"
 }

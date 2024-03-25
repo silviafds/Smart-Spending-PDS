@@ -16,7 +16,7 @@ function TelaCategoria() {
     }, []);
 
     const handleCadastro = async () => {
-        window.location.href = "/cadastroDespesa/";
+        window.location.href = "/cadastroCategoria/";
     };
 
 

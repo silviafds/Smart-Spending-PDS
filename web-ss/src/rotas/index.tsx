@@ -25,6 +25,8 @@ import MetasBalanco from "../paginas/Balanco/MetasBalanco";
 import ProjetosBalanco from "../paginas/Balanco/ProjetosBalanco";
 import TelaConfiguracao from "../paginas/Principal/TelaConfiguracao";
 import TelaCategoria from "../paginas/Configuracao/Categoria/TelaCategoria";
+import CadastroCategoria from "../../src/paginas/Configuracao/Categoria/CadastroCategoria";
+
 
 export const AppRouter = () => {
     return (
@@ -116,6 +118,10 @@ export const AppRouter = () => {
 
                 <Route path="/TelaCategoria" element={<TelaCategoria />} >
                     <Route path="/TelaCategoria" element={<TelaCategoria />} />
+                </Route>
+
+                <Route path="/cadastroCategoria" element={<RotaPrivada />} >
+                    <Route path="/cadastroCategoria/:id?" element={<CadastroCategoria />} />
                 </Route>
 
             </Routes>

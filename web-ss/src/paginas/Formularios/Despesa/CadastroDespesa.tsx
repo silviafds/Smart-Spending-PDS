@@ -272,7 +272,7 @@ export function CadastroDespesa() {
 
                     <div className="flex justify-center items-center w-full">
                         <div
-                            className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
+                            className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayContaInterna}

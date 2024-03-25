@@ -3,8 +3,6 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import { IoWalletOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoBarChartOutline } from "react-icons/io5";
-import { AiOutlineDotChart } from "react-icons/ai";
-import { FaCar } from "react-icons/fa";
 import { TbPigMoney } from "react-icons/tb";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import {MdAttachMoney, MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
@@ -26,8 +24,6 @@ export function Sidebar() {
                 { id: 2, title: "Receita", icon: <GiReceiveMoney /> },
             ],
         },
-        { id: 3, title: "Metas", icon: <AiOutlineDotChart /> },
-        { id: 4, title: "Patrimônio", icon: <FaCar /> },
         { id: 5, title: "Projetos", icon: <TbPigMoney /> },
         { id: 6, title: "Balanço", spacing: true, icon: <IoBarChartOutline /> },
         { id: 7, title: "Dashboard", icon: <LuLayoutDashboard /> },
@@ -44,12 +40,6 @@ export function Sidebar() {
                 break;
             case 'Despesa':
                 window.location.href = "/despesa/";
-                break;
-            case 'Metas':
-                window.location.href = "/metas/";
-                break;
-            case 'Patrimônio':
-                window.location.href = "/patrimonio/";
                 break;
             case 'Projetos':
                 window.location.href = "/projetos/";

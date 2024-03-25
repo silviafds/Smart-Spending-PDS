@@ -4,7 +4,6 @@ import {Sidebar} from "../../components/sidebar/sidebar";
 import {Ajuda} from "../../components/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
 import { IoWalletOutline } from "react-icons/io5";
-import { AiOutlineDotChart } from "react-icons/ai";
 import { TbPigMoney } from "react-icons/tb";
 import { Link } from 'react-router-dom'; // Importe o Link do react-router-dom
 
@@ -46,32 +45,18 @@ function Balanco() {
                                 </div>
                             </Link>
 
-                            <Link to="/MetasBalanco" className="flex flex-col items-center justify-center">
+                            <Link to="/ProjetosBalanco" className="flex flex-col items-center justify-center">
                                 <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md drop-shadow-md">
-                                    <h2 className="text-center mt-16 font-semibold text-xl	">Metas</h2>
+                                    <h2 className="text-center mt-16 font-semibold text-xl	">Projetos</h2>
                                     <div
                                         className="flex items-center justify-center mt-2">
-                                        <AiOutlineDotChart className="h-8 w-8"/>
+                                        <TbPigMoney className="h-8 w-8"/>
                                     </div>
                                 </div>
                             </Link>
 
                         </div>
 
-                        <div className="flex justify-center">
-
-                            <Link to="/ProjetosBalanco" className="flex flex-col items-center justify-center">
-                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md drop-shadow-md">
-                                        <h2 className="text-center mt-16 font-semibold text-xl	">Projetos</h2>
-                                        <div
-                                            className="flex items-center justify-center mt-2">
-                                            <TbPigMoney className="h-8 w-8"/>
-                                        </div>
-                                </div>
-                            </Link>
-
-
-                        </div>
 
                     </div>
                 </div>

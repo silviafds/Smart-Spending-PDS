@@ -23,12 +23,11 @@ public class DespesaServiceImpl implements DespesaService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     private final DespesaRepository despesaRepository;
+    private final GerenciadorDespesa gerenciadorDespesa;
 
-    @Autowired
-    private GerenciadorDespesa gerenciadorDespesa;
-
-    public DespesaServiceImpl(DespesaRepository despesaRepository) {
+    public DespesaServiceImpl(GerenciadorDespesa gerenciadorDespesa, DespesaRepository despesaRepository) {
         this.despesaRepository = despesaRepository;
+        this.gerenciadorDespesa = gerenciadorDespesa;
     }
 
 

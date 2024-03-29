@@ -1,52 +1,63 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
+interface Transacao {
+    categoria_transacao: string;
+    quantidade_transacao: number;
+}
+
 interface ChartProps {
-    data: { name: string; value: number }[];
+    data: Transacao[];
 }
 
 const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
     const chartRef = useRef<HTMLDivElement>(null);
 
+    const chartData: { name: string; value: number }[] = [];
+
+    for(let prop in data) {
+        chartData.push({name: data[prop].categoria_transacao, value: data[prop].quantidade_transacao})
+    }
+
     useEffect(() => {
-        if (chartRef.current && data.length > 0) {
+        if (chartRef.current && chartData.length > 0) {
             const myChart = echarts.init(chartRef.current);
             const option: echarts.EChartsOption = {
                 xAxis: {
                     type: 'category',
-                    data: data.map(item => item.name),
+                    data: chartData.map(item => item.name),
                     axisLine: {
                         lineStyle: {
-                            color: '#42424b' // Cor do eixo x
+                            color: '#42424b'
                         }
                     },
                     axisLabel: {
-                        color: '#42424b' // Cor dos rótulos do eixo x
+                        color: '#42424b'
                     }
                 },
                 yAxis: {
                     type: 'value',
                     axisLine: {
                         lineStyle: {
-                            color: '#42424b' // Cor do eixo y
+                            color: '#42424b'
                         }
                     },
                     axisLabel: {
-                        color: '#42424b' // Cor dos rótulos do eixo y
+                        color: '#42424b'
                     }
                 },
                 tooltip: {
-                    trigger: 'axis', // Exibir tooltip quando passar o mouse sobre o eixo
+                    trigger: 'axis',
                     axisPointer: {
-                        type: 'shadow' // Exibir tooltip na sombra da barra
+                        type: 'shadow'
                     }
                 },
                 series: [
                     {
-                        data: data.map(item => item.value),
+                        data: chartData.map(item => item.value),
                         type: 'bar',
                         itemStyle: {
-                            color: '#3f74d2' // Cor das barras
+                            color: '#3f74d2'
                         }
                     }
                 ]

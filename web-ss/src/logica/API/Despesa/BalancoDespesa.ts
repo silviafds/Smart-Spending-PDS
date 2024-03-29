@@ -9,17 +9,9 @@ export async function criarBalancoRapidoDespesa(jsonString: any) {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.post(BACKEND_URL + "/balancoDespesa/registroBalancoRapido", jsonString, axiosConfig)
             .then((response) => {
-                Swal.fire({
-                    icon: "success",
-                    title: "Balanço rápido criado.",
-                    showConfirmButton: true,
-                    confirmButtonColor: "#072e66",
-                    confirmButtonText: "OK",
-                    customClass: {
-                        confirmButton: "bg-sky-950",
-                    },
-                });
-                window.location.href = "/BalancoRapido/"
+                console.log("datas: "+response.data.categoriaTransacao + " | "+response.data)
+                window.location.href = "/BalancoRapido?dados=" + encodeURIComponent(JSON.stringify(response.data)) +
+                    "&nomeBalanco=" + encodeURIComponent(jsonString.nome)+ "&nomeBalancoAnalise=" + encodeURIComponent(jsonString.analiseBalanco);
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

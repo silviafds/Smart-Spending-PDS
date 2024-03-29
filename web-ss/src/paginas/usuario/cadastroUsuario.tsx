@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {HeaderCadastro} from "../../components/header/headerCadastro";
+import {HeaderCadastro} from "../../componentes/header/headerCadastro";
 import {useForm} from "react-hook-form";
 import '../../styles/form/formCadastro.css';
 import '../../styles/form/fontes.css'

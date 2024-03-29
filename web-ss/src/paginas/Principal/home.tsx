@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { HeaderPadrao } from "../../components/header/headerPadrao";
-import { Sidebar } from "../../components/sidebar/sidebar";
+import { HeaderPadrao } from "../../componentes/header/headerPadrao";
+import { Sidebar } from "../../componentes/sidebar/sidebar";
 
 function Home() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");

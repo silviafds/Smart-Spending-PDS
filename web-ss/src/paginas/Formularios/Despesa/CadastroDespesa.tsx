@@ -1,10 +1,10 @@
-import {HeaderPadrao} from "../../../components/header/headerPadrao";
+import {HeaderPadrao} from "../../../componentes/header/headerPadrao";
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {Sidebar} from "../../../components/sidebar/sidebar";
-import {Ajuda} from "../../../components/ajuda/Ajuda";
+import {Sidebar} from "../../../componentes/sidebar/sidebar";
+import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
-import Selector from "../../../components/Selector";
+import Selector from "../../../componentes/Selector";
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {useForm} from "react-hook-form";
 import {

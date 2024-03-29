@@ -1,7 +1,7 @@
-import { HeaderLogin } from '../../components/header/headerLogin';
+import { HeaderLogin } from '../../componentes/header/headerLogin';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../../contexto/Auth';
+import { useAuth } from '../../core/contexto/Auth';
 import { Navigate } from 'react-router-dom';
 
 interface IFormInputs {

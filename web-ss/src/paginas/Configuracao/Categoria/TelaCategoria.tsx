@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {HeaderPadrao} from "../../../components/header/headerPadrao";
-import {Sidebar} from "../../../components/sidebar/sidebar";
-import {Ajuda} from "../../../components/ajuda/Ajuda";
+import {HeaderPadrao} from "../../../componentes/header/headerPadrao";
+import {Sidebar} from "../../../componentes/sidebar/sidebar";
+import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 
 

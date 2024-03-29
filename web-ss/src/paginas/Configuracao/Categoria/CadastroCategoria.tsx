@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from '../../../contexto/axios';
+import axios from '../../../core/contexto/axios';
 import { BACKEND_URL } from "../../../core/config";
-import { HeaderPadrao } from "../../../components/header/headerPadrao";
-import { Sidebar } from "../../../components/sidebar/sidebar";
-import { Ajuda } from "../../../components/ajuda/Ajuda";
+import { HeaderPadrao } from "../../../componentes/header/headerPadrao";
+import { Sidebar } from "../../../componentes/sidebar/sidebar";
+import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { HeaderPadrao } from "../../../components/header/headerPadrao";
-import { Sidebar } from "../../../components/sidebar/sidebar";
-import axios from '../../../contexto/axios';
+import { HeaderPadrao } from "../../../componentes/header/headerPadrao";
+import { Sidebar } from "../../../componentes/sidebar/sidebar";
+import axios from '../../../core/contexto/axios';
 import { BACKEND_URL } from "../../../core/config";
 import { useForm } from "react-hook-form";
-import { Ajuda } from "../../../components/ajuda/Ajuda";
+import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import Swal from "sweetalert2";
 import { useParams } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppRouter } from "./rotas";
-import {AuthProvider } from "../src/contexto/Auth";
+import { AppRouter } from "./core/rotas";
+import {AuthProvider } from "./core/contexto/Auth";
 
 export const App: React.FC = () => {
      return (

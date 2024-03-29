@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { HeaderPadrao } from "../../../components/header/headerPadrao";
-import { Sidebar } from "../../../components/sidebar/sidebar";
-import { Ajuda } from "../../../components/ajuda/Ajuda";
+import { HeaderPadrao } from "../../../componentes/header/headerPadrao";
+import { Sidebar } from "../../../componentes/sidebar/sidebar";
+import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import { useForm } from "react-hook-form";
 import { buscarContaInternaReceita, buscarCategoriasReceita, buscarTitulosContabeis,
     buscarOrigem, buscarReceitaPorId } from "../../../logica/API/Receita/ReceitaAPI";
-import Selector from "../../../components/Selector";
+import Selector from "../../../componentes/Selector";
 import {verificaContaInterna} from "../../../logica/API/ContaInterna/ContaInternaAPI";
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";

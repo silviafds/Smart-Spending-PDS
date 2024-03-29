@@ -8,6 +8,7 @@ import {Titulos} from "../../../core/ENUM/Titulos";
 import {analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
     balancoEnum, TipoBalanco} from "../../../core/ENUM/TipoBalanco";
 import {graficoEnum, TipoGrafico} from "../../../core/ENUM/TipoGrafico";
+import {criarBalancoRapidoDespesa} from "../../../logica/API/Despesa/BalancoDespesa";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -57,8 +58,25 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
         watch,
     } = useForm<IFormInputs>();
 
-    function onSubmit() {
+    const onSubmit = async (data: IFormInputs) =>  {
+        const jsonData = {
+            nome: data.nome,
+            tipoBalanco: data.tipoBalanco,
+            analiseBalanco: data.analiseBalanco,
+            dataInicio: data.dataInicio,
+            dataTermino: data.dataTermino,
+            tipoVisualizacao: data.tipoVisualizacao
+        };
 
+        console.log("nome: "+jsonData.nome)
+        console.log("tipoBalanco: "+jsonData.tipoBalanco)
+        console.log("analiseBalanco: "+jsonData.analiseBalanco)
+        console.log("dataInicio: "+jsonData.dataInicio)
+        console.log("dataTermino: "+jsonData.dataTermino)
+        console.log("dados a enviar: "+jsonData.tipoVisualizacao)
+
+        console.log("dados a enviar: "+jsonData)
+        criarBalancoRapidoDespesa(jsonData)
     }
 
     const handleTipoBalanco = async (tipoBalanco: any) => {
@@ -187,9 +205,18 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                       valorSelecionado={""} onGenericoSelect={handleTipoGrafico}/>
                             <div className="line"></div>
                         </div>
+
+                        <div className="p-2">
+                            <input
+                                type="submit"
+                                className="bg-secundaria_esmeralda hover:bg-bota_acao_hover text-white font-bold py-2 px-4 rounded w-full"
+                                value="Cadastrar"
+                            />
+                        </div>
                     </form>
 
-                    <Button className={"text-red-500"} onClick={onClose}>Cancelar</Button>
+
+                    {/*<Button className={"text-red-500"} onClick={onClose}>Cancelar</Button>*/}
                 </Box>
             </Modal>
         </div>

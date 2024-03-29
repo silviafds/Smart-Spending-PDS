@@ -50,6 +50,9 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
         case AjudaEnum.DEFINICAO_BALANCO_LANCAMENTO:
             mensagemAjuda = AjudaEnum.DEFINICAO_BALANCO_LANCAMENTO;
             break;
+        case AjudaEnum.CADASTRO_BALANCO_RAPIDO:
+            mensagemAjuda = AjudaEnum.CADASTRO_BALANCO_RAPIDO;
+            break;
         default:
             mensagemAjuda = 'Mensagem padrão de ajuda.';
             break;

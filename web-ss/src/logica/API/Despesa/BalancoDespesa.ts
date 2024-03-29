@@ -19,7 +19,7 @@ export async function criarBalancoRapidoDespesa(jsonString: any) {
                         confirmButton: "bg-sky-950",
                     },
                 });
-                window.location.href = "/despesa/"
+                window.location.href = "/BalancoRapido/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

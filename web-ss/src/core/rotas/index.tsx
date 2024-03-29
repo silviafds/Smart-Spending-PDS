@@ -26,7 +26,7 @@ import ProjetosBalanco from "../../paginas/Balanco/ProjetosBalanco";
 import TelaConfiguracao from "../../paginas/Principal/TelaConfiguracao";
 import TelaCategoria from "../../paginas/Configuracao/Categoria/TelaCategoria";
 import CadastroCategoria from "../../paginas/Configuracao/Categoria/CadastroCategoria";
-
+import TelaBalancoRapido from "../../paginas/Balanco/TelaBalancoRapido";
 
 export const AppRouter = () => {
     return (
@@ -124,6 +124,9 @@ export const AppRouter = () => {
                     <Route path="/cadastroCategoria/:id?" element={<CadastroCategoria />} />
                 </Route>
 
+                <Route path="/BalancoRapido" element={<TelaBalancoRapido />} >
+                    <Route path="/BalancoRapido" element={<TelaBalancoRapido />} />
+                </Route>
             </Routes>
         </Router>
     );

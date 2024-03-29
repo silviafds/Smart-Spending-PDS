@@ -58,27 +58,6 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
         watch,
     } = useForm<IFormInputs>();
 
-    const onSubmit = async (data: IFormInputs) =>  {
-        const jsonData = {
-            nome: data.nome,
-            tipoBalanco: data.tipoBalanco,
-            analiseBalanco: data.analiseBalanco,
-            dataInicio: data.dataInicio,
-            dataTermino: data.dataTermino,
-            tipoVisualizacao: data.tipoVisualizacao
-        };
-
-        console.log("nome: "+jsonData.nome)
-        console.log("tipoBalanco: "+jsonData.tipoBalanco)
-        console.log("analiseBalanco: "+jsonData.analiseBalanco)
-        console.log("dataInicio: "+jsonData.dataInicio)
-        console.log("dataTermino: "+jsonData.dataTermino)
-        console.log("dados a enviar: "+jsonData.tipoVisualizacao)
-
-        console.log("dados a enviar: "+jsonData)
-        criarBalancoRapidoDespesa(jsonData)
-    }
-
     const handleTipoBalanco = async (tipoBalanco: any) => {
         if(tipoBalanco != null) {
             setValue('tipoBalanco', tipoBalanco.nome);
@@ -109,6 +88,27 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
         if(tipoGrafico != null) {
             setValue('tipoVisualizacao', tipoGrafico.nome);
         }
+    }
+
+    const onSubmit = async (data: IFormInputs) =>  {
+        const jsonData = {
+            nome: data.nome,
+            tipoBalanco: data.tipoBalanco,
+            analiseBalanco: data.analiseBalanco,
+            dataInicio: data.dataInicio,
+            dataTermino: data.dataTermino,
+            tipoVisualizacao: data.tipoVisualizacao
+        };
+
+        console.log("nome: "+jsonData.nome)
+        console.log("tipoBalanco: "+jsonData.tipoBalanco)
+        console.log("analiseBalanco: "+jsonData.analiseBalanco)
+        console.log("dataInicio: "+jsonData.dataInicio)
+        console.log("dataTermino: "+jsonData.dataTermino)
+        console.log("dados a enviar: "+jsonData.tipoVisualizacao)
+
+        console.log("dados a enviar: "+jsonData)
+        criarBalancoRapidoDespesa(jsonData)
     }
 
     return (

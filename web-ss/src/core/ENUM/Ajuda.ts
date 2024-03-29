@@ -4,6 +4,7 @@ export enum AjudaEnum {
     DEFINICAO_RECEITA = "Neste página, é possível acessar todas as receitas que foram previamente cadastradas.",
     DEFINICAO_DESPESA = "Neste página, é possível acessar todas as despesas que foram previamente cadastradas.",
     DEFINICAO_ANALISE = "Neste página, é possível escolher qual análise deseja verificar e/ou cadastrar.",
+    DEFINICAO_BALANCO_LANCAMENTO = "Nesta página é possível cadastrar novos balanços.",
     CADASTRO_RECEITA = "Preencha o formulário para realizar o cadastro de uma receita.",
     CADASTRO_DESPESA = "Preencha o formulário para realizar o cadastro de uma despesa.",
     DEFINICAO_CONTA_BANCARIA = "A conta bancária é usada para registrar movimentações de receitas e despesas.",

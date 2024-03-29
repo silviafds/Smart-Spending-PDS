@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {HeaderPadrao} from "../../components/header/headerPadrao";
-import {Sidebar} from "../../components/sidebar/sidebar";
-import {Ajuda} from "../../components/ajuda/Ajuda";
+import {HeaderPadrao} from "../../componentes/header/headerPadrao";
+import {Sidebar} from "../../componentes/sidebar/sidebar";
+import {Ajuda} from "../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
 import { IoWalletOutline } from "react-icons/io5";
 import { TbPigMoney } from "react-icons/tb";
@@ -36,8 +36,9 @@ function Balanco() {
 
                         <div className="flex justify-center items-center">
 
-                            <Link to="/LancamentoBalanco" className="flex flex-col items-center justify-center">
-                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500 rounded-md drop-shadow-md">
+                            <Link to="/LancamentoBalanco" className="flex flex-col items-center justify-center ">
+                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500 rounded-md
+                                drop-shadow-md hover:bg-gray-200">
                                     <h2 className="text-center mt-16 font-semibold text-xl">Lançamento</h2>
                                     <div className="flex items-center justify-center mt-2">
                                         <IoWalletOutline className="h-8 w-8" />
@@ -45,8 +46,9 @@ function Balanco() {
                                 </div>
                             </Link>
 
-                            <Link to="/ProjetosBalanco" className="flex flex-col items-center justify-center">
-                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md drop-shadow-md">
+                            <Link to="/ProjetosBalanco" className="flex flex-col items-center justify-center ">
+                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md
+                                drop-shadow-md hover:bg-gray-200">
                                     <h2 className="text-center mt-16 font-semibold text-xl	">Projetos</h2>
                                     <div
                                         className="flex items-center justify-center mt-2">

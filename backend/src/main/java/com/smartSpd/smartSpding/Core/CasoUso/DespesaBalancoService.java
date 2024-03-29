@@ -1,6 +1,7 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,4 +10,6 @@ import java.util.List;
 public interface DespesaBalancoService {
 
     List<BalancoDespesa> listagemMeiosPagamento();
+
+    List<BalancoDespesa> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO);
 }

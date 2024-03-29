@@ -28,9 +28,8 @@ interface BasicModalProps {
 
 interface IFormInputs {
     nome: string;
-    tipo: string;
+    tipoBalanco: string;
     analiseBalanco: string;
-    rangeTempo: Date;
     dataInicio: Date;
     dataTermino: Date;
     tipoVisualizacao: string;
@@ -64,7 +63,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
 
     const handleTipoBalanco = async (tipoBalanco: any) => {
         if(tipoBalanco != null) {
-            setValue('tipo', tipoBalanco.nome);
+            setValue('tipoBalanco', tipoBalanco.nome);
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
                 console.log("tipo do balanço selecionado: "+tipoBalanco.nome)

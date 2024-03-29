@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { BACKEND_URL } from '../core/config';
+import { BACKEND_URL } from '../config';
 import {Navigate} from "react-router-dom";
 import Swal from 'sweetalert2'
 

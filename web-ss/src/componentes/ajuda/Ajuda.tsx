@@ -47,6 +47,9 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
         case AjudaEnum.GERENCIADOR_CATEGORIA:
             mensagemAjuda = AjudaEnum.GERENCIADOR_CATEGORIA;
             break;
+        case AjudaEnum.DEFINICAO_BALANCO_LANCAMENTO:
+            mensagemAjuda = AjudaEnum.DEFINICAO_BALANCO_LANCAMENTO;
+            break;
         default:
             mensagemAjuda = 'Mensagem padrão de ajuda.';
             break;

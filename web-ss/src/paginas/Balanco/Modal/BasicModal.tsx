@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import Selector from "../../../componentes/Selector";
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
-    balancoEnum, TipoBalanco} from "../../../core/ENUM/TipoBalanco";
+    balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum} from "../../../core/ENUM/TipoBalanco";
 import {graficoEnum, TipoGrafico} from "../../../core/ENUM/TipoGrafico";
 import {criarBalancoRapidoDespesa} from "../../../logica/API/Despesa/BalancoDespesa";
 
@@ -33,20 +33,13 @@ interface IFormInputs {
     dataInicio: Date;
     dataTermino: Date;
     tipoVisualizacao: string;
+    categoriaOuTituloContabil: string;
 }
 
 const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
 
     const [balanco, setBalanco] = useState<string>("");
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handleFocus = () => {
-        setIsFocused(true);
-    };
-
-    const handleBlur = () => {
-        setIsFocused(false);
-    };
+    const [erro, setErro] = useState<boolean>(false);
 
     const {
         register,
@@ -57,14 +50,20 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
     } = useForm<IFormInputs>();
 
     const handleTipoBalanco = async (tipoBalanco: any) => {
+        console.log("entrei em tipo balanço: "+tipoBalanco.nome)
         if(tipoBalanco != null) {
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
+                setValue('tipoBalanco', tipoBalanco.nome);
             } else if (tipoBalanco.nome === TipoBalanco.RECEITA.toString()) {
+                setValue('tipoBalanco', tipoBalanco.nome);
                 setBalanco(tipoBalanco.nome)
             } else if (tipoBalanco.nome === TipoBalanco.DESPESA_RECEITA.toString()) {
+                console.log("entrei em tipo balanço de despesa e receita: "+tipoBalanco.nome)
                 setBalanco(tipoBalanco.nome)
+                setValue('tipoBalanco', tipoBalanco.nome);
             } else {
+                setValue('tipoBalanco', tipoBalanco.nome);
                 setBalanco(tipoBalanco.nome)
             }
         }
@@ -82,14 +81,32 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
         }
     }
 
+    const handleBalancoCategoriaOuTituloContabil = async (categoriaOuTituloContabil: any) => {
+        if(categoriaOuTituloContabil != null) {
+            setValue('categoriaOuTituloContabil', categoriaOuTituloContabil.nome);
+        }
+    }
+
     const onSubmit = async (data: IFormInputs) =>  {
+        if (
+            !data.nome ||
+            !data.tipoBalanco ||
+            !data.analiseBalanco ||
+            !data.dataInicio ||
+            !data.dataTermino ||
+            !data.tipoVisualizacao || (!data.tipoBalanco && !data.categoriaOuTituloContabil)
+        ) {
+            setErro(true)
+            return;
+        }
         const jsonData = {
             nome: data.nome,
             tipoBalanco: data.tipoBalanco,
             analiseBalanco: data.analiseBalanco,
             dataInicio: data.dataInicio,
             dataTermino: data.dataTermino,
-            tipoVisualizacao: data.tipoVisualizacao
+            tipoVisualizacao: data.tipoVisualizacao,
+            categoriaOuTituloContabil: data.categoriaOuTituloContabil
         };
 
         criarBalancoRapidoDespesa(jsonData)
@@ -104,8 +121,15 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-
                     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                        {erro && (
+                            <>
+                                <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
+                                    <p className={"text-black font-medium"}>Prencha todos os campos.</p>
+                                </div>
+                            </>
+                        )}
+
                         <div className="inputs relative my-4">
                             <input
                                 {...register('nome', {required: true})}
@@ -115,6 +139,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                             />
                             <div className="line"></div>
                         </div>
+                        {errors.nome && (<p>Insira o nome do balanço.</p>)}
 
                         <div className="inputs relative my-4">
                             <Selector dado={balancoEnum}
@@ -156,13 +181,21 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                               valorSelecionado={""} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
+
+                                <div
+                                    className="inputs relative my-4">
+                                    <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
+                                              placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
+                                              valorSelecionado={""} onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
+                                    <div className="line"></div>
+                                </div>
                             </>
                         )}
 
                         <div className="inputs relative my-4">
                             <label className="text-gray-500">Data Inicio</label>
                             <input
-                                {...register('dataInicio', {required: false})}
+                                {...register('dataInicio', {required: true})}
                                 type="date"
                                 value={watch('dataInicio') ? new Date(watch('dataInicio')).toISOString().substr(0, 10) : ''}
                                 placeholder={Titulos.INPUT_DATA_RECEITA.toString()}
@@ -170,17 +203,20 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                             />
                             <div className="line"></div>
                         </div>
+                        {errors.dataInicio && (<p>Insira a data inicial.</p>)}
+
 
                         <div className="inputs relative my-4">
                             <label className="text-gray-500">Data Final</label>
                             <input
-                                {...register('dataTermino', {required: false})}
+                                {...register('dataTermino', {required: true})}
                                 type="date"
                                 value={watch('dataTermino') ? new Date(watch('dataTermino')).toISOString().substr(0, 10) : ''}
                                 placeholder={Titulos.INPUT_DATA_RECEITA.toString()}
                                 className="text-lg text-black input-with-line w-full"
                             />
                             <div className="line"></div>
+                            {errors.dataTermino && (<p>Insira a data final.</p>)}
                         </div>
 
                         <div className="inputs relative my-4">
@@ -193,7 +229,8 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                         <div className="p-2">
                             <input
                                 type="submit"
-                                className="bg-secundaria_esmeralda hover:bg-bota_acao_hover text-white font-bold py-2 px-4 rounded w-full"
+                                className="bg-secundaria_esmeralda hover:bg-bota_acao_hover text-white font-bold py-2
+                                px-4 rounded w-full"
                                 value="Cadastrar"
                             />
                         </div>

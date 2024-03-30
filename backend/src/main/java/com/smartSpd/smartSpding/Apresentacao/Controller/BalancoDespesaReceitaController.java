@@ -1,9 +1,7 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
-import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDespesaReceitaDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -30,10 +28,10 @@ public class BalancoDespesaReceitaController {
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
     }
 
-    @PostMapping("/registroBalancoRapido")
+    /*@PostMapping("/registroBalancoRapido")
     @Transactional
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDespesaReceitaDTO balancoRapidoDespesaReceitaDTO) {
-        try {
+        *//*try {
             List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDespesaReceitaDTO);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
@@ -42,6 +40,6 @@ public class BalancoDespesaReceitaController {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
-        }
-    }
+        }*//*
+    }*/
 }

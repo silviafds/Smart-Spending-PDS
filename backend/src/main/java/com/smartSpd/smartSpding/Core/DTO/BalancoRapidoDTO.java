@@ -1,7 +1,6 @@
 package com.smartSpd.smartSpding.Core.DTO;
 
 import java.time.LocalDate;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,4 +15,5 @@ public class BalancoRapidoDTO {
     private LocalDate dataInicio;
     private LocalDate dataTermino;
     private String tipoVisualizacao;
+    private String categoriaOuTituloContabil;
 }

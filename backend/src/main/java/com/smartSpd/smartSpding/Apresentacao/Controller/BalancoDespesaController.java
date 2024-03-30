@@ -1,7 +1,9 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,8 +26,12 @@ public class BalancoDespesaController {
 
     private final DespesaBalancoService despesaBalancoService;
 
-    public BalancoDespesaController(DespesaBalancoService despesaBalancoService) {
+    private final DespesaReceitaBalancoService despesaReceitaBalancoService;
+
+    public BalancoDespesaController(DespesaBalancoService despesaBalancoService,
+                                    DespesaReceitaBalancoService despesaReceitaBalancoService) {
         this.despesaBalancoService = despesaBalancoService;
+        this.despesaReceitaBalancoService = despesaReceitaBalancoService;
     }
 
     @GetMapping("/buscarMeiosPagamento")
@@ -47,10 +53,25 @@ public class BalancoDespesaController {
     @Transactional
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
-            List<BalancoDespesa> balanco = despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(balanco);
+            if(balancoRapidoDTO.getTipoBalanco().equals("Despesa")) {
+                List<BalancoDespesa> balanco = despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(balanco);
+            }
+            if(balancoRapidoDTO.getTipoBalanco().equals("Despesa e Receita")) {
+                List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(balanco);
+            }
+
+            if(balancoRapidoDTO.getTipoBalanco().equals("Receita")) {
+               //implementação aqui
+            }
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("deu bom.");
+
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

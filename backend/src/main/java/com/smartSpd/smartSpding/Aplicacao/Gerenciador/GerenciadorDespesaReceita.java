@@ -1,6 +1,7 @@
 package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDespesaReceitaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
@@ -24,28 +25,27 @@ public class GerenciadorDespesaReceita {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void verificaDTOIsNULL(BalancoRapidoDespesaReceitaDTO balancoRapidoDespesaReceitaDTO) {
-        if (balancoRapidoDespesaReceitaDTO == null ||
-                balancoRapidoDespesaReceitaDTO.getNome() == null ||
-                balancoRapidoDespesaReceitaDTO.getTipoBalanco() == null ||
-                balancoRapidoDespesaReceitaDTO.getAnaliseBalanco() == null ||
-                balancoRapidoDespesaReceitaDTO.getDataInicio() == null ||
-                balancoRapidoDespesaReceitaDTO.getDataTermino() == null ||
-                balancoRapidoDespesaReceitaDTO.getTipoVisualizacao() == null ||
-                balancoRapidoDespesaReceitaDTO.getCategoriaOuTituloContabil() == null) {
+    public void verificaDTOIsNULL(BalancoRapidoDTO balancoRapidoDTO) {
+        if (balancoRapidoDTO == null ||
+                balancoRapidoDTO.getNome() == null ||
+                balancoRapidoDTO.getTipoBalanco() == null ||
+                balancoRapidoDTO.getAnaliseBalanco() == null ||
+                balancoRapidoDTO.getDataInicio() == null ||
+                balancoRapidoDTO.getDataTermino() == null ||
+                balancoRapidoDTO.getTipoVisualizacao() == null) {
             throw new NullPointerException("Um dos campos de balancoRapidoDespesaReceitaDTO está nulo.");
         }
     }
 
-    public String queryBalanco(BalancoRapidoDespesaReceitaDTO balanco) {
-        String tipoBalanco = balanco.getTipoBalanco();
-        String categoriaOuTituloContabil = balanco.getCategoriaOuTituloContabil();
+    public String queryBalanco(BalancoRapidoDTO balancoRapidoDTO) {
+        String tipoBalanco = balancoRapidoDTO.getTipoBalanco();
+        String categoriaOuTituloContabil = balancoRapidoDTO.getCategoriaOuTituloContabil();
 
         if (tipoBalanco.equals("Despesa")) {
             return buildQueryForDespesa(categoriaOuTituloContabil);
         } else if (tipoBalanco.equals("Receita")) {
             return buildQueryForReceita(categoriaOuTituloContabil);
-        } else if (tipoBalanco.equals("Ambos")) {
+        } else if (tipoBalanco.equals("Despesa e Receita")) {
             String queryDespesa = buildQueryForDespesa(categoriaOuTituloContabil);
             String queryReceita = buildQueryForReceita(categoriaOuTituloContabil);
             return queryDespesa + " UNION ALL " + queryReceita;
@@ -81,19 +81,19 @@ public class GerenciadorDespesaReceita {
         }
     }
 
-    public List<BalancoDespesaReceita> montaQuery(String sql, BalancoRapidoDespesaReceitaDTO balanco) {
+    public List<BalancoDespesaReceita> montaQuery(String sql, BalancoRapidoDTO balancoRapidoDTO) {
         List<BalancoDespesaReceita> resultados = new ArrayList<>();
 
         try {
             return jdbcTemplate.query(sql, new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                    preparedStatement.setDate(1, java.sql.Date.valueOf(balanco.getDataInicio()));
-                    preparedStatement.setDate(2, java.sql.Date.valueOf(balanco.getDataTermino()));
+                    preparedStatement.setDate(1, java.sql.Date.valueOf(balancoRapidoDTO.getDataInicio()));
+                    preparedStatement.setDate(2, java.sql.Date.valueOf(balancoRapidoDTO.getDataTermino()));
 
-                    if(balanco.getTipoBalanco().equals("Ambos")) {
-                        preparedStatement.setDate(3, java.sql.Date.valueOf(balanco.getDataInicio()));
-                        preparedStatement.setDate(4, java.sql.Date.valueOf(balanco.getDataTermino()));
+                    if(balancoRapidoDTO.getTipoBalanco().equals("Despesa e Receita")) {
+                        preparedStatement.setDate(3, java.sql.Date.valueOf(balancoRapidoDTO.getDataInicio()));
+                        preparedStatement.setDate(4, java.sql.Date.valueOf(balancoRapidoDTO.getDataTermino()));
                     }
 
                 }
@@ -102,7 +102,7 @@ public class GerenciadorDespesaReceita {
                 public List<BalancoDespesaReceita> extractData(ResultSet rs) throws SQLException {
                     List<BalancoDespesaReceita> tempResultados = new ArrayList<>();
                     while (rs.next()) {
-                        BalancoDespesaReceita balancoDespesaReceita = extrairBalancoDespesa(rs, balanco);
+                        BalancoDespesaReceita balancoDespesaReceita = extrairBalancoDespesa(rs, balancoRapidoDTO);
                         tempResultados.add(balancoDespesaReceita);
                     }
                     return tempResultados;
@@ -116,7 +116,7 @@ public class GerenciadorDespesaReceita {
     }
 
 
-    private BalancoDespesaReceita extrairBalancoDespesa(ResultSet rs, BalancoRapidoDespesaReceitaDTO balancoRapidoDTO) throws SQLException {
+    private BalancoDespesaReceita extrairBalancoDespesa(ResultSet rs, BalancoRapidoDTO balancoRapidoDTO) throws SQLException {
         String categoriaTransacao;
         if(balancoRapidoDTO.getCategoriaOuTituloContabil().equals("Categoria")) {
             categoriaTransacao = rs.getString("categoria");

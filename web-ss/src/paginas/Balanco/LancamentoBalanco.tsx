@@ -53,8 +53,6 @@ function LancamentoBalanco() {
                             Balanço Rápido
                         </button>
 
-                        <h1>tela de gerenciador de analise de lançamento</h1>
-
                         {modalAberto && <BasicModal onClose={handleFecharModal} />}
 
                     </div>

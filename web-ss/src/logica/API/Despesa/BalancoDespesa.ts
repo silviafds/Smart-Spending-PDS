@@ -2,7 +2,6 @@ import axios from "../../../core/contexto/axios";
 import { BACKEND_URL } from "../../../core/config";
 import Swal from "sweetalert2";
 
-
 export async function criarBalancoRapidoDespesa(jsonString: any) {
     try {
         console.log("metodo da requisição")
@@ -10,8 +9,7 @@ export async function criarBalancoRapidoDespesa(jsonString: any) {
         await axios.post(BACKEND_URL + "/balancoDespesa/registroBalancoRapido", jsonString, axiosConfig)
             .then((response) => {
                 console.log("datas: "+response.data.categoriaTransacao + " | "+response.data)
-                window.location.href = "/BalancoRapido?dados=" + encodeURIComponent(JSON.stringify(response.data)) +
-                    "&nomeBalanco=" + encodeURIComponent(jsonString.nome)+ "&nomeBalancoAnalise=" + encodeURIComponent(jsonString.analiseBalanco);
+                window.location.href = "/BalancoRapido?dados=" + encodeURIComponent(JSON.stringify(response.data));
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

@@ -2,51 +2,44 @@ import React, { useEffect, useState } from "react";
 import { HeaderPadrao } from "../../componentes/header/headerPadrao";
 import { Sidebar } from "../../componentes/sidebar/sidebar";
 import { Ajuda } from "../../componentes/ajuda/Ajuda";
+import  Loading  from "../../componentes/Loading";
 import GraficoColunaVertical from "../../componentes/Grafico/GraficoColunaVertical";
 import { AjudaEnum } from "../../core/ENUM/Ajuda";
-
-/*
-import TextField, { FilledTextFieldProps, OutlinedTextFieldProps, StandardTextFieldProps, TextFieldVariants } from '@mui/material/TextField';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { JSX } from "react/jsx-runtime";
-import AdapterDateFns from '@mui/x-date-pickers/AdapterDateFns';
-import { TextFieldProps } from '@mui/material/TextField';
-*/
-
-/*import DataComponente from "../../componentes/DataComponente";*/
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { useLocation } from 'react-router-dom';
 import {useForm} from "react-hook-form";
-
-
-const chartData = [
-    { name: 'Mon', value: 120 },
-    { name: 'Tue', value: 200 },
-    { name: 'Wed', value: 150 },
-    { name: 'Thu', value: 80 },
-    { name: 'Fri', value: 70 },
-    { name: 'Sat', value: 110 },
-    { name: 'Sun', value: 130 }
-];
+import {criarBalancoRapidoDespesa} from "../../logica/API/Despesa/BalancoDespesa";
+import Swal from "sweetalert2";
+import GraficoDeDonut from "../../componentes/Grafico/GraficoDeDonut";
+import GraficoDePizza from "../../componentes/Grafico/GraficoDePizza";
 
 interface IFormInputs {
     nomeBalanco: string;
     nomeBalancoAnalise: string;
+    nome: string;
+    tipoBalanco: string;
+    analiseBalanco: string;
+    dataInicio: Date;
+    dataTermino: Date;
+    tipoVisualizacao: string;
 }
 
 export function TelaBalancoRapido() {
+    const [loading, setLoading] = useState(true);
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
-    const [value, setValues] = useState<Date | null>(new Date());
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null); // Alterado o tipo para Date | null
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
     const location = useLocation();
     const dados = JSON.parse(new URLSearchParams(location.search).get("dados") as string);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }, []);
+
     const {
-        register,
-        handleSubmit,
         setValue,
         formState: { errors },
         watch,
@@ -59,119 +52,129 @@ export function TelaBalancoRapido() {
         }
     }, []);
 
+    // @ts-ignore
     useEffect(() => {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const dados = urlParams.get('dados');
-        const nomeBalancoUrl = urlParams.get('nomeBalanco');
-        const nomeBalancoAnaliseUrl = urlParams.get('nomeBalancoAnalise');
-        setValue('nomeBalanco', nomeBalancoUrl || ''); // Se nomeBalancoUrl for null ou undefined, define como string vazia
-        setValue('nomeBalancoAnalise', nomeBalancoAnaliseUrl || '');
-        console.log('Dados:', dados);
-        console.log('Outra Variável:', nomeBalancoUrl);
-        console.log('Outra Variável:', nomeBalancoAnaliseUrl);
-
-
+        for (let prop in dados) {
+            setValue("nome", dados[prop].nome)
+            setValue("analiseBalanco", dados[prop].analiseBalanco)
+            setValue("dataInicio", dados[prop].dataInicio)
+            setValue("dataTermino", dados[prop].dataTermino)
+            setValue("tipoVisualizacao", dados[prop].tipoVisualizacao)
+            const dataInicio = parseDate(dados[prop].dataInicio);
+            setStartDate(dataInicio);
+            setEndDate(new Date(dados[prop].dataTermino));
+        }
     }, []);
 
-    const handleDateChange = (date: Date | null) => { // Ajustado o tipo do parâmetro para Date | null
-        setSelectedDate(date);
-    };
-    function handleCadastro() {
-        // Implemente a lógica aqui
+    function parseDate(dateString: { split: (arg0: string) => [any, any, any]; }) {
+        const [year, month, day] = dateString.split('-');
+        return new Date(year, month - 1, day); // O mês é zero-indexed
     }
 
-    const handleStartDateChange = (date: Date | null | any) => {
+    const handleDataInicial = (date: Date | null | any) => {
         setStartDate(date);
         for (let prop in dados) {
-            console.log("categoria_transacao: "+dados[prop].categoria_transacao)
-            console.log("quantidade_transacao: "+dados[prop].quantidade_transacao)
+            setValue("nome", dados[prop].nome)
+            setValue('analiseBalanco', dados[prop].analiseBalanco);
+            setValue('nome', dados[prop].nome);
+            setValue('tipoBalanco', dados[prop].tipoBalanco);
+            setValue('dataInicio', dados[prop].dataInicio);
+            setValue('dataTermino', dados[prop].dataTermino);
         }
     };
 
-    const handleEndDateChange = (date: Date | null | any) => {
+    const handleDataFinal = (date: Date | null | any) => {
         if (startDate && date < startDate) {
-            alert('A data final não pode ser anterior à data de início.');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: 'A data final não pode ser anterior à data de início.',
+                customClass: {
+                    confirmButton: 'error-button'
+                }
+            });
             return;
         }
         setEndDate(date);
+        if(startDate != null) {
+            setValue('dataInicio', startDate);
+            setValue('dataTermino', date);
+
+            const jsonData = {
+                nome: watch('nome'),
+                tipoBalanco: watch('nomeBalanco'),
+                analiseBalanco: watch('analiseBalanco'),
+                dataInicio: watch('dataInicio'),
+                dataTermino: watch('dataTermino'),
+                tipoVisualizacao: watch('tipoVisualizacao')
+            };
+            criarBalancoRapidoDespesa(jsonData);
+        }
     };
 
     return (
         <div>
-            <HeaderPadrao nomeUsuario={nomeUsuarioLocalStorage} />
-            <div className={"flex"}>
-                <Sidebar />
-                <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
-                    <div className={"flex justify-between"}>
-                        <h1 className={"text-2xl font-semibold"}> Balanço Rápido </h1>
-                        <Ajuda tipoAjuda={AjudaEnum.CADASTRO_BALANCO_RAPIDO}/>
-                    </div>
-                    <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
-                    {/*<div className="flex">
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleStartDateChange}
-                            dateFormat="dd/MM/yyyy"
-                            placeholderText="Data Início"
-                            className="w-full bg-white border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                            isClearable
-                            showYearDropdown
-                            scrollableYearDropdown
-                        />
-                        <DatePicker
-                            selected={endDate}
-                            onChange={handleEndDateChange}
-                            dateFormat="dd/MM/yyyy"
-                            placeholderText="Data Final"
-                            className="w-full bg-white border border-gray-300 rounded px-3 py-2 ml-6 focus:outline-none focus:border-blue-500"
-                            isClearable
-                            showYearDropdown
-                            scrollableYearDropdown
-                        />
-                    </div>
+            {loading ? (
+                <Loading/>
+            ) : (
+                <div>
+                    <div>
+                        <HeaderPadrao nomeUsuario={nomeUsuarioLocalStorage}/>
+                        <div className={"flex"}>
+                            <Sidebar/>
+                            <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
+                                <div className={"flex justify-between"}>
+                                    <h1 className={"text-2xl font-semibold"}> Balanço Rápido </h1>
+                                    <Ajuda tipoAjuda={AjudaEnum.CADASTRO_BALANCO_RAPIDO}/>
+                                </div>
+                                <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
-                    <div className="text-left mt-6">
-                        <h1 className="mb-4 font-bold text-2xl text-left">Nome do Balanço</h1>
-                        <h1 className="mb-8 font-light text-lg text-left">Nome do tipo do balanço</h1>
-                    </div>*/}
-
-                    <div className="mt-10 w-full max-w-6xl flex flex-col items-center">
-                        <div className="flex justify-between w-full">
-                            <div>
-                                <h1 className="mb-4 font-bold text-2xl">{watch('nomeBalanco')}</h1>
-                                <h1 className="mb-8 font-light text-lg">{watch('nomeBalancoAnalise')}</h1>
-                            </div>
-                            <div className="flex">
-                                <DatePicker
-                                    selected={startDate}
-                                    onChange={handleStartDateChange}
-                                    dateFormat="dd/MM/yyyy"
-                                    placeholderText="Data Início"
-                                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                                    isClearable
-                                    showYearDropdown
-                                    scrollableYearDropdown
-                                />
-                                <DatePicker
-                                    selected={endDate}
-                                    onChange={handleEndDateChange}
-                                    dateFormat="dd/MM/yyyy"
-                                    placeholderText="Data Final"
-                                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 ml-6 focus:outline-none focus:border-blue-500"
-                                    isClearable
-                                    showYearDropdown
-                                    scrollableYearDropdown
-                                />
+                                <div className="mt-10 w-full max-w-6xl flex flex-col items-center">
+                                    <div className="flex justify-between w-full">
+                                        <div>
+                                            <h1 className="mb-4 font-bold text-2xl">{watch('nome')}</h1>
+                                            <h1 className="mb-8 font-light text-lg">{watch('analiseBalanco')}</h1>
+                                        </div>
+                                        <div className="flex">
+                                            <DatePicker
+                                                selected={startDate}
+                                                onChange={handleDataInicial}
+                                                dateFormat="dd/MM/yyyy"
+                                                placeholderText="Data Início"
+                                                className="w-full bg-white border border-gray-300 rounded px-3 py-2
+                                                focus:outline-none focus:border-blue-500"
+                                                isClearable
+                                                showYearDropdown
+                                                scrollableYearDropdown
+                                            />
+                                            <DatePicker
+                                                selected={endDate}
+                                                onChange={handleDataFinal}
+                                                dateFormat="dd/MM/yyyy"
+                                                placeholderText="Data Final"
+                                                className="w-full bg-white border border-gray-300 rounded px-3 py-2
+                                                ml-6 focus:outline-none focus:border-blue-500"
+                                                isClearable
+                                                showYearDropdown
+                                                scrollableYearDropdown
+                                            />
+                                        </div>
+                                    </div>
+                                    {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
+                                        <GraficoColunaVertical data={dados} />
+                                    )}
+                                    {watch('tipoVisualizacao') === 'Gráfico de Pizza' && (
+                                        <GraficoDePizza data={dados} />
+                                    )}
+                                    {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
+                                        <GraficoDeDonut data={dados} />
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <GraficoColunaVertical data={dados}/>
-                        <h1>Gráfico aqui</h1>
                     </div>
-
-
                 </div>
-            </div>
+            )}
         </div>
     );
 }

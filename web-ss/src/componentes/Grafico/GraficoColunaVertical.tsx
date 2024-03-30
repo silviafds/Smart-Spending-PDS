@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
 interface Transacao {
-    categoria_transacao: string;
-    quantidade_transacao: number;
+    dado: string;
+    valor: number;
 }
 
 interface ChartProps {
@@ -16,7 +16,7 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
     const chartData: { name: string; value: number }[] = [];
 
     for(let prop in data) {
-        chartData.push({name: data[prop].categoria_transacao, value: data[prop].quantidade_transacao})
+        chartData.push({name: data[prop].dado, value: data[prop].valor})
     }
 
     useEffect(() => {

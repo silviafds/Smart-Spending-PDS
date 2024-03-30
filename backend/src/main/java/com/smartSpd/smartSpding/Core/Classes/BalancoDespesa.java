@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Transient;
+import java.time.LocalDate;
 
 @Data
 @SqlResultSetMapping(
@@ -12,17 +14,39 @@ import javax.persistence.SqlResultSetMapping;
         classes = @ConstructorResult(
                 targetClass = BalancoDespesa.class,
                 columns = {
-                        @ColumnResult(name = "categoria_transacao", type = String.class),
-                        @ColumnResult(name = "quantidade_transacao", type = Long.class)
+                        @ColumnResult(name = "dado", type = String.class),
+                        @ColumnResult(name = "valor", type = Long.class)
                 }
         )
 )
 public class BalancoDespesa {
-    private String categoria_transacao;
-    private Long quantidade_transacao;
+    private String dado;
+    private Long valor;
 
-    public BalancoDespesa(String categoria_transacao, Long quantidade_transacao) {
-        this.categoria_transacao = categoria_transacao;
-        this.quantidade_transacao = quantidade_transacao;
+    @Transient
+    private String nome;
+    @Transient
+    private String tipoBalanco;
+    @Transient
+    private String analiseBalanco;
+    @Transient
+    private LocalDate dataInicio;
+    @Transient
+    private LocalDate dataTermino;
+    @Transient
+    private String tipoVisualizacao;
+
+    public BalancoDespesa(String dado, Long valor) {
+        this.dado = dado;
+        this.valor = valor;
+    }
+
+    public BalancoDespesa(String nome, String tipoBalanco, String analiseBalanco, LocalDate dataInicio, LocalDate dataTermino, String tipoVisualizacao) {
+        this.nome = nome;
+        this.tipoBalanco = tipoBalanco;
+        this.analiseBalanco = analiseBalanco;
+        this.dataInicio = dataInicio;
+        this.dataTermino = dataTermino;
+        this.tipoVisualizacao = tipoVisualizacao;
     }
 }

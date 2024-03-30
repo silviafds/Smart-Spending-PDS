@@ -59,5 +59,19 @@ public class BalancoDespesaController {
         }
     }
 
+    @PostMapping("/mudarDataBalancoRapido")
+    @Transactional
+    public ResponseEntity<?> mudarDataBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
+        try {
+            List<BalancoDespesa> balanco = despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balanco);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
+        }
+    }
 
 }

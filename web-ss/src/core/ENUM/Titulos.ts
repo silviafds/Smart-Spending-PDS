@@ -17,5 +17,9 @@ export enum Titulos {
     INPUT_VALOR_RECEITA = ("Digite o valor da receita"),
     INPUT_VALOR_DESPESA = ("Digite o valor da despesa"),
     INPUT_PAGADOR = ("Informe quem te pagou"),
+    INPUT_NOME_BALANCO = ("Informe o nome do balanço."),
+    INPUT_TIPO_BALANCO = ("Escolha um tipo do balanço."),
+    INPUT_CATEGORIA_BALANCO = ("Informe a categoria do balanço."),
+    INPUT_TIPO_VISUALIZACAO_BALANCO = ("Escolha um tipo de gráfico."),
     INPUT_BENEFICIARIO = ("Informe o beneficiário")
 }

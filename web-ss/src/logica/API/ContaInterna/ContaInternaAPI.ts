@@ -1,4 +1,4 @@
-import axios from "../../../contexto/axios";
+import axios from "../../../core/contexto/axios";
 import {BACKEND_URL} from "../../../core/config";
 import { ContaInterna } from "../../../core/Dominio/ContaInterna";
 import {editarReceita, salvarReceita} from "../Receita/ReceitaAPI";

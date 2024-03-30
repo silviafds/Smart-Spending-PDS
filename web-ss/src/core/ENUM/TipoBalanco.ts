@@ -22,6 +22,11 @@ export enum AnaliseBalancoDespesaReceita {
     BALANCO_GERAL = "Balanço de entradas e/ou saídas",
 }
 
+export enum AnaliseTipoDespesaReceita {
+    CATEGORIA = "Categoria",
+    TITULO_CONTABIL = "Titulo Contábil"
+}
+
 export const analiseBalancoReceitaEnum = Object.values(AnaliseBalancoReceita).map((tipo, index) => ({
     id: index + 1,
     nome: tipo
@@ -33,6 +38,11 @@ export const analiseBalancoDespesaEnum = Object.values(AnaliseBalancoDespesa).ma
 }));
 
 export const analiseBalancoReceitaDespesaEnum = Object.values(AnaliseBalancoDespesaReceita).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
+export const analiseTipoBalancoReceitaDespesaEnum = Object.values(AnaliseTipoDespesaReceita).map((tipo, index) => ({
     id: index + 1,
     nome: tipo
 }));

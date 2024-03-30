@@ -23,6 +23,7 @@ interface IFormInputs {
     dataInicio: Date;
     dataTermino: Date;
     tipoVisualizacao: string;
+    categoriaOuTituloContabil: string;
 }
 
 export function TelaBalancoRapido() {
@@ -57,9 +58,11 @@ export function TelaBalancoRapido() {
         for (let prop in dados) {
             setValue("nome", dados[prop].nome)
             setValue("analiseBalanco", dados[prop].analiseBalanco)
+            setValue("tipoBalanco", dados[prop].tipoBalanco)
             setValue("dataInicio", dados[prop].dataInicio)
             setValue("dataTermino", dados[prop].dataTermino)
             setValue("tipoVisualizacao", dados[prop].tipoVisualizacao)
+            setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
             const dataInicio = parseDate(dados[prop].dataInicio);
             setStartDate(dataInicio);
             setEndDate(new Date(dados[prop].dataTermino));
@@ -80,6 +83,7 @@ export function TelaBalancoRapido() {
             setValue('tipoBalanco', dados[prop].tipoBalanco);
             setValue('dataInicio', dados[prop].dataInicio);
             setValue('dataTermino', dados[prop].dataTermino);
+            setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
         }
     };
 
@@ -102,12 +106,21 @@ export function TelaBalancoRapido() {
 
             const jsonData = {
                 nome: watch('nome'),
-                tipoBalanco: watch('nomeBalanco'),
+                tipoBalanco: watch('tipoBalanco'),
                 analiseBalanco: watch('analiseBalanco'),
                 dataInicio: watch('dataInicio'),
                 dataTermino: watch('dataTermino'),
-                tipoVisualizacao: watch('tipoVisualizacao')
+                tipoVisualizacao: watch('tipoVisualizacao'),
+                categoriaOuTituloContabil: watch('categoriaOuTituloContabil')
             };
+            console.log("nome "+jsonData.nome)
+            console.log("tipoBalanco "+jsonData.tipoBalanco)
+            console.log("analiseBalanco "+jsonData.analiseBalanco)
+            console.log("dataInicio "+jsonData.dataInicio)
+            console.log("dataTermino "+jsonData.dataTermino)
+            console.log("tipoVisualizacao "+jsonData.tipoVisualizacao)
+            console.log("categoriaOuTituloContabil "+jsonData.categoriaOuTituloContabil)
+            console.log("requisitando novos dados")
             criarBalancoRapidoDespesa(jsonData);
         }
     };

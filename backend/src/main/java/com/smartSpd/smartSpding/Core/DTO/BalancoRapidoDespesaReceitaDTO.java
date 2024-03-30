@@ -1,14 +1,13 @@
 package com.smartSpd.smartSpding.Core.DTO;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class BalancoRapidoDTO {
+public class BalancoRapidoDespesaReceitaDTO {
     private String nome;
     private String tipoBalanco;
     private String analiseBalanco;

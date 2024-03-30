@@ -4,12 +4,13 @@ import Swal from "sweetalert2";
 
 export async function criarBalancoRapidoDespesa(jsonString: any) {
     try {
-        console.log("metodo da requisição")
+        console.log("metodo da requisição: "+jsonString.tipoBalanco)
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.post(BACKEND_URL + "/balancoDespesa/registroBalancoRapido", jsonString, axiosConfig)
             .then((response) => {
-                console.log("datas: "+response.data.categoriaTransacao + " | "+response.data)
+
                 window.location.href = "/BalancoRapido?dados=" + encodeURIComponent(JSON.stringify(response.data));
+
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

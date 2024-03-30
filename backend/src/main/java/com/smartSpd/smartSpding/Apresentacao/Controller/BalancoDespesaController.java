@@ -22,7 +22,6 @@ public class BalancoDespesaController {
 
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
-
     private final DespesaBalancoService despesaBalancoService;
 
     public BalancoDespesaController(DespesaBalancoService despesaBalancoService) {

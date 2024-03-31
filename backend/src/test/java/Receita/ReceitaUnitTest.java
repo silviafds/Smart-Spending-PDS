@@ -27,7 +27,7 @@ public class ReceitaUnitTest {
     @DisplayName("Cadastro de Receita Test")
     public void testCadastrarReceita() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        ReceitaDTO receitaDTO = new ReceitaDTO(contaInterna, "Investimento", "Lucro com moedas",
+        ReceitaDTO receitaDTO = new ReceitaDTO(null, contaInterna, "Investimento", "Lucro com moedas",
                 LocalDate.now(), 3000.0, "Corretora Ricco", "Pix", "Corretora Ricco",
                 "", "", "Banco Bradesco",
                 "Corrente/1234/95175328", "Lucro com conversão de moedas");
@@ -60,7 +60,7 @@ public class ReceitaUnitTest {
     @DisplayName("Editar Receita Test")
     public void testEditarBuscarTituloContabilReceita() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        ReceitaDTO receitaDTO = new ReceitaDTO(contaInterna, "Investimento", "Lucro com moedas",
+        ReceitaDTO receitaDTO = new ReceitaDTO(null, contaInterna, "Investimento", "Lucro com moedas",
                 LocalDate.now(), 80.0, "Pix", "Banco Bradesco",
                 "Corrente/1258/0001258", "Claro", "Banco Bradesco",
                 "", "", "internet");
@@ -73,7 +73,7 @@ public class ReceitaUnitTest {
     @DisplayName("Dados de Receita Test")
     public void testDadosBancariosOrigemNotNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        ReceitaDTO receitaDTO = new ReceitaDTO(contaInterna, "Investimento", "Lucro com moedas",
+        ReceitaDTO receitaDTO = new ReceitaDTO(null, contaInterna, "Investimento", "Lucro com moedas",
                 LocalDate.now(), 80.0, "Pix", "Banco Bradesco",
                 "Corrente/1258/0001258", "Claro", "Banco Bradesco",
                 "", "", "internet");
@@ -85,7 +85,7 @@ public class ReceitaUnitTest {
     @DisplayName("Dados nulos de Receita Test")
     public void testDadosBancariosOrigemIsNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        ReceitaDTO receitaDTO = new ReceitaDTO(contaInterna, "Investimento", "Lucro com moedas",
+        ReceitaDTO receitaDTO = new ReceitaDTO(null, contaInterna, "Investimento", "Lucro com moedas",
                 LocalDate.now(), 80.0, "Pix", "Banco Bradesco",
                 "Corrente/1258/0001258", "Claro", "Banco Bradesco",
                 "", "", "internet");

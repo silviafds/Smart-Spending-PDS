@@ -34,21 +34,6 @@ public class BalancoDespesaController {
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
     }
 
-    @GetMapping("/buscarMeiosPagamento")
-    @Transactional
-    public ResponseEntity<?> buscarMeiosPagamento() {
-        try {
-            List<BalancoDespesa> balanco = despesaBalancoService.listagemMeiosPagamento();
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(balanco);
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
-        }
-    }
-
     @PostMapping("/registroBalancoRapido")
     @Transactional
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
@@ -69,24 +54,10 @@ public class BalancoDespesaController {
             if(balancoRapidoDTO.getTipoBalanco().equals("Receita")) {
                //implementação aqui
             }
+            //coloca o return de receita
             return ResponseEntity.status(HttpStatus.OK)
                     .body("deu bom.");
 
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
-        }
-    }
-
-    @PostMapping("/mudarDataBalancoRapido")
-    @Transactional
-    public ResponseEntity<?> mudarDataBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
-        try {
-            List<BalancoDespesa> balanco = despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(balanco);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

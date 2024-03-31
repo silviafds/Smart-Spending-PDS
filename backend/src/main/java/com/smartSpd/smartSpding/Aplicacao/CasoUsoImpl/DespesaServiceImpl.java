@@ -4,8 +4,8 @@ import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorDespesa;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
+import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.*;
 
 @Component
 public class DespesaServiceImpl implements DespesaService {
@@ -30,18 +32,24 @@ public class DespesaServiceImpl implements DespesaService {
         this.gerenciadorDespesa = gerenciadorDespesa;
     }
 
-
     @Override
-    public Boolean cadastrarDespesa(DespesaDTO data) {
-        if (data.getId() == null) {
-            try {
-                String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
+    public Boolean cadastrarDespesa(DespesaDTO data) throws Excecoes {
+        try {
+            gerenciadorDespesa.validarCamposObrigatorios(data);
+            if (data.getId() == null) {
+                String[] dadosReformulados = new String[0];
+
+                if (data.getCategoriaTransacao().equals(PIX.getMeiosPagamento()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.getMeiosPagamento())) {
+                    dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
+                }
                 Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
                 despesaRepository.save(despesa);
                 return true;
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "Erro ao cadastrar nova despesa no service. ", e);
             }
+        } catch (Excecoes e) {
+            throw e;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar nova despesa no service. ", e);
         }
         return false;
     }
@@ -68,24 +76,45 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     public void salvarDespesaEditada(DespesaDTO data, String[] dadosReformulados) {
-        despesaRepository.editarDespesa(
-                data.getId(),
-                data.getCategoria(),
-                data.getTitulo_contabil(),
-                data.getDataDespesa(),
-                data.getValorDespesa(),
-                data.getCategoriaTransacao(),
-                data.getBancoOrigem(),
-                dadosReformulados[0],
-                dadosReformulados[1],
-                dadosReformulados[2],
-                data.getBeneficiario(),
-                data.getBancoDestino(),
-                data.getAgenciaDestino(),
-                data.getNumeroContaDestino(),
-                data.getDescricao(),
-                data.getContaInterna()
-        );
+        if(data.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento())|| data.getCategoriaTransacao().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
+            despesaRepository.editarDespesa(
+                    data.getId(),
+                    data.getCategoria(),
+                    data.getTitulo_contabil(),
+                    data.getDataDespesa(),
+                    data.getValorDespesa(),
+                    data.getCategoriaTransacao(),
+                    data.getBancoOrigem(),
+                    "",
+                    "",
+                    "",
+                    data.getBeneficiario(),
+                    data.getBancoDestino(),
+                    data.getAgenciaDestino(),
+                    data.getNumeroContaDestino(),
+                    data.getDescricao(),
+                    data.getContaInterna()
+            );
+        } else {
+            despesaRepository.editarDespesa(
+                    data.getId(),
+                    data.getCategoria(),
+                    data.getTitulo_contabil(),
+                    data.getDataDespesa(),
+                    data.getValorDespesa(),
+                    data.getCategoriaTransacao(),
+                    data.getBancoOrigem(),
+                    dadosReformulados[0],
+                    dadosReformulados[1],
+                    dadosReformulados[2],
+                    data.getBeneficiario(),
+                    data.getBancoDestino(),
+                    data.getAgenciaDestino(),
+                    data.getNumeroContaDestino(),
+                    data.getDescricao(),
+                    data.getContaInterna()
+            );
+        }
     }
 
     @Transactional
@@ -113,7 +142,6 @@ public class DespesaServiceImpl implements DespesaService {
     public List<CategoriaDespesa> buscarTodasCategoriasDespesa() {
         return despesaRepository.buscarTodasAsCategoriaDespesa();
     }
-
 
     @Override
     public List<Despesa> buscarTodasAsDespesas() {

@@ -113,14 +113,6 @@ export function TelaBalancoRapido() {
                 tipoVisualizacao: watch('tipoVisualizacao'),
                 categoriaOuTituloContabil: watch('categoriaOuTituloContabil')
             };
-            console.log("nome "+jsonData.nome)
-            console.log("tipoBalanco "+jsonData.tipoBalanco)
-            console.log("analiseBalanco "+jsonData.analiseBalanco)
-            console.log("dataInicio "+jsonData.dataInicio)
-            console.log("dataTermino "+jsonData.dataTermino)
-            console.log("tipoVisualizacao "+jsonData.tipoVisualizacao)
-            console.log("categoriaOuTituloContabil "+jsonData.categoriaOuTituloContabil)
-            console.log("requisitando novos dados")
             criarBalancoRapidoDespesa(jsonData);
         }
     };

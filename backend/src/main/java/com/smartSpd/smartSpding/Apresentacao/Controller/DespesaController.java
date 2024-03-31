@@ -1,11 +1,8 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.DespesaServiceImpl;
-import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorDespesa;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -42,7 +39,7 @@ public class DespesaController {
             }
             return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Despesa não registrada.\"}");
+                    .body("{\"message\": \"Dados incosistentes. Despesa não cadastrada.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao cadastrar nova despesa. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

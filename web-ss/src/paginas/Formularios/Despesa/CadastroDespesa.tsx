@@ -8,8 +8,7 @@ import Selector from "../../../componentes/Selector";
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {useForm} from "react-hook-form";
 import {
-    buscarOrigem,
-    buscarReceitaPorId, buscarTitulosContabeis
+    buscarOrigem, buscarTitulosContabeis
 } from "../../../logica/API/Receita/ReceitaAPI";
 import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";
 import {
@@ -17,7 +16,7 @@ import {
     buscarContaInternaDespesa, buscarDespesaPorId,
     buscarTitulosContabeisDespesa
 } from "../../../logica/API/Despesa/DespesaAPI";
-import {verificaContaInterna} from "../../../logica/API/ContaInterna/ContaInternaAPI";
+import {validaDadosSubmissao} from "../../../logica/Validacoes/CadastroDespesaValidacao";
 
 interface IFormInputs {
     contaInterna: string;
@@ -40,6 +39,7 @@ export function CadastroDespesa() {
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
     const [fetchDataComplete, setFetchDataComplete] = useState(false);
     const [configOrigem, setConfigOrigem] = useState<string>("");
+    const [erro, setErro] = useState<boolean>(false);
 
     const [arrayContaInterna, setArrayContaInterna] = useState([]);
     const [arrayCategoria, setArrayCategoria] = useState([]);
@@ -112,14 +112,15 @@ export function CadastroDespesa() {
                             setValue('beneficiario', receita[prop].beneficiario);
                             setValue('categoriaTransacao', receita[prop].categoriaTransacao);
                             setValue('bancoOrigem', receita[prop].bancoOrigem);
-                            setValue('dadosBancariosOrigem', receita[prop].dadosBancariosOrigem)
+                            setValue('dadosBancariosOrigem', receita[prop].dadosBancarios)
                             setValue('bancoDestino', receita[prop].bancoDestino);
                             setValue('agenciaDestino', receita[prop].agenciaDestino);
                             setValue('numeroContaDestino', receita[prop].numeroContaDestino);
                             setValue('descricao', receita[prop].descricao);
 
-                            verificaCategoria = receita[prop].categoria;
                             verificaOrigem = receita[prop].origem
+                            verificaCategoria=receita[prop].categoriaTransacao
+
                             verificaDadosBancarios = receita[prop].bancoDestino
                         }
                         verificaDadoBancario(verificaDadosBancarios)
@@ -127,8 +128,9 @@ export function CadastroDespesa() {
 
                         const bancosCadastrados = await buscarBancoPorNome();
                         setArrayBancos(bancosCadastrados)
-
-                        if(verificaOrigem === "Transferência" ) {
+                        console.log("dados de origem: "+watch('categoriaTransacao'))
+                        console.log("dados de bancarios: "+watch('dadosBancariosOrigem'))
+                        if(watch('categoriaTransacao') === "Transferência" ) {
                             setConfigOrigem("Transferência")
                         } else if(verificaOrigem === "Pix") {
                             setConfigOrigem("Pix")
@@ -215,23 +217,28 @@ export function CadastroDespesa() {
     };
 
     const onSubmit = async (data: IFormInputs) => {
-        const jsonData = {
-            id: id || null,
-            contaInterna: data.contaInterna,
-            categoria: data.categoria,
-            titulo_contabil: data.tituloContabil,
-            dataDespesa: data.dataDespesa,
-            valorDespesa: data.valorDespesa,
-            categoriaTransacao: data.categoriaTransacao,
-            bancoOrigem: data.bancoOrigem,
-            dadosBancariosOrigem: data.dadosBancariosOrigem,
-            beneficiario: data.beneficiario,
-            bancoDestino: data.bancoDestino,
-            agenciaDestino: data.agenciaDestino,
-            numeroContaDestino: data.numeroContaDestino,
-            descricao: data.descricao
-        };
-        verificaContaInterna(jsonData, id ? "editarDespesa" : "salvarDespesa");
+        id = id || '';
+
+        setErro(false);
+        let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
+            data.categoria,
+            data.tituloContabil,
+            data.dataDespesa,
+            data.valorDespesa,
+            data.categoriaTransacao,
+            data.bancoOrigem,
+            data.dadosBancariosOrigem,
+            data.beneficiario,
+            data.bancoDestino,
+            data.agenciaDestino,
+            data.numeroContaDestino,
+            data.descricao);
+        if (validacaoResultado) {
+            console.error('Algum dos dados está nulo.');
+            setErro(true);
+            return;
+        }
+
     };
 
     const handleOrigem = async (dado: any) => {
@@ -274,13 +281,20 @@ export function CadastroDespesa() {
                         <div
                             className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                                {erro && (
+                                    <>
+                                        <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
+                                            <p className={"text-black font-medium"}>Prencha todos os campos.</p>
+                                        </div>
+                                    </>
+                                )}
+
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayContaInterna}
                                               placeholder={Titulos.INPUT_CONTA_INTERNA.toString()}
                                               valorSelecionado={watch('contaInterna')}
                                               onGenericoSelect={handleContaInterna}/>
                                 </div>
-                                {/*<div className="line"></div>*/}
 
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayCategoria}

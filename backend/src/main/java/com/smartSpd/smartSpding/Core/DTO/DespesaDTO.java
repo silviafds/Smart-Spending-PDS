@@ -41,25 +41,6 @@ public class DespesaDTO {
         this.descricao = descricao;
     }
 
-    public DespesaDTO(ContaInterna contaInterna, String categoria, String titulo_contabil,
-                      LocalDate dataDespesa, Double valorDespesa, String categoriaTransacao, String bancoOrigem,
-                      String dadosBancariosOrigem, String beneficiario, String bancoDestino, String agenciaDestino,
-                      String numeroContaDestino, String descricao) {
-        this.contaInterna = contaInterna;
-        this.categoria = categoria;
-        this.titulo_contabil = titulo_contabil;
-        this.dataDespesa = dataDespesa;
-        this.valorDespesa = valorDespesa;
-        this.categoriaTransacao = categoriaTransacao;
-        this.bancoOrigem = bancoOrigem;
-        this.dadosBancariosOrigem = dadosBancariosOrigem;
-        this.beneficiario = beneficiario;
-        this.bancoDestino = bancoDestino;
-        this.agenciaDestino = agenciaDestino;
-        this.numeroContaDestino = numeroContaDestino;
-        this.descricao = descricao;
-    }
-
     public Long getId() {
         return id;
     }

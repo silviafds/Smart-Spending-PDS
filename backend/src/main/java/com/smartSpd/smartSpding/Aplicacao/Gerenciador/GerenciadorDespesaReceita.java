@@ -2,7 +2,6 @@ package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDespesaReceitaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.jdbc.core.JdbcTemplate;

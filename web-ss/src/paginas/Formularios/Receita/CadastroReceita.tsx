@@ -11,6 +11,7 @@ import {verificaContaInterna} from "../../../logica/API/ContaInterna/ContaIntern
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";
 import {useParams} from "react-router-dom";
+import {validaDadosSubmissao} from "../../../logica/Validacoes/CadastroReceitaValidacao";
 
 interface IFormInputs {
     contaInterna: string;
@@ -31,6 +32,8 @@ interface IFormInputs {
 }
 
 export function CadastroReceita() {
+    const [erro, setErro] = useState<boolean>(false);
+
     let { id } = useParams();
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
     const [fetchDataComplete, setFetchDataComplete] = useState(false);
@@ -229,6 +232,9 @@ export function CadastroReceita() {
     }
 
     const onSubmit = async (data: IFormInputs) => {
+        id = id || '';
+
+        setErro(false);
         const jsonData = {
             id: id || null,
             contaInterna: data.contaInterna,
@@ -236,6 +242,7 @@ export function CadastroReceita() {
             titulo_contabil: data.tituloContabil,
             dataReceita: data.dataReceita,
             valorReceita: data.valorReceita,
+            pagador: data.pagador,
             origem: data.origem,
             bancoOrigem: data.bancoOrigem,
             agenciaOrigem: data.agenciaOrigem,
@@ -245,7 +252,28 @@ export function CadastroReceita() {
             descricao: data.descricao
         };
 
-        verificaContaInterna(jsonData, id ? "editarReceita" : "salvarReceita");
+        setErro(false);
+        let validacaoResultado = validaDadosSubmissao(
+            id,
+            data.contaInterna,
+            data.categoria,
+            data.tituloContabil,
+            data.dataReceita,
+            data.valorReceita,
+            data.pagador,
+            data.origem,
+            data.bancoOrigem,
+            data.agenciaOrigem,
+            data.contaOrigem,
+            data.bancoDestino,
+            data.dadosBancarios,
+            data.descricao
+        )
+        if (validacaoResultado) {
+            console.error('Algum dos dados está nulo.');
+            setErro(true);
+            return;
+        }
     };
 
     return (
@@ -264,6 +292,14 @@ export function CadastroReceita() {
                         <div
                             className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                                {erro && (
+                                    <>
+                                        <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
+                                            <p className={"text-black font-medium"}>Prencha todos os campos.</p>
+                                        </div>
+                                    </>
+                                )}
+
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayContaInterna}
                                               placeholder={Titulos.INPUT_CONTA_INTERNA.toString()}

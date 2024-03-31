@@ -31,7 +31,7 @@ public class DespesaUnitTest {
     @DisplayName("Cadastro de Despesa Test")
     public void testCadastrarDespesa() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        DespesaDTO despesaDTO = new DespesaDTO(contaInterna, "Despesas Fixas", "Internet",
+        DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 "Corrente/0044/12345678", "Claro", "Banco Bradesco",
                 "", "", "internet");
@@ -64,7 +64,7 @@ public class DespesaUnitTest {
     @DisplayName("Buscar Titúlos Contábeis de Despesa Test")
     public void testBuscarTituloContabilDespesa() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
-        DespesaDTO despesaDTO = new DespesaDTO(contaInterna, "Despesas Fixas", "Internet",
+        DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco Bradesco",
                 "Corrente/1258/0001258", "Claro", "Banco Bradesco",
                 "", "", "internet");
@@ -78,7 +78,7 @@ public class DespesaUnitTest {
     public void testDadosBancariosOrigemNotNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
 
-        DespesaDTO despesaDTO = new DespesaDTO(contaInterna, "Despesas Fixas", "Internet",
+        DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 "Conta Corrente/0044/12345678", "Claro", "Banco Bradesco",
                 "", "", "internet");
@@ -91,7 +91,7 @@ public class DespesaUnitTest {
     public void testDadosBancariosOrigemIsNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
 
-        DespesaDTO despesaDTO = new DespesaDTO(contaInterna, "Despesas Fixas", "Internet",
+        DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 null, "Claro", "Banco Bradesco",
                 "", "", "internet");

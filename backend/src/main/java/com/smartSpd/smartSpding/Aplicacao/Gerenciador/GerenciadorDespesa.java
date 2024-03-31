@@ -2,25 +2,26 @@ package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Despesa;
+import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PIX;
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.TRANSFERENCIA;
+
 @Component
 public class GerenciadorDespesa {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     public String[] reformulaDadosBancarios(String dadosBancariosOrigem, String tipoTransacao) {
-        if(Objects.equals(tipoTransacao, "Pix") || Objects.equals(tipoTransacao, "Transferência")) {
-            if (dadosBancariosOrigem != null) {
-                return dadosBancariosOrigem.split("/");
-            } else {
-                throw new NullPointerException("Os dados bancários de destino não podem ser nulos.");
-            }
+        if (dadosBancariosOrigem != null) {
+            return dadosBancariosOrigem.split("/");
+        } else {
+            throw new NullPointerException("Os dados bancários de destino não podem ser nulos.");
         }
-        return new String[]{};
     }
 
     public Despesa mapeiaDTOparaDespesa(DespesaDTO data, String[] dadosReformulados) {
@@ -78,17 +79,25 @@ public class GerenciadorDespesa {
         }
     }
 
-    public void validarCamposObrigatorios(DespesaDTO data) {
-        if (data.getContaInterna() == null ||
-                data.getCategoria() == null ||
-                data.getTitulo_contabil() == null ||
-                data.getBeneficiario() == null ||
-                data.getCategoriaTransacao() == null ||
-                data.getDescricao() == null ||
-                data.getDataDespesa() == null ||
-                data.getValorDespesa() <= 0) {
-            log.severe("Um ou mais campos obrigatórios estão vazios.");
-            throw new IllegalArgumentException("Campos obrigatórios não podem ser nulos ou vazios.");
+    public void validarCamposObrigatorios(DespesaDTO data) throws Excecoes {
+        if (data.getCategoriaTransacao() == null || data.getCategoriaTransacao().isEmpty()) {
+            log.severe("Há algo de errado com a categoria de transação.");
+            Excecoes.validarCampoNuloOuVazio(data.getCategoriaTransacao(),"O campo de categoria de transação está vazio ou nulo");
+        } else if (data.getCategoriaTransacao().equals(PIX.toString()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.toString())) {
+            if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
+                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
+                data.getCategoriaTransacao() == null || data.getDescricao() == null) {
+                log.severe("Um ou mais campos obrigatórios estão vazios.");
+                Excecoes.validarCampoNuloOuVazio(data.getCategoriaTransacao(),"Um ou mais campos obrigatórios estão vazios.");
+            }
+        } else {
+            if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
+                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBancoOrigem() == null ||
+                data.getDadosBancariosOrigem() == null || data.getBeneficiario() == null || data.getCategoriaTransacao() == null ||
+                data.getDescricao() == null) {
+                log.severe("Um ou mais campos obrigatórios estão vazios.");
+                Excecoes.validarCampoNuloOuVazio(data.getCategoriaTransacao(),"Um ou mais campos obrigatórios estão vazios.");
+            }
         }
     }
 
@@ -104,7 +113,5 @@ public class GerenciadorDespesa {
             throw new IllegalArgumentException("ID de despesa está nulo.");
         }
     }
-
-
 
 }

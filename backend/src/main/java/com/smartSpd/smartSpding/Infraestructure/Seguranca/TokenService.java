@@ -38,7 +38,7 @@ public class TokenService {
 
     public String validateToken(String token){
         try {
-            System.out.println("Token recebido para validação: " + token);
+            /*System.out.println("Token recebido para validação: " + token);*/
 
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String subject = JWT.require(algorithm)
@@ -51,7 +51,7 @@ public class TokenService {
             if (tokenBlacklist.contains(token)) {
                 throw new JWTVerificationException("Token in blacklist");
             }
-            System.out.println("Login recuperado com sucesso: " + subject);
+            /*System.out.println("Login recuperado com sucesso: " + subject);*/
 
             return subject;
         } catch (JWTVerificationException exception){

@@ -20,6 +20,8 @@ import {CiEdit} from "react-icons/ci";
 import {buscarTodasReceitas} from "../../logica/API/Receita/ReceitaAPI";
 import {buscarTodasDespesas} from "../../logica/API/Despesa/DespesaAPI";
 import {useNavigate} from "react-router-dom";
+import  Loading  from "../../componentes/Loading";
+
 
 interface DataIndexable {
     [key: string]: string | number | Date | boolean | any;
@@ -43,6 +45,8 @@ interface Data extends DataIndexable {
 }
 
 function Despesa() {
+    const [loading, setLoading] = useState(true);
+
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [dadosDespesa, setDadosDespesa] = useState<any[]>([]);
     const [open, setOpen] = useState(-1);
@@ -52,6 +56,12 @@ function Despesa() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }, []);
 
     useEffect(() => {
         const storageUser = localStorage.getItem('nomeUser');
@@ -110,151 +120,210 @@ function Despesa() {
 
     return (
         <div>
-            <HeaderPadrao nomeUsuario={nomeUsuario}/>
-            <div className={"flex"}>
-                <Sidebar/>
-                <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
-                    <div className={"flex justify-between"}>
-                        <h1 className={"text-2xl font-semibold"}> Listagem de Despesas </h1>
-                        <Ajuda tipoAjuda={AjudaEnum.DEFINICAO_DESPESA}/>
-                    </div>
-                    <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
+            {loading ? (
+                <Loading/>
+            ) : (
+                <div>
+                    <HeaderPadrao nomeUsuario={nomeUsuario}/>
+                    <div className={"flex"}>
+                        <Sidebar/>
+                        <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
+                            <div className={"flex justify-between"}>
+                                <h1 className={"text-2xl font-semibold"}> Listagem de Despesas </h1>
+                                <Ajuda tipoAjuda={AjudaEnum.DEFINICAO_DESPESA}/>
+                            </div>
+                            <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
-                    <button className="bg-principal hover:bg-sky-800 text-white p-2 w-24 rounded-md"
-                            onClick={handleCadastro}>
-                        Cadastrar
-                    </button>
+                            <button className="bg-principal hover:bg-sky-800 text-white p-2 w-24 rounded-md"
+                                    onClick={handleCadastro}>
+                                Cadastrar
+                            </button>
 
-                    <div className="mt-10 w-full max-w-6xl ">
-                        <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
-                            <FormControl sx={{minWidth: 120, marginRight: '10px'}}>
-                                <InputLabel id="filter-field-label" sx={{marginTop: '-15px'}}></InputLabel>
-                                <Select
-                                    labelId="filter-field-label"
-                                    id="filter-field-select"
-                                    value={filterField}
-                                    onChange={(e) => setFilterField(e.target.value as string)}
-                                >
-                                    <MenuItem value="categoriaTransacao">Origem</MenuItem>
-                                    <MenuItem value="categoria">Categoria</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                label="Filtrar"
-                                value={filterValue}
-                                onChange={(e) => setFilterValue(e.target.value)}
-                            />
-                        </Box>
-                        <TableContainer component={Paper} sx={{width: '100%', overflow: 'hidden', padding: '9px'}}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow sx={{backgroundColor: "rgba(211,211,211,.2)"}}>
-                                        <TableCell>Detalhes</TableCell>
-                                        <TableCell>Categoria</TableCell>
-                                        <TableCell>Título Contábil</TableCell>
-                                        <TableCell>Origem</TableCell>
-                                        <TableCell>Beneficiário</TableCell>
-                                        <TableCell>Data</TableCell>
-                                        <TableCell>Valor $</TableCell>
-                                        <TableCell>Descrição</TableCell>
-                                        <TableCell>Ação</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {(rowsPerPage > 0
-                                            ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            : filteredData
-                                    ).map((receita, index) => (
-                                        <>
-                                            <TableRow key={receita.id}>
-                                                <TableCell>
-                                                    <IconButton
-                                                        aria-label="expand row"
-                                                        size="small"
-                                                        onClick={() => setOpen(open === index ? -1 : index)}
-                                                    >
-                                                        {open === index ? (
-                                                            <MdOutlineKeyboardArrowUp/>
-                                                        ) : (
-                                                            <MdOutlineKeyboardArrowDown/>
-                                                        )}
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell>{receita.categoria}</TableCell>
-                                                <TableCell>{receita.titulo_contabil}</TableCell>
-                                                <TableCell>{receita.categoriaTransacao}</TableCell>
-                                                <TableCell>{receita.beneficiario}</TableCell>
-                                                <TableCell>{receita.dataFormatada}</TableCell>
-                                                <TableCell>
-                                                    {new Intl.NumberFormat('pt-BR', {
-                                                        style: 'currency',
-                                                        currency: 'BRL'
-                                                    }).format(receita.valorDespesa)}
-                                                </TableCell>
-                                                <TableCell>{receita.descricao}</TableCell>
-                                                <TableCell key={receita.id} align={receita.align}>
-                                                    <IconButton
-                                                        aria-label="Editar"
-                                                        onClick={() => handleEdit(receita.id)}
-                                                    >
-                                                        <CiEdit/>
-                                                    </IconButton>
-                                                </TableCell>
+                            <div className="mt-10 w-full max-w-6xl ">
+                                <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                                    <FormControl sx={{minWidth: 120, marginRight: '10px'}}>
+                                        <InputLabel id="filter-field-label" sx={{marginTop: '-15px'}}></InputLabel>
+                                        <Select
+                                            labelId="filter-field-label"
+                                            id="filter-field-select"
+                                            value={filterField}
+                                            onChange={(e) => setFilterField(e.target.value as string)}
+                                        >
+                                            <MenuItem value="categoriaTransacao">Origem</MenuItem>
+                                            <MenuItem value="categoria">Categoria</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <TextField
+                                        label="Filtrar"
+                                        value={filterValue}
+                                        onChange={(e) => setFilterValue(e.target.value)}
+                                    />
+                                </Box>
+                                <TableContainer component={Paper}
+                                                sx={{width: '100%', overflow: 'hidden', padding: '9px'}}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow sx={{backgroundColor: "rgba(211,211,211,.2)"}}>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Detalhes</TableCell>
+                                                <TableCell
+                                                    sx={{fontSize: '16px', fontWeight: 600}}>Categoria</TableCell>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Título
+                                                    Contábil</TableCell>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Origem</TableCell>
+                                                <TableCell
+                                                    sx={{fontSize: '16px', fontWeight: 600}}>Beneficiário</TableCell>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Data</TableCell>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Valor $</TableCell>
+                                                <TableCell
+                                                    sx={{fontSize: '16px', fontWeight: 600}}>Descrição</TableCell>
+                                                <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Ação</TableCell>
                                             </TableRow>
-                                            <TableRow>
-                                                <TableCell colSpan={7}
-                                                           sx={{paddingBottom: 0, paddingTop: 0, border: '0px'}}>
-                                                    <Collapse in={open === index} timeout="auto" unmountOnExit>
-                                                        <Box sx={{width: '100%', overflow: 'hidden', padding: '9px'}}>
-                                                            <Table>
-                                                                <TableHead>
-                                                                    <TableRow sx={{backgroundColor: "#f7f9fc"}}>
-                                                                        <TableCell>Conta Interna</TableCell>
-                                                                        <TableCell>Tipo Conta</TableCell>
-                                                                        <TableCell>Banco Origem</TableCell>
-                                                                        <TableCell>Agencia Origem</TableCell>
-                                                                        <TableCell>Nº Conta Origem</TableCell>
-                                                                        <TableCell>Banco Destino</TableCell>
-                                                                        <TableCell>Agencia Destino</TableCell>
-                                                                        <TableCell>Nº Conta Destino</TableCell>
-                                                                    </TableRow>
-                                                                </TableHead>
-                                                                <TableBody>
-                                                                    <TableRow key={receita.id}>
-                                                                        <TableCell>{receita.contaInterna.nome}</TableCell>
-                                                                        <TableCell>{receita.tipoContaOrigem}</TableCell>
-                                                                        <TableCell>{receita.bancoOrigem}</TableCell>
-                                                                        <TableCell>{receita.agenciaOrigem}</TableCell>
-                                                                        <TableCell>{receita.numeroContaOrigem}</TableCell>
-                                                                        <TableCell>{receita.bancoDestino}</TableCell>
-                                                                        <TableCell>{receita.agenciaDestino}</TableCell>
-                                                                        <TableCell>{receita.numeroContaDestino}</TableCell>
-                                                                    </TableRow>
-                                                                </TableBody>
-                                                            </Table>
-                                                        </Box>
-                                                    </Collapse>
-                                                </TableCell>
-                                            </TableRow>
-                                        </>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={filteredData.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                labelRowsPerPage=""
-                            />
-                        </TableContainer>
+                                        </TableHead>
+                                        <TableBody>
+                                            {(rowsPerPage > 0
+                                                    ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                    : filteredData
+                                            ).map((receita, index) => (
+                                                <>
+                                                    <TableRow key={receita.id}>
+                                                        <TableCell>
+                                                            <IconButton
+                                                                aria-label="expand row"
+                                                                size="small"
+                                                                onClick={() => setOpen(open === index ? -1 : index)}
+                                                            >
+                                                                {open === index ? (
+                                                                    <MdOutlineKeyboardArrowUp/>
+                                                                ) : (
+                                                                    <MdOutlineKeyboardArrowDown/>
+                                                                )}
+                                                            </IconButton>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.categoria}</TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.titulo_contabil}</TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.categoriaTransacao}</TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.beneficiario}</TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.dataFormatada}</TableCell>
+                                                        <TableCell sx={{fontSize: '16px'}}>
+                                                            {new Intl.NumberFormat('pt-BR', {
+                                                                style: 'currency',
+                                                                currency: 'BRL'
+                                                            }).format(receita.valorDespesa)}
+                                                        </TableCell>
+                                                        <TableCell
+                                                            sx={{fontSize: '16px'}}>{receita.descricao}</TableCell>
+                                                        <TableCell key={receita.id} align={receita.align}>
+                                                            <IconButton
+                                                                aria-label="Editar"
+                                                                onClick={() => handleEdit(receita.id)}
+                                                            >
+                                                                <CiEdit/>
+                                                            </IconButton>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow>
+                                                        <TableCell colSpan={7}
+                                                                   sx={{
+                                                                       paddingBottom: 0,
+                                                                       paddingTop: 0,
+                                                                       border: '0px'
+                                                                   }}>
+                                                            <Collapse in={open === index} timeout="auto" unmountOnExit>
+                                                                <Box sx={{
+                                                                    width: '100%',
+                                                                    overflow: 'hidden',
+                                                                    padding: '9px'
+                                                                }}>
+                                                                    <Table>
+                                                                        <TableHead>
+                                                                            <TableRow sx={{backgroundColor: "#f7f9fc"}}>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Conta Interna</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Tipo Conta</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Banco Origem</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Agencia Origem</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Nº Conta Origem</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Banco Destino</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Agencia Destino</TableCell>
+                                                                                <TableCell sx={{
+                                                                                    fontSize: '16px',
+                                                                                    fontWeight: 600
+                                                                                }}>Nº Conta Destino</TableCell>
+                                                                            </TableRow>
+                                                                        </TableHead>
+                                                                        <TableBody>
+                                                                            <TableRow key={receita.id}>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.contaInterna.nome}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.tipoContaOrigem}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.bancoOrigem}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.agenciaOrigem}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.numeroContaOrigem}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.bancoDestino}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.agenciaDestino}</TableCell>
+                                                                                <TableCell
+                                                                                    sx={{fontSize: '16px'}}>{receita.numeroContaDestino}</TableCell>
+                                                                            </TableRow>
+                                                                        </TableBody>
+                                                                    </Table>
+                                                                </Box>
+                                                            </Collapse>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25]}
+                                        component="div"
+                                        count={filteredData.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                        labelRowsPerPage=""
+                                    />
+                                </TableContainer>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
+
+
     );
 }
 

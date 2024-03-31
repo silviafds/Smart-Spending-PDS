@@ -26,7 +26,6 @@ export async function verificaContaInterna(DadosJsonReceita: any, tipo: string) 
                 contaEncontrada.desabilitarConta
             );
             DadosJsonReceita.contaInterna = contaInternaEncontrada;
-            console.log("fdgdfgfdg"+DadosJsonReceita)
             switch (tipo) {
                 case "salvarReceita":
                     await salvarReceita(DadosJsonReceita);

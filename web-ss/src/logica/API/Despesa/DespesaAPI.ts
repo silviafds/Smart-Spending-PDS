@@ -117,6 +117,7 @@ export async function buscarTodasDespesas() {
 
 export async function editarDespesa(jsonString: any) {
     try {
+        console.log("tentando editar despesa")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.patch(BACKEND_URL + "/despesa/editarDespesa", jsonString, axiosConfig)
             .then((response) => {

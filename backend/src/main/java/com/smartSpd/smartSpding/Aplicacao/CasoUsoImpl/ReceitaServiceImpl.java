@@ -6,6 +6,7 @@ import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import com.smartSpd.smartSpding.Core.Dominio.TituloContabilReceita;
+import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
@@ -19,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PIX;
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.TRANSFERENCIA;
 
 @Component
 public class ReceitaServiceImpl implements ReceitaService {
@@ -36,16 +40,23 @@ public class ReceitaServiceImpl implements ReceitaService {
 
     @Transactional
     @Override
-    public Boolean cadastrarReceita(ReceitaDTO data) {
-        if (data.getId() == null) {
-            try {
-                String[] dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
+    public Boolean cadastrarReceita(ReceitaDTO data) throws Excecoes {
+        try {
+            gerenciadorReceita.validarCamposObrigatorios(data);
+            if (data.getId() == null) {
+                String[] dadosReformulados = new String[0];
+                if(data.getOrigem().equals(PIX.getMeiosPagamento()) || data.getOrigem().equals(TRANSFERENCIA.getMeiosPagamento())) {
+                    dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
+                }
                 Receita receita = gerenciadorReceita.mapeiaDTOparaReceita(data, dadosReformulados);
                 receitaRepository.save(receita);
                 return true;
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "Erro ao cadastrar nova receita no service. ", e);
             }
+
+        } catch (Excecoes e) {
+            throw e;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar nova receita no service. ", e);
         }
         return false;
     }
@@ -72,24 +83,46 @@ public class ReceitaServiceImpl implements ReceitaService {
     }
 
     public void salvarReceitaEditada(ReceitaDTO data, String[] dadosReformulados) {
-        receitaRepository.editarReceita(
-                data.getId(),
-                data.getCategoria(),
-                data.getTitulo_contabil(),
-                data.getDataReceita(),
-                data.getValorReceita(),
-                data.getPagador(),
-                data.getOrigem(),
-                data.getBancoOrigem(),
-                data.getAgenciaOrigem(),
-                data.getNumeroContaOrigem(),
-                data.getBancoDestino(),
-                dadosReformulados[0],
-                dadosReformulados[1],
-                dadosReformulados[2],
-                data.getDescricao(),
-                data.getContaInterna()
-        );
+
+        if(data.getOrigem().equals("Cheque") || data.getOrigem().equals("Papel e moeda")) {
+            receitaRepository.editarReceita(
+                    data.getId(),
+                    data.getCategoria(),
+                    data.getTitulo_contabil(),
+                    data.getDataReceita(),
+                    data.getValorReceita(),
+                    data.getPagador(),
+                    data.getOrigem(),
+                    data.getBancoOrigem(),
+                    data.getAgenciaOrigem(),
+                    data.getNumeroContaOrigem(),
+                    data.getBancoDestino(),
+                    "",
+                    "",
+                    "",
+                    data.getDescricao(),
+                    data.getContaInterna()
+            );
+        } else {
+            receitaRepository.editarReceita(
+                    data.getId(),
+                    data.getCategoria(),
+                    data.getTitulo_contabil(),
+                    data.getDataReceita(),
+                    data.getValorReceita(),
+                    data.getPagador(),
+                    data.getOrigem(),
+                    data.getBancoOrigem(),
+                    data.getAgenciaOrigem(),
+                    data.getNumeroContaOrigem(),
+                    data.getBancoDestino(),
+                    dadosReformulados[0],
+                    dadosReformulados[1],
+                    dadosReformulados[2],
+                    data.getDescricao(),
+                    data.getContaInterna()
+            );
+        }
     }
 
     @Transactional

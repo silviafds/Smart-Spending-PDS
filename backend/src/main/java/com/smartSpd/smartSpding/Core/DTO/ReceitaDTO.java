@@ -39,24 +39,6 @@ public class ReceitaDTO {
         this.descricao = descricao;
     }
 
-    public ReceitaDTO(ContaInterna contaInterna, String categoria, String titulo_contabil, LocalDate dataReceita,
-                      Double valorReceita, String pagador, String origem, String bancoOrigem, String agenciaOrigem,
-                      String numeroContaOrigem, String bancoDestino, String dadosBancariosDestino, String descricao) {
-        this.contaInterna = contaInterna;
-        this.categoria = categoria;
-        this.titulo_contabil = titulo_contabil;
-        this.dataReceita = dataReceita;
-        this.valorReceita = valorReceita;
-        this.pagador = pagador;
-        this.origem = origem;
-        this.bancoOrigem = bancoOrigem;
-        this.agenciaOrigem = agenciaOrigem;
-        this.numeroContaOrigem = numeroContaOrigem;
-        this.bancoDestino = bancoDestino;
-        this.dadosBancariosDestino = dadosBancariosDestino;
-        this.descricao = descricao;
-    }
-
     public Long getId() {
         return id;
     }

@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 3000.00,\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco Ricco\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"descricao\": \"Lucro com venda de dollar\"\n}",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 3000.00,\n    \"pagador\": \"financeira ricco\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco Ricco\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"descricao\": \"Lucro com venda de dollar\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,7 +334,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 68,\n    \"contaInterna\": {\n        \"id\": 42,\n        \"nome\": \"conta 5\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 1200.00,\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco Inter\",\n    \"dadosBancariosDestino\": \"Investimento/1027/10275678\",\n    \"descricao\": \"Lucro com venda de euro\"\n}",
+							"raw": "{\n    \"id\": 73,\n    \"contaInterna\": {\n        \"id\": 42,\n        \"nome\": \"conta 5\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 12,\n    \"pagador\": \"loja um\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco Inter\",\n    \"dadosBancariosDestino\": \"Investimento/1027/10275678\",\n    \"descricao\": \"Lucro com venda de euro\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -874,7 +874,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataDespesa\": \"2024-03-22\",\n    \"valorDespesa\": 6000.00,\n    \"tipoContaOrigem\": \"Corrente\",\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra eletronico\"\n}",
+							"raw": "{\n    \"id\": 72,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataDespesa\": \"2024-03-22\",\n    \"valorDespesa\": 900,\n    \"pagador\": \"loja um\",\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosOrigem\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra eletronico\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -913,7 +913,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Lazer\",\n    \"titulo_contabil\": \"Festa\",\n    \"dataDespesa\": \"2024-03-23\",\n    \"valorDespesa\": 1000.00,\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosOrigem\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Quiosque\",\n    \"bancoDestino\": \"Nubank\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"festa na praia\"\n}",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-03-24\",\n    \"valorDespesa\": 99.99,\n    \"categoriaTransacao\": \"Papel e moeda\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1026,6 +1026,99 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Balanços",
+			"item": [
+				{
+					"name": "Despesas",
+					"item": [
+						{
+							"name": "Meios de pagamento mais utilizados Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa\",\n    \"analiseBalanco\": \"sfsdfafa\",\n    \"dataInicio\": \"2024-03-02\",\n    \"dataTermino\": \"2024-03-25\",\n    \"tipoVisualizacao\": \"grafico\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"balancoDespesa",
+										"registroBalancoRapido"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Despesa e receita",
+					"item": [
+						{
+							"name": "buscar balanço",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa e Receita\",\n    \"analiseBalanco\": \"sfsdfafa\",\n    \"dataInicio\": \"2024-03-07\",\n    \"dataTermino\": \"2024-03-23\",\n    \"tipoVisualizacao\": \"grafico\",\n    \"categoriaOuTituloContabil\": \"Categoria\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"balancoDespesa",
+										"registroBalancoRapido"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

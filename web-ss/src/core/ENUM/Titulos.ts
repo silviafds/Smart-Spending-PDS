@@ -12,6 +12,7 @@ export enum Titulos {
     INPUT_CONTA_DESTINO = ("Informe a conta de Destino"),
     INPUT_BANCO = ("Selecione o Banco de Destino"),
     INPUT_DESCRICAO_RECEITA = ("Descreva sobre a Receita"),
+    INPUT_DADOS_ORIGEM = ("Selecione o tipo/agencia/número de origem"),
     INPUT_DADOS_BANCARIOS = ("Selecione o tipo/agencia/número de destino"),
     INPUT_DATA_RECEITA = ("Informe a data"),
     INPUT_VALOR_RECEITA = ("Digite o valor da receita"),

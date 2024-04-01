@@ -403,14 +403,14 @@ export function CadastroDespesa() {
                                     <>
                                         <div className="inputs relative my-4">
                                             <Selector dado={arrayBancos}
-                                                      placeholder={Titulos.INPUT_BANCO.toString()}
+                                                      placeholder={Titulos.INPUT_BANCO_ORIGEM.toString()}
                                                       valorSelecionado={watch('bancoOrigem')}
                                                       onGenericoSelect={handleBancoOrigem}/>
                                         </div>
                                         <div className="inputs relative my-4">
                                             <div className="inputs relative my-4">
                                                 <Selector dado={arrayDadosBancarios}
-                                                          placeholder={Titulos.INPUT_DADOS_BANCARIOS.toString()}
+                                                          placeholder={Titulos.INPUT_DADOS_ORIGEM.toString()}
                                                           valorSelecionado={watch('dadosBancariosOrigem')}
                                                           onGenericoSelect={handleGenericoDadosBancarios}/>
                                             </div>

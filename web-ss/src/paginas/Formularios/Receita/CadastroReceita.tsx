@@ -29,6 +29,7 @@ interface IFormInputs {
     contaDestino: string;
     dadosBancarios: string;
     descricao: string;
+    erro: boolean;
 }
 
 export function CadastroReceita() {
@@ -233,26 +234,7 @@ export function CadastroReceita() {
 
     const onSubmit = async (data: IFormInputs) => {
         id = id || '';
-
-        setErro(false);
-        const jsonData = {
-            id: id || null,
-            contaInterna: data.contaInterna,
-            categoria: data.categoria,
-            titulo_contabil: data.tituloContabil,
-            dataReceita: data.dataReceita,
-            valorReceita: data.valorReceita,
-            pagador: data.pagador,
-            origem: data.origem,
-            bancoOrigem: data.bancoOrigem,
-            agenciaOrigem: data.agenciaOrigem,
-            numeroContaOrigem: data.contaOrigem,
-            bancoDestino: data.bancoDestino,
-            dadosBancariosDestino: data.dadosBancarios,
-            descricao: data.descricao
-        };
-
-        setErro(false);
+        setValue('erro', false);
         let validacaoResultado = validaDadosSubmissao(
             id,
             data.contaInterna,
@@ -271,7 +253,7 @@ export function CadastroReceita() {
         )
         if (validacaoResultado) {
             console.error('Algum dos dados está nulo.');
-            setErro(true);
+            setValue('erro', true);
             return;
         }
     };
@@ -292,7 +274,7 @@ export function CadastroReceita() {
                         <div
                             className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                                {erro && (
+                                {watch('erro') == true  && (
                                     <>
                                         <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
                                             <p className={"text-black font-medium"}>Prencha todos os campos.</p>
@@ -306,8 +288,6 @@ export function CadastroReceita() {
                                               valorSelecionado={watch('contaInterna')}
                                               onGenericoSelect={handleContaInterna}/>
                                 </div>
-                                <div className="line"></div>
-
 
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayCategoria}

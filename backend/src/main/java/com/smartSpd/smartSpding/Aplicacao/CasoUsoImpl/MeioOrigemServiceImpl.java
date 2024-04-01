@@ -40,7 +40,7 @@ public class MeioOrigemServiceImpl implements MeioOrigemService {
                 while (rs.next()) {
                     String categoriaTransacao = rs.getString("categoria_transacao");
                     Long quantidadeTransacao = rs.getLong("quantidade_transacao");
-                    resultados.add(new BalancoDespesa(categoriaTransacao, quantidadeTransacao));
+                    resultados.add(new MeioOrigem(categoriaTransacao, quantidadeTransacao));
                 }
                 return resultados;
             }
@@ -48,10 +48,10 @@ public class MeioOrigemServiceImpl implements MeioOrigemService {
     }
 
     @Override
-    public List<BalancoDespesa> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO) {
-        List<BalancoDespesa> resultados = new ArrayList<>();
+    public List<MeioOrigem> balancoMeioOrigem(MeioOrigemDTO meioOrigemDTO) {
+        List<MeioOrigem> resultados = new ArrayList<>();
 
-        verificaDTO(balancoRapidoDTO);
+        verificaDTO(meioOrigemDTO);
 
         String sql = queryMeiosPagamento();
 
@@ -59,15 +59,15 @@ public class MeioOrigemServiceImpl implements MeioOrigemService {
             return jdbcTemplate.query(sql, new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                    preparedStatement.setDate(1, java.sql.Date.valueOf(balancoRapidoDTO.getDataInicio()));
-                    preparedStatement.setDate(2, java.sql.Date.valueOf(balancoRapidoDTO.getDataTermino()));
+                    preparedStatement.setDate(1, java.sql.Date.valueOf(meioOrigemDTO.getDataInicio()));
+                    preparedStatement.setDate(2, java.sql.Date.valueOf(meioOrigemDTO.getDataTermino()));
                 }
-            }, new ResultSetExtractor<List<BalancoDespesa>>() {
+            }, new ResultSetExtractor<List<MeioOrigem>>() {
                 @Override
-                public List<BalancoDespesa> extractData(ResultSet rs) throws SQLException {
+                public List<MeioOrigem> extractData(ResultSet rs) throws SQLException {
                     while (rs.next()) {
-                        BalancoDespesa balancoDespesa = extrairBalancoDespesa(rs, balancoRapidoDTO);
-                        resultados.add(balancoDespesa);
+                        MeioOrigem balancoMeioOrigem = extrairBalancoMeioOrigem(rs, meioOrigemDTO);
+                        resultados.add(balancoMeioOrigem);
                     }
                     return resultados;
                 }
@@ -79,20 +79,19 @@ public class MeioOrigemServiceImpl implements MeioOrigemService {
         return resultados;
     }
 
-    private BalancoDespesa extrairBalancoDespesa(ResultSet rs, BalancoRapidoDTO balancoRapidoDTO) throws SQLException {
+    private MeioOrigem extrairBalancoMeioOrigem(ResultSet rs, MeioOrigemDTO meioOrigemDTO) throws SQLException {
         String categoriaTransacao = rs.getString("categoria_transacao");
         Long valor = rs.getLong("valor");
 
-        BalancoDespesa balancoDespesa = new BalancoDespesa(categoriaTransacao, valor);
+        MeioOrigem meioOrigem = new MeioOrigem(categoriaTransacao, valor);
 
-        balancoDespesa.setNome(balancoRapidoDTO.getNome());
-        balancoDespesa.setTipoBalanco(balancoRapidoDTO.getTipoBalanco());
-        balancoDespesa.setAnaliseBalanco(balancoRapidoDTO.getAnaliseBalanco());
-        balancoDespesa.setDataInicio(balancoRapidoDTO.getDataInicio());
-        balancoDespesa.setDataTermino(balancoRapidoDTO.getDataTermino());
-        balancoDespesa.setTipoVisualizacao(balancoRapidoDTO.getTipoVisualizacao());
+        meioOrigem.setNome(meioOrigemDTO.getNome());
+        meioOrigem.setTipoBalanco(meioOrigemDTO.getTipoOrigem());
+        meioOrigem.setDataInicio(balancoRapidoDTO.getDataInicio());
+        meioOrigem.setDataTermino(balancoRapidoDTO.getDataTermino());
+        meioOrigem.setTipoVisualizacao(balancoRapidoDTO.getTipoVisualizacao());
 
-        return balancoDespesa;
+        return meioOrigem;
     }
 
     public String queryMeiosPagamento() {
@@ -101,15 +100,14 @@ public class MeioOrigemServiceImpl implements MeioOrigemService {
                 "GROUP BY categoria_transacao ORDER BY valor DESC";
     }
 
-    public void verificaDTO(BalancoRapidoDTO balancoRapidoDTO) {
-        if (balancoRapidoDTO == null ||
-                balancoRapidoDTO.getNome() == null ||
-                balancoRapidoDTO.getTipoBalanco() == null ||
-                balancoRapidoDTO.getAnaliseBalanco() == null ||
-                balancoRapidoDTO.getDataInicio() == null ||
-                balancoRapidoDTO.getDataTermino() == null ||
-                balancoRapidoDTO.getTipoVisualizacao() == null) {
-            throw new NullPointerException("Um dos campos de balancoRapidoDTO está vazio.");
+    public void verificaDTO(MeioOrigemDTO meioOrigemDTO) {
+        if (meioOrigemDTO == null ||
+        		meioOrigemDTO.getNome() == null ||
+        		meioOrigemDTO.getTipoOrigem() == null ||
+        		meioOrigemDTO.getDataInicio() == null ||
+        		meioOrigemDTO.getDataTermino() == null ||
+        		meioOrigemDTO.getTipoVisualizacao() == null) {
+            throw new NullPointerException("Um dos campos de meioOrigemDTO está vazio.");
         }
 
     }

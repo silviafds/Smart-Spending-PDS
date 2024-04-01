@@ -3,6 +3,11 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.MeioOrigemService;
 import com.smartSpd.smartSpding.Core.Classes.MeioOrigem;
 import com.smartSpd.smartSpding.Core.DTO.MeioOrigemDTO;
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -30,13 +35,13 @@ public class IdentificacaoMeioOrigemController {
 
     @PostMapping("/registroMeioOrigem")
     @Transactional
-    public ResponseEntity<?> registroMeioOrigem(@RequestBody @Valid MeioOrigemDTO MeioOrigemDTO) {
+    public ResponseEntity<?> registroMeioOrigem(@RequestBody @Valid MeioOrigemDTO meioOrigemDTO) {
         try {
-            if(MeioOrigemDTO.getTipoBalanco().equals("Origem")) {
-                List<MeioOrigem> meio = meioOrigemService.balancoMeiosPagamento(MeioOrigemDTO);
+        	if(meioOrigemDTO.getTipoOrigem().equals("Origem")) {
+                List<MeioOrigem> meio = meioOrigemService.balancoMeioOrigem(meioOrigemDTO);
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(meio);
+                        .body(balanco);
             }
 
         } catch (Exception e) {

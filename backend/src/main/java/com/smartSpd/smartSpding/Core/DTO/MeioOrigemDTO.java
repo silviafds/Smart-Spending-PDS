@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class BalancoRapidoDTO {
+public class MeioOrigemDTO {
     private String nome;
     private String tipoOrigem;
     private LocalDate dataInicio;

@@ -4,8 +4,10 @@ import Modal from '@mui/material/Modal';
 import {useForm} from "react-hook-form";
 import Selector from "../../../componentes/Selector";
 import {Titulos} from "../../../core/ENUM/Titulos";
-import {analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
-    balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum} from "../../../core/ENUM/TipoBalanco";
+import {
+    analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
+    balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum, AnaliseBalancoReceita, AnaliseBalancoDespesa
+} from "../../../core/ENUM/TipoBalanco";
 import {graficoEnum, TipoGrafico} from "../../../core/ENUM/TipoGrafico";
 import {criarBalancoRapidoDespesa} from "../../../logica/API/Despesa/BalancoDespesa";
 
@@ -34,7 +36,10 @@ interface IFormInputs {
     dataTermino: Date;
     tipoVisualizacao: string;
     categoriaOuTituloContabil: string;
+    categoriaOuTituloContabilDespesa: boolean;
+    categoriaOuTituloContabilReceita: boolean;
 }
+
 
 const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
 
@@ -50,7 +55,6 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
     } = useForm<IFormInputs>();
 
     const handleTipoBalanco = async (tipoBalanco: any) => {
-        console.log("entrei em tipo balanço: "+tipoBalanco.nome)
         if(tipoBalanco != null) {
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
@@ -59,7 +63,6 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                 setValue('tipoBalanco', tipoBalanco.nome);
                 setBalanco(tipoBalanco.nome)
             } else if (tipoBalanco.nome === TipoBalanco.DESPESA_RECEITA.toString()) {
-                console.log("entrei em tipo balanço de despesa e receita: "+tipoBalanco.nome)
                 setBalanco(tipoBalanco.nome)
                 setValue('tipoBalanco', tipoBalanco.nome);
             } else {
@@ -72,6 +75,14 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
     const handleBalanco = async (tipoBalanco: any) => {
         if(tipoBalanco != null) {
             setValue('analiseBalanco', tipoBalanco.nome);
+            if(tipoBalanco.nome === AnaliseBalancoDespesa.BUSCAR_TODAS_DESPESAS) {
+                setValue('categoriaOuTituloContabilDespesa', true)
+            } else if (tipoBalanco.nome === AnaliseBalancoReceita.BUSCAR_TODAS_RECEITAS) {
+                setValue('categoriaOuTituloContabilReceita', true)
+            } else {
+                setValue('categoriaOuTituloContabilDespesa', false)
+                setValue('categoriaOuTituloContabilReceita', false)
+            }
         }
     }
 
@@ -157,6 +168,21 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                               valorSelecionado={""} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
+
+                                {watch('categoriaOuTituloContabilDespesa') == true && (
+                                    <>
+                                        <div
+                                            className="inputs relative my-4">
+                                            <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
+                                                      placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
+                                                      valorSelecionado={""}
+                                                      onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
+                                            <div className="line"></div>
+                                        </div>
+                                    </>
+                                )}
+
+
                             </>
                         )}
 
@@ -169,6 +195,19 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                               valorSelecionado={""} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
+
+                                {watch('categoriaOuTituloContabilReceita') == true && (
+                                    <>
+                                        <div
+                                            className="inputs relative my-4">
+                                            <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
+                                                      placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
+                                                      valorSelecionado={""}
+                                                      onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
+                                            <div className="line"></div>
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
 

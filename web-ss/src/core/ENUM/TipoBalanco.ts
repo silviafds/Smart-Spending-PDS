@@ -12,10 +12,12 @@ export const balancoEnum = Object.values(TipoBalanco).map((tipo, index) => ({
 
 export enum AnaliseBalancoReceita {
     ORIGEM_MAIS_RENTAVEL = "Origens mais rentáveis",
+    BUSCAR_TODAS_RECEITAS = "Listagem receita por tempo"
 }
 
 export enum AnaliseBalancoDespesa {
     MAIORES_MEIOS_PAGAMENTO = "Pagamentos mais utilizados",
+    BUSCAR_TODAS_DESPESAS = "Listagem despesa por tempo"
 }
 
 export enum AnaliseBalancoDespesaReceita {

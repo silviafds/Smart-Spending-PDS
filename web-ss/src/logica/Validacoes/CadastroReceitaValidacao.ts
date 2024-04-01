@@ -12,7 +12,7 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
             titulo_contabil === null || titulo_contabil === undefined ||
             dataReceita === null || dataReceita === undefined ||
             valorReceita === null || valorReceita === undefined ||
-            bancoOrigem === null || bancoOrigem === undefined ||
+            bancoOrigem === undefined ||
             pagador === null || pagador === undefined ||
             dadosBancariosDestino === null || dadosBancariosDestino === undefined ||
             descricao === null || descricao === undefined

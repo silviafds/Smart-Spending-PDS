@@ -403,7 +403,7 @@ export function CadastroDespesa() {
                                     <>
                                         <div className="inputs relative my-4">
                                             <Selector dado={arrayBancos}
-                                                      placeholder={Titulos.INPUT_BANCO_ORIGEM.toString()}
+                                                      placeholder={Titulos.INPUT_BANCO_ORIGEM_DESPESA.toString()}
                                                       valorSelecionado={watch('bancoOrigem')}
                                                       onGenericoSelect={handleBancoOrigem}/>
                                         </div>

@@ -23,14 +23,14 @@
     color: #8c8989;
 }
 
-p {
+/*p {
     color: #bf1650;
-}
+}*/
 
-p::before {
+/*p::before {
     display: inline;
     content: "⚠ ";
-}
+}*/
 
 /* cor do botão de aviso de login/senha invalidos */
 .error-button {

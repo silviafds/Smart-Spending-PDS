@@ -4,14 +4,11 @@ import { Login } from "../../paginas/usuario/login";
 import CadastroUsuario from '../../paginas/usuario/cadastroUsuario';
 
 import { RotaPrivada } from "./rotaPrivada";
-import Home from "../../paginas/Principal/home";
+import Dashboard from "../../paginas/Principal/dashboard";
 import Receita from "../../paginas/Principal/Receita"
 import Despesa from "../../paginas/Principal/Despesa"
-import Metas from "../../paginas/Principal/Metas";
 import Projetos from "../../paginas/Principal/Projetos"
-import Patrimonio from "../../paginas/Principal/Patrimonio"
 import Balanco from "../../paginas/Principal/Balanco";
-import Dashboard from "../../paginas/Principal/Dashboard";
 import ContaInterna from "../../paginas/Principal/ContaInterna";
 import CadastroContaInterna from "../../paginas/Formularios/ContaInterna/CadastroContaInterna";
 import EditarContaInterna from "../../paginas/Formularios/ContaInterna/EditarContaInterna";
@@ -36,8 +33,8 @@ export const AppRouter = () => {
                 <Route path="/" element={<Login />} />
                 <Route path="/cadastrarUsuario" element={<CadastroUsuario />} />
 
-                <Route path="/home" element={<RotaPrivada />} >
-                    <Route path="/home" element={<Home />} />
+                <Route path="/dashboard" element={<RotaPrivada />} >
+                    <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
 
                 <Route path="/receita" element={<RotaPrivada />} >
@@ -56,16 +53,8 @@ export const AppRouter = () => {
                     <Route path="/despesa" element={<Despesa />} />
                 </Route>
 
-                <Route path="/metas" element={<RotaPrivada />} >
-                    <Route path="/metas" element={<Metas />} />
-                </Route>
-
                 <Route path="/projetos" element={<RotaPrivada />} >
                     <Route path="/projetos" element={<Projetos />} />
-                </Route>
-
-                <Route path="/patrimonio" element={<RotaPrivada />} >
-                    <Route path="/patrimonio" element={<Patrimonio />} />
                 </Route>
 
                 <Route path="/balanco" element={<RotaPrivada />} >

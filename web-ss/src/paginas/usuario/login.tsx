@@ -25,7 +25,7 @@ export const Login: React.FC = () => {
     };
 
     if (signed) {
-        return <Navigate to="/home" />;
+        return <Navigate to="/dashboard" />;
     }
 
     return (

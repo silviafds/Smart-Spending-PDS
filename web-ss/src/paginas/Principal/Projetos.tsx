@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import {HeaderPadrao} from "../../componentes/header/headerPadrao";
+import {Sidebar} from "../../componentes/sidebar/sidebar";
 
 function Projetos() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
@@ -13,7 +15,8 @@ function Projetos() {
 
     return (
         <div>
-            <h1>pagina de Projetos</h1>
+            <HeaderPadrao nomeUsuario={nomeUsuario} />
+            <Sidebar />
         </div>
     );
 }

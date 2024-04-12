@@ -8,7 +8,7 @@ import {
     analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
     balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum, AnaliseBalancoReceita, AnaliseBalancoDespesa
 } from "../../../core/ENUM/TipoBalanco";
-import {graficoEnum, TipoGrafico} from "../../../core/ENUM/TipoGrafico";
+import {graficoEnum} from "../../../core/ENUM/TipoGrafico";
 import {criarBalancoRapidoDespesa} from "../../../logica/API/Despesa/BalancoDespesa";
 
 const style = {
@@ -169,7 +169,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                     <div className="line"></div>
                                 </div>
 
-                                {watch('categoriaOuTituloContabilDespesa') == true && (
+                                {watch('categoriaOuTituloContabilDespesa') === true && (
                                     <>
                                         <div
                                             className="inputs relative my-4">
@@ -196,7 +196,7 @@ const BasicModal: React.FC<BasicModalProps> = ({ onClose }) => {
                                     <div className="line"></div>
                                 </div>
 
-                                {watch('categoriaOuTituloContabilReceita') == true && (
+                                {watch('categoriaOuTituloContabilReceita') === true && (
                                     <>
                                         <div
                                             className="inputs relative my-4">

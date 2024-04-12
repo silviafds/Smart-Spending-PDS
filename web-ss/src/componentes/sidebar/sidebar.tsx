@@ -6,8 +6,7 @@ import { IoBarChartOutline } from "react-icons/io5";
 import { GrConfigure } from "react-icons/gr";
 import { TbPigMoney } from "react-icons/tb";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
-import {MdAttachMoney, MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
-import { BsBank } from "react-icons/bs";
+import {MdAttachMoney} from "react-icons/md";
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 export function Sidebar() {
@@ -30,9 +29,6 @@ export function Sidebar() {
         { id: 6, title: "Balanço", spacing: true, icon: <IoBarChartOutline /> },
         { id: 7, title: "Dashboard", icon: <LuLayoutDashboard /> },
         { id: 8, title: "Configurações", spacing: true, icon: <GrConfigure /> },
-        /*{ id: 9, title: "Conta Interna", icon: <MdOutlineAccountTree /> },
-        { id: 10, title: "Conta Bancária", icon: <BsBank /> },
-        { id: 11, title: "Categorização", icon: <MdOutlineSubtitles /> },*/
     ];
 
     const handleMenuClick = ({ title }: { title: any }) => {

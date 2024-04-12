@@ -3,14 +3,11 @@ import {HeaderPadrao} from "../../componentes/header/headerPadrao";
 import {Sidebar} from "../../componentes/sidebar/sidebar";
 import {Ajuda} from "../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
-import { IoWalletOutline } from "react-icons/io5";
-import { TbPigMoney } from "react-icons/tb";
 import { Link } from 'react-router-dom';
-import {MdAttachMoney, MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
+import {MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
 
 import {BsBank} from "react-icons/bs";
-
 
 function TelaConfiguracao() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");

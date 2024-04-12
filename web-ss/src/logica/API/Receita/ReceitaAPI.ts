@@ -25,7 +25,6 @@ export async function buscarCategoriasReceita() {
 export async function buscarTitulosContabeis(categoriaId: string) {
     try {
         let identificador = Number(categoriaId);
-        var id = Number(categoriaId)
         const response = await axios.get(`${BACKEND_URL}/receita/buscarTituloContabilReceita/${identificador}`);
         return response.data;
     } catch (error) {

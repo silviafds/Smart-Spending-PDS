@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { buscarContaInternaReceita, buscarCategoriasReceita, buscarTitulosContabeis,
     buscarOrigem, buscarReceitaPorId } from "../../../logica/API/Receita/ReceitaAPI";
 import Selector from "../../../componentes/Selector";
-import {verificaContaInterna} from "../../../logica/API/ContaInterna/ContaInternaAPI";
 import {Titulos} from "../../../core/ENUM/Titulos";
 import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";
 import {useParams} from "react-router-dom";
@@ -33,7 +32,6 @@ interface IFormInputs {
 }
 
 export function CadastroReceita() {
-    const [erro, setErro] = useState<boolean>(false);
 
     let { id } = useParams();
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
@@ -71,7 +69,7 @@ export function CadastroReceita() {
                     buscarOrigem()
                 ]);
 
-                if (id != null || id != undefined) {
+                if (id !== null) {
                     const [arrayBancos] = await Promise.all([
                         buscarBancoPorNome()
                     ]);
@@ -98,7 +96,7 @@ export function CadastroReceita() {
                 var verificaOrigem;
                 var verificaDadosBancarios;
                 try {
-                    if (id != undefined) {
+                    if (id !== undefined) {
                         const [receita] = await Promise.all([
                             buscarReceitaPorId(id)
                         ]);
@@ -274,7 +272,7 @@ export function CadastroReceita() {
                         <div
                             className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                                {watch('erro') == true  && (
+                                {watch('erro') === true  && (
                                     <>
                                         <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
                                             <p className={"text-black font-medium"}>Prencha todos os campos.</p>

@@ -95,7 +95,6 @@ export async function buscarDespesaPorId(idParaEditar: any) {
 export async function buscarTitulosContabeisDespesa(categoriaId: string) {
     try {
         let identificador = Number(categoriaId);
-        var id = Number(categoriaId)
         const response = await axios.get(`${BACKEND_URL}/despesa/buscarTituloContabilDespesa/${identificador}`);
         return response.data;
     } catch (error) {

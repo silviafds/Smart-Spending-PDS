@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HeaderPadrao } from "../../componentes/header/headerPadrao";
 import { Sidebar } from "../../componentes/sidebar/sidebar";
 
-function Home() {
+function Dashboard() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
 
     useEffect(() => {
@@ -21,4 +21,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Dashboard;

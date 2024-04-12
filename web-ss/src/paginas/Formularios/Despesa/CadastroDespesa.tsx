@@ -72,7 +72,7 @@ export function CadastroDespesa() {
                     buscarOrigem()
                 ]);
 
-                if (id != null || id != undefined) {
+                if (id !== null) {
                     const [arrayBancos] = await Promise.all([
                         buscarBancoPorNome()
                     ]);

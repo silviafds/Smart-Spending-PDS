@@ -44,7 +44,7 @@ export async function buscarDadosBancariosPorBanco(banco: string) {
 
 export async function deletarContaBancaria(idContaBancaria: number) {
     try {
-        const response = await axios.delete(`${BACKEND_URL}/contaBancaria/deletarContaBancaria/${idContaBancaria}`);
+        await axios.delete(`${BACKEND_URL}/contaBancaria/deletarContaBancaria/${idContaBancaria}`);
     } catch (error) {
         console.error('Erro ao deletar Conta Bancária', error);
         throw error;

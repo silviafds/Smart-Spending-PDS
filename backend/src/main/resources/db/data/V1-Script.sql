@@ -186,3 +186,15 @@ values ('Internet', 1),
        ('Cosern', 1),
        ('Passeio na Praia', 2),
        ('Passeio no Shopping', 2);
+
+create table conselhos (
+   identificador bigint NULL,
+   status_receita boolean NULL,
+   meta_receita text NULL,
+   status_despesa boolean NULL,
+   meta_despesa text NULL,
+   tempo_conselho text NOT NULL
+);
+
+INSERT INTO conselhos ("identificador", status_receita, meta_receita, status_despesa, meta_despesa, tempo_conselho)
+VALUES (1, true, '1000', false, '', '1m');

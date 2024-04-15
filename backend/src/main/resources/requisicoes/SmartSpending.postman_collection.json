@@ -1036,7 +1036,46 @@
 					"name": "Despesas",
 					"item": [
 						{
-							"name": "Meios de pagamento mais utilizados Copy",
+							"name": "Meios de pagamento mais utilizados",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa\",\n    \"analiseBalanco\": \"sfsdfafa\",\n    \"dataInicio\": \"2024-03-02\",\n    \"dataTermino\": \"2024-03-25\",\n    \"tipoVisualizacao\": \"grafico\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"balancoDespesa",
+										"registroBalancoRapido"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listagem de despesas por tempo",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1119,6 +1158,94 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Receita",
+					"item": [
+						{
+							"name": "Meios de pagamento mais utilizados Copy 2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa\",\n    \"analiseBalanco\": \"Buscar todas receitas\",\n    \"dataInicio\": \"2024-03-05\",\n    \"dataTermino\": \"2024-04-14\",\n    \"tipoVisualizacao\": \"grafico\",\n    \"categoriaOuTituloContabil\": \"Categoria\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
+									"protocol": "http",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"balancoDespesa",
+										"registroBalancoRapido"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Conselhos",
+			"item": [
+				{
+					"name": "Cadastro de conselho",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identificador\": 1,\n    \"statusDespesa\": false,\n    \"metaDespesa\": \"\",\n    \"statusReceita\": true,\n    \"metaReceita\": \"7000\",\n    \"tempoConselho\": \"15d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/conselhos/registroConselho",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"conselhos",
+								"registroConselho"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

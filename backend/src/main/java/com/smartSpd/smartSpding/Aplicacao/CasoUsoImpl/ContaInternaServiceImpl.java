@@ -37,7 +37,6 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         return false;
     }
 
-
     @Transactional
     public Boolean editarContaInterna(ContaInternaDTO data) {
         return contaInternaRepository.atualizarNomeContaInterna(data.id(), data.nome()) == 1;

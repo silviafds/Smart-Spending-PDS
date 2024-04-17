@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Smart-Spending.iml" filepath="$PROJECT_DIR$/.idea/Smart-Spending.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/smartSpding.iml" filepath="$PROJECT_DIR$/backend/smartSpding.iml" />
     </modules>
   </component>
 </project>

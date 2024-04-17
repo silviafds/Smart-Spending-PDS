@@ -23,4 +23,5 @@ public interface ContaInternaService {
 
     ContaInterna buscarContaInternaPeloId(int data);
 
+    List<>
 }

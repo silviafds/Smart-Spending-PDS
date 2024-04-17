@@ -65,4 +65,5 @@ public class ContaInternaServiceImpl implements ContaInternaService {
     public ContaInterna buscarContaInternaPeloId(int data) {
         return contaInternaRepository.findByIdContaInterna(data);
     }
+
 }

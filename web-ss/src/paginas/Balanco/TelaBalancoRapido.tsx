@@ -13,6 +13,14 @@ import {criarBalancoRapidoDespesa} from "../../logica/API/Despesa/BalancoDespesa
 import Swal from "sweetalert2";
 import GraficoDeDonut from "../../componentes/Grafico/GraficoDeDonut";
 import GraficoDePizza from "../../componentes/Grafico/GraficoDePizza";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "../../componentes/Carrossel/Carousel";
+
 
 interface IFormInputs {
     nomeBalanco: string;
@@ -174,6 +182,26 @@ export function TelaBalancoRapido() {
                                     {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
                                         <GraficoDeDonut data={dados} />
                                     )}
+
+                                    <div className={"mt-10"}>
+                                        
+                                        <Carousel opts={{ slidesToScroll: 3 }}>
+                                            <CarouselContent>
+                                                <CarouselItem>card um</CarouselItem>
+                                                <CarouselItem>card dois</CarouselItem>
+                                                <CarouselItem>card tres</CarouselItem>
+                                                <CarouselItem>card quatro</CarouselItem>
+                                                <CarouselItem>card quinto</CarouselItem>
+                                                {/* Adicione mais cartões conforme necessário */}
+                                            </CarouselContent>
+                                            <CarouselPrevious />
+                                            <CarouselNext />
+                                        </Carousel>
+
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </div>

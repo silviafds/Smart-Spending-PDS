@@ -72,8 +72,4 @@ public class Despesa {
         this.dataFormatada = dataFormatada;
         this.dadosBancarios = dadosBancarios;
     }
-
-    /*public Double getValorDespesa() {
-        return valorDespesa;
-    }*/
 }

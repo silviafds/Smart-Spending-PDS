@@ -57,5 +57,6 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     List<Receita> buscarReceitaPorId(int idReceita);
 
     @Query("SELECT r FROM receita r WHERE r.contaInterna = :contaInterna")
-    List<Receita> findByContaInterna(ContaInterna contaInterna);
+    List<Receita> findByIdContaInterna(@Param("idContaInterna") Long idContaInterna);
+
 }

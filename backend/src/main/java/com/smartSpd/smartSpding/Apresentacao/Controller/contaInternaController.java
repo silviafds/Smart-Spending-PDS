@@ -131,21 +131,4 @@ public class contaInternaController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body("{\"message\": \"" + mensagem + "\"}");
     }
-
-    @GetMapping("/calcularSaldoTotal/{id}")
-    public ResponseEntity calcularSaldoTotal(@PathVariable int id) {
-        ContaInterna conta = contaInternaService.buscarContaInternaPeloId(id);
-
-        if(conta != null) {
-            Double saldoTotal = contaInternaService.calcularSaldoTotalPorConta(conta);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"saldoTotal\": " + saldoTotal + "}");
-        } else {
-            String mensagem = "Conta Interna não encontrada.";
-            return ResponseEntity.badRequest()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"" + mensagem + "\"}");
-        }
-    }
 }

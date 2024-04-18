@@ -23,5 +23,5 @@ public interface ContaInternaService {
 
     ContaInterna buscarContaInternaPeloId(int data);
 
-    List<>
+    Double calcularSaldoTotalPorConta(ContaInterna conta);
 }

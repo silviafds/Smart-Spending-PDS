@@ -69,4 +69,8 @@ public class Receita {
         this.tipoContaDestino = tipoContaDestino;
     }
 
+    public Double getValorReceita() {
+        return valorReceita;
+    }
+
 }

@@ -20,7 +20,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "../../componentes/Carrossel/Carousel";
-
+import { Card, CardContent } from "../../componentes/Card";
 
 interface IFormInputs {
     nomeBalanco: string;
@@ -125,6 +125,7 @@ export function TelaBalancoRapido() {
         }
     };
 
+
     return (
         <div>
             {loading ? (
@@ -143,6 +144,7 @@ export function TelaBalancoRapido() {
                                 <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
                                 <div className="mt-10 w-full max-w-6xl flex flex-col items-center">
+
                                     <div className="flex justify-between w-full">
                                         <div>
                                             <h1 className="mb-4 font-bold text-2xl">{watch('nome')}</h1>
@@ -174,33 +176,43 @@ export function TelaBalancoRapido() {
                                         </div>
                                     </div>
                                     {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
-                                        <GraficoColunaVertical data={dados} />
+                                        <GraficoColunaVertical data={dados}/>
                                     )}
                                     {watch('tipoVisualizacao') === 'Gráfico de Pizza' && (
-                                        <GraficoDePizza data={dados} />
+                                        <GraficoDePizza data={dados}/>
                                     )}
                                     {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
-                                        <GraficoDeDonut data={dados} />
+                                        <GraficoDeDonut data={dados}/>
                                     )}
 
                                     <div className={"mt-10"}>
-                                        
-                                        <Carousel opts={{ slidesToScroll: 3 }}>
+
+                                        <Carousel
+                                            opts={{
+                                                align: "start",
+                                            }}
+                                            className="w-full max-w-sm"
+                                        >
                                             <CarouselContent>
-                                                <CarouselItem>card um</CarouselItem>
-                                                <CarouselItem>card dois</CarouselItem>
-                                                <CarouselItem>card tres</CarouselItem>
-                                                <CarouselItem>card quatro</CarouselItem>
-                                                <CarouselItem>card quinto</CarouselItem>
-                                                {/* Adicione mais cartões conforme necessário */}
+                                                {Array.from({length: 5}).map((_, index) => (
+                                                    <CarouselItem key={index} className="w-10/12 ">
+                                                        <div className="p-1">
+                                                            <Card>
+                                                                <CardContent
+                                                                    className="flex aspect-square items-center justify-center p-6">
+                                                                    <span
+                                                                        className="text-3xl font-semibold">bla bla bla</span>
+                                                                </CardContent>
+                                                            </Card>
+                                                        </div>
+                                                    </CarouselItem>
+                                                ))}
                                             </CarouselContent>
-                                            <CarouselPrevious />
-                                            <CarouselNext />
+                                            <CarouselPrevious/>
+                                            <CarouselNext/>
                                         </Carousel>
 
                                     </div>
-
-
 
                                 </div>
                             </div>

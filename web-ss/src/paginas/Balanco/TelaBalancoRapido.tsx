@@ -186,14 +186,14 @@ export function TelaBalancoRapido() {
                                     )}
                                     <hr className={"my-4  p-0 w-full border-gray-300"}/>
 
-                                    <div className={"bg-slate-100 w-full border rounded-xl border bg-blue-gray-200 p-2"}>
+                                    <div className={"bg-slate-100 w-full border rounded-xl p-2"}>
                                         <div className="flex flex-col items-center justify-center">
                                             <p className={"text-lg pb-4 text-center font-semibold text-xl"}>Conselhos</p>
                                             <Carousel
                                                 opts={{
                                                     align: "start",
                                                 }}
-                                                className="w-full max-w-lg"
+                                                className="w-full max-w-lg "
                                             >
                                                 <CarouselContent>
                                                     {Array.from({length: 5}).map((_, index) => (

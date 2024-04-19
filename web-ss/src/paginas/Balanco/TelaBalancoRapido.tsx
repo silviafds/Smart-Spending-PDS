@@ -184,35 +184,37 @@ export function TelaBalancoRapido() {
                                     {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
                                         <GraficoDeDonut data={dados}/>
                                     )}
+                                    <hr className={"my-4  p-0 w-full border-gray-300"}/>
 
-                                    <div className={"mt-10"}>
-
-                                        <Carousel
-                                            opts={{
-                                                align: "start",
-                                            }}
-                                            className="w-full max-w-sm"
-                                        >
-                                            <CarouselContent>
-                                                {Array.from({length: 5}).map((_, index) => (
-                                                    <CarouselItem key={index} className="w-10/12 ">
-                                                        <div className="p-1">
-                                                            <Card>
-                                                                <CardContent
-                                                                    className="flex aspect-square items-center justify-center p-6">
-                                                                    <span
-                                                                        className="text-3xl font-semibold">bla bla bla</span>
-                                                                </CardContent>
-                                                            </Card>
-                                                        </div>
-                                                    </CarouselItem>
-                                                ))}
-                                            </CarouselContent>
-                                            <CarouselPrevious/>
-                                            <CarouselNext/>
-                                        </Carousel>
-
+                                    <div className={"bg-slate-100 w-full border rounded-xl border bg-blue-gray-200 p-2"}>
+                                        <div className="flex flex-col items-center justify-center">
+                                            <p className={"text-lg pb-4 text-center font-semibold text-xl"}>Conselhos</p>
+                                            <Carousel
+                                                opts={{
+                                                    align: "start",
+                                                }}
+                                                className="w-full max-w-lg"
+                                            >
+                                                <CarouselContent>
+                                                    {Array.from({length: 5}).map((_, index) => (
+                                                        <CarouselItem key={index} className="w-11/12">
+                                                            <div className="p-1">
+                                                                <Card>
+                                                                    <CardContent
+                                                                        className="flex aspect-square items-center justify-center p-6">
+                                                                        <span className="text-3xl font-semibold">bla bla bla</span>
+                                                                    </CardContent>
+                                                                </Card>
+                                                            </div>
+                                                        </CarouselItem>
+                                                    ))}
+                                                </CarouselContent>
+                                                <CarouselPrevious/>
+                                                <CarouselNext/>
+                                            </Carousel>
+                                        </div>
                                     </div>
+
 
                                 </div>
                             </div>

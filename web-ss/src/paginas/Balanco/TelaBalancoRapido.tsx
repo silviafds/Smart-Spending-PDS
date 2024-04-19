@@ -202,7 +202,8 @@ export function TelaBalancoRapido() {
                                                                 <Card>
                                                                     <CardContent
                                                                         className="flex aspect-square items-center justify-center p-6">
-                                                                        <span className="text-3xl font-semibold">bla bla bla</span>
+                                                                        <span className="">bla bla bla teste de dados financeiros
+                                                                        n oqual foi gasto 1000% a mais</span>
                                                                     </CardContent>
                                                                 </Card>
                                                             </div>

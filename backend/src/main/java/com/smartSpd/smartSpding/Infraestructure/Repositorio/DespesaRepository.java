@@ -49,7 +49,4 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     @Query("SELECT d FROM despesa d WHERE d.id = :idDespesa")
     List<Despesa> buscarDespesaPorId(int idDespesa);
 
-    @Query("SELECT d FROM despesa WHERE d.contaInterna.id = :contaInternaId")
-    List<Despesa> findByIdContaInterna(@Param("contaInternaId") Long idContaInterna);
-
 }

@@ -3,8 +3,6 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 import com.smartSpd.smartSpding.Core.CasoUso.ContaInternaService;
 import com.smartSpd.smartSpding.Core.DTO.ContaInternaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
-import com.smartSpd.smartSpding.Core.Dominio.Despesa;
-import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ContaInternaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,19 +70,4 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         return contaInternaRepository.findByIdContaInterna(data);
     }
 
-    @Override
-    public Double calcularSaldoTotalPorConta(ContaInterna conta) {
-        Double saldoTotal = 0.0;
-
-        List<Receita> receitas = receitaRepository.findByContaInterna(conta);
-        for (Receita receita : receitas) {
-            saldoTotal += receita.getValorReceita();
-        }
-
-        List<Despesa> despesas = despesaRepository.findByContaInterna(conta);
-        for (Despesa despesa : despesas) {
-            saldoTotal -= despesa.getValorDespesa();
-        }
-        return saldoTotal;
-    }
 }

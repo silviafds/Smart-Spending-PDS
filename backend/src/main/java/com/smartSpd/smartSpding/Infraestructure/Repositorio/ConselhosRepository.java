@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
@@ -26,4 +27,13 @@ public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
 
     @Query("SELECT c FROM conselhos c")
     List<Conselhos> buscarConselhos();
+
+
+    @Query("SELECT " +
+            "(SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :startDate AND :endDate) AS totalDespesa, " +
+            "(SELECT SUM(r.valorReceita) FROM receita r WHERE r.dataReceita BETWEEN :startDate AND :endDate) AS totalReceita ")
+    List<Object[]> calcularTotalPorPeriodo(@Param("startDate") LocalDate startDate,
+                                           @Param("endDate") LocalDate endDate);
+
+
 }

@@ -2,10 +2,12 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
+import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,5 +34,10 @@ public class ConselhosServiceImpl implements ConselhosService {
             log.log(Level.SEVERE, "Erro ao cadastrar dados de conselhos. ", e);
             return false;
         }
+    }
+
+    @Override
+    public List<Conselhos> buscarConfiguracaoConselhos() {
+        return conselhosRepository.buscarConselhos();
     }
 }

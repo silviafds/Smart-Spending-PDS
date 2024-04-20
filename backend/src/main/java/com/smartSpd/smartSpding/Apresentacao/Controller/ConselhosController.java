@@ -2,6 +2,7 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
+import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.javapoet.ClassName;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +43,23 @@ public class ConselhosController {
             log.log(Level.SEVERE, "Erro ao cadastrar conselho. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao cadastrar conselho.");
+        }
+    }
+
+    @GetMapping("/buscarConfiguracaoConselhos")
+    @Transactional
+    public ResponseEntity<?> registroConselho() {
+        try {
+            List<Conselhos> conselho = conselhosService.buscarConfiguracaoConselhos();
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(conselho);
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar configuração de conselho. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar configuração de conselho.");
         }
     }
 }

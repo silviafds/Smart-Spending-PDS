@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
 
     @Modifying
@@ -22,4 +24,6 @@ public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
                         @Param("tempoConselho") String tempoConselho);
 
 
+    @Query("SELECT c FROM conselhos c")
+    List<Conselhos> buscarConselhos();
 }

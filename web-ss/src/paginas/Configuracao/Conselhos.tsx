@@ -167,6 +167,7 @@ function Conselhos() {
                                               placeholder={"Selecione uma unidade de tempo."}
                                               valorSelecionado={watch('tempo_conselho')}
                                               onGenericoSelect={handleTempoConselho}/>
+                                    <div className="line"></div>
                                 </div>
 
                                 <div className="flex justify-center p-2 mt-4">

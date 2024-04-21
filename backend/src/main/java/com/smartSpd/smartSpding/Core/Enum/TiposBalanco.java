@@ -15,4 +15,5 @@ public enum TiposBalanco {
     public String getTiposBalanco() {
         return tiposBalanco;
     }
+
 }

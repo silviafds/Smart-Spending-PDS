@@ -17,10 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.smartSpd.smartSpding.Core.Enum.Balanco.DESPESA;
-import static com.smartSpd.smartSpding.Core.Enum.Balanco.RECEITA;
-import static com.smartSpd.smartSpding.Core.Enum.Balanco.DESPESA_RECEITA;
-
 @Component
 public class ConselhosServiceImpl implements ConselhosService {
 
@@ -61,7 +57,7 @@ public class ConselhosServiceImpl implements ConselhosService {
         return conselhosRepository.buscarConselhos();
     }
 
-    @Override
+   /* @Override
     public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
         List<String> conselhos = new ArrayList<>();
 
@@ -115,7 +111,75 @@ public class ConselhosServiceImpl implements ConselhosService {
         }
 
         return conselhos;
+    }*/
+
+    @Override
+    public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
+        List<String> conselhos = new ArrayList<>();
+
+        switch (balancoRapidoDTO.getTipoBalanco()) {
+            case "Despesa e Receita":
+                adicionarExcessoDespesa(balancoRapidoDTO, conselhos);
+                adicionarExcessoReceita(balancoRapidoDTO, conselhos);
+                conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
+                conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
+                conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+                conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+                break;
+            case "Despesa":
+                adicionarExcessoDespesa(balancoRapidoDTO, conselhos);
+                conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
+                conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+                break;
+            case "Receita":
+                adicionarExcessoReceita(balancoRapidoDTO, conselhos);
+                conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
+                conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+                break;
+        }
+
+        adicionarIgualdadeReceitaDespesa(conselhos, balancoRapidoDTO);
+        adicionarMetaDespesa(balancoRapidoDTO, conselhos);
+        adicionarMetaReceita(balancoRapidoDTO, conselhos);
+
+        return conselhos;
     }
+
+    private void adicionarExcessoDespesa(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+        String excessoDespesa = avisarSobreExcessoDespesa(balancoRapidoDTO);
+        if (excessoDespesa != null) {
+            conselhos.add(excessoDespesa);
+        }
+    }
+
+    private void adicionarExcessoReceita(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+        String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
+        if (excessoReceita != null) {
+            conselhos.add(excessoReceita);
+        }
+    }
+
+    private void adicionarIgualdadeReceitaDespesa(List<String> conselhos, BalancoRapidoDTO balancoRapidoDTO) {
+        String igualdadeReceitaDespesa = avisarSobreIgualdadeReceitaDespesa(balancoRapidoDTO);
+        if (igualdadeReceitaDespesa != null) {
+            conselhos.add(igualdadeReceitaDespesa);
+        }
+    }
+
+    private void adicionarMetaDespesa(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+        if (gerenciadorConselhos.verificacaoMetaDespesa()) {
+            String conselhoMeta = gerarConselhoMetaDespesa(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
+            conselhos.add(conselhoMeta);
+        }
+    }
+
+    private void adicionarMetaReceita(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+        if (gerenciadorConselhos.verificacaoMetaReceita()) {
+            String conselhoMeta = gerarConselhoMetaReceita(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
+            conselhos.add(conselhoMeta);
+        }
+    }
+
 
     @Override
     public String avisarSobreExcessoDespesa(BalancoRapidoDTO dado) {

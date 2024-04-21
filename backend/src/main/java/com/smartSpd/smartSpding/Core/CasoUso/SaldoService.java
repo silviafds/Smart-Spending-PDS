@@ -9,4 +9,6 @@ public interface SaldoService {
 
     Map<Long, Double> calcularSaldoPorContaHabilitada();
 
+    Double calcularSaldoTotal();
+
 }

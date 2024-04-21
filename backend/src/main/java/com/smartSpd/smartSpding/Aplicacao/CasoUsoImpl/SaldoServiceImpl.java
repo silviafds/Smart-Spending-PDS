@@ -32,5 +32,17 @@ public class SaldoServiceImpl implements SaldoService {
 
         return saldoPorContaInterna;
     }
-    
+
+    @Override
+    public Double calcularSaldoTotal() {
+        Map<Long, Double> saldoPorContaInterna = calcularSaldoPorContaHabilitada();
+        Double saldoTotal = 0.0;
+
+        for (Double saldoPorConta : saldoPorContaInterna.values()) {
+            saldoTotal += saldoPorConta;
+        }
+
+        return saldoTotal;
+    }
+
 }

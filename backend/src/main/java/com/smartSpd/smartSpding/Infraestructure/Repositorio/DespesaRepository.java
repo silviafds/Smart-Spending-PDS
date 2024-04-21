@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
@@ -48,5 +50,22 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query("SELECT d FROM despesa d WHERE d.id = :idDespesa")
     List<Despesa> buscarDespesaPorId(int idDespesa);
+
+
+    @Query("SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :dataInicio AND :dataTermino")
+    double totalDespesaPorPeriodo(@Param("dataInicio") LocalDate dataInicio,
+                                  @Param("dataTermino") LocalDate dataTermino);
+
+
+    @Query(nativeQuery = true,
+            value = "SELECT d.categoria, SUM(valor_despesa) FROM despesa d " +
+                    "WHERE data_despesa BETWEEN :startDate AND :endDate " +
+                    "GROUP BY categoria " +
+                    "ORDER BY SUM(valor_despesa) DESC " +
+                    "LIMIT 3")
+    List<Object[]> encontrarDespesasPorCategoria(@Param("startDate") LocalDate startDate,
+                                                 @Param("endDate") LocalDate endDate);
+
+
 
 }

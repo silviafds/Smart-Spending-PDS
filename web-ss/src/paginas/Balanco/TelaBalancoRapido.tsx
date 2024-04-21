@@ -13,6 +13,14 @@ import {criarBalancoRapidoDespesa} from "../../logica/API/Despesa/BalancoDespesa
 import Swal from "sweetalert2";
 import GraficoDeDonut from "../../componentes/Grafico/GraficoDeDonut";
 import GraficoDePizza from "../../componentes/Grafico/GraficoDePizza";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "../../componentes/Carrossel/Carousel";
+import { Card, CardContent } from "../../componentes/Card";
 
 interface IFormInputs {
     nomeBalanco: string;
@@ -117,6 +125,7 @@ export function TelaBalancoRapido() {
         }
     };
 
+
     return (
         <div>
             {loading ? (
@@ -135,6 +144,7 @@ export function TelaBalancoRapido() {
                                 <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
                                 <div className="mt-10 w-full max-w-6xl flex flex-col items-center">
+
                                     <div className="flex justify-between w-full">
                                         <div>
                                             <h1 className="mb-4 font-bold text-2xl">{watch('nome')}</h1>
@@ -166,14 +176,47 @@ export function TelaBalancoRapido() {
                                         </div>
                                     </div>
                                     {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
-                                        <GraficoColunaVertical data={dados} />
+                                        <GraficoColunaVertical data={dados}/>
                                     )}
                                     {watch('tipoVisualizacao') === 'Gráfico de Pizza' && (
-                                        <GraficoDePizza data={dados} />
+                                        <GraficoDePizza data={dados}/>
                                     )}
                                     {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
-                                        <GraficoDeDonut data={dados} />
+                                        <GraficoDeDonut data={dados}/>
                                     )}
+                                    <hr className={"my-4  p-0 w-full border-gray-300"}/>
+
+                                    <div className={"bg-slate-100 w-full border rounded-xl p-2"}>
+                                        <div className="flex flex-col items-center justify-center">
+                                            <p className={"text-lg pb-4 text-center font-semibold text-xl"}>Conselhos</p>
+                                            <Carousel
+                                                opts={{
+                                                    align: "start",
+                                                }}
+                                                className="w-full max-w-lg "
+                                            >
+                                                <CarouselContent>
+                                                    {Array.from({length: 5}).map((_, index) => (
+                                                        <CarouselItem key={index} className="w-11/12">
+                                                            <div className="p-1">
+                                                                <Card>
+                                                                    <CardContent
+                                                                        className="flex aspect-square items-center justify-center p-6">
+                                                                        <span className="">bla bla bla teste de dados financeiros
+                                                                        n oqual foi gasto 1000% a mais</span>
+                                                                    </CardContent>
+                                                                </Card>
+                                                            </div>
+                                                        </CarouselItem>
+                                                    ))}
+                                                </CarouselContent>
+                                                <CarouselPrevious/>
+                                                <CarouselNext/>
+                                            </Carousel>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>

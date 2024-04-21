@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import {MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp} from "react-icons/md";
 import {CiEdit} from "react-icons/ci";
-import {buscarTodasReceitas} from "../../logica/API/Receita/ReceitaAPI";
 import {buscarTodasDespesas} from "../../logica/API/Despesa/DespesaAPI";
 import {useNavigate} from "react-router-dom";
 import  Loading  from "../../componentes/Loading";

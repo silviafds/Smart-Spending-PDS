@@ -24,5 +24,6 @@ export enum Titulos {
     INPUT_TIPO_CATEGORIA_TITULO_BALANCO = ("Escolha por categoria ou titúlo contábil."),
     INPUT_CATEGORIA_BALANCO = ("Informe a categoria do balanço."),
     INPUT_TIPO_VISUALIZACAO_BALANCO = ("Escolha um tipo de gráfico."),
-    INPUT_BENEFICIARIO = ("Informe o beneficiário")
+    INPUT_BENEFICIARIO = ("Informe o beneficiário"),
+    INPUT_TEMPO_CONSELHO = ("Selecione uma unidade de tempo")
 }

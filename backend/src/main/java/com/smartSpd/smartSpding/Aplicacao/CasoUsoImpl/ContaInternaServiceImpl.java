@@ -4,8 +4,6 @@ import com.smartSpd.smartSpding.Core.CasoUso.ContaInternaService;
 import com.smartSpd.smartSpding.Core.DTO.ContaInternaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ContaInternaRepository;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +15,6 @@ import java.util.Objects;
 public class ContaInternaServiceImpl implements ContaInternaService {
 
     private final ContaInternaRepository contaInternaRepository;
-    private ReceitaRepository receitaRepository;
-    private DespesaRepository despesaRepository;
 
     @Autowired
     private final ContaInterna contaInterna;
@@ -35,7 +31,6 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         if (Objects.isNull(contaExistente)) {
             ContaInterna novaConta = new ContaInterna();
             novaConta.setNome(data.nome());
-            novaConta.setDesabilitarConta(data.desabilitarConta());
             contaInternaRepository.save(novaConta);
             return true;
         }
@@ -70,5 +65,4 @@ public class ContaInternaServiceImpl implements ContaInternaService {
     public ContaInterna buscarContaInternaPeloId(int data) {
         return contaInternaRepository.findByIdContaInterna(data);
     }
-
 }

@@ -51,6 +51,9 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/contaBancaria/registrarContaBancaria").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/contaBancaria/deletarContaBancaria/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/contaBancaria/buscarContaBancariaPorNome/{nome}").authenticated()
+
+                        .requestMatchers(HttpMethod.GET, "/saldo/calcularSaldoPorConta").authenticated()
+
                                 .anyRequest().authenticated()
                         //.anyRequest().authenticated()
                 )

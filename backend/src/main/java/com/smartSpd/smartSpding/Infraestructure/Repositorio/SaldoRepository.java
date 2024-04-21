@@ -16,7 +16,8 @@ public interface SaldoRepository extends JpaRepository<ContaInterna, Long> {
             "FROM receita r " +
             "JOIN r.contaInterna ci " +
             "LEFT JOIN despesa d ON ci.id = d.contaInterna.id " +
-            "WHERE ci.desabilitarConta = false")
-    Double calcularSaldoPorContaHabilitada();
+            "WHERE ci.desabilitarConta = false " +
+            "GROUP BY ci.id")
+    List<Object[]> calcularSaldoPorContaHabilitada();
 
 }

@@ -1,9 +1,11 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.SaldoService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +23,9 @@ public class SaldoController {
         this.saldoService = saldoService;
     }
 
-    @PostMapping("/calcularSaldoPorConta")
+
+    @GetMapping("/calcularSaldoPorConta")
+    @Transactional
     public ResponseEntity<Map<Long, Double>> calcularSaldoPorContaHabilitada() {
         Map<Long, Double> saldos = saldoService.calcularSaldoPorContaHabilitada();
 

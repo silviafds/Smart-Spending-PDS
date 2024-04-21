@@ -21,15 +21,16 @@ public class SaldoServiceImpl implements SaldoService {
 
     @Override
     public Map<Long, Double> calcularSaldoPorContaHabilitada() {
-        List<Long> idsContaInterna = saldoRepository.findAllIdsContaInterna();
+        List<Object[]> idsComSaldo = saldoRepository.calcularSaldoPorContaHabilitada();
         Map<Long, Double> saldoPorContaInterna = new HashMap<>();
 
-        for (Long idContaInterna : idsContaInterna) {
-            Double saldoConta = saldoRepository.calcularSaldoPorContaHabilitada();
+        for (Object[] registro : idsComSaldo) {
+            Long idContaInterna = (Long) registro[0];
+            Double saldoConta = (Double) registro[1];
             saldoPorContaInterna.put(idContaInterna, saldoConta);
         }
 
         return saldoPorContaInterna;
     }
-
+    
 }

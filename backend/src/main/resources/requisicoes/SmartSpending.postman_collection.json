@@ -1209,7 +1209,7 @@
 			"name": "Conselhos",
 			"item": [
 				{
-					"name": "Cadastro de conselho",
+					"name": "Conselho por balanço",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1225,6 +1225,48 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
+							"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa e Receita\",\n    \"analiseBalanco\": \"sfsdfafa\",\n    \"dataInicio\": \"2024-04-01\",\n    \"dataTermino\": \"2024-04-20\",\n    \"tipoVisualizacao\": \"grafico\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/conselhos/conselhoPorBalanco",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"conselhos",
+								"conselhoPorBalanco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar conselho",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
 							"raw": "{\n    \"identificador\": 1,\n    \"statusDespesa\": false,\n    \"metaDespesa\": \"\",\n    \"statusReceita\": true,\n    \"metaReceita\": \"7000\",\n    \"tempoConselho\": \"15d\"\n}",
 							"options": {
 								"raw": {
@@ -1233,7 +1275,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/conselhos/registroConselho",
+							"raw": "http://{{host}}:{{port}}/conselhos/buscarConfiguracaoConselhos",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -1241,7 +1283,7 @@
 							"port": "{{port}}",
 							"path": [
 								"conselhos",
-								"registroConselho"
+								"buscarConfiguracaoConselhos"
 							]
 						}
 					},

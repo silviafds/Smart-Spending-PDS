@@ -23,11 +23,14 @@ public class SaldoServiceImpl implements SaldoService {
     public Map<Long, Double> calcularSaldoPorContaHabilitada() {
         List<Object[]> idsComSaldo = saldoRepository.calcularSaldoPorContaHabilitada();
         Map<Long, Double> saldoPorContaInterna = new HashMap<>();
+        Map<Long, String> nomePorContaInterna = new HashMap<>();
 
         for (Object[] registro : idsComSaldo) {
             Long idContaInterna = (Long) registro[0];
             Double saldoConta = (Double) registro[1];
             saldoPorContaInterna.put(idContaInterna, saldoConta);
+            String nomeConta = saldoRepository.findNomeById(idContaInterna);
+            nomePorContaInterna.put(idContaInterna, nomeConta);
         }
 
         return saldoPorContaInterna;

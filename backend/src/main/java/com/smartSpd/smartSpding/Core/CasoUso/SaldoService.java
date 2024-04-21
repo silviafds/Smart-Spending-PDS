@@ -1,6 +1,12 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
+import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
+@Service
 public interface SaldoService {
-    Double calcularSaldoPorContaInterna(Long idContaInterna);
+
+    Map<Long, Double> calcularSaldoPorContaHabilitada();
+
 }

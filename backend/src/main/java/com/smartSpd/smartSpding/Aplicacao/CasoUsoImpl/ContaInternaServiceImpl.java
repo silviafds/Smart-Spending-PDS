@@ -35,6 +35,7 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         if (Objects.isNull(contaExistente)) {
             ContaInterna novaConta = new ContaInterna();
             novaConta.setNome(data.nome());
+            novaConta.setDesabilitarConta(data.desabilitarConta());
             contaInternaRepository.save(novaConta);
             return true;
         }

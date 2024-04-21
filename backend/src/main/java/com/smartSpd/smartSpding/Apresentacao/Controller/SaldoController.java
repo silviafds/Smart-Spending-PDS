@@ -1,37 +1,31 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-
 import com.smartSpd.smartSpding.Core.CasoUso.SaldoService;
-import com.smartSpd.smartSpding.Core.DTO.SaldoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
+@RestController
+@RequestMapping("/saldo")
 public class SaldoController {
 
     private final SaldoService saldoService;
 
+    @Autowired
     public SaldoController(SaldoService saldoService) {
         this.saldoService = saldoService;
     }
 
-    @GetMapping("/{idContaInterna}")
-    public ResponseEntity getSaldoPorContaInterna(@PathVariable Long idContaInterna) {
-        Double saldoTotal = saldoService.calcularSaldoPorContaInterna(idContaInterna);
+    @PostMapping("/calcularSaldoPorConta")
+    public ResponseEntity<Map<Long, Double>> calcularSaldoPorContaHabilitada() {
+        Map<Long, Double> saldos = saldoService.calcularSaldoPorContaHabilitada();
 
-        if (saldoTotal != null) {
-            SaldoDTO saldoDTO = new SaldoDTO();
-            saldoDTO.setIdContaInterna(idContaInterna);
-            saldoDTO.setSaldoTotal(saldoTotal);
-
-            return ResponseEntity.ok(saldoDTO);
-        }
-
-        String mensagem = "Saldo não encontrado na conta interna de ID: " + idContaInterna;
-        return ResponseEntity.badRequest()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body("{\"message\": \"" + mensagem + "\"}");
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(saldos);
     }
 
 }

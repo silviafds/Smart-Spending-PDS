@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.smartSpd.smartSpding.Core.Enum.Balanco.DESPESA;
+import static com.smartSpd.smartSpding.Core.Enum.Balanco.RECEITA;
+import static com.smartSpd.smartSpding.Core.Enum.Balanco.DESPESA_RECEITA;
 
 @Component
 public class ConselhosServiceImpl implements ConselhosService {
@@ -62,13 +64,43 @@ public class ConselhosServiceImpl implements ConselhosService {
     @Override
     public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
         List<String> conselhos = new ArrayList<>();
-        String excesso = avisarSobreExcessoDespesaEReceita(balancoRapidoDTO);
-        String comparaDespesaAtualEAnterior = compararDespesaMesAtualEAnterior(balancoRapidoDTO);
-        String comparaReceitaAtualEAnterior = compararReceitaMesAtualEAnterior(balancoRapidoDTO);
 
-        conselhos.add(excesso);
-        conselhos.add(comparaDespesaAtualEAnterior);
-        conselhos.add(comparaReceitaAtualEAnterior);
+        if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA_RECEITA.getBalanco())) {
+            String excessoDespesa = avisarSobreExcessoReceita(balancoRapidoDTO);
+            if(excessoDespesa != null) {
+                conselhos.add(excessoDespesa);
+            }
+
+            String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
+            if(excessoReceita != null) {
+                conselhos.add(excessoReceita);
+            }
+            conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
+            conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
+            conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+            conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+        } else if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA.getBalanco())) {
+            String excessoDespesa = avisarSobreExcessoReceita(balancoRapidoDTO);
+            if(excessoDespesa != null) {
+                conselhos.add(excessoDespesa);
+            }
+
+            conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
+            conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+        } else if(balancoRapidoDTO.getTipoBalanco().equals(RECEITA.getBalanco())) {
+            String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
+            if(excessoReceita != null) {
+                conselhos.add(avisarSobreExcessoReceita(balancoRapidoDTO));
+
+            }
+            conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
+            conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
+        }
+
+        String igualdadeReceitaDespesa = avisarSobreIgualdadeReceitaDespesa(balancoRapidoDTO);
+        if(igualdadeReceitaDespesa != null) {
+            conselhos.add(igualdadeReceitaDespesa);
+        }
 
         boolean verificaMetaDespesa = gerenciadorConselhos.verificacaoMetaDespesa();
         if(verificaMetaDespesa) {
@@ -81,18 +113,12 @@ public class ConselhosServiceImpl implements ConselhosService {
             String conselhoMeta = gerarConselhoMetaReceita(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
             conselhos.add(conselhoMeta);
         }
-        String despesasPorCategoria = despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
-        conselhos.add(despesasPorCategoria);
-
-        String receitasPorCategoria = receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
-        conselhos.add(receitasPorCategoria);
-
 
         return conselhos;
     }
 
     @Override
-    public String avisarSobreExcessoDespesaEReceita(BalancoRapidoDTO dado) {
+    public String avisarSobreExcessoDespesa(BalancoRapidoDTO dado) {
         List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
 
         Object[] balanco = valoresBalanco.get(0);
@@ -101,19 +127,48 @@ public class ConselhosServiceImpl implements ConselhosService {
         Double totalReceita = (Double) balanco[1];
         String conselho = null;
 
-        if (dado.getTipoBalanco().equals(DESPESA.getBalanco())) {
-            if (totalDespesa > totalReceita) {
-                double diferenca = totalDespesa - totalReceita;
-                conselho = "O montante de despesa superou o de receita em R$" + diferenca;
-            } else if (totalReceita > totalDespesa) {
-                double diferenca = totalReceita - totalDespesa;
-                conselho = "O montante de receita superou o de despesa em R$" + diferenca;
-            } else {
-                conselho = "Atenção, sua despesa e receita atigiram mesmo valor.";
-            }
+        if (totalDespesa > totalReceita) {
+            double diferenca = totalDespesa - totalReceita;
+            conselho = "O montante de despesa superou o de receita em R$" + diferenca + " Sugere-se revisar o " +
+                    "orçamento para manter um equilíbrio financeiro adequado.";
         }
 
+        return conselho;
+    }
 
+    @Override
+    public String avisarSobreExcessoReceita(BalancoRapidoDTO dado) {
+        List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
+
+        Object[] balanco = valoresBalanco.get(0);
+
+        Double totalDespesa = (Double) balanco[0];
+        Double totalReceita = (Double) balanco[1];
+        String conselho = null;
+
+        if (totalReceita > totalDespesa) {
+            double diferenca = totalReceita - totalDespesa;
+            conselho = "O montante de receita superou o de despesa em R$" + diferenca + " Isso é ótimo, continuando dessa" +
+                    "forma seu patrimônio irá crescer.";
+        }
+
+        return conselho;
+    }
+
+    @Override
+    public String avisarSobreIgualdadeReceitaDespesa(BalancoRapidoDTO dado) {
+        List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
+
+        Object[] balanco = valoresBalanco.get(0);
+
+        Double totalDespesa = (Double) balanco[0];
+        Double totalReceita = (Double) balanco[1];
+        String conselho = null;
+
+        if (Objects.equals(totalReceita, totalDespesa)) {
+            conselho = "Observa-se que o montante das despesas equivale ao da receita em R$"+totalDespesa +
+                    ". Recomenda-se uma análise minuciosa das receitas para garantir um equilíbrio financeiro saudável.";
+        }
 
         return conselho;
     }
@@ -136,11 +191,14 @@ public class ConselhosServiceImpl implements ConselhosService {
 
         if (despesaMesAtual > despesaMesAnterior) {
             double diferenca = despesaMesAtual - despesaMesAnterior;
-            conselho = "ATENÇÃO: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
+            conselho = "Atenção: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
         } else if (despesaMesAnterior > despesaMesAtual) {
             double diferenca = despesaMesAnterior - despesaMesAtual;
             conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
                     + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        } else {
+            conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                    " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";
         }
 
         return conselho;
@@ -169,6 +227,9 @@ public class ConselhosServiceImpl implements ConselhosService {
             double diferenca = despesaMesAnterior - despesaMesAtual;
             conselho = "Atenção! Sua receita no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
                     + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        } else {
+            conselho = "Suas receitas atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                    " É recomendável analisar os detalhes de suas receitas para manter uma gestão financeira equilibrada.";
         }
 
         return conselho;
@@ -226,20 +287,17 @@ public class ConselhosServiceImpl implements ConselhosService {
 
         List<Object[]> resultados = despesaRepository.encontrarDespesasPorCategoria(dataInicio, dataFinal);
 
-        // Preencher o mapa com os resultados
         for (Object[] resultado : resultados) {
             String categoria = (String) resultado[0];
             Double totalDespesa = (Double) resultado[1];
             despesasPorCategoria.put(categoria, totalDespesa);
         }
 
-        // Ordenar o mapa por valor (total de despesa) em ordem decrescente
         LinkedHashMap<String, Double> despesasOrdenadas = despesasPorCategoria.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        // Montar o conselho com as maiores despesas por categoria
         StringBuilder conselhoBuilder = new StringBuilder("Suas maiores despesas são: ");
         int count = 0;
         for (Map.Entry<String, Double> entry : despesasOrdenadas.entrySet()) {
@@ -264,20 +322,17 @@ public class ConselhosServiceImpl implements ConselhosService {
 
         List<Object[]> resultados = receitaRepository.encontrarReceitasPorCategoria(dataInicio, dataFinal);
 
-        // Preencher o mapa com os resultados
         for (Object[] resultado : resultados) {
             String categoria = (String) resultado[0];
             Double totalDespesa = (Double) resultado[1];
             despesasPorCategoria.put(categoria, totalDespesa);
         }
 
-        // Ordenar o mapa por valor (total de despesa) em ordem decrescente
         LinkedHashMap<String, Double> despesasOrdenadas = despesasPorCategoria.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        // Montar o conselho com as maiores despesas por categoria
         StringBuilder conselhoBuilder = new StringBuilder("Suas maiores receitas são: ");
         int count = 0;
         for (Map.Entry<String, Double> entry : despesasOrdenadas.entrySet()) {
@@ -296,6 +351,5 @@ public class ConselhosServiceImpl implements ConselhosService {
         return conselhoBuilder.toString();
 
     }
-
 
 }

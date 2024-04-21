@@ -21,6 +21,7 @@ import {
     CarouselPrevious,
 } from "../../componentes/Carrossel/Carousel";
 import { Card, CardContent } from "../../componentes/Card";
+import {buscarConselhoPorBalanco} from "../../logica/API/ConselhosAPI";
 
 interface IFormInputs {
     nomeBalanco: string;
@@ -41,6 +42,7 @@ export function TelaBalancoRapido() {
     const [endDate, setEndDate] = useState<Date | null>(null);
     const location = useLocation();
     const dados = JSON.parse(new URLSearchParams(location.search).get("dados") as string);
+    const [dadosRetornados, setDadosRetornados] = useState<any[]>([]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -63,6 +65,7 @@ export function TelaBalancoRapido() {
 
     // @ts-ignore
     useEffect(() => {
+        let nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao, categoriaOuTituloContabil;
         for (let prop in dados) {
             setValue("nome", dados[prop].nome)
             setValue("analiseBalanco", dados[prop].analiseBalanco)
@@ -71,11 +74,41 @@ export function TelaBalancoRapido() {
             setValue("dataTermino", dados[prop].dataTermino)
             setValue("tipoVisualizacao", dados[prop].tipoVisualizacao)
             setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
+            nome = dados[prop].nome;
+            analiseBalanco = dados[prop].analiseBalanco;
+            tipoBalanco = dados[prop].tipoBalanco;
+            dataInicial = dados[prop].dataInicio;
+            dataTermino = dados[prop].dataTermino;
+            tipoVisualizacao = dados[prop].tipoVisualizacao;
+            categoriaOuTituloContabil = dados[prop].categoriaOuTituloContabil;
             const dataInicio = parseDate(dados[prop].dataInicio);
             setStartDate(dataInicio);
             setEndDate(new Date(dados[prop].dataTermino));
         }
+        buscarConselhosPorBalanco(nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao,
+            categoriaOuTituloContabil);
     }, []);
+
+    async function buscarConselhosPorBalanco(nome: any, analiseBalanco: any, tipoBalanco: any, dataInicial: any, dataTermino:
+        any, tipoVisualizacao: any, categoriaOuTituloContabil: any) {
+        if (!nome || !tipoBalanco || !analiseBalanco || !dataInicial || !dataTermino || !tipoVisualizacao || (!tipoBalanco && !categoriaOuTituloContabil)) {
+            console.error("Erro na validação de conselhos por balanço.");
+            return [];
+        }
+        const jsonData = {
+            nome: nome,
+            tipoBalanco: tipoBalanco,
+            analiseBalanco: analiseBalanco,
+            dataInicio: dataInicial,
+            dataTermino: dataTermino,
+            tipoVisualizacao: tipoVisualizacao,
+            categoriaOuTituloContabil: categoriaOuTituloContabil
+        };
+
+        const retorno = await buscarConselhoPorBalanco(jsonData);
+        const dadosFormatados = retorno.map((retorno: string) => retorno.replace(/\\n/g, '\n'));
+        setDadosRetornados(dadosFormatados)
+    }
 
     function parseDate(dateString: { split: (arg0: string) => [any, any, any]; }) {
         const [year, month, day] = dateString.split('-');
@@ -124,7 +157,6 @@ export function TelaBalancoRapido() {
             criarBalancoRapidoDespesa(jsonData);
         }
     };
-
 
     return (
         <div>
@@ -195,27 +227,27 @@ export function TelaBalancoRapido() {
                                                 }}
                                                 className="w-full max-w-lg "
                                             >
-                                                <CarouselContent>
-                                                    {Array.from({length: 5}).map((_, index) => (
-                                                        <CarouselItem key={index} className="w-11/12">
+                                                <CarouselContent className="w-full">
+                                                    {dadosRetornados.map((mensagem, index) => (
+                                                        <CarouselItem key={index} className="w-full">
                                                             <div className="p-1">
                                                                 <Card>
-                                                                    <CardContent
-                                                                        className="flex aspect-square items-center justify-center p-6">
-                                                                        <span className="">bla bla bla teste de dados financeiros
-                                                                        n oqual foi gasto 1000% a mais</span>
+                                                                    <CardContent className="flex aspect-square items-center font-mono font-medium text-lg justify-center p-6">
+                                                                        {mensagem.split('\\n\\n').map((line: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, lineIndex: React.Key | null | undefined) => (
+                                                                            <span key={lineIndex}>{line}<br/></span>
+                                                                        ))}
                                                                     </CardContent>
                                                                 </Card>
                                                             </div>
                                                         </CarouselItem>
                                                     ))}
+
                                                 </CarouselContent>
                                                 <CarouselPrevious/>
                                                 <CarouselNext/>
                                             </Carousel>
                                         </div>
                                     </div>
-
 
                                 </div>
                             </div>

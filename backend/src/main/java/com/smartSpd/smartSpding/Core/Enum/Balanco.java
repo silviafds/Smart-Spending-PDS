@@ -2,7 +2,9 @@ package com.smartSpd.smartSpding.Core.Enum;
 
 public enum Balanco {
     DESPESA("Despesa"),
-    RECEITA("Receita");
+    RECEITA("Receita"),
+
+    DESPESA_RECEITA("Despesa e Receita");
 
     private String tiposBalanco;
 

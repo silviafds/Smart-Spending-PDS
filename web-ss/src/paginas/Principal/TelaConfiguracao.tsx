@@ -5,6 +5,7 @@ import {Ajuda} from "../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
 import { Link } from 'react-router-dom';
 import {MdOutlineAccountTree, MdOutlineSubtitles} from "react-icons/md";
+import { BiMessageRoundedCheck } from "react-icons/bi";
 import { TbCategoryPlus } from "react-icons/tb";
 
 import {BsBank} from "react-icons/bs";
@@ -54,6 +55,17 @@ function TelaConfiguracao() {
                                     <div
                                         className="flex items-center justify-center mt-2">
                                         <BsBank className="h-8 w-8"/>
+                                    </div>
+                                </div>
+                            </Link>
+
+                            <Link to="/GerenciadorConselhos" className="flex flex-col items-center justify-center">
+                                <div
+                                    className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md drop-shadow-md hover:bg-gray-200">
+                                    <h2 className="text-center mt-16 font-semibold text-xl	">Conselhos</h2>
+                                    <div
+                                        className="flex items-center justify-center mt-2">
+                                        <BiMessageRoundedCheck className="h-8 w-8"/>
                                     </div>
                                 </div>
                             </Link>

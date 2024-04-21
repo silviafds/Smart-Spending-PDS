@@ -10,5 +10,6 @@ export enum AjudaEnum {
     CADASTRO_BALANCO_RAPIDO = "Ao fechar esta página, você perde o acesso ao balanço rápido.",
     DEFINICAO_CONTA_BANCARIA = "A conta bancária é usada para registrar movimentações de receitas e despesas.",
     CADASTRO_CONTA_BANCARIA = "Preencha o formulário para realizar o cadastro de uma conta bancária.",
-    GERENCIADOR_CATEGORIA = "Nesta página é possível acessar todas as categorias que foram previamente cadastradas"
+    GERENCIADOR_CATEGORIA = "Nesta página é possível acessar todas as categorias que foram previamente cadastradas.",
+    GERENCIADOR_CONSELHO = "Configure seus conselhos e metas."
 }

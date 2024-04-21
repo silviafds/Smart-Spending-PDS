@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { Login } from "../../paginas/usuario/login";
 import CadastroUsuario from '../../paginas/usuario/cadastroUsuario';
-
 import { RotaPrivada } from "./rotaPrivada";
 import Dashboard from "../../paginas/Principal/dashboard";
 import Receita from "../../paginas/Principal/Receita"
@@ -24,6 +23,7 @@ import TelaConfiguracao from "../../paginas/Principal/TelaConfiguracao";
 import TelaCategoria from "../../paginas/Configuracao/Categoria/TelaCategoria";
 import CadastroCategoria from "../../paginas/Configuracao/Categoria/CadastroCategoria";
 import TelaBalancoRapido from "../../paginas/Balanco/TelaBalancoRapido";
+import Conselhos from "../../paginas/Configuracao/Conselhos";
 
 export const AppRouter = () => {
     return (
@@ -115,6 +115,10 @@ export const AppRouter = () => {
 
                 <Route path="/BalancoRapido" element={<TelaBalancoRapido />} >
                     <Route path="/BalancoRapido" element={<TelaBalancoRapido />} />
+                </Route>
+
+                <Route path="/GerenciadorConselhos" element={<Conselhos />} >
+                    <Route path="/GerenciadorConselhos" element={<Conselhos />} />
                 </Route>
             </Routes>
         </Router>

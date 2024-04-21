@@ -46,6 +46,7 @@ public class SaldoServiceImpl implements SaldoService {
 
         DecimalFormat df = new DecimalFormat("#,##");
 
+
         for (Double saldoPorConta : saldoPorContaInterna.values()) {
             saldoTotal += Double.valueOf(df.format(saldoPorConta));
         }

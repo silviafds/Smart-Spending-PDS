@@ -1248,7 +1248,54 @@
 					"response": []
 				},
 				{
-					"name": "Buscar conselho",
+					"name": "Consultar Saldos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identificador\": 1,\n    \"statusDespesa\": false,\n    \"metaDespesa\": \"\",\n    \"statusReceita\": true,\n    \"metaReceita\": \"7000\",\n    \"tempoConselho\": \"15d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/saldo/calcularSaldos",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"saldo",
+								"calcularSaldos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Saldo",
+			"item": [
+				{
+					"name": "Buscar conselho Copy",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},

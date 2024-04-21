@@ -57,62 +57,6 @@ public class ConselhosServiceImpl implements ConselhosService {
         return conselhosRepository.buscarConselhos();
     }
 
-   /* @Override
-    public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
-        List<String> conselhos = new ArrayList<>();
-
-        if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA_RECEITA.getBalanco())) {
-            String excessoDespesa = avisarSobreExcessoReceita(balancoRapidoDTO);
-            if(excessoDespesa != null) {
-                conselhos.add(excessoDespesa);
-            }
-
-            String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
-            if(excessoReceita != null) {
-                conselhos.add(excessoReceita);
-            }
-            conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
-            conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
-            conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
-            conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
-        } else if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA.getBalanco())) {
-            String excessoDespesa = avisarSobreExcessoReceita(balancoRapidoDTO);
-            if(excessoDespesa != null) {
-                conselhos.add(excessoDespesa);
-            }
-
-            conselhos.add(compararDespesaMesAtualEAnterior(balancoRapidoDTO));
-            conselhos.add(despesaAReduzir(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
-        } else if(balancoRapidoDTO.getTipoBalanco().equals(RECEITA.getBalanco())) {
-            String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
-            if(excessoReceita != null) {
-                conselhos.add(avisarSobreExcessoReceita(balancoRapidoDTO));
-
-            }
-            conselhos.add(compararReceitaMesAtualEAnterior(balancoRapidoDTO));
-            conselhos.add(receitasAAumentar(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino()));
-        }
-
-        String igualdadeReceitaDespesa = avisarSobreIgualdadeReceitaDespesa(balancoRapidoDTO);
-        if(igualdadeReceitaDespesa != null) {
-            conselhos.add(igualdadeReceitaDespesa);
-        }
-
-        boolean verificaMetaDespesa = gerenciadorConselhos.verificacaoMetaDespesa();
-        if(verificaMetaDespesa) {
-            String conselhoMeta = gerarConselhoMetaDespesa(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
-            conselhos.add(conselhoMeta);
-        }
-
-        boolean verificaMetaReceita = gerenciadorConselhos.verificacaoMetaReceita();
-        if(verificaMetaReceita) {
-            String conselhoMeta = gerarConselhoMetaReceita(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
-            conselhos.add(conselhoMeta);
-        }
-
-        return conselhos;
-    }*/
-
     @Override
     public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
         List<String> conselhos = new ArrayList<>();
@@ -179,7 +123,6 @@ public class ConselhosServiceImpl implements ConselhosService {
             conselhos.add(conselhoMeta);
         }
     }
-
 
     @Override
     public String avisarSobreExcessoDespesa(BalancoRapidoDTO dado) {
@@ -413,7 +356,6 @@ public class ConselhosServiceImpl implements ConselhosService {
         conselhoBuilder.append(". Recomenda-se estudar maneiras de aumentar para obter um patrimônio maior.");
 
         return conselhoBuilder.toString();
-
     }
 
 }

@@ -2,6 +2,17 @@ import axios from "../../core/contexto/axios";
 import {BACKEND_URL} from "../../core/config";
 import Swal from "sweetalert2";
 
+export async function buscarConselhoPorBalanco(jsonString: any) {
+    try {
+        const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
+        const response = await axios.post(`${BACKEND_URL}/conselhos/conselhoPorBalanco`, jsonString, axiosConfig);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de configuração de conselhos', error);
+        throw error;
+    }
+}
+
 export async function salvarConselhos(jsonString: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
@@ -63,3 +74,4 @@ export async function buscarConfiguracaoConselhos() {
         throw error;
     }
 }
+

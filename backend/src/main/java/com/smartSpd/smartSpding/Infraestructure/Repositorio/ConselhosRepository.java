@@ -36,4 +36,32 @@ public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
                                            @Param("endDate") LocalDate endDate);
 
 
+
+    @Query("SELECT " +
+            "(SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :dataInicio AND :dataTermino) AS totalDespesa, " +
+            "(SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :dataInicialMesAnterior AND :dataFinalMesAnterior) AS totalDespesas ")
+    List<Object[]> avisoDespesaSuperiorMesAnteriorCategoriaMaiorGasto(@Param("dataInicio") LocalDate dataInicio,
+                                                                      @Param("dataTermino") LocalDate dataTermino,
+                                                                      @Param("dataInicialMesAnterior") LocalDate dataInicialMesAnterior,
+                                                                      @Param("dataFinalMesAnterior") LocalDate dataFinalMesAnterior);
+
+    @Query("SELECT " +
+            "(SELECT SUM(r.valorReceita) FROM receita r WHERE r.dataReceita BETWEEN :dataInicio AND :dataTermino) AS totalReceita, " +
+            "(SELECT SUM(r.valorReceita) FROM receita r WHERE r.dataReceita BETWEEN :dataInicialMesAnterior AND :dataFinalMesAnterior) AS totalReceitaMesAnterior ")
+    List<Object[]> avisoReceitaSuperiorMesAnteriorCategoriaMaiorGasto(@Param("dataInicio") LocalDate dataInicio,
+                                                                      @Param("dataTermino") LocalDate dataTermino,
+                                                                      @Param("dataInicialMesAnterior") LocalDate dataInicialMesAnterior,
+                                                                      @Param("dataFinalMesAnterior") LocalDate dataFinalMesAnterior);
+
+    @Query("Select c.status_despesa from conselhos c where c.status_despesa = true")
+    boolean verificaDefinicaoMetaDespesa();
+
+    @Query("Select c.meta_despesa from conselhos c where c.status_despesa = true")
+    String metaDefinidaDespesa();
+
+    @Query("Select c.status_receita from conselhos c where c.status_receita = true")
+    boolean verificaDefinicaoMetaReceita();
+
+    @Query("Select c.meta_receita from conselhos c where c.status_receita = true")
+    String metaDefinidaReceita();
 }

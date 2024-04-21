@@ -5,6 +5,7 @@ import com.smartSpd.smartSpding.Infraestructure.Repositorio.SaldoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,12 @@ public class SaldoServiceImpl implements SaldoService {
         Map<Long, Double> saldoPorContaInterna = new HashMap<>();
         Map<Long, String> nomePorContaInterna = new HashMap<>();
 
+        DecimalFormat df = new DecimalFormat("#,##");
+
         for (Object[] registro : idsComSaldo) {
             Long idContaInterna = (Long) registro[0];
             Double saldoConta = (Double) registro[1];
-            saldoPorContaInterna.put(idContaInterna, saldoConta);
+            saldoPorContaInterna.put(idContaInterna, Double.valueOf(df.format(saldoConta)));
             String nomeConta = saldoRepository.findNomeById(idContaInterna);
             nomePorContaInterna.put(idContaInterna, nomeConta);
         }
@@ -41,11 +44,15 @@ public class SaldoServiceImpl implements SaldoService {
         Map<Long, Double> saldoPorContaInterna = calcularSaldoPorContaHabilitada();
         Double saldoTotal = 0.0;
 
+        DecimalFormat df = new DecimalFormat("#,##");
+
         for (Double saldoPorConta : saldoPorContaInterna.values()) {
-            saldoTotal += saldoPorConta;
+            saldoTotal += Double.valueOf(df.format(saldoPorConta));
         }
 
         return saldoTotal;
     }
+
+
 
 }

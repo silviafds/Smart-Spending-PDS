@@ -1,48 +1,47 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.SaldoService;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.SaldoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.javapoet.ClassName;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/saldo")
 public class SaldoController {
 
+    static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
+
     private final SaldoService saldoService;
-    private final SaldoRepository saldoRepository;
 
     @Autowired
-    public SaldoController(SaldoService saldoService, SaldoRepository saldoRepository) {
+    public SaldoController(SaldoService saldoService) {
         this.saldoService = saldoService;
-        this.saldoRepository = saldoRepository;
     }
 
-    @GetMapping("/calcularSaldos")
+    @GetMapping("/buscarSaldos")
     @Transactional
-    public ResponseEntity<Map<String, Object>> calcularSaldoPorContaHabilitada() {
-        Map<Long, Double> saldosPorConta = saldoService.calcularSaldoPorContaHabilitada();
-        Map<String, Object> saldos = new HashMap<>();
-        Double saldoTotal = saldoService.calcularSaldoTotal();
-
-        saldos.put("Saldo Total", saldoTotal);
-
-        for (Map.Entry<Long, Double> contaESaldo : saldosPorConta.entrySet()) {
-            Long idConta = contaESaldo.getKey();
-            Double saldo = contaESaldo.getValue();
-            String nomeConta = saldoRepository.findNomeById(idConta);
-            saldos.put(nomeConta, saldo);
+    public ResponseEntity<?> buscarSaldos() {
+        try {
+            Map<String, BigDecimal> saldo = saldoService.saldos();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(saldo);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar saldos. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar saldos.");
         }
-
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(saldos);
     }
 
 }

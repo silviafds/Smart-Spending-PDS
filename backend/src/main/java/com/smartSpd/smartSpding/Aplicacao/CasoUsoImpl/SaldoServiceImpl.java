@@ -5,6 +5,8 @@ import com.smartSpd.smartSpding.Infraestructure.Repositorio.SaldoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,32 +22,23 @@ public class SaldoServiceImpl implements SaldoService {
     }
 
     @Override
-    public Map<Long, Double> calcularSaldoPorContaHabilitada() {
-        List<Object[]> idsComSaldo = saldoRepository.calcularSaldoPorContaHabilitada();
-        Map<Long, Double> saldoPorContaInterna = new HashMap<>();
-        Map<Long, String> nomePorContaInterna = new HashMap<>();
+    public Map<String, BigDecimal> saldos() {
+        List<Object[]> resultados = saldoRepository.calcularSaldoPorContasHabilitada();
+        Map<String, BigDecimal> saldos = new HashMap<>();
+        BigDecimal saldoTotal = BigDecimal.ZERO;
 
-        for (Object[] registro : idsComSaldo) {
-            Long idContaInterna = (Long) registro[0];
-            Double saldoConta = (Double) registro[1];
-            saldoPorContaInterna.put(idContaInterna, saldoConta);
-            String nomeConta = saldoRepository.findNomeById(idContaInterna);
-            nomePorContaInterna.put(idContaInterna, nomeConta);
+        for (Object[] resultado : resultados) {
+            String nomeConta = (String) resultado[0];
+            Number saldoNumber = (Number) resultado[1];
+            BigDecimal saldo = BigDecimal.valueOf(saldoNumber.doubleValue()).setScale(2, RoundingMode.HALF_UP);
+            saldos.put(nomeConta, saldo);
+
+            saldoTotal = saldoTotal.add(saldo);
         }
 
-        return saldoPorContaInterna;
-    }
+        saldos.put("Saldo Total", saldoTotal.setScale(2, RoundingMode.HALF_UP));
 
-    @Override
-    public Double calcularSaldoTotal() {
-        Map<Long, Double> saldoPorContaInterna = calcularSaldoPorContaHabilitada();
-        Double saldoTotal = 0.0;
-
-        for (Double saldoPorConta : saldoPorContaInterna.values()) {
-            saldoTotal += saldoPorConta;
-        }
-
-        return saldoTotal;
+        return saldos;
     }
 
 }

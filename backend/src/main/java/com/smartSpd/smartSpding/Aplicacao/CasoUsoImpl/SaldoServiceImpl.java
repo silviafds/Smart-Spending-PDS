@@ -26,12 +26,13 @@ public class SaldoServiceImpl implements SaldoService {
         Map<Long, Double> saldoPorContaInterna = new HashMap<>();
         Map<Long, String> nomePorContaInterna = new HashMap<>();
 
-        DecimalFormat df = new DecimalFormat("#,##");
 
         for (Object[] registro : idsComSaldo) {
             Long idContaInterna = (Long) registro[0];
             Double saldoConta = (Double) registro[1];
-            saldoPorContaInterna.put(idContaInterna, Double.valueOf(df.format(saldoConta)));
+            //saldoConta = Double.parseDouble(String.format("%.2f", saldoConta), saldoConta).replace(",", "."));
+            String saldoContaFormatado = String.format("%.2f", saldoConta).replace(",", ".");
+            saldoPorContaInterna.put(idContaInterna, Double.valueOf(saldoContaFormatado));
             String nomeConta = saldoRepository.findNomeById(idContaInterna);
             nomePorContaInterna.put(idContaInterna, nomeConta);
         }
@@ -44,16 +45,14 @@ public class SaldoServiceImpl implements SaldoService {
         Map<Long, Double> saldoPorContaInterna = calcularSaldoPorContaHabilitada();
         Double saldoTotal = 0.0;
 
-        DecimalFormat df = new DecimalFormat("#,##");
-
-
         for (Double saldoPorConta : saldoPorContaInterna.values()) {
-            saldoTotal += Double.valueOf(df.format(saldoPorConta));
+            saldoTotal += saldoPorConta;
         }
+
+        saldoTotal = Double.parseDouble(String.format("%.2f", saldoTotal).replace(",", "."));
 
         return saldoTotal;
     }
-
 
 
 }

@@ -57,6 +57,9 @@ export function Sidebar() {
             case 'Configurações':
                 window.location.href = "/telaConfiguracao/";
                 break;
+            case 'Saldo':
+                window.location.href = "/Saldo/";
+                break;
             default:
                 break;
         }

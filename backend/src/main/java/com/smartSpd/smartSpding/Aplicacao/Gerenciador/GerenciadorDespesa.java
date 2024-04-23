@@ -16,7 +16,7 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.TRANSFERENCIA;
 public class GerenciadorDespesa {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
-    public String[] reformulaDadosBancarios(String dadosBancariosOrigem, String tipoTransacao) {
+    public String[] reformulaDadosBancarios(String dadosBancariosOrigem) {
         if (dadosBancariosOrigem != null) {
             return dadosBancariosOrigem.split("/");
         } else {

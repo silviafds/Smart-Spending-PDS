@@ -82,47 +82,8 @@ public class ReceitaServiceImpl implements ReceitaService {
         }
     }
 
-    public void salvarReceitaEditada(ReceitaDTO data, String[] dadosReformulados) {
-
-        if(data.getOrigem().equals("Cheque") || data.getOrigem().equals("Papel e moeda")) {
-            receitaRepository.editarReceita(
-                    data.getId(),
-                    data.getCategoria(),
-                    data.getTitulo_contabil(),
-                    data.getDataReceita(),
-                    data.getValorReceita(),
-                    data.getPagador(),
-                    data.getOrigem(),
-                    data.getBancoOrigem(),
-                    data.getAgenciaOrigem(),
-                    data.getNumeroContaOrigem(),
-                    data.getBancoDestino(),
-                    "",
-                    "",
-                    "",
-                    data.getDescricao(),
-                    data.getContaInterna()
-            );
-        } else {
-            receitaRepository.editarReceita(
-                    data.getId(),
-                    data.getCategoria(),
-                    data.getTitulo_contabil(),
-                    data.getDataReceita(),
-                    data.getValorReceita(),
-                    data.getPagador(),
-                    data.getOrigem(),
-                    data.getBancoOrigem(),
-                    data.getAgenciaOrigem(),
-                    data.getNumeroContaOrigem(),
-                    data.getBancoDestino(),
-                    dadosReformulados[0],
-                    dadosReformulados[1],
-                    dadosReformulados[2],
-                    data.getDescricao(),
-                    data.getContaInterna()
-            );
-        }
+    public void salvarReceitaEditada(ReceitaDTO data, String[] dadosReformulados) throws Exception {
+        receitaRepository.edicaoReceita(data, dadosReformulados);
     }
 
     @Transactional

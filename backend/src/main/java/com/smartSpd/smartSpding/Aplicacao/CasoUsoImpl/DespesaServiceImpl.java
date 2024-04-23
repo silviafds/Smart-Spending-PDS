@@ -23,7 +23,6 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.*;
 @Component
 public class DespesaServiceImpl implements DespesaService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
-
     private final DespesaRepository despesaRepository;
     private final GerenciadorDespesa gerenciadorDespesa;
 
@@ -40,7 +39,7 @@ public class DespesaServiceImpl implements DespesaService {
                 String[] dadosReformulados = new String[0];
 
                 if (data.getCategoriaTransacao().equals(PIX.getMeiosPagamento()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.getMeiosPagamento())) {
-                    dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
+                    dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
                 }
                 Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
                 despesaRepository.save(despesa);
@@ -64,7 +63,7 @@ public class DespesaServiceImpl implements DespesaService {
 
             gerenciadorDespesa.ajustarOrigem(data);
 
-            String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem(), data.getCategoriaTransacao());
+            String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
 
             salvarDespesaEditada(data, dadosReformulados);
 
@@ -75,46 +74,8 @@ public class DespesaServiceImpl implements DespesaService {
         }
     }
 
-    public void salvarDespesaEditada(DespesaDTO data, String[] dadosReformulados) {
-        if(data.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento())|| data.getCategoriaTransacao().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
-            despesaRepository.editarDespesa(
-                    data.getId(),
-                    data.getCategoria(),
-                    data.getTitulo_contabil(),
-                    data.getDataDespesa(),
-                    data.getValorDespesa(),
-                    data.getCategoriaTransacao(),
-                    data.getBancoOrigem(),
-                    "",
-                    "",
-                    "",
-                    data.getBeneficiario(),
-                    data.getBancoDestino(),
-                    data.getAgenciaDestino(),
-                    data.getNumeroContaDestino(),
-                    data.getDescricao(),
-                    data.getContaInterna()
-            );
-        } else {
-            despesaRepository.editarDespesa(
-                    data.getId(),
-                    data.getCategoria(),
-                    data.getTitulo_contabil(),
-                    data.getDataDespesa(),
-                    data.getValorDespesa(),
-                    data.getCategoriaTransacao(),
-                    data.getBancoOrigem(),
-                    dadosReformulados[0],
-                    dadosReformulados[1],
-                    dadosReformulados[2],
-                    data.getBeneficiario(),
-                    data.getBancoDestino(),
-                    data.getAgenciaDestino(),
-                    data.getNumeroContaDestino(),
-                    data.getDescricao(),
-                    data.getContaInterna()
-            );
-        }
+    public void salvarDespesaEditada(DespesaDTO data, String[] dadosReformulados) throws Exception {
+        despesaRepository.edicaoDespesa(data, dadosReformulados);
     }
 
     @Transactional

@@ -1,43 +1,63 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
+import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.CHEQUE;
+import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PAPEL_E_MOEDA;
+
+@Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
-    @Modifying
-    @Query("UPDATE despesa d SET d.categoria = :categoria, d.titulo_contabil = :titulo_contabil, " +
-            "d.dataDespesa = :dataDespesa, d.valorDespesa = :valorDespesa, d.categoriaTransacao = :categoriaTransacao, " +
-            "d.bancoOrigem = :bancoOrigem, d.tipoContaOrigem = :tipo_conta_origem, d.agenciaOrigem = :agenciaOrigem, " +
-            "d.numeroContaOrigem = :numeroContaOrigem, d.beneficiario = :beneficiario, d.bancoDestino = :bancoDestino, " +
-            "d.agenciaDestino = :agenciaDestino, d.numeroContaDestino = :numeroContaDestino, d.descricao = :descricao, d.contaInterna = :contaInterna " +
-            "WHERE d.id = :idDespesa")
-    int editarDespesa(
-            @Param("idDespesa") Long idDespesa,
-            @Param("categoria") String categoria,
-            @Param("titulo_contabil") String titulo_contabil,
-            @Param("dataDespesa") LocalDate dataDespesa,
-            @Param("valorDespesa") Double valorDespesa,
-            @Param("categoriaTransacao") String categoriaTransacao,
-            @Param("bancoOrigem") String bancoOrigem,
-            @Param("tipo_conta_origem") String tipo_conta_origem,
-            @Param("agenciaOrigem") String agenciaOrigem,
-            @Param("numeroContaOrigem") String numeroContaOrigem,
-            @Param("beneficiario") String beneficiario,
-            @Param("bancoDestino") String bancoDestino,
-            @Param("agenciaDestino") String agenciaDestino,
-            @Param("numeroContaDestino") String numeroContaDestino,
-            @Param("descricao") String descricao,
-            @Param("contaInterna") ContaInterna contaInterna
-    );
+     default int edicaoDespesa(DespesaDTO despesaDTO, String[] dadosReformulados) throws Exception {
+        int rowsUpdated = 0;
+
+         try {
+             Despesa despesa = findById(despesaDTO.getId()).orElse(null);
+
+             if (despesa != null) {
+                 updateDespesaFields(despesa, despesaDTO, dadosReformulados);
+                 save(despesa);
+                 rowsUpdated = 1;
+             }
+         } catch (NullPointerException e) {
+             e.printStackTrace();
+             throw new Exception("Ocorreu um erro de NullPointerException durante a edição da despesa.");
+         }
+
+        return rowsUpdated;
+    }
+
+    private void updateDespesaFields(Despesa despesa, DespesaDTO despesaDTO, String[] dadosReformulados) {
+        despesa.setCategoria(despesaDTO.getCategoria());
+        despesa.setTitulo_contabil(despesaDTO.getTitulo_contabil());
+        despesa.setDataDespesa(despesaDTO.getDataDespesa());
+        despesa.setValorDespesa(despesaDTO.getValorDespesa());
+        despesa.setCategoriaTransacao(despesaDTO.getCategoriaTransacao());
+
+        if (despesaDTO.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento()) ||
+                despesaDTO.getCategoriaTransacao().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
+        } else {
+            despesa.setBancoOrigem(dadosReformulados[0]);
+            despesa.setTipoContaOrigem(dadosReformulados[1]);
+            despesa.setAgenciaOrigem(dadosReformulados[2]);
+        }
+
+        despesa.setNumeroContaOrigem(despesaDTO.getNumeroContaDestino());
+        despesa.setBeneficiario(despesaDTO.getBeneficiario());
+        despesa.setBancoDestino(despesaDTO.getBancoDestino());
+        despesa.setAgenciaDestino(despesaDTO.getAgenciaDestino());
+        despesa.setNumeroContaDestino(despesaDTO.getNumeroContaDestino());
+        despesa.setDescricao(despesaDTO.getDescricao());
+        despesa.setContaInterna(despesaDTO.getContaInterna());
+    }
 
     @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa(c.id, c.nome) FROM categoria_despesa c")
     List<CategoriaDespesa> buscarTodasAsCategoriaDespesa();

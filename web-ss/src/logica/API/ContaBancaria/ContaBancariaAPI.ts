@@ -65,8 +65,11 @@ export async function salvarContaBancaria(jsonString: any) {
                     customClass: {
                         confirmButton: "bg-sky-950",
                     },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/contaBancaria/";
+                    }
                 });
-                window.location.href = "/contaBancaria/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -107,15 +110,18 @@ export async function editarContaBancaria(jsonString: any) {
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Conta Bancária atualizada.",
+                    title: "Conta Bancária editada.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
                     customClass: {
                         confirmButton: "bg-sky-950",
                     },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/contaBancaria/";
+                    }
                 });
-                window.location.href = "/contaBancaria/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -144,7 +150,7 @@ export async function editarContaBancaria(jsonString: any) {
             confirmButtonColor: "#D60000",
             confirmButtonText: "OK",
             customClass: {
-                confirmButton: "bg-sky-950",
+                confirmButton: "bg-red-950",
             },
         });
     }

@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 3000.00,\n    \"pagador\": \"financeira ricco\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco Ricco\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"dadosBancariosDestino\": \"Corrente/0004/00045678\",\n    \"descricao\": \"Lucro com venda de dollar\"\n}",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Proventos\",\n    \"titulo_contabil\": \"Salário\",\n    \"dataReceita\": \"2024-04-22\",\n    \"valorReceita\": 16000.00,\n    \"pagador\": \"Empresa um\",\n    \"origem\": \"Transferência\",\n    \"bancoOrigem\": \"\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"12345678\",\n    \"bancoDestino\": \"Banco Iti\",\n    \"dadosBancariosDestino\": \"Corrente/9101/98700032\",\n    \"descricao\": \"Recebimento de salário da empresa um.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,7 +334,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 73,\n    \"contaInterna\": {\n        \"id\": 42,\n        \"nome\": \"conta 5\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataReceita\": \"2024-03-22\",\n    \"valorReceita\": 12,\n    \"pagador\": \"loja um\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco Inter\",\n    \"dadosBancariosDestino\": \"Investimento/1027/10275678\",\n    \"descricao\": \"Lucro com venda de euro\"\n}",
+							"raw": "{\n    \"id\": 106,\n    \"contaInterna\": {\n        \"id\": 42,\n        \"nome\": \"conta 5\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Proventos\",\n    \"titulo_contabil\": \"Salário\",\n    \"dataReceita\": \"2024-04-22\",\n    \"valorReceita\": 1200,\n    \"pagador\": \"empresa dois\",\n    \"origem\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"agenciaOrigem\": \"\",\n    \"numeroContaOrigem\": \"\",\n    \"bancoDestino\": \"Banco Inter\",\n    \"dadosBancariosDestino\": \"Investimento/1027/10275678\",\n    \"descricao\": \"edicao\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -342,7 +342,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/editarReceita/64",
+							"raw": "http://{{host}}:{{port}}/receita/editarReceita",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -350,8 +350,7 @@
 							"port": "{{port}}",
 							"path": [
 								"receita",
-								"editarReceita",
-								"64"
+								"editarReceita"
 							]
 						}
 					},
@@ -874,7 +873,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 72,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Investimento\",\n    \"titulo_contabil\": \"Lucro com moedas\",\n    \"dataDespesa\": \"2024-03-22\",\n    \"valorDespesa\": 900,\n    \"pagador\": \"loja um\",\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco do Brasil\",\n    \"dadosBancariosOrigem\": \"Corrente/0004/00045678\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra eletronico\"\n}",
+							"raw": "{\n    \"id\": 102,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Lazer\",\n    \"titulo_contabil\": \"Festa\",\n    \"dataDespesa\": \"2024-04-22\",\n    \"valorDespesa\": 900,\n    \"categoriaTransacao\": \"Papel e moeda\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra festa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -913,7 +912,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-03-24\",\n    \"valorDespesa\": 99.99,\n    \"categoriaTransacao\": \"Papel e moeda\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\"\n}",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-03-24\",\n    \"valorDespesa\": 99.99,\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1242,6 +1241,45 @@
 							"path": [
 								"conselhos",
 								"conselhoPorBalanco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar conselhos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identificador\": 1,\n    \"statusDespesa\": true,\n    \"metaDespesa\": 1000,\n    \"statusReceita\": true,\n    \"metaReceita\": 3000,\n    \"tempoConselho\": \"15d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/conselhos/registroConselho",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"conselhos",
+								"registroConselho"
 							]
 						}
 					},

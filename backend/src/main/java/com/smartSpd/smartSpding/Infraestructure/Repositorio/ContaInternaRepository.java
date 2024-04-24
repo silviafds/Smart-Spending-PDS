@@ -17,9 +17,10 @@ public interface ContaInternaRepository extends JpaRepository<ContaInterna, Long
 
     @Modifying
     @Transactional
-    @Query("UPDATE ContaInterna p SET p.nome = :novo WHERE p.id = :id")
-    int atualizarNomeContaInterna(int id, String novo);@Modifying
+    @Query("UPDATE ContaInterna p SET p.nome = :novo, p.desabilitarConta = :desabilitarConta WHERE p.id = :id")
+    int atualizarNomeContaInterna(int id, String novo, Boolean desabilitarConta);
 
+    @Modifying
     @Transactional
     @Query("UPDATE ContaInterna p SET p.desabilitarConta = :desabilitarconta WHERE p.id = :id")
     int atualizarStatusContaInterna(int id, Boolean desabilitarconta);

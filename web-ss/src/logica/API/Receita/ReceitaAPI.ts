@@ -70,15 +70,18 @@ export async function editarReceita(jsonString: any) {
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Receita atualizada.",
+                    title: "Receita editada.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
                     customClass: {
                         confirmButton: "bg-sky-950",
                     },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/receita/";
+                    }
                 });
-                window.location.href = "/receita/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -126,8 +129,11 @@ export async function salvarReceita(jsonString: any) {
                     customClass: {
                         confirmButton: "bg-sky-950",
                     },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/receita/";
+                    }
                 });
-                window.location.href = "/receita/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -160,14 +166,3 @@ export async function salvarReceita(jsonString: any) {
         });
     }
 }
-
-export async function chamada(id: any) {
-    try {
-        const titulos = await buscarTitulosContabeis(id);
-        return titulos.data;
-        /*setArrayTituloContabil(titulos);*/
-    } catch (error) {
-        console.error('Erro ao buscar os títulos contábeis', error);
-    }
-}
-

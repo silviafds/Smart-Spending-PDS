@@ -47,8 +47,11 @@ export async function salvarDespesa(jsonString: any) {
                     customClass: {
                         confirmButton: "bg-sky-950",
                     },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/despesa/";
+                    }
                 });
-                window.location.href = "/despesa/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

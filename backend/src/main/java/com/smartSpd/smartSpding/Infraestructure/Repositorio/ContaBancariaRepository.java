@@ -40,5 +40,4 @@ public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Lo
     @Query("SELECT cb.tipoConta, cb.agencia, cb.numeroConta FROM conta_bancaria cb WHERE cb.nomeBanco = :banco")
     List<String> findContaBancariaByNomeBanco2(@Param("banco") String banco);
 
-
 }

@@ -1,7 +1,6 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
-import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

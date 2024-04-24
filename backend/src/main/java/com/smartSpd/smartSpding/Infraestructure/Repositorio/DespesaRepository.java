@@ -78,7 +78,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     double totalDespesaPorPeriodo(@Param("dataInicio") LocalDate dataInicio,
                                   @Param("dataTermino") LocalDate dataTermino);
 
-
     @Query(nativeQuery = true,
             value = "SELECT d.categoria, SUM(valor_despesa) FROM despesa d " +
                     "WHERE data_despesa BETWEEN :startDate AND :endDate " +

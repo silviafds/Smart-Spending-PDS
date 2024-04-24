@@ -85,5 +85,4 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     List<Object[]> encontrarReceitasPorCategoria(@Param("startDate") LocalDate startDate,
                                                  @Param("endDate") LocalDate endDate);
 
-
 }

@@ -1,41 +1,44 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
+import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Repository
 public interface ConselhosRepository extends JpaRepository<Conselhos, Long> {
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE conselhos c SET c.status_despesa = :statusDespesa, c.meta_despesa = :metaDespesa," +
-            "c.status_receita = :statusReceita, c.meta_receita = :metaReceita, c.tempo_conselho = :tempoConselho" +
-            " WHERE c.identificador = :id")
-    int salvarConselhos(@Param("id") int id,
-                        @Param("statusDespesa") boolean statusDespesa,
-                        @Param("metaDespesa") String metaDespesa,
-                        @Param("statusReceita") boolean statusReceita,
-                        @Param("metaReceita") String metaReceita,
-                        @Param("tempoConselho") String tempoConselho);
+    default int salvarConselhos(ConselhosDTO data) throws Exception {
+        int rowsUpdated = 0;
+        try {
+            Conselhos conselhos = new Conselhos(data.identificador(), data.statusDespesa(), data.metaDespesa(),
+                    data.statusReceita(), data.metaReceita(), data.tempoConselho());
 
+            if (conselhos != null) {
+                save(conselhos);
+                rowsUpdated = 1;
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            throw new Exception("Ocorreu um erro de NullPointerException durante a edição do conselho.");
+        }
+        return rowsUpdated;
+    }
 
     @Query("SELECT c FROM conselhos c")
     List<Conselhos> buscarConselhos();
-
 
     @Query("SELECT " +
             "(SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :startDate AND :endDate) AS totalDespesa, " +
             "(SELECT SUM(r.valorReceita) FROM receita r WHERE r.dataReceita BETWEEN :startDate AND :endDate) AS totalReceita ")
     List<Object[]> calcularTotalPorPeriodo(@Param("startDate") LocalDate startDate,
                                            @Param("endDate") LocalDate endDate);
-
-
 
     @Query("SELECT " +
             "(SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :dataInicio AND :dataTermino) AS totalDespesa, " +

@@ -37,7 +37,6 @@ public class ReceitaServiceImpl implements ReceitaService {
         this.receitaRepository = receitaRepository;
     }
 
-
     @Transactional
     @Override
     public Boolean cadastrarReceita(ReceitaDTO data) throws Excecoes {

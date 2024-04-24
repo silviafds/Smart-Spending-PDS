@@ -16,7 +16,7 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PAPEL_E_MOEDA;
 @Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
-     default int edicaoDespesa(DespesaDTO despesaDTO, String[] dadosReformulados) throws Exception {
+     default int editarDespesa(DespesaDTO despesaDTO, String[] dadosReformulados) throws Exception {
         int rowsUpdated = 0;
 
          try {
@@ -44,13 +44,15 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
         if (despesaDTO.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento()) ||
                 despesaDTO.getCategoriaTransacao().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
+            despesa.setTipoContaOrigem("");
+            despesa.setAgenciaOrigem("");
+            despesa.setNumeroContaOrigem("");
         } else {
-            despesa.setBancoOrigem(dadosReformulados[0]);
-            despesa.setTipoContaOrigem(dadosReformulados[1]);
-            despesa.setAgenciaOrigem(dadosReformulados[2]);
+            despesa.setTipoContaOrigem(dadosReformulados[0]);
+            despesa.setAgenciaOrigem(dadosReformulados[1]);
+            despesa.setNumeroContaOrigem(dadosReformulados[2]);
         }
-
-        despesa.setNumeroContaOrigem(despesaDTO.getNumeroContaDestino());
+        despesa.setBancoOrigem(despesa.getBancoOrigem());
         despesa.setBeneficiario(despesaDTO.getBeneficiario());
         despesa.setBancoDestino(despesaDTO.getBancoDestino());
         despesa.setAgenciaDestino(despesaDTO.getAgenciaDestino());
@@ -85,7 +87,5 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
                     "LIMIT 3")
     List<Object[]> encontrarDespesasPorCategoria(@Param("startDate") LocalDate startDate,
                                                  @Param("endDate") LocalDate endDate);
-
-
 
 }

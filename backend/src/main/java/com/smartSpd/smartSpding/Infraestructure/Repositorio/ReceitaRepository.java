@@ -51,10 +51,10 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
             receita.setNumeroContaDestino(dadosReformulados[2]);
         }
 
-        receita.setNumeroContaOrigem(receitaDTO.getNumeroContaOrigem());
         receita.setPagador(receitaDTO.getPagador());
         receita.setBancoOrigem(receitaDTO.getBancoOrigem());
         receita.setAgenciaOrigem(receitaDTO.getAgenciaOrigem());
+        receita.setNumeroContaOrigem(receitaDTO.getNumeroContaOrigem());
         receita.setBancoDestino(receitaDTO.getBancoDestino());
         receita.setDescricao(receitaDTO.getDescricao());
         receita.setContaInterna(receitaDTO.getContaInterna());

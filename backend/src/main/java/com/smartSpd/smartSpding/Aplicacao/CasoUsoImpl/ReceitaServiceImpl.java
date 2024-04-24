@@ -73,17 +73,13 @@ public class ReceitaServiceImpl implements ReceitaService {
 
             String[] dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
 
-            salvarReceitaEditada(data, dadosReformulados);
+            receitaRepository.editarReceita(data, dadosReformulados);
 
             return true;
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao editar receita no service.", e);
             return false;
         }
-    }
-
-    public void salvarReceitaEditada(ReceitaDTO data, String[] dadosReformulados) throws Exception {
-        receitaRepository.edicaoReceita(data, dadosReformulados);
     }
 
     @Transactional

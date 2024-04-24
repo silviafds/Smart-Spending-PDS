@@ -1,10 +1,8 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
-import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,40 +14,14 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PAPEL_E_MOEDA;
 
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 
-    @Modifying
-    @Query("UPDATE receita r SET r.categoria = :categoria, r.titulo_contabil = :titulo_contabil, " +
-            "r.dataReceita = :dataReceita, r.valorReceita = :valorReceita, r.origem = :origem, " +
-            "r.bancoOrigem = :bancoOrigem, r.agenciaOrigem = :agenciaOrigem, r.numeroContaOrigem = :numeroContaOrigem, " +
-            "r.bancoDestino = :bancoDestino, r.agenciaDestino = :agenciaDestino, r.numeroContaDestino = :numeroContaDestino, " +
-            "r.descricao = :descricao, r.contaInterna = :contaInterna, r.tipoContaDestino = :tipo_conta_destino, " +
-            "r.pagador = :pagador WHERE r.id = :idReceita")
-    int editarReceita(
-            @Param("idReceita") Long idReceita,
-            @Param("categoria") String categoria,
-            @Param("titulo_contabil") String titulo_contabil,
-            @Param("dataReceita") LocalDate dataReceita,
-            @Param("valorReceita") Double valorReceita,
-            @Param("pagador") String pagador,
-            @Param("origem") String origem,
-            @Param("bancoOrigem") String bancoOrigem,
-            @Param("agenciaOrigem") String agenciaOrigem,
-            @Param("numeroContaOrigem") String numeroContaOrigem,
-            @Param("bancoDestino") String bancoDestino,
-            @Param("tipo_conta_destino") String tipo_conta_destino,
-            @Param("agenciaDestino") String agenciaDestino,
-            @Param("numeroContaDestino") String numeroContaDestino,
-            @Param("descricao") String descricao,
-            @Param("contaInterna") ContaInterna contaInterna
-    );
-
-    default int edicaoReceita(ReceitaDTO receitaDTO, String[] dadosReformulados) throws Exception {
+    default int editarReceita(ReceitaDTO receitaDTO, String[] dadosReformulados) throws Exception {
         int rowsUpdated = 0;
 
         try {
             Receita receita = findById(receitaDTO.getId()).orElse(null);
 
             if (receita != null) {
-                updateReceitaFields(receita, receitaDTO, dadosReformulados);
+                atualizarCamposReceita(receita, receitaDTO, dadosReformulados);
                 save(receita);
                 rowsUpdated = 1;
             }
@@ -61,7 +33,7 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
         return rowsUpdated;
     }
 
-    private void updateReceitaFields(Receita receita, ReceitaDTO receitaDTO, String[] dadosReformulados) {
+    private void atualizarCamposReceita(Receita receita, ReceitaDTO receitaDTO, String[] dadosReformulados) {
         receita.setCategoria(receitaDTO.getCategoria());
         receita.setTitulo_contabil(receitaDTO.getTitulo_contabil());
         receita.setDataReceita(receitaDTO.getDataReceita());
@@ -70,8 +42,11 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 
         if (receitaDTO.getOrigem().equals(CHEQUE.getMeiosPagamento()) ||
                 receitaDTO.getOrigem().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
+            receita.setTipoContaDestino("");
+            receita.setAgenciaDestino("");
+            receita.setNumeroContaDestino("");
         } else {
-            receita.setBancoDestino(dadosReformulados[0]);
+            receita.setTipoContaDestino(dadosReformulados[0]);
             receita.setAgenciaDestino(dadosReformulados[1]);
             receita.setNumeroContaDestino(dadosReformulados[2]);
         }
@@ -80,7 +55,7 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
         receita.setPagador(receitaDTO.getPagador());
         receita.setBancoOrigem(receitaDTO.getBancoOrigem());
         receita.setAgenciaOrigem(receitaDTO.getAgenciaOrigem());
-        receita.setNumeroContaOrigem(receitaDTO.getNumeroContaOrigem());
+        receita.setBancoDestino(receitaDTO.getBancoDestino());
         receita.setDescricao(receitaDTO.getDescricao());
         receita.setContaInterna(receitaDTO.getContaInterna());
     }

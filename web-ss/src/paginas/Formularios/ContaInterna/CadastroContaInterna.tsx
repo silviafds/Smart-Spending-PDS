@@ -16,6 +16,7 @@ interface IFormInputs {
 function formataParaJson(dadoUsuario: ContaInternaDTO) {
     let dados = {
         nome: dadoUsuario.nome,
+        desabilitarConta: false,
     };
     return JSON.stringify(dados);
 }

@@ -65,17 +65,13 @@ public class DespesaServiceImpl implements DespesaService {
 
             String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
 
-            salvarDespesaEditada(data, dadosReformulados);
+            despesaRepository.editarDespesa(data, dadosReformulados);
 
             return true;
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao editar despesa no service.", e);
             return false;
         }
-    }
-
-    public void salvarDespesaEditada(DespesaDTO data, String[] dadosReformulados) throws Exception {
-        despesaRepository.edicaoDespesa(data, dadosReformulados);
     }
 
     @Transactional

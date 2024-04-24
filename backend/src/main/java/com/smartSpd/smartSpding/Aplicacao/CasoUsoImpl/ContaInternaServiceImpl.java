@@ -31,6 +31,7 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         if (Objects.isNull(contaExistente)) {
             ContaInterna novaConta = new ContaInterna();
             novaConta.setNome(data.nome());
+            novaConta.setDesabilitarConta(data.desabilitarConta());
             contaInternaRepository.save(novaConta);
             return true;
         }
@@ -40,7 +41,7 @@ public class ContaInternaServiceImpl implements ContaInternaService {
 
     @Transactional
     public Boolean editarContaInterna(ContaInternaDTO data) {
-        return contaInternaRepository.atualizarNomeContaInterna(data.id(), data.nome()) == 1;
+        return contaInternaRepository.atualizarNomeContaInterna(data.id(), data.nome(), data.desabilitarConta()) == 1;
     }
 
     @Transactional

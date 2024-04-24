@@ -1,7 +1,6 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
-import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,9 +16,10 @@ public interface ContaInternaRepository extends JpaRepository<ContaInterna, Long
 
     @Modifying
     @Transactional
-    @Query("UPDATE ContaInterna p SET p.nome = :novo WHERE p.id = :id")
-    int atualizarNomeContaInterna(int id, String novo);@Modifying
+    @Query("UPDATE ContaInterna p SET p.nome = :novo, p.desabilitarConta = :desabilitarConta WHERE p.id = :id")
+    int atualizarNomeContaInterna(int id, String novo, Boolean desabilitarConta);
 
+    @Modifying
     @Transactional
     @Query("UPDATE ContaInterna p SET p.desabilitarConta = :desabilitarconta WHERE p.id = :id")
     int atualizarStatusContaInterna(int id, Boolean desabilitarconta);

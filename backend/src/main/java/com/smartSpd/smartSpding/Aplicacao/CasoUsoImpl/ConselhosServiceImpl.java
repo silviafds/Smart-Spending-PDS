@@ -42,8 +42,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     public Boolean salvarConselhos(ConselhosDTO data) {
         try {
             if (data.identificador() == 1) {
-                conselhosRepository.salvarConselhos(data.identificador(), data.statusDespesa(),
-                        data.metaDespesa(), data.statusReceita(), data.metaReceita(), data.tempoConselho());
+                conselhosRepository.salvarConselhos(data);
             }
             return true;
         } catch (Exception e) {

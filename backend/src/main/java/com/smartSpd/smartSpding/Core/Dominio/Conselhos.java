@@ -33,4 +33,7 @@ public class Conselhos {
         this.meta_receita = metaReceita;
         this.tempo_conselho = tempoConselho;
     }
+
+    public Conselhos(int identificador, boolean b, String s, boolean b1, String s1) {
+    }
 }

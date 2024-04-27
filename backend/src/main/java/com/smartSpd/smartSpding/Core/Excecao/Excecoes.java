@@ -6,16 +6,18 @@ public class Excecoes extends Exception {
         super(mensagem);
     }
 
-    public static void validarCampoNuloOuVazio(String valor, String mensagem) throws Excecoes {
+    public static boolean validarCampoNuloOuVazio(String valor, String mensagem) throws Excecoes {
         if (valor == null || valor.isEmpty()) {
-            throw new Excecoes(mensagem);
+        	 return true;
         }
+        return false;
     }
 
-    public static void validarValorNegativo(double valor, String mensagem) throws Excecoes {
+    public static boolean validarValorNegativo(double valor, String mensagem) throws Excecoes {
         if (valor < 0) {
-            throw new Excecoes(mensagem);
+            return true;
         }
+        return false;
     }
 
     // Outros métodos de exceção podem ser adicionados conforme necessário

@@ -12,11 +12,11 @@ import java.util.List;
 @Component
 public interface ReceitaService {
 
-    Boolean cadastrarReceita(ReceitaDTO data) throws Excecoes;
+    void cadastrarReceita(ReceitaDTO data) throws Excecoes;
 
-    Boolean editarReceita(ReceitaDTO data);
+    void editarReceita(ReceitaDTO data) throws Exception;
 
-    Boolean deletarReceita(Long id);
+    void deletarReceita(Long id);
 
     List<CategoriaReceita> buscarTodasCategoriasReceitas();
 

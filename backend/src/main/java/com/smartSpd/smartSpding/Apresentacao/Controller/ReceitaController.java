@@ -5,6 +5,8 @@ import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import com.smartSpd.smartSpding.Core.Dominio.TituloContabilReceita;
+import com.smartSpd.smartSpding.Core.Excecao.ReceitaInvalidaException;
+import com.smartSpd.smartSpding.Core.Excecao.ReceitaNaoEncontradaException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -41,15 +43,16 @@ public class ReceitaController {
     @Transactional
     public ResponseEntity<String> register(@RequestBody @Valid ReceitaDTO data) {
         try {
-            boolean receitaRegistrada = receitaService.cadastrarReceita(data);
-            if (receitaRegistrada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Receita registrada.\"}");
-            }
+            receitaService.cadastrarReceita(data);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Receita registrada.\"}");
+
+        } catch (ReceitaInvalidaException e) {
+            log.log(Level.SEVERE, "Campos obrigatórios da receita não foram preenchidos. ", e);
             return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Receita não registrada.\"}");
+                    .body("{\"message\": \"Dados inválidos. Preencha todos os campos obrigatórios da receita.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao cadastrar nova receita. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,19 +64,14 @@ public class ReceitaController {
     @Transactional
     public ResponseEntity<String> editarReceita(@RequestBody @Valid ReceitaDTO data) {
         try {
-            boolean contaCriada = receitaService.editarReceita(data);
-            if(contaCriada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Receita atualizada com sucesso.\"}");
-            }
-            return ResponseEntity.badRequest()
+            receitaService.editarReceita(data);
+            return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Erro ao atualizar receita.\"}");
+                    .body("{\"message\": \"Receita atualizada com sucesso.\"}");
+
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao atualizar receita. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao atualizar receita.");
+            log.log(Level.SEVERE, "Erro ao editar receita.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar receita.");
         }
     }
 
@@ -81,19 +79,17 @@ public class ReceitaController {
     @Transactional
     public ResponseEntity<String> deletarReceita(@PathVariable Long id) {
         try {
-            boolean contaDeletada = receitaService.deletarReceita(id);
-            if(contaDeletada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Receita deletada com sucesso.\"}");
-            }
-            return ResponseEntity.badRequest()
+            receitaService.deletarReceita(id);
+            return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Houve um problema ao deletar a receita.\"}");
+                    .body("{\"message\": \"Receita deletada com sucesso.\"}");
+
+        } catch (ReceitaNaoEncontradaException e) {
+            log.warning("Receita com ID " + id + " não encontrada.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("{\"message\": \"Despesa não encontrada.\"}");
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao deletar receita. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao deletar receita.");
+            log.log(Level.SEVERE, "Erro ao deletar receita.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar receita.");
         }
     }
 

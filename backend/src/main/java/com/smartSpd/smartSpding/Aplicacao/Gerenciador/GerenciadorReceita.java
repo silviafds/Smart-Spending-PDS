@@ -2,7 +2,6 @@ package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Receita;
-import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -68,26 +67,28 @@ public class GerenciadorReceita {
         }
     }
 
-    public void validarCamposObrigatorios(ReceitaDTO data) throws Excecoes {
+    public boolean validarCamposObrigatorios(ReceitaDTO data)  {
         if (data.getOrigem() == null || data.getOrigem().isEmpty()) {
-            log.severe("Há algo de errado com a origem.");
-            Excecoes.validarCampoNuloOuVazio(data.getOrigem(),"O campo de categoria de transação está vazio ou nulo");
+            return false;
         } else if (data.getOrigem().equals(PIX.toString()) || data.getOrigem().equals(TRANSFERENCIA.toString())) {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
                     data.getDataReceita() == null || data.getValorReceita() <= 0 || data.getPagador() == null ||
-                    data.getOrigem() == null || data.getDescricao() == null) {
-                log.severe("Um ou mais campos obrigatórios estão vazios.");
-                Excecoes.validarCampoNuloOuVazio(data.getOrigem(),"Um ou mais campos obrigatórios estão vazios.");
+                    data.getOrigem() == null || data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
+                    data.getPagador().equals("") || data.getOrigem().equals("") || data.getDescricao().equals("")) {
+                return false;
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
                     data.getDataReceita() == null || data.getValorReceita() <= 0 || data.getBancoOrigem() == null ||
                     data.getDadosBancariosDestino() == null || data.getPagador() == null || data.getOrigem() == null ||
-                    data.getDescricao() == null) {
-                log.severe("Um ou mais campos obrigatórios estão vazios.");
-                Excecoes.validarCampoNuloOuVazio(data.getOrigem(),"Um ou mais campos obrigatórios estão vazios.");
+                    data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
+                    data.getBancoOrigem().equals("") || data.getDadosBancariosDestino().equals("") || data.getPagador().equals("") || data.getOrigem().equals("") ||
+                    data.getDescricao().equals("")) {
+                return false;
             }
         }
+
+        return true;
     }
 
     public void ajustarOrigem(ReceitaDTO data) {

@@ -88,6 +88,5 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     List<Object[]> encontrarDespesasPorCategoria(@Param("startDate") LocalDate startDate,
                                                  @Param("endDate") LocalDate endDate);
 
-    @Query("select d.id from despesa d where d.id = :id")
-    Long buscarId(Long id);
+
 }

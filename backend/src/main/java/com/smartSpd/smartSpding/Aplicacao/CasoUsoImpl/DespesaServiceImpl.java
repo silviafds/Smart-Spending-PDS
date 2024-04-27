@@ -4,11 +4,11 @@ import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorDespesa;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
-import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
+import com.smartSpd.smartSpding.Core.Excecao.DespesaInvalidaException;
+import com.smartSpd.smartSpding.Core.Excecao.DespesaNaoEncontradaException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,66 +32,76 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public Boolean cadastrarDespesa(DespesaDTO data) throws Excecoes {
+    public void cadastrarDespesa(DespesaDTO data) {
         try {
-            gerenciadorDespesa.validarCamposObrigatorios(data);
-            if (data.getId() == null) {
+            boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
+            if(validacao) {
+                if (data.getId() == null) {
+                    String[] dadosReformulados = new String[0];
+
+                    if (data.getCategoriaTransacao().equals(PIX.getMeiosPagamento()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.getMeiosPagamento())) {
+                        dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
+                    }
+                    Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
+                    despesaRepository.save(despesa);
+                }
+            } else {
+                throw new DespesaInvalidaException("Campos obrigatórios da despesa não foram preenchidos.");
+            }
+        } catch (DespesaInvalidaException e) {
+            throw e;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar nova despesa no service. ", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public void editarDespesa(DespesaDTO data) throws Exception {
+        try {
+            gerenciadorDespesa.validarEntrada(data);
+
+            boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
+
+            if(validacao) {
+                gerenciadorDespesa.ajustarOrigem(data);
+
                 String[] dadosReformulados = new String[0];
 
                 if (data.getCategoriaTransacao().equals(PIX.getMeiosPagamento()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.getMeiosPagamento())) {
                     dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
                 }
-                Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
-                despesaRepository.save(despesa);
-                return true;
+
+                despesaRepository.editarDespesa(data, dadosReformulados);
+            } else {
+                throw new DespesaInvalidaException("Campos obrigatórios da despesa não foram preenchidos.");
             }
-        } catch (Excecoes e) {
+        } catch (DespesaInvalidaException e) {
             throw e;
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao cadastrar nova despesa no service. ", e);
-        }
-        return false;
-    }
-
-    @Transactional
-    @Override
-    public Boolean editarDespesa(DespesaDTO data) {
-        try {
-            gerenciadorDespesa.validarEntrada(data);
-
-            gerenciadorDespesa.validarCamposObrigatorios(data);
-
-            gerenciadorDespesa.ajustarOrigem(data);
-
-            String[] dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
-
-            despesaRepository.editarDespesa(data, dadosReformulados);
-
-            return true;
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao editar despesa no service.", e);
-            return false;
+            throw e;
         }
     }
 
-    @Transactional
     @Override
-    public Boolean deletarDespesa(Long id) {
+    public void deletarDespesa(Long id) {
         try {
             gerenciadorDespesa.validarId(id);
+
             Optional<Despesa> despesaOptional = despesaRepository.findById(id);
-            if (despesaOptional.isPresent()) {
-                despesaRepository.delete(despesaOptional.get());
-                return true;
+
+            if (!despesaOptional.isPresent()) {
+                throw new DespesaNaoEncontradaException("Despesa com ID " + id + " não encontrada.");
             }
 
-            return false;
+            despesaRepository.delete(despesaOptional.get());
         } catch (IllegalArgumentException e) {
             log.warning("Id de despesa está nulo.");
-            return false;
+            throw new IllegalArgumentException("Id de despesa inválido.", e);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao deletar despesa no service.", e);
-            return false;
+            throw new RuntimeException("Erro ao deletar despesa.", e);
         }
     }
 

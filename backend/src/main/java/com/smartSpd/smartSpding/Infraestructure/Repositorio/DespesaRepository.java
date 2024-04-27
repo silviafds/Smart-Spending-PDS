@@ -45,14 +45,15 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
         if (despesaDTO.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento()) ||
                 despesaDTO.getCategoriaTransacao().equals(PAPEL_E_MOEDA.getMeiosPagamento())) {
             despesa.setTipoContaOrigem("");
+            despesa.setBancoOrigem("");
             despesa.setAgenciaOrigem("");
             despesa.setNumeroContaOrigem("");
         } else {
             despesa.setTipoContaOrigem(dadosReformulados[0]);
+            despesa.setBancoOrigem(despesa.getBancoOrigem());
             despesa.setAgenciaOrigem(dadosReformulados[1]);
             despesa.setNumeroContaOrigem(dadosReformulados[2]);
         }
-        despesa.setBancoOrigem(despesa.getBancoOrigem());
         despesa.setBeneficiario(despesaDTO.getBeneficiario());
         despesa.setBancoDestino(despesaDTO.getBancoDestino());
         despesa.setAgenciaDestino(despesaDTO.getAgenciaDestino());
@@ -87,4 +88,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     List<Object[]> encontrarDespesasPorCategoria(@Param("startDate") LocalDate startDate,
                                                  @Param("endDate") LocalDate endDate);
 
+    @Query("select d.id from despesa d where d.id = :id")
+    Long buscarId(Long id);
 }

@@ -3,6 +3,8 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaService;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
+import com.smartSpd.smartSpding.Core.Excecao.DespesaInvalidaException;
+import com.smartSpd.smartSpding.Core.Excecao.DespesaNaoEncontradaException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -31,15 +33,16 @@ public class DespesaController {
     @Transactional
     public ResponseEntity<String> register(@RequestBody @Valid DespesaDTO data) {
         try {
-            boolean despesaRegistrada = despesaService.cadastrarDespesa(data);
-            if (despesaRegistrada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Despesa registrada.\"}");
-            }
+            despesaService.cadastrarDespesa(data);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Despesa registrada.\"}");
+
+        } catch (DespesaInvalidaException e) {
+            log.log(Level.SEVERE, "Campos obrigatórios da despesa não foram preenchidos. ", e);
             return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Dados incosistentes. Despesa não cadastrada.\"}");
+                    .body("{\"message\": \"Dados inválidos. Preencha todos os campos obrigatórios da despesa.\"}");
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao cadastrar nova despesa. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,19 +54,14 @@ public class DespesaController {
     @Transactional
     public ResponseEntity<String> editarDespesa(@RequestBody @Valid DespesaDTO data) {
         try {
-            boolean contaCriada = despesaService.editarDespesa(data);
-            if(contaCriada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Receita atualizada com sucesso.\"}");
-            }
-            return ResponseEntity.badRequest()
+            despesaService.editarDespesa(data);
+            return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Erro ao atualizar receita.\"}");
+                    .body("{\"message\": \"Receita atualizada com sucesso.\"}");
+
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao atualizar receita. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao atualizar receita.");
+            log.log(Level.SEVERE, "Erro ao editar despesa.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar despesa.");
         }
     }
 
@@ -71,19 +69,14 @@ public class DespesaController {
     @Transactional
     public ResponseEntity<String> deletarDespesa(@PathVariable Long id) {
         try {
-            boolean despesaDeletada = despesaService.deletarDespesa(id);
-            if(despesaDeletada) {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"message\": \"Despesa deletada com sucesso.\"}");
-            }
-            return ResponseEntity.badRequest()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Houve um problema ao deletar a despesa.\"}");
+            despesaService.deletarDespesa(id);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("{\"message\": \"Despesa deletada com sucesso.\"}");
+        } catch (DespesaNaoEncontradaException e) {
+            log.warning("Despesa com ID " + id + " não encontrada.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("{\"message\": \"Despesa não encontrada.\"}");
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao deletar despesa. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao deletar despesa.");
+            log.log(Level.SEVERE, "Erro ao deletar despesa.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar despesa.");
         }
     }
 

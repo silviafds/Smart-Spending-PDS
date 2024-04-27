@@ -12,16 +12,16 @@ import java.util.List;
 @Service
 public interface DespesaService {
 
-    Boolean cadastrarDespesa(DespesaDTO data) throws Excecoes;
+    void cadastrarDespesa(DespesaDTO data) throws Excecoes;
 
-    Boolean editarDespesa(DespesaDTO data);
+    void editarDespesa(DespesaDTO data) throws Exception;
 
-    Boolean deletarDespesa(Long id);
+    void deletarDespesa(Long id);
 
     List<CategoriaDespesa> buscarTodasCategoriasDespesa();
 
     List<Despesa> buscarTodasAsDespesas();
 
-   List<Despesa> buscarDespesasPorId(Integer id);
+    List<Despesa> buscarDespesasPorId(Integer id);
     List<TituloContabilDespesa> buscarTodosTitulosContabeisDespesa(Integer id);
 }

@@ -113,20 +113,4 @@ public class ProjetosController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar projeto.");
         }
     }
-
-   /* @PostMapping("/conselhoPorBalanco")
-    @Transactional
-    public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
-        try {
-            List<String> balanco = conselhosService.conselhosPorBalanco(balancoRapidoDTO);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(balanco);
-
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao gerar conselho. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao gerar conselho.");
-        }
-    }*/
 }

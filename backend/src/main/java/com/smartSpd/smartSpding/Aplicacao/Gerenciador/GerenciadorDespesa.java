@@ -134,7 +134,6 @@ public class GerenciadorDespesa {
     }
 
     public void verificaCategoriaProjeto(DespesaDTO data) {
-        int idDespesa = (int) data.getId();
 
         List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getId());
 

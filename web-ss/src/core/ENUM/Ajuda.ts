@@ -11,5 +11,6 @@ export enum AjudaEnum {
     DEFINICAO_CONTA_BANCARIA = "A conta bancária é usada para registrar movimentações de receitas e despesas.",
     CADASTRO_CONTA_BANCARIA = "Preencha o formulário para realizar o cadastro de uma conta bancária.",
     GERENCIADOR_CATEGORIA = "Nesta página é possível acessar todas as categorias que foram previamente cadastradas.",
-    GERENCIADOR_CONSELHO = "Configure seus conselhos e metas."
+    GERENCIADOR_CONSELHO = "Configure seus conselhos e metas.",
+    DEFINICAO_PROJETO = "Nesta página é possível verificar todos os projetos cadastrados."
 }

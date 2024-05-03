@@ -6,9 +6,14 @@ import com.smartSpd.smartSpding.Core.Dominio.Projetos;
 import com.smartSpd.smartSpding.Core.Excecao.ProjetoInvalidoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -43,7 +48,25 @@ public class ProjetosServiceImpl implements ProjetosService {
 
     @Override
     public List<Projetos> buscarTodosProjetos() {
-        return projetosRepository.buscarTodosProjetos();
+        try {
+            List<Projetos> projetos = projetosRepository.buscarTodosProjetos();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            projetos.forEach(projeto -> {
+                LocalDate dataProjetoInicio = projeto.getData_inicio();
+                String dataFormatadaInicio = dataProjetoInicio.format(formatter);
+                projeto.setDataFormatadaInicio(dataFormatadaInicio);
+
+                LocalDate dataProjetoFinal = projeto.getData_final();
+                String dataFormatadaFinal = dataProjetoFinal.format(formatter);
+                projeto.setDataFormatadaFinal(dataFormatadaFinal);
+            });
+
+            return projetos;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os projetos no service.", e);
+            return Collections.emptyList();
+        }
     }
 
     @Override

@@ -38,8 +38,15 @@ public class Projetos {
 
     private String valor_arrecadado_atual;
 
+    @Transient
+    private String dataFormatadaInicio;
+
+    @Transient
+    private String dataFormatadaFinal;
+
     public Projetos(Long id, String nome, String categoria, String valor_meta, LocalDate dataInicio,
-                    LocalDate dataFinal, String descricao, String valor_arrecadado_atual) {
+                    LocalDate dataFinal, String descricao, String valor_arrecadado_atual, String dataFormatadaInicio,
+                    String dataFormatadaFinal) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
@@ -47,6 +54,8 @@ public class Projetos {
         this.data_inicio = dataInicio;
         this.data_final = dataFinal;
         this.descricao = descricao;
+        this.dataFormatadaInicio = dataFormatadaInicio;
+        this.dataFormatadaFinal = dataFormatadaFinal;
         this.valor_arrecadado_atual = valor_arrecadado_atual;
     }
 }

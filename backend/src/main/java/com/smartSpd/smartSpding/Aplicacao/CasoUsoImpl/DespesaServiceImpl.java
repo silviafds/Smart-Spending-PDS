@@ -7,6 +7,7 @@ import com.smartSpd.smartSpding.Core.Dominio.*;
 import com.smartSpd.smartSpding.Core.Excecao.DespesaInvalidaException;
 import com.smartSpd.smartSpding.Core.Excecao.DespesaNaoEncontradaException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +26,12 @@ public class DespesaServiceImpl implements DespesaService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
     private final DespesaRepository despesaRepository;
     private final GerenciadorDespesa gerenciadorDespesa;
+    private final ProjetosRepository projetosRepository;
 
-    public DespesaServiceImpl(GerenciadorDespesa gerenciadorDespesa, DespesaRepository despesaRepository) {
+    public DespesaServiceImpl(GerenciadorDespesa gerenciadorDespesa, DespesaRepository despesaRepository, ProjetosRepository projetosRepository) {
         this.despesaRepository = despesaRepository;
         this.gerenciadorDespesa = gerenciadorDespesa;
+        this.projetosRepository = projetosRepository;
     }
 
     @Override
@@ -36,15 +39,23 @@ public class DespesaServiceImpl implements DespesaService {
         try {
             boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
             if(validacao) {
-                if (data.getId() == null) {
+
+                if(data.getId()!=null) {
+                    gerenciadorDespesa.verificaCategoriaProjeto(data);
+                    data.setId(null);
+                }
+
+                if(data.getId() == null) {
                     String[] dadosReformulados = new String[0];
 
                     if (data.getCategoriaTransacao().equals(PIX.getMeiosPagamento()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.getMeiosPagamento())) {
                         dadosReformulados = gerenciadorDespesa.reformulaDadosBancarios(data.getDadosBancariosOrigem());
                     }
                     Despesa despesa = gerenciadorDespesa.mapeiaDTOparaDespesa(data, dadosReformulados);
+
                     despesaRepository.save(despesa);
                 }
+
             } else {
                 throw new DespesaInvalidaException("Campos obrigatórios da despesa não foram preenchidos.");
             }
@@ -149,8 +160,13 @@ public class DespesaServiceImpl implements DespesaService {
         throw new NullPointerException("Id é null.");
     }
     @Override
-    public List<TituloContabilDespesa> buscarTodosTitulosContabeisDespesa(Integer id) {
+    public List<?> buscarTodosTitulosContabeisDespesa(Integer id) {
         if(id != null) {
+            String projeto = despesaRepository.projetosPorCategoria(id);
+
+            if(projeto.equals("Projeto")) {
+                return projetosRepository.buscarTodosProjetos();
+            }
             return despesaRepository.findByAllTitulosContabeisDespesa(id);
         }
         throw new NullPointerException("Id é null.");

@@ -130,7 +130,7 @@ public class DespesaController {
     @Transactional
     public ResponseEntity<?> buscarTituloContabilDespesa(@PathVariable Integer id) {
         try {
-            List<TituloContabilDespesa> titulos = despesaService.buscarTodosTitulosContabeisDespesa(id);
+            List<?> titulos = despesaService.buscarTodosTitulosContabeisDespesa(id);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(titulos);

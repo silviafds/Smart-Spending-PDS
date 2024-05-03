@@ -3,7 +3,6 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.ProjetosService;
 import com.smartSpd.smartSpding.Core.Dominio.Projetos;
 import com.smartSpd.smartSpding.Core.Excecao.ProjetoInvalidoException;
-import com.smartSpd.smartSpding.Core.Excecao.ReceitaNaoEncontradaException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -39,10 +39,10 @@ public class DespesaServiceImpl implements DespesaService {
         try {
             boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
             if(validacao) {
+                System.out.println("validacao: "+validacao + " id: "+data.getId());
 
-                if(data.getId()!=null) {
+                if(data.getIdentificadorProjeto()!=null) {
                     gerenciadorDespesa.verificaCategoriaProjeto(data);
-                    data.setId(null);
                 }
 
                 if(data.getId() == null) {
@@ -73,7 +73,6 @@ public class DespesaServiceImpl implements DespesaService {
             gerenciadorDespesa.validarEntrada(data);
 
             boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
-
             if(validacao) {
                 gerenciadorDespesa.ajustarOrigem(data);
 

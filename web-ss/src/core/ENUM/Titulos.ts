@@ -25,5 +25,9 @@ export enum Titulos {
     INPUT_CATEGORIA_BALANCO = ("Informe a categoria do balanço."),
     INPUT_TIPO_VISUALIZACAO_BALANCO = ("Escolha um tipo de gráfico."),
     INPUT_BENEFICIARIO = ("Informe o beneficiário"),
-    INPUT_TEMPO_CONSELHO = ("Selecione uma unidade de tempo")
+    INPUT_TEMPO_CONSELHO = ("Selecione uma unidade de tempo"),
+    NOME_PROJETO = ("Digite o nome do projeto"),
+    VALOR_META = ("Digite o valor da meta"),
+    INPUT_DATA_INICIO_PROJETO = ("Data início do projeto"),
+    INPUT_DATA_FIM_PROJETO = ("Data final do projeto")
 }

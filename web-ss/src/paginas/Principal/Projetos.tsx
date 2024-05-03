@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import {CiEdit} from "react-icons/ci";
 import {buscarProjetos} from "../../logica/API/ProjetosAPI";
+import {useNavigate} from "react-router-dom";
 
 interface DataIndexable {
     [key: string]: string | number |  boolean | any;
@@ -43,6 +44,7 @@ function Projetos() {
     const [filterField, setFilterField] = useState('nome');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,12 +95,16 @@ function Projetos() {
         setPage(0);
     };
 
-    function handleEdit(id: any) {
-        
-    }
-
     const handleCadastro = async () => {
-        window.location.href = "/cadastroDespesa/";
+        window.location.href = "/CadastroProjeto/";
+    };
+
+    const handleEdit = (id?: number) => {
+        if (id) {
+            navigate(`/CadastroProjeto/${id}`);
+        } else {
+            navigate(`/CadastroProjeto`);
+        }
     };
 
     return (
@@ -133,7 +139,7 @@ function Projetos() {
                                             onChange={(e) => setFilterField(e.target.value as string)}
                                         >
                                             <MenuItem value="nome">Nome</MenuItem>
-                                            <MenuItem value="categoria">Categoria</MenuItem>
+                                            <MenuItem value="valor_meta">Valor Meta</MenuItem>
                                         </Select>
                                     </FormControl>
                                     <TextField
@@ -178,9 +184,6 @@ function Projetos() {
                                                                 currency: 'BRL'
                                                             }).format(projeto.valor_meta)}
                                                         </TableCell>
-
-                                                        {/*<TableCell
-                                                            sx={{fontSize: '16px'}}>{projeto.valor_arrecadado_atual}</TableCell>*/}
 
                                                         <TableCell sx={{fontSize: '16px'}}>
                                                             {new Intl.NumberFormat('pt-BR', {

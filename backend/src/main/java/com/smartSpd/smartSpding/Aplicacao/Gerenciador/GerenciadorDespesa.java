@@ -51,7 +51,6 @@ public class GerenciadorDespesa {
                 despesa.setAgenciaOrigem(dadosReformulados[1]);
                 despesa.setNumeroContaOrigem(dadosReformulados[2]);
             }
-
             if(camposObrigatoriosNaoNulos(data)) {
                 despesa.setCategoria(data.getCategoria());
                 despesa.setTitulo_contabil(data.getTitulo_contabil());
@@ -87,10 +86,10 @@ public class GerenciadorDespesa {
     }
 
     public void validarEntrada(DespesaDTO data) {
-        //if (data.getId() == null) {
+        if (data.getId() == null) {
             log.severe("Tentativa de editar despesa sem ID.");
             throw new NullPointerException("ID da despesa ao editar não pode ser nulo.");
-       // }
+        }
     }
 
     public boolean validarCamposObrigatorios(DespesaDTO data) {
@@ -135,7 +134,7 @@ public class GerenciadorDespesa {
 
     public void verificaCategoriaProjeto(DespesaDTO data) {
 
-        List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getId());
+        List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getIdentificadorProjeto());
 
         if(!projeto.isEmpty()) {
 

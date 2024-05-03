@@ -34,7 +34,7 @@ public class DespesaUnitTest {
         DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 "Corrente/0044/12345678", "Claro", "Banco Bradesco",
-                "", "", "internet");
+                "", "", "internet", 1L);
 
         despesaController.register(despesaDTO);
     }
@@ -67,7 +67,7 @@ public class DespesaUnitTest {
         DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco Bradesco",
                 "Corrente/1258/0001258", "Claro", "Banco Bradesco",
-                "", "", "internet");
+                "", "", "internet", 1L);
 
         ResponseEntity<?> response = despesaController.editarDespesa(despesaDTO);
         assertNotNull(response);
@@ -81,7 +81,7 @@ public class DespesaUnitTest {
         DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 "Conta Corrente/0044/12345678", "Claro", "Banco Bradesco",
-                "", "", "internet");
+                "", "", "internet", 1L);
 
         assertNotNull(despesaDTO.getDadosBancariosOrigem());
     }
@@ -94,7 +94,7 @@ public class DespesaUnitTest {
         DespesaDTO despesaDTO = new DespesaDTO(null, contaInterna, "Despesas Fixas", "Internet",
                 LocalDate.now(), 80.0, "Pix", "Banco do Brasil",
                 null, "Claro", "Banco Bradesco",
-                "", "", "internet");
+                "", "", "internet", 1L);
 
         assertNull(despesaDTO.getDadosBancariosOrigem());
     }

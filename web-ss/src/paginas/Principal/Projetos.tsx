@@ -16,8 +16,8 @@ import {
     TableHead, TablePagination, TableRow,
     TextField
 } from "@mui/material";
-import {CiEdit} from "react-icons/ci";
-import {buscarProjetos} from "../../logica/API/ProjetosAPI";
+import {CiEdit, CiTrash} from "react-icons/ci";
+import {buscarProjetos, deletarṔrojetoPorId} from "../../logica/API/ProjetosAPI";
 import {useNavigate} from "react-router-dom";
 
 interface DataIndexable {
@@ -105,6 +105,15 @@ function Projetos() {
         } else {
             navigate(`/CadastroProjeto`);
         }
+    };
+
+    const handleApagar = (id?: number) => {
+        if(id != null) {
+            deletarṔrojetoPorId(id)
+        } else {
+            console.error("Id para editar esta nulo.")
+        }
+
     };
 
     return (
@@ -200,12 +209,20 @@ function Projetos() {
                                                             sx={{fontSize: '16px'}}>{projeto.descricao}</TableCell>
 
                                                         <TableCell key={projeto.id} align={projeto.align}>
-                                                            <IconButton
-                                                                aria-label="Editar"
-                                                                onClick={() => handleEdit(projeto.id)}
-                                                            >
-                                                                <CiEdit/>
-                                                            </IconButton>
+                                                            <span style={{ display: 'flex' }}>
+                                                                <IconButton
+                                                                    aria-label="Editar"
+                                                                    onClick={() => handleEdit(projeto.id)}
+                                                                >
+                                                                    <CiEdit/>
+                                                                </IconButton>
+                                                                <IconButton
+                                                                    aria-label="Apagar"
+                                                                    onClick={() => handleApagar(projeto.id)}
+                                                                >
+                                                                    <CiTrash/>
+                                                                </IconButton>
+                                                            </span>
                                                         </TableCell>
 
                                                     </TableRow>

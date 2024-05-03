@@ -1,6 +1,6 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.BalancoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 
@@ -13,37 +13,37 @@ public interface ConselhosService {
 
     List<Conselhos> buscarConfiguracaoConselhos();
 
-    List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO);
+    List<String> conselhosPorBalanco(BalancoDTO balancoRapidoDTO);
 
     /*
     * Análise no qual verifica quando a despesa é maior que receita
     * ou quando a receita é maior que despesa  ou quando são iguais
     * */
-    String avisarSobreExcessoDespesa(BalancoRapidoDTO balancoRapidoDTO);
+    String avisarSobreExcessoDespesa(BalancoDTO balancoRapidoDTO);
 
     /*
      * Análise no qual verifica quando a despesa é maior que receita
      * ou quando a receita é maior que despesa  ou quando são iguais
      * */
-    String avisarSobreExcessoReceita(BalancoRapidoDTO balancoRapidoDTO);
+    String avisarSobreExcessoReceita(BalancoDTO balancoRapidoDTO);
 
     /*
      * Análise no qual verifica quando a despesa é maior que receita
      * ou quando a receita é maior que despesa  ou quando são iguais
      * */
-    String avisarSobreIgualdadeReceitaDespesa(BalancoRapidoDTO balancoRapidoDTO);
+    String avisarSobreIgualdadeReceitaDespesa(BalancoDTO balancoRapidoDTO);
 
     /*
      * Análise no qual verifica quando a despesa do mes atual é maior
      * ou menor que o mes anterior
      * */
-    String compararDespesaMesAtualEAnterior(BalancoRapidoDTO balancoRapidoDTO);
+    String compararDespesaMesAtualEAnterior(BalancoDTO balancoRapidoDTO);
 
     /*
      * Análise no qual verifica quando a despesa do mes atual é maior
      * ou menor que o mes anterior
      * */
-    String compararReceitaMesAtualEAnterior(BalancoRapidoDTO balancoRapidoDTO);
+    String compararReceitaMesAtualEAnterior(BalancoDTO balancoRapidoDTO);
 
     /*
      * Análise no qual verifica quando a meta de despesa é atinginda

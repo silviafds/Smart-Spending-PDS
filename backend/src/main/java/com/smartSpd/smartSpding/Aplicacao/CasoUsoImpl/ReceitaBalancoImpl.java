@@ -2,7 +2,7 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.BalancoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +48,7 @@ public class ReceitaBalancoImpl implements ReceitaBalancoService {
     }*/
 
     @Override
-    public List<BalancoReceita> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO) {
+    public List<BalancoReceita> balancoMeiosPagamento(BalancoDTO balancoRapidoDTO) {
         List<BalancoReceita> resultados = new ArrayList<>();
 
         verificaDTO(balancoRapidoDTO);
@@ -79,7 +79,7 @@ public class ReceitaBalancoImpl implements ReceitaBalancoService {
         return resultados;
     }
 
-    private BalancoReceita extrairBalancoReceita(ResultSet rs, BalancoRapidoDTO balancoRapidoDTO) throws SQLException {
+    private BalancoReceita extrairBalancoReceita(ResultSet rs, BalancoDTO balancoRapidoDTO) throws SQLException {
         String categoriaTransacao = rs.getString("origem");
         Long valor = rs.getLong("valor");
 
@@ -101,7 +101,7 @@ public class ReceitaBalancoImpl implements ReceitaBalancoService {
                 "GROUP BY origem ORDER BY valor DESC";
     }
 
-    public void verificaDTO(BalancoRapidoDTO balancoRapidoDTO) {
+    public void verificaDTO(BalancoDTO balancoRapidoDTO) {
         if (balancoRapidoDTO == null ||
                 balancoRapidoDTO.getNome() == null ||
                 balancoRapidoDTO.getTipoBalanco() == null ||

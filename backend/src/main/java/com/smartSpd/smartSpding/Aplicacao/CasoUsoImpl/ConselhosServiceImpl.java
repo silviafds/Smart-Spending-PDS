@@ -2,7 +2,7 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorConselhos;
 import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.BalancoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
@@ -57,7 +57,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public List<String> conselhosPorBalanco(BalancoRapidoDTO balancoRapidoDTO) {
+    public List<String> conselhosPorBalanco(BalancoDTO balancoRapidoDTO) {
         List<String> conselhos = new ArrayList<>();
 
         switch (balancoRapidoDTO.getTipoBalanco()) {
@@ -88,35 +88,35 @@ public class ConselhosServiceImpl implements ConselhosService {
         return conselhos;
     }
 
-    private void adicionarExcessoDespesa(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+    private void adicionarExcessoDespesa(BalancoDTO balancoRapidoDTO, List<String> conselhos) {
         String excessoDespesa = avisarSobreExcessoDespesa(balancoRapidoDTO);
         if (excessoDespesa != null) {
             conselhos.add(excessoDespesa);
         }
     }
 
-    private void adicionarExcessoReceita(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+    private void adicionarExcessoReceita(BalancoDTO balancoRapidoDTO, List<String> conselhos) {
         String excessoReceita = avisarSobreExcessoReceita(balancoRapidoDTO);
         if (excessoReceita != null) {
             conselhos.add(excessoReceita);
         }
     }
 
-    private void adicionarIgualdadeReceitaDespesa(List<String> conselhos, BalancoRapidoDTO balancoRapidoDTO) {
+    private void adicionarIgualdadeReceitaDespesa(List<String> conselhos, BalancoDTO balancoRapidoDTO) {
         String igualdadeReceitaDespesa = avisarSobreIgualdadeReceitaDespesa(balancoRapidoDTO);
         if (igualdadeReceitaDespesa != null) {
             conselhos.add(igualdadeReceitaDespesa);
         }
     }
 
-    private void adicionarMetaDespesa(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+    private void adicionarMetaDespesa(BalancoDTO balancoRapidoDTO, List<String> conselhos) {
         if (gerenciadorConselhos.verificacaoMetaDespesa()) {
             String conselhoMeta = gerarConselhoMetaDespesa(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
             conselhos.add(conselhoMeta);
         }
     }
 
-    private void adicionarMetaReceita(BalancoRapidoDTO balancoRapidoDTO, List<String> conselhos) {
+    private void adicionarMetaReceita(BalancoDTO balancoRapidoDTO, List<String> conselhos) {
         if (gerenciadorConselhos.verificacaoMetaReceita()) {
             String conselhoMeta = gerarConselhoMetaReceita(balancoRapidoDTO.getDataInicio(), balancoRapidoDTO.getDataTermino());
             conselhos.add(conselhoMeta);
@@ -124,7 +124,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public String avisarSobreExcessoDespesa(BalancoRapidoDTO dado) {
+    public String avisarSobreExcessoDespesa(BalancoDTO dado) {
         List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
 
         Object[] balanco = valoresBalanco.get(0);
@@ -143,7 +143,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public String avisarSobreExcessoReceita(BalancoRapidoDTO dado) {
+    public String avisarSobreExcessoReceita(BalancoDTO dado) {
         List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
 
         Object[] balanco = valoresBalanco.get(0);
@@ -162,7 +162,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public String avisarSobreIgualdadeReceitaDespesa(BalancoRapidoDTO dado) {
+    public String avisarSobreIgualdadeReceitaDespesa(BalancoDTO dado) {
         List<Object[]> valoresBalanco = conselhosRepository.calcularTotalPorPeriodo(dado.getDataInicio(), dado.getDataTermino());
 
         Object[] balanco = valoresBalanco.get(0);
@@ -180,7 +180,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public String compararDespesaMesAtualEAnterior(BalancoRapidoDTO dado) {
+    public String compararDespesaMesAtualEAnterior(BalancoDTO dado) {
         String quantidadeDeMesAnterior = gerenciadorConselhos.buscarData(dado.getDataInicio());
 
         List<LocalDate> listaDataMesAnterior = gerenciadorConselhos.montarDataQuery(dado.getDataInicio(), quantidadeDeMesAnterior);
@@ -211,7 +211,7 @@ public class ConselhosServiceImpl implements ConselhosService {
     }
 
     @Override
-    public String compararReceitaMesAtualEAnterior(BalancoRapidoDTO dado) {
+    public String compararReceitaMesAtualEAnterior(BalancoDTO dado) {
         String quantidadeDeMesAnterior = gerenciadorConselhos.buscarData(dado.getDataInicio());
 
         List<LocalDate> listaDataMesAnterior = gerenciadorConselhos.montarDataQuery(dado.getDataInicio(), quantidadeDeMesAnterior);

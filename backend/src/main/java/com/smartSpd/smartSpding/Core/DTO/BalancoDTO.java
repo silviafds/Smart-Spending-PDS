@@ -4,11 +4,9 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
-public class BalancoRapidoDTO {
+public class BalancoDTO {
     private String nome;
     private String tipoBalanco;
     private String analiseBalanco;

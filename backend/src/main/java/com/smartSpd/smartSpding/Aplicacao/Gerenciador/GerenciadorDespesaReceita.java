@@ -1,7 +1,7 @@
 package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.BalancoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +24,7 @@ public class GerenciadorDespesaReceita {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void verificaDTOIsNULL(BalancoRapidoDTO balancoRapidoDTO) {
+    public void verificaDTOIsNULL(BalancoDTO balancoRapidoDTO) {
         if (balancoRapidoDTO == null ||
                 balancoRapidoDTO.getNome() == null ||
                 balancoRapidoDTO.getTipoBalanco() == null ||
@@ -36,7 +36,7 @@ public class GerenciadorDespesaReceita {
         }
     }
 
-    public String queryBalanco(BalancoRapidoDTO balancoRapidoDTO) {
+    public String queryBalanco(BalancoDTO balancoRapidoDTO) {
         String tipoBalanco = balancoRapidoDTO.getTipoBalanco();
         String categoriaOuTituloContabil = balancoRapidoDTO.getCategoriaOuTituloContabil();
 
@@ -80,7 +80,7 @@ public class GerenciadorDespesaReceita {
         }
     }
 
-    public List<BalancoDespesaReceita> montaQuery(String sql, BalancoRapidoDTO balancoRapidoDTO) {
+    public List<BalancoDespesaReceita> montaQuery(String sql, BalancoDTO balancoRapidoDTO) {
         List<BalancoDespesaReceita> resultados = new ArrayList<>();
 
         try {
@@ -115,7 +115,7 @@ public class GerenciadorDespesaReceita {
     }
 
 
-    private BalancoDespesaReceita extrairBalancoDespesa(ResultSet rs, BalancoRapidoDTO balancoRapidoDTO) throws SQLException {
+    private BalancoDespesaReceita extrairBalancoDespesa(ResultSet rs, BalancoDTO balancoRapidoDTO) throws SQLException {
         String categoriaTransacao;
         if(balancoRapidoDTO.getCategoriaOuTituloContabil().equals("Categoria")) {
             categoriaTransacao = rs.getString("categoria");
@@ -136,5 +136,19 @@ public class GerenciadorDespesaReceita {
         balancoDespesaReceita.setTipoVisualizacao(balancoRapidoDTO.getTipoVisualizacao());
 
         return balancoDespesaReceita;
+    }
+
+    public void salvarBalancoDespesaReceita(BalancoDespesaReceita balancoDespesaReceita) {
+        String sql = "INSERT INTO balanco (nome, valor, tipo_balanco, analise_balanco, data_inicio, data_termino, tipo_visualizacao, categoria_ou_titulo_contabil) VALUES (?, ROUND(?, 2), ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                balancoDespesaReceita.getNome(),
+                balancoDespesaReceita.getValor(),
+                balancoDespesaReceita.getTipoBalanco(),
+                balancoDespesaReceita.getAnaliseBalanco(),
+                balancoDespesaReceita.getDataInicio(),
+                balancoDespesaReceita.getDataTermino(),
+                balancoDespesaReceita.getTipoVisualizacao(),
+                balancoDespesaReceita.getCategoriaOuTituloContabil()
+        );
     }
 }

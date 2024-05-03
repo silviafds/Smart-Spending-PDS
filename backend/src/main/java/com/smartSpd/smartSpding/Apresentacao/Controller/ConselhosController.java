@@ -1,7 +1,7 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
-import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.BalancoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import jakarta.transaction.Transactional;
@@ -66,7 +66,7 @@ public class ConselhosController {
 
     @PostMapping("/conselhoPorBalanco")
     @Transactional
-    public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
+    public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoDTO balancoRapidoDTO) {
         try {
             List<String> balanco = conselhosService.conselhosPorBalanco(balancoRapidoDTO);
             return ResponseEntity.ok()

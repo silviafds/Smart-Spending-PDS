@@ -1,6 +1,7 @@
 package com.smartSpd.smartSpding.Core.Classes;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
                 }
         )
 )
+
+@NoArgsConstructor
 public class BalancoDespesa {
     private String dado;
     private Long valor;

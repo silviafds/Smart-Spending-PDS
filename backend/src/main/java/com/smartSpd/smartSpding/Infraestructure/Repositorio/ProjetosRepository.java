@@ -14,10 +14,4 @@ public interface ProjetosRepository extends JpaRepository<Projetos, Long> {
     @Query("SELECT p FROM projetos p where p.id = :id")
     List<Projetos> buscarProjetoPorID(long id);
 
-    @Query("select p.valor_arrecadado_atual from projetos p where p.nome = :nome")
-    double buscarValor(String nome);
-
-
-
-
 }

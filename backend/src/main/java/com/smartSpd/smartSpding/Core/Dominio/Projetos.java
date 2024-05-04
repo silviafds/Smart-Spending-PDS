@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-
 @Setter
 @Table(name = "projetos")
 @Entity(name = "projetos")

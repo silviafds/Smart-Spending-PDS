@@ -88,7 +88,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     List<Object[]> encontrarDespesasPorCategoria(@Param("startDate") LocalDate startDate,
                                                  @Param("endDate") LocalDate endDate);
 
-
     @Query("SELECT cd.nome from categoria_despesa cd where cd.id = :id")
     String projetosPorCategoria(int id);
 

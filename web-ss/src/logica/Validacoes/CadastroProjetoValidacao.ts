@@ -31,9 +31,9 @@ export function validaDadosSubmissao(
         data_inicio: dataInicio,
         data_final: dataFinal,
         descricao: descricao,
-        valor_arrecadado_atual: valor_atual
+        valor_arrecadado_atual: valorAtual
     };
-    console.log("id: "+id)
+
     if (id == '') {
         cadastrarProjeto(jsonData)
     } else {

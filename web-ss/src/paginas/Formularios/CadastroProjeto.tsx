@@ -179,10 +179,7 @@ export function CadastroProjeto() {
                 </div>
             </div>
         </div>
-
-
     )
-
 }
 
 export default CadastroProjeto;

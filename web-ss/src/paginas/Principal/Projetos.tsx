@@ -36,7 +36,6 @@ interface Data extends DataIndexable {
 
 function Projetos() {
     const [loading, setLoading] = useState(true);
-
     const [dadosProjeto, setDadosProjeto] = useState<any[]>([]);
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [filteredData, setFilteredData] = useState<Data[]>(dadosProjeto);
@@ -113,7 +112,6 @@ function Projetos() {
         } else {
             console.error("Id para editar esta nulo.")
         }
-
     };
 
     return (

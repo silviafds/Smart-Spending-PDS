@@ -1,13 +1,9 @@
 package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.ProjetosService;
-import com.smartSpd.smartSpding.Core.DTO.ProjetosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Projetos;
 import com.smartSpd.smartSpding.Core.Excecao.ProjetoInvalidoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 

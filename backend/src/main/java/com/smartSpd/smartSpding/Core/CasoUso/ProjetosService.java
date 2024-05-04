@@ -1,8 +1,6 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
-import com.smartSpd.smartSpding.Core.DTO.ProjetosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Projetos;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 

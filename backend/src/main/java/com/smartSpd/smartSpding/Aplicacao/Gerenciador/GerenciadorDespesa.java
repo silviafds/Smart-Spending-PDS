@@ -3,7 +3,6 @@ package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Despesa;
 import com.smartSpd.smartSpding.Core.Dominio.Projetos;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
@@ -19,13 +18,9 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.TRANSFERENCIA;
 public class GerenciadorDespesa {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
-    private final DespesaRepository despesaRepository;
-
     private final ProjetosRepository projetosRepository;
 
-    public GerenciadorDespesa(DespesaRepository despesaRepository,
-                              ProjetosRepository projetosRepository) {
-        this.despesaRepository = despesaRepository;
+    public GerenciadorDespesa(ProjetosRepository projetosRepository) {
         this.projetosRepository = projetosRepository;
     }
 
@@ -137,41 +132,15 @@ public class GerenciadorDespesa {
         List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getIdentificadorProjeto());
 
         if(!projeto.isEmpty()) {
-
-            Projetos projetoEncontrado = projeto.get(0); // Supondo que você deseja acessar o primeiro projeto encontrado
-
-            // Obter o valor atual da despesa do projeto
+            Projetos projetoEncontrado = projeto.get(0);
             Double valorAntigo = Double.valueOf(projetoEncontrado.getValor_arrecadado_atual());
 
-            // Somar o novo valor de despesa ao valor existente
             Double novoValor = valorAntigo + data.getValorDespesa();
             projetoEncontrado.setValor_arrecadado_atual(String.valueOf(novoValor));
-            System.out.println("valor atualizado: "+novoValor);
 
             projetosRepository.save(projetoEncontrado);
 
         }
-
-        /*String projeto = despesaRepository.projetosPorCategoria(identificador);
-        List<Object[]> mapa = despesaRepository.projetosPorCategorias(identificador);
-
-        for (Object[] resultado : mapa) {
-            Number id = (Number) resultado[0];
-            String nomeProjeto = (String) resultado[1];
-
-
-            if(projeto.equals("Projeto")) {
-                double valor = projetosRepository.buscarValor(data.);
-            }
-
-        }*/
-
-
-
-      /*  if(mapa.equals("Projeto")) {
-            double valor = projetosRepository.buscarValor(data.);
-        }*/
-
 
     }
 

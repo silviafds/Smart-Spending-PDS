@@ -124,59 +124,6 @@ export async function editarProjeto(jsonString: any) {
     }
 }
 
-/*
-export async function deletarṔrojetoPorId(idParaEditar: any) {
-    try {
-        const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.delete(BACKEND_URL + "/projetos/deletarProjeto/", idParaEditar, axiosConfig)
-            .then((response) => {
-                Swal.fire({
-                    icon: "success",
-                    title: "Projeto deletado.",
-                    showConfirmButton: true,
-                    confirmButtonColor: "#072e66",
-                    confirmButtonText: "OK",
-                    customClass: {
-                        confirmButton: "bg-sky-950",
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "/projetos/";
-                    }
-                });
-            })
-            .catch(function (error) {
-                if (error.response && error.response.status === 400) {
-                    const responseData = error.response.data;
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: responseData.message,
-                        customClass: {
-                            confirmButton: 'error-button'
-                        }
-                    });
-                } else if (error.request) {
-                    console.log("request: ", error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-                console.log(error.config);
-            });
-    } catch (error) {
-        await Swal.fire({
-            icon: "error",
-            title: "Erro ao deletar projeto.",
-            showConfirmButton: true,
-            confirmButtonColor: "#D60000",
-            confirmButtonText: "OK",
-            customClass: {
-                confirmButton: "bg-sky-950",
-            },
-        });
-    }
-}*/
-
 export async function deletarṔrojetoPorId(idParaDeletar: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };

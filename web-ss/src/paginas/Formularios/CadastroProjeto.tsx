@@ -132,6 +132,7 @@ export function CadastroProjeto() {
                                 </div>
 
                                 <div className="inputs relative my-4">
+                                    <label className="text-gray-500">Data Inicio do Projeto</label>
                                     <input
                                         {...register('data_inicio', {required: false})}
                                         type="date"
@@ -144,6 +145,7 @@ export function CadastroProjeto() {
                                 </div>
 
                                 <div className="inputs relative my-4">
+                                    <label className="text-gray-500">Data Final do Projeto</label>
                                     <input
                                         {...register('data_final', {required: false})}
                                         type="date"

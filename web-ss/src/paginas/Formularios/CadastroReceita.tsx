@@ -1,53 +1,49 @@
-import {HeaderPadrao} from "../../../componentes/header/headerPadrao";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { HeaderPadrao } from "../../componentes/header/headerPadrao";
+import { Sidebar } from "../../componentes/sidebar/sidebar";
+import { Ajuda } from "../../componentes/ajuda/Ajuda";
+import { AjudaEnum } from "../../core/ENUM/Ajuda";
+import { useForm } from "react-hook-form";
+import { buscarContaInternaReceita, buscarCategoriasReceita, buscarTitulosContabeis,
+    buscarOrigem, buscarReceitaPorId } from "../../logica/API/Receita/ReceitaAPI";
+import Selector from "../../componentes/Selector";
+import {Titulos} from "../../core/ENUM/Titulos";
+import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../logica/API/ContaBancaria/ContaBancariaAPI";
 import {useParams} from "react-router-dom";
-import {Sidebar} from "../../../componentes/sidebar/sidebar";
-import {Ajuda} from "../../../componentes/ajuda/Ajuda";
-import {AjudaEnum} from "../../../core/ENUM/Ajuda";
-import Selector from "../../../componentes/Selector";
-import {Titulos} from "../../../core/ENUM/Titulos";
-import {useForm} from "react-hook-form";
-import {
-    buscarOrigem, buscarTitulosContabeis
-} from "../../../logica/API/Receita/ReceitaAPI";
-import {buscarBancoPorNome, buscarDadosBancariosPorBanco} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";
-import {
-    buscarCategoriasDespesa,
-    buscarContaInternaDespesa, buscarDespesaPorId,
-    buscarTitulosContabeisDespesa
-} from "../../../logica/API/Despesa/DespesaAPI";
-import {validaDadosSubmissao} from "../../../logica/Validacoes/CadastroDespesaValidacao";
+import {validaDadosSubmissao} from "../../logica/Validacoes/CadastroReceitaValidacao";
 
 interface IFormInputs {
-    idProjeto: number;
     contaInterna: string;
     categoria: string;
     tituloContabil: string;
-    valorDespesa: number;
-    dataDespesa: Date;
-    beneficiario: string;
-    categoriaTransacao: string;
+    valorReceita: number;
+    dataReceita: Date;
+    pagador: string;
+    origem: string;
     bancoOrigem: string;
-    dadosBancariosOrigem: string;
+    agenciaOrigem: string;
+    contaOrigem: string;
     bancoDestino: string;
     agenciaDestino: string;
-    numeroContaDestino: string;
+    contaDestino: string;
+    dadosBancarios: string;
     descricao: string;
+    erro: boolean;
 }
 
-export function CadastroDespesa() {
+export function CadastroReceita() {
+
     let { id } = useParams();
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
     const [fetchDataComplete, setFetchDataComplete] = useState(false);
     const [configOrigem, setConfigOrigem] = useState<string>("");
-    const [erro, setErro] = useState<boolean>(false);
 
     const [arrayContaInterna, setArrayContaInterna] = useState([]);
     const [arrayCategoria, setArrayCategoria] = useState([]);
     const [arrayTituloContabil, setArrayTituloContabil] = useState([]);
+    const [arrayOrigem, setArrayOrigem] = useState([]);
     const [arrayBancos, setArrayBancos] = useState([]);
     const [arrayDadosBancarios, setArrayDadosBancarios] = useState([]);
-    const [arrayOrigem, setArrayOrigem] = useState([]);
 
     useEffect(() => {
         const storageUser = localStorage.getItem('nomeUser');
@@ -68,8 +64,8 @@ export function CadastroDespesa() {
         const fetchData = async () => {
             try {
                 const [categorias, contasInternas, origens] = await Promise.all([
-                    buscarCategoriasDespesa(),
-                    buscarContaInternaDespesa(),
+                    buscarCategoriasReceita(),
+                    buscarContaInternaReceita(),
                     buscarOrigem()
                 ]);
 
@@ -100,28 +96,29 @@ export function CadastroDespesa() {
                 var verificaOrigem;
                 var verificaDadosBancarios;
                 try {
-                    if (id != undefined) {
+                    if (id !== undefined) {
                         const [receita] = await Promise.all([
-                            buscarDespesaPorId(id)
+                            buscarReceitaPorId(id)
                         ]);
                         for (let prop in receita) {
                             setValue('contaInterna', receita[prop].contaInterna.nome)
                             setValue('categoria', receita[prop].categoria);
                             setValue('tituloContabil', receita[prop].titulo_contabil);
-                            setValue('valorDespesa', receita[prop].valorDespesa);
-                            setValue('dataDespesa', receita[prop].dataDespesa);
-                            setValue('beneficiario', receita[prop].beneficiario);
-                            setValue('categoriaTransacao', receita[prop].categoriaTransacao);
+                            setValue('valorReceita', receita[prop].valorReceita);
+                            setValue('dataReceita', receita[prop].dataReceita);
+                            setValue('pagador', receita[prop].pagador);
+                            setValue('origem', receita[prop].origem);
                             setValue('bancoOrigem', receita[prop].bancoOrigem);
-                            setValue('dadosBancariosOrigem', receita[prop].dadosBancarios)
+                            setValue('agenciaOrigem', receita[prop].agenciaOrigem);
+                            setValue('contaOrigem', receita[prop].numeroContaOrigem)
                             setValue('bancoDestino', receita[prop].bancoDestino);
                             setValue('agenciaDestino', receita[prop].agenciaDestino);
-                            setValue('numeroContaDestino', receita[prop].numeroContaDestino);
+                            setValue('contaDestino', receita[prop].contaDestino);
+                            setValue('dadosBancarios', receita[prop].dadosBancarios);
                             setValue('descricao', receita[prop].descricao);
 
+                            verificaCategoria = receita[prop].categoria;
                             verificaOrigem = receita[prop].origem
-                            verificaCategoria=receita[prop].categoriaTransacao
-
                             verificaDadosBancarios = receita[prop].bancoDestino
                         }
                         verificaDadoBancario(verificaDadosBancarios)
@@ -129,9 +126,8 @@ export function CadastroDespesa() {
 
                         const bancosCadastrados = await buscarBancoPorNome();
                         setArrayBancos(bancosCadastrados)
-                        console.log("dados de origem: "+watch('categoriaTransacao'))
-                        console.log("dados de bancarios: "+watch('dadosBancariosOrigem'))
-                        if(watch('categoriaTransacao') === "Transferência" ) {
+
+                        if(verificaOrigem === "Transferência" ) {
                             setConfigOrigem("Transferência")
                         } else if(verificaOrigem === "Pix") {
                             setConfigOrigem("Pix")
@@ -148,6 +144,26 @@ export function CadastroDespesa() {
         }
     }, [fetchDataComplete]);
 
+
+    function verificaDadoBancario(verificaDadosBancarios: string) {
+        let idReceita;
+        arrayBancos.forEach(bancos => {
+            // @ts-ignore
+            if(bancos.nome === verificaDadosBancarios) {
+                // @ts-ignore
+                idReceita = bancos.nome;
+            }
+        });
+        buscaDadosBancarios(idReceita);
+    }
+    const buscaDadosBancarios = async (id: any) => {
+        try {
+            const titulos = await buscarDadosBancariosPorBanco(id);
+            setArrayDadosBancarios(titulos);
+        } catch (error) {
+            console.error('Erro ao buscar os dados bancários', error);
+        }
+    }
     function verificacaoCategorias(verificaCategoria: string) {
         let idReceita = 0;
         arrayCategoria.forEach(categoria => {
@@ -170,27 +186,6 @@ export function CadastroDespesa() {
         }
     };
 
-    function verificaDadoBancario(verificaDadosBancarios: string) {
-        let idReceita;
-        arrayBancos.forEach(bancos => {
-            // @ts-ignore
-            if(bancos.nome === verificaDadosBancarios) {
-                // @ts-ignore
-                idReceita = bancos.nome;
-            }
-        });
-        buscaDadosBancarios(idReceita);
-    }
-
-    const buscaDadosBancarios = async (id: any) => {
-        try {
-            const titulos = await buscarDadosBancariosPorBanco(id);
-            setArrayDadosBancarios(titulos);
-        } catch (error) {
-            console.error('Erro ao buscar os dados bancários', error);
-        }
-    }
-
     const handleContaInterna = async (dado: any) => {
         try {
             setValue('contaInterna', dado.nome);
@@ -198,58 +193,26 @@ export function CadastroDespesa() {
             console.error('Erro ao salvar as Contas Internas', error)
         }
     };
-
     const handleCategoria= async (dado: any) => {
         try {
-            const titulosContabeis = await buscarTitulosContabeisDespesa(dado.id);
+            const titulosContabeis = await buscarTitulosContabeis(dado.id);
             setArrayTituloContabil(titulosContabeis);
             setValue('categoria', dado.nome);
         } catch (error) {
             console.error('Erro ao buscar os títulos contábeis', error);
         }
     };
-
     const handleTituloContabil = async (dado: any) => {
         try {
-            if(watch('categoria')=="Projeto") {
-                setValue('idProjeto', dado.id)
-                console.log("ID: "+dado.id)
-            }
             setValue('tituloContabil', dado.nome);
         } catch (error) {
             console.error('Erro ao salvar titulo contabil', error)
         }
     };
-
-    const onSubmit = async (data: IFormInputs) => {
-        id = id || '';
-        let identificadorProjeto = watch('idProjeto');
-        setErro(false);
-        let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
-            data.categoria,
-            data.tituloContabil,
-            data.dataDespesa,
-            data.valorDespesa,
-            data.categoriaTransacao,
-            data.bancoOrigem,
-            data.dadosBancariosOrigem,
-            data.beneficiario,
-            data.bancoDestino,
-            data.agenciaDestino,
-            data.numeroContaDestino,
-            data.descricao,
-            identificadorProjeto);
-        if (validacaoResultado) {
-            console.error('Algum dos dados está nulo.');
-            setErro(true);
-            return;
-        }
-    };
-
     const handleOrigem = async (dado: any) => {
         const bancosCadastrados = await buscarBancoPorNome();
         setArrayBancos(bancosCadastrados)
-        setValue('categoriaTransacao', dado.nome);
+        setValue('origem', dado.nome);
         if(dado.nome.toString() === "Transferência" ) {
             setConfigOrigem("Transferência")
         } else if(dado.nome.toString() === "Pix") {
@@ -258,35 +221,58 @@ export function CadastroDespesa() {
             setConfigOrigem("false")
         }
     };
-
-    const handleBancoOrigem = async (dado: any) => {
-        setValue('bancoOrigem', dado.nome);
+    const handleBancoDestino = async (dado: any) => {
+        setValue('bancoDestino', dado.nome);
         const dadosBancariosRecebidos = await buscarDadosBancariosPorBanco(dado.nome)
         setArrayDadosBancarios(dadosBancariosRecebidos);
     };
-
     const handleGenericoDadosBancarios = async (dado: any) => {
-        setValue('dadosBancariosOrigem', dado.nome);
+        setValue('dadosBancarios', dado.nome);
     }
+
+    const onSubmit = async (data: IFormInputs) => {
+        id = id || '';
+        setValue('erro', false);
+        let validacaoResultado = validaDadosSubmissao(
+            id,
+            data.contaInterna,
+            data.categoria,
+            data.tituloContabil,
+            data.dataReceita,
+            data.valorReceita,
+            data.pagador,
+            data.origem,
+            data.bancoOrigem,
+            data.agenciaOrigem,
+            data.contaOrigem,
+            data.bancoDestino,
+            data.dadosBancarios,
+            data.descricao
+        )
+        if (validacaoResultado) {
+            console.error('Algum dos dados está nulo.');
+            setValue('erro', true);
+            return;
+        }
+    };
 
     return (
         <div>
             <HeaderPadrao nomeUsuario={nomeUsuarioLocalStorage}/>
-
             <div className={"flex"}>
                 <Sidebar/>
                 <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
                     <div className={"flex justify-between"}>
-                        <h1 className={"text-2xl font-semibold"}> Cadastro de Despesa </h1>
-                        <Ajuda tipoAjuda={AjudaEnum.CADASTRO_DESPESA}/>
+                        <h1 className={"text-2xl font-semibold"}> Cadastro de Receita </h1>
+                        <Ajuda tipoAjuda={AjudaEnum.CADASTRO_RECEITA}/>
                     </div>
                     <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
                     <div className="flex justify-center items-center w-full">
                         <div
-                            className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl">
+                            className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                                {erro && (
+                                {watch('erro') === true  && (
                                     <>
                                         <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
                                             <p className={"text-black font-medium"}>Prencha todos os campos.</p>
@@ -317,89 +303,86 @@ export function CadastroDespesa() {
 
                                 <div className="inputs relative my-4">
                                     <input
-                                        {...register('valorDespesa', {required: false})}
-                                        placeholder={Titulos.INPUT_VALOR_DESPESA.toString()}
+                                        {...register('valorReceita', {required: false})}
+                                        placeholder={Titulos.INPUT_VALOR_RECEITA.toString()}
                                         type={"number"}
-                                        value={watch('valorDespesa')}
+                                        value={watch('valorReceita')}
                                         className="input-with-line w-full"
                                     />
                                     <div className="line"></div>
                                 </div>
-                                {errors.valorDespesa && <p>Selecione o título contábil.</p>}
+                                {errors.valorReceita && <p>Selecione o título contábil.</p>}
 
                                 <div className="inputs relative my-4">
                                     <input
-                                        {...register('dataDespesa', {required: false})}
+                                        {...register('dataReceita', {required: false})}
                                         type="date"
-                                        value={watch('dataDespesa') ? new Date(watch('dataDespesa')).toISOString().substr(0, 10) : ''}
+                                        value={watch('dataReceita') ? new Date(watch('dataReceita')).toISOString().substr(0, 10) : ''}
                                         placeholder={Titulos.INPUT_DATA_RECEITA.toString()}
                                         className="text-lg text-black input-with-line w-full"
                                     />
                                     <div className="line"></div>
-                                    {errors.dataDespesa && (<p>Insira a data da receita.</p>)}
+                                    {errors.dataReceita && (<p>Insira a data da receita.</p>)}
                                 </div>
 
                                 <div className="inputs relative my-4">
                                     <input
-                                        {...register('beneficiario', {required: false})}
-                                        placeholder={Titulos.INPUT_BENEFICIARIO.toString()}
+                                        {...register('pagador', {required: false})}
+                                        placeholder={Titulos.INPUT_PAGADOR.toString()}
                                         type={"text"}
-                                        value={watch('beneficiario')}
-                                        className="input-with-line w-full"
-                                    />
+                                        value={watch('pagador')}
+                                        className="input-with-line w-full"/>
                                     <div className="line"></div>
-
-                                    {errors.beneficiario && (<p>Insira o nome do beneficiário.</p>)}
                                 </div>
 
                                 <div className="inputs relative my-4">
                                     <Selector dado={arrayOrigem}
                                               placeholder={Titulos.INPUT_ORIGEM.toString()}
-                                              valorSelecionado={watch('categoriaTransacao')}
-                                              onGenericoSelect={handleOrigem}
-                                    />
+                                              valorSelecionado={watch('origem')}
+                                              onGenericoSelect={handleOrigem}/>
                                 </div>
 
                                 {configOrigem === "Transferência" && (
                                     <>
                                         <div className="inputs relative my-4">
+                                            <input
+                                                {...register('bancoOrigem', {required: false})}
+                                                placeholder={Titulos.INPUT_BANCO_ORIGEM.toString()}
+                                                type={"text"}
+                                                value={watch('bancoOrigem')}
+                                                className="input-with-line w-full"/>
+                                            <div className="line"></div>
+                                        </div>
+                                        <div className="inputs relative my-4">
+                                            <input
+                                                {...register('agenciaOrigem', {required: false})}
+                                                placeholder={Titulos.INPUT_AGENCIA_ORIGEM.toString()}
+                                                type={"text"}
+                                                value={watch('agenciaOrigem')}
+                                                className="input-with-line w-full"/>
+                                            <div className="line"></div>
+                                        </div>
+                                        <div className="inputs relative my-4">
+                                            <input
+                                                {...register('contaOrigem', {required: false})}
+                                                placeholder={Titulos.INPUT_CONTA_ORIGEM.toString()}
+                                                type={"text"}
+                                                value={watch('contaOrigem')}
+                                                className="input-with-line w-full"
+                                            />
+                                            <div className="line"></div>
+                                        </div>
+                                        <div className="inputs relative my-4">
                                             <Selector dado={arrayBancos}
                                                       placeholder={Titulos.INPUT_BANCO.toString()}
-                                                      valorSelecionado={watch('bancoOrigem')}
-                                                      onGenericoSelect={handleBancoOrigem}/>
+                                                      valorSelecionado={watch('bancoDestino')}
+                                                      onGenericoSelect={handleBancoDestino}/>
                                         </div>
                                         <div className="inputs relative my-4">
-                                            <div className="inputs relative my-4">
-                                                <Selector dado={arrayDadosBancarios}
-                                                          placeholder={Titulos.INPUT_DADOS_BANCARIOS.toString()}
-                                                          valorSelecionado={watch('dadosBancariosOrigem')}
-                                                          onGenericoSelect={handleGenericoDadosBancarios}/>
-                                            </div>
-                                        </div>
-
-                                        <div className="inputs relative my-4">
-                                            <input
-                                                {...register('bancoDestino', {required: false})}
-                                                placeholder={Titulos.INPUT_BANCO_DESTINO.toString()}
-                                                type={"text"}
-                                                value={watch('bancoDestino')}
-                                                className="input-with-line w-full"/>
-                                        </div>
-                                        <div className="inputs relative my-4">
-                                            <input
-                                                {...register('agenciaDestino', {required: false})}
-                                                placeholder={Titulos.INPUT_AGENCIA_DESTINO.toString()}
-                                                type={"text"}
-                                                value={watch('agenciaDestino')}
-                                                className="input-with-line w-full"/>
-                                        </div>
-                                        <div className="inputs relative my-4">
-                                            <input
-                                                {...register('numeroContaDestino', {required: false})}
-                                                placeholder={Titulos.INPUT_CONTA_DESTINO.toString()}
-                                                type={"text"}
-                                                value={watch('numeroContaDestino')}
-                                                className="input-with-line w-full"/>
+                                            <Selector dado={arrayDadosBancarios}
+                                                      placeholder={Titulos.INPUT_DADOS_BANCARIOS.toString()}
+                                                      valorSelecionado={watch('dadosBancarios')}
+                                                      onGenericoSelect={handleGenericoDadosBancarios}/>
                                         </div>
                                     </>
                                 )}
@@ -407,26 +390,25 @@ export function CadastroDespesa() {
                                 {configOrigem === "Pix" && (
                                     <>
                                         <div className="inputs relative my-4">
-                                            <Selector dado={arrayBancos}
-                                                      placeholder={Titulos.INPUT_BANCO_ORIGEM_DESPESA.toString()}
-                                                      valorSelecionado={watch('bancoOrigem')}
-                                                      onGenericoSelect={handleBancoOrigem}/>
-                                        </div>
-                                        <div className="inputs relative my-4">
-                                            <div className="inputs relative my-4">
-                                                <Selector dado={arrayDadosBancarios}
-                                                          placeholder={Titulos.INPUT_DADOS_ORIGEM.toString()}
-                                                          valorSelecionado={watch('dadosBancariosOrigem')}
-                                                          onGenericoSelect={handleGenericoDadosBancarios}/>
-                                            </div>
-                                        </div>
-                                        <div className="inputs relative my-4">
                                             <input
-                                                {...register('bancoDestino', {required: false})}
-                                                placeholder={Titulos.INPUT_BANCO_DESTINO.toString()}
+                                                {...register('bancoOrigem', {required: false})}
+                                                placeholder={Titulos.INPUT_BANCO_ORIGEM.toString()}
                                                 type={"text"}
-                                                value={watch('bancoDestino')}
+                                                value={watch('bancoOrigem')}
                                                 className="input-with-line w-full"/>
+                                            <div className="line"></div>
+                                        </div>
+                                        <div className="inputs relative my-4">
+                                            <Selector dado={arrayBancos}
+                                                      placeholder={Titulos.INPUT_BANCO.toString()}
+                                                      valorSelecionado={watch('bancoDestino')}
+                                                      onGenericoSelect={handleBancoDestino}/>
+                                        </div>
+                                        <div className="inputs relative my-4">
+                                            <Selector dado={arrayDadosBancarios}
+                                                      placeholder={Titulos.INPUT_DADOS_BANCARIOS.toString()}
+                                                      valorSelecionado={watch('dadosBancarios')}
+                                                      onGenericoSelect={handleGenericoDadosBancarios}/>
                                         </div>
                                     </>
                                 )}
@@ -455,8 +437,7 @@ export function CadastroDespesa() {
                 </div>
             </div>
         </div>
-    )
-
+    );
 }
 
-export default CadastroDespesa;
+export default CadastroReceita;

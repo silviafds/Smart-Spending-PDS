@@ -28,7 +28,6 @@ import {CiEdit} from "react-icons/ci";
 import {useNavigate} from "react-router-dom";
 import  Loading  from "../../componentes/Loading";
 
-
 interface DataIndexable {
     [key: string]: string | number | Date | boolean | any;
 }
@@ -329,8 +328,6 @@ function Receita() {
                 </div>
             )}
         </div>
-
-
     );
 }
 

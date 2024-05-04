@@ -94,19 +94,16 @@ public class GerenciadorDespesa {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
                 data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
                 data.getCategoriaTransacao().equals("") || data.getDescricao().equals("") || data.getContaInterna().equals("") ||
-                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
-                data.getValorDespesa() <= 0 || data.getBeneficiario().equals("") ||
-                data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa() <= 0 ||
+                data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBancoOrigem() == null ||
-                data.getDadosBancariosOrigem() == null || data.getBeneficiario() == null || data.getCategoriaTransacao() == null ||
-                data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
-                   data.getValorDespesa().equals("") || data.getBancoOrigem().equals("") ||
-                    data.getDadosBancariosOrigem().equals("") || data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") ||
-                    data.getDescricao().equals("")) {
+                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
+                data.getCategoriaTransacao() == null || data.getDescricao() == null || data.getContaInterna().equals("") ||
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa().equals("") ||
+                data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         }

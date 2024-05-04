@@ -6,9 +6,6 @@ import java.util.List;
 
 public interface ProjetosService {
 
-    /*
-    * Método para salvar os projetos no banco de dados
-    * */
     void salvarProjetos(Projetos data);
 
     List<Projetos> buscarTodosProjetos();

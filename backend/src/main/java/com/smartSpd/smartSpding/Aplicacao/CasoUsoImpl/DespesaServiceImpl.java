@@ -28,7 +28,8 @@ public class DespesaServiceImpl implements DespesaService {
     private final GerenciadorDespesa gerenciadorDespesa;
     private final ProjetosRepository projetosRepository;
 
-    public DespesaServiceImpl(GerenciadorDespesa gerenciadorDespesa, DespesaRepository despesaRepository, ProjetosRepository projetosRepository) {
+    public DespesaServiceImpl(GerenciadorDespesa gerenciadorDespesa, DespesaRepository despesaRepository,
+                              ProjetosRepository projetosRepository) {
         this.despesaRepository = despesaRepository;
         this.gerenciadorDespesa = gerenciadorDespesa;
         this.projetosRepository = projetosRepository;
@@ -39,8 +40,6 @@ public class DespesaServiceImpl implements DespesaService {
         try {
             boolean validacao = gerenciadorDespesa.validarCamposObrigatorios(data);
             if(validacao) {
-                System.out.println("validacao: "+validacao + " id: "+data.getId());
-
                 if(data.getIdentificadorProjeto()!=null) {
                     gerenciadorDespesa.verificaCategoriaProjeto(data);
                 }

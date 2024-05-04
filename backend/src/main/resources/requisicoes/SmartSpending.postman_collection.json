@@ -535,7 +535,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/buscarTituloContabilDespesa/2",
+							"raw": "http://{{host}}:{{port}}/despesa/buscarTituloContabilDespesa/8",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -544,7 +544,7 @@
 							"path": [
 								"despesa",
 								"buscarTituloContabilDespesa",
-								"2"
+								"8"
 							]
 						}
 					},
@@ -873,7 +873,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 102,\n    \"contaInterna\": {\n        \"id\": 39,\n        \"nome\": \"conta 2\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Lazer\",\n    \"titulo_contabil\": \"Festa\",\n    \"dataDespesa\": \"2024-04-22\",\n    \"valorDespesa\": 900,\n    \"categoriaTransacao\": \"Papel e moeda\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Amazon\",\n    \"bancoDestino\": \"Banco do Brasil\",\n    \"descricao\": \"Compra festa\"\n}",
+							"raw": "{\n    \"id\": 1112,\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-05-01\",\n    \"valorDespesa\": 1000,\n    \"categoriaTransacao\": \"Papel e moeda\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -912,7 +912,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-03-24\",\n    \"valorDespesa\": 99.99,\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"\",\n    \"dadosBancariosOrigem\": \"\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\"\n}",
+							"raw": "{\n    \"contaInterna\": {\n        \"id\": 40,\n        \"nome\": \"conta 3\",\n        \"desabilitarConta\": false\n    },\n    \"categoria\": \"Despesas Fixas\",\n    \"titulo_contabil\": \"Internet\",\n    \"dataDespesa\": \"2024-05-01\",\n    \"valorDespesa\": 1000,\n    \"categoriaTransacao\": \"Pix\",\n    \"bancoOrigem\": \"Banco Inter\",\n    \"dadosBancariosOrigem\": \"Corrente/1024/10245678\",\n    \"beneficiario\": \"Claro Internet\",\n    \"bancoDestino\": \"\",\n    \"agenciaDestino\": \"\",\n    \"numeroContaDestino\": \"\",\n    \"descricao\": \"internet casa\",\n    \"identificadorProjeto\": 7\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -950,7 +950,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/deletarDespesa/1",
+							"raw": "http://{{host}}:{{port}}/despesa/deletarDespesa/1114",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -959,7 +959,7 @@
 							"path": [
 								"despesa",
 								"deletarDespesa",
-								"1"
+								"1114"
 							]
 						}
 					},
@@ -1369,6 +1369,214 @@
 							"path": [
 								"saldo",
 								"buscarSaldos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projetos",
+			"item": [
+				{
+					"name": "Cadastrar projeto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Projeto frontend\",\n    \"categoria\": \"Projetos\",\n    \"valor_meta\": 1000,\n    \"data_inicio\": \"2024-01-01\",\n    \"data_final\": \"2024-12-01\",\n    \"descricao\": \"Recebimento de salário da empresa um.\",\n    \"valor_arrecadado_atual\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/projetos/registroProjetos",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"projetos",
+								"registroProjetos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar projeto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 5,\n    \"nome\": \"Projeto teste\",\n    \"categoria\": \"Projetos\",\n    \"valor_meta\": 10,\n    \"data_inicio\": \"2024-01-01\",\n    \"data_final\": \"2024-12-01\",\n    \"descricao\": \"Recebimento de salário da empresa um.\",\n    \"valor_arrecadado_atual\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/projetos/editarProjeto",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"projetos",
+								"editarProjeto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar projeto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 5,\n    \"nome\": \"Projeto teste\",\n    \"categoria\": \"Projetos\",\n    \"valor_meta\": 10,\n    \"data_inicio\": \"2024-01-01\",\n    \"data_final\": \"2024-12-01\",\n    \"descricao\": \"Recebimento de salário da empresa um.\",\n    \"valor_arrecadado_atual\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/projetos/deletarProjeto/6",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"projetos",
+								"deletarProjeto",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar projetos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Projeto um\",\n    \"categoria\": \"Projetos\",\n    \"valor_meta\": 50000,\n    \"data_inicio\": \"2024-01-01\",\n    \"data_final\": \"2024-12-01\",\n    \"descricao\": \"Recebimento de salário da empresa um.\",\n    \"valor_arrecadado_atual\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/projetos/buscarProjetos",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"projetos",
+								"buscarProjetos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar projetos por id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Projeto um\",\n    \"categoria\": \"Projetos\",\n    \"valor_meta\": 50000,\n    \"data_inicio\": \"2024-01-01\",\n    \"data_final\": \"2024-12-01\",\n    \"descricao\": \"Recebimento de salário da empresa um.\",\n    \"valor_arrecadado_atual\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/projetos/buscarProjetoInvidual/5",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"projetos",
+								"buscarProjetoInvidual",
+								"5"
 							]
 						}
 					},

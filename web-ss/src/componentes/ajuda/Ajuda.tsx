@@ -56,6 +56,12 @@ export function Ajuda({ tipoAjuda }: AjudaProps) {
         case AjudaEnum.GERENCIADOR_CONSELHO:
             mensagemAjuda = AjudaEnum.GERENCIADOR_CONSELHO;
             break;
+        case AjudaEnum.DEFINICAO_PROJETO:
+            mensagemAjuda = AjudaEnum.DEFINICAO_PROJETO;
+            break;
+        case AjudaEnum.DEFINICAO_CADASTRO_PROJETO:
+            mensagemAjuda = AjudaEnum.DEFINICAO_CADASTRO_PROJETO;
+            break;
         default:
             mensagemAjuda = 'Mensagem padrão de ajuda.';
             break;

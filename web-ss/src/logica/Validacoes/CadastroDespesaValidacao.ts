@@ -14,7 +14,8 @@ export function validaDadosSubmissao(
     bancoDestino: string,
     agenciaDestino: string,
     numeroContaDestino: string,
-    descricao: string
+    descricao: string,
+    identificadorProjeto: number
 ): boolean {
     if (categoriaTransacao === "Pix" || categoriaTransacao === "Transferência") {
         if (
@@ -58,7 +59,8 @@ export function validaDadosSubmissao(
         bancoDestino: bancoDestino,
         agenciaDestino: agenciaDestino,
         numeroContaDestino: numeroContaDestino,
-        descricao: descricao
+        descricao: descricao,
+        identificadorProjeto: identificadorProjeto
     };
     verificaContaInterna(jsonData, id ? "editarDespesa" : "salvarDespesa");
     return false;

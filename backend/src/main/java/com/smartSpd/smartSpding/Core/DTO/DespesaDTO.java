@@ -19,12 +19,13 @@ public class DespesaDTO {
     private String agenciaDestino;
     private String numeroContaDestino;
     private String descricao;
+    private Long identificadorProjeto;
 
 
     public DespesaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil,
                       LocalDate dataDespesa, Double valorDespesa, String categoriaTransacao, String bancoOrigem,
                       String dadosBancariosOrigem, String beneficiario, String bancoDestino, String agenciaDestino,
-                      String numeroContaDestino, String descricao) {
+                      String numeroContaDestino, String descricao, Long identificadorProjeto) {
         this.id = id;
         this.contaInterna = contaInterna;
         this.categoria = categoria;
@@ -39,6 +40,7 @@ public class DespesaDTO {
         this.agenciaDestino = agenciaDestino;
         this.numeroContaDestino = numeroContaDestino;
         this.descricao = descricao;
+        this.identificadorProjeto = identificadorProjeto;
     }
 
     public Long getId() {
@@ -151,5 +153,13 @@ public class DespesaDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Long getIdentificadorProjeto() {
+        return identificadorProjeto;
+    }
+
+    public void setIdentificadorProjeto(Long identificadorProjeto) {
+        this.identificadorProjeto = identificadorProjeto;
     }
 }

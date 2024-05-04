@@ -1,10 +1,8 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
-import com.smartSpd.smartSpding.Core.DTO.ReceitaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
 import com.smartSpd.smartSpding.Core.Excecao.Excecoes;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,5 +21,5 @@ public interface DespesaService {
     List<Despesa> buscarTodasAsDespesas();
 
     List<Despesa> buscarDespesasPorId(Integer id);
-    List<TituloContabilDespesa> buscarTodosTitulosContabeisDespesa(Integer id);
+    List<?> buscarTodosTitulosContabeisDespesa(Integer id);
 }

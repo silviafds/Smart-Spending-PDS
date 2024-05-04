@@ -24,6 +24,7 @@ import TelaCategoria from "../../paginas/Configuracao/Categoria/TelaCategoria";
 import CadastroCategoria from "../../paginas/Configuracao/Categoria/CadastroCategoria";
 import TelaBalancoRapido from "../../paginas/Balanco/TelaBalancoRapido";
 import Conselhos from "../../paginas/Configuracao/Conselhos";
+import CadastroProjeto from "../../paginas/Formularios/CadastroProjeto";
 
 export const AppRouter = () => {
     return (
@@ -101,11 +102,11 @@ export const AppRouter = () => {
                     <Route path="/ProjetosBalanco" element={<ProjetosBalanco />} />
                 </Route>
 
-                <Route path="/TelaConfiguracao" element={<TelaConfiguracao />} >
+                <Route path="/TelaConfiguracao" element={<RotaPrivada />} >
                     <Route path="/TelaConfiguracao" element={<TelaConfiguracao />} />
                 </Route>
 
-                <Route path="/TelaCategoria" element={<TelaCategoria />} >
+                <Route path="/TelaCategoria" element={<RotaPrivada />} >
                     <Route path="/TelaCategoria" element={<TelaCategoria />} />
                 </Route>
 
@@ -113,12 +114,16 @@ export const AppRouter = () => {
                     <Route path="/cadastroCategoria/:id?" element={<CadastroCategoria />} />
                 </Route>
 
-                <Route path="/BalancoRapido" element={<TelaBalancoRapido />} >
+                <Route path="/BalancoRapido" element={<RotaPrivada />} >
                     <Route path="/BalancoRapido" element={<TelaBalancoRapido />} />
                 </Route>
 
-                <Route path="/GerenciadorConselhos" element={<Conselhos />} >
+                <Route path="/GerenciadorConselhos" element={<RotaPrivada />} >
                     <Route path="/GerenciadorConselhos" element={<Conselhos />} />
+                </Route>
+
+                <Route path="/CadastroProjeto" element={<RotaPrivada />} >
+                    <Route path="/CadastroProjeto/:id?" element={<CadastroProjeto />} />
                 </Route>
             </Routes>
         </Router>

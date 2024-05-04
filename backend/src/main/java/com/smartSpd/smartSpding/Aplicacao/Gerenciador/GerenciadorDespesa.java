@@ -2,9 +2,12 @@ package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Despesa;
+import com.smartSpd.smartSpding.Core.Dominio.Projetos;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -14,6 +17,12 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.TRANSFERENCIA;
 @Component
 public class GerenciadorDespesa {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
+
+    private final ProjetosRepository projetosRepository;
+
+    public GerenciadorDespesa(ProjetosRepository projetosRepository) {
+        this.projetosRepository = projetosRepository;
+    }
 
     public String[] reformulaDadosBancarios(String dadosBancariosOrigem) {
         if (!Objects.equals(dadosBancariosOrigem, "")) {
@@ -37,7 +46,6 @@ public class GerenciadorDespesa {
                 despesa.setAgenciaOrigem(dadosReformulados[1]);
                 despesa.setNumeroContaOrigem(dadosReformulados[2]);
             }
-
             if(camposObrigatoriosNaoNulos(data)) {
                 despesa.setCategoria(data.getCategoria());
                 despesa.setTitulo_contabil(data.getTitulo_contabil());
@@ -86,19 +94,16 @@ public class GerenciadorDespesa {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
                 data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
                 data.getCategoriaTransacao().equals("") || data.getDescricao().equals("") || data.getContaInterna().equals("") ||
-                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
-                data.getValorDespesa() <= 0 || data.getBeneficiario().equals("") ||
-                data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa() <= 0 ||
+                data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBancoOrigem() == null ||
-                data.getDadosBancariosOrigem() == null || data.getBeneficiario() == null || data.getCategoriaTransacao() == null ||
-                data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
-                   data.getValorDespesa().equals("") || data.getBancoOrigem().equals("") ||
-                    data.getDadosBancariosOrigem().equals("") || data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") ||
-                    data.getDescricao().equals("")) {
+                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
+                data.getCategoriaTransacao() == null || data.getDescricao() == null || data.getContaInterna().equals("") ||
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa().equals("") ||
+                data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         }
@@ -117,6 +122,23 @@ public class GerenciadorDespesa {
         if (id == null) {
             throw new IllegalArgumentException("ID de despesa está nulo.");
         }
+    }
+
+    public void verificaCategoriaProjeto(DespesaDTO data) {
+
+        List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getIdentificadorProjeto());
+
+        if(!projeto.isEmpty()) {
+            Projetos projetoEncontrado = projeto.get(0);
+            Double valorAntigo = Double.valueOf(projetoEncontrado.getValor_arrecadado_atual());
+
+            Double novoValor = valorAntigo + data.getValorDespesa();
+            projetoEncontrado.setValor_arrecadado_atual(String.valueOf(novoValor));
+
+            projetosRepository.save(projetoEncontrado);
+
+        }
+
     }
 
 }

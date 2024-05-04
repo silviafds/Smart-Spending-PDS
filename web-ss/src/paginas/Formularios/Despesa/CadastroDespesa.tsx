@@ -19,6 +19,7 @@ import {
 import {validaDadosSubmissao} from "../../../logica/Validacoes/CadastroDespesaValidacao";
 
 interface IFormInputs {
+    idProjeto: number;
     contaInterna: string;
     categoria: string;
     tituloContabil: string;
@@ -210,6 +211,10 @@ export function CadastroDespesa() {
 
     const handleTituloContabil = async (dado: any) => {
         try {
+            if(watch('categoria')=="Projeto") {
+                setValue('idProjeto', dado.id)
+                console.log("ID: "+dado.id)
+            }
             setValue('tituloContabil', dado.nome);
         } catch (error) {
             console.error('Erro ao salvar titulo contabil', error)
@@ -218,7 +223,7 @@ export function CadastroDespesa() {
 
     const onSubmit = async (data: IFormInputs) => {
         id = id || '';
-
+        let identificadorProjeto = watch('idProjeto');
         setErro(false);
         let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
             data.categoria,
@@ -232,13 +237,13 @@ export function CadastroDespesa() {
             data.bancoDestino,
             data.agenciaDestino,
             data.numeroContaDestino,
-            data.descricao);
+            data.descricao,
+            identificadorProjeto);
         if (validacaoResultado) {
             console.error('Algum dos dados está nulo.');
             setErro(true);
             return;
         }
-
     };
 
     const handleOrigem = async (dado: any) => {

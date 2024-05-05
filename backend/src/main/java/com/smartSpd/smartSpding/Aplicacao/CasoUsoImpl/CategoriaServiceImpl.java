@@ -9,8 +9,6 @@ import com.smartSpd.smartSpding.Core.Excecao.CategoriaException;
 import com.smartSpd.smartSpding.Core.Excecao.CategoriaInvalidaException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.CategoriaDespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.CategoriaReceitaRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -80,7 +78,6 @@ public class CategoriaServiceImpl implements CategoriaService {
                         break;
                 }
             }
-
         } catch (CategoriaException e) {
             throw e;
         } catch (Exception e) {
@@ -88,7 +85,6 @@ public class CategoriaServiceImpl implements CategoriaService {
             throw e;
         }
     }
-
 
     @Override
     public void editarCategoria(CategoriaDTO data) {
@@ -100,10 +96,30 @@ public class CategoriaServiceImpl implements CategoriaService {
             if(validaCategoria) {
                 switch(data.getTipoCategoria()) {
                     case "Receita":
-                        int receita = categoriaReceitaRepository.editarCategoriaReceita(data.getId(), data.getNomeCategoria());
+                        try {
+                            boolean verificador = gerenciadorCategoria.verificaExistenciaCategoriaReceita(data.getNomeCategoria());
+
+                            if(verificador) {
+                                int receita = categoriaReceitaRepository.editarCategoriaReceita(data.getId(), data.getNomeCategoria());
+                            }
+
+                        } catch (CategoriaInvalidaException e) {
+                            log.log(Level.SEVERE, "Erro ao cadastrar categoria já existente. ", e);
+                            throw e;
+                        }
                         break;
                     case "Despesa":
-                        int despesa = categoriaDespesaRepository.editarCategoriaDespesa(data.getId(), data.getNomeCategoria());
+                        try {
+                            boolean verificador = gerenciadorCategoria.verificaExistenciaCategoriaDespesa(data.getNomeCategoria());
+
+                            if(verificador) {
+                                int despesa = categoriaDespesaRepository.editarCategoriaDespesa(data.getId(), data.getNomeCategoria());
+                            }
+
+                        } catch (CategoriaInvalidaException e) {
+                            log.log(Level.SEVERE, "Erro ao cadastrar categoria já existente. ", e);
+                            throw e;
+                        }
                         break;
                     default:
                         log.log(Level.WARNING, "Valor informado é inválido. ", true);

@@ -50,13 +50,6 @@ public class ReceitaUnitTest {
     }
 
     @Test
-    @DisplayName("Buscar Categoria de Receita Test")
-    public void testBuscarCategoriaReceita() {
-        ResponseEntity<?> response = receitaController.buscarCategoriaReceita();
-        assertNotNull(response);
-    }
-
-    @Test
     @DisplayName("Editar Receita Test")
     public void testEditarBuscarTituloContabilReceita() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);

@@ -30,4 +30,8 @@ public class CategoriaReceita {
         this.nome = nome;
     }
 
+    public CategoriaReceita(String nome) {
+        this.nome = nome;
+    }
+
 }

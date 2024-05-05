@@ -93,21 +93,6 @@ public class ReceitaController {
         }
     }
 
-    @GetMapping("/buscarCategoriaReceita")
-    @Transactional
-    public ResponseEntity<?> buscarCategoriaReceita() {
-        try {
-            List<CategoriaReceita> contas = receitaService.buscarTodasCategoriasReceitas();
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(contas);
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar categoria de receitas. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar categoria de receitas.");
-        }
-    }
-
     @GetMapping("/buscarReceitas")
     @Transactional
     public ResponseEntity<?> buscarReceitas() {

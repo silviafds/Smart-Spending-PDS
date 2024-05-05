@@ -54,13 +54,6 @@ public class DespesaUnitTest {
     }
 
     @Test
-    @DisplayName("Buscar Categoria de Despesa Test")
-    public void testBuscarCategoriaDespesa() {
-        ResponseEntity<?> response = despesaController.buscarCategoriaDespesa();
-        assertNotNull(response);
-    }
-
-    @Test
     @DisplayName("Buscar Titúlos Contábeis de Despesa Test")
     public void testBuscarTituloContabilDespesa() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);

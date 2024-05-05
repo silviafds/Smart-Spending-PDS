@@ -115,11 +115,6 @@ public class DespesaServiceImpl implements DespesaService {
     }
 
     @Override
-    public List<CategoriaDespesa> buscarTodasCategoriasDespesa() {
-        return despesaRepository.buscarTodasAsCategoriaDespesa();
-    }
-
-    @Override
     public List<Despesa> buscarTodasAsDespesas() {
         try {
             List<Despesa> despesas = despesaRepository.buscarTodasDespesas();

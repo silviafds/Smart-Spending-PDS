@@ -86,7 +86,7 @@ public class ReceitaServiceImpl implements ReceitaService {
         } catch (ReceitaInvalidaException e) {
             throw e;
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao cadastrar nova receita no service. ", e);
+            log.log(Level.SEVERE, "Erro ao editar receita no service. ", e);
             throw e;
         }
     }
@@ -110,11 +110,6 @@ public class ReceitaServiceImpl implements ReceitaService {
             log.log(Level.SEVERE, "Erro ao deletar receita no service.", e);
             throw new RuntimeException("Erro ao deletar receita.", e);
         }
-    }
-
-    @Override
-    public List<CategoriaReceita> buscarTodasCategoriasReceitas() {
-        return receitaRepository.buscarTodasAsCategoriaReceita();
     }
 
     @Override

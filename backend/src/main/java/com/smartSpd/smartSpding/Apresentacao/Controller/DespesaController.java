@@ -80,21 +80,6 @@ public class DespesaController {
         }
     }
 
-    @GetMapping("/buscarCategoriaDespesa")
-    @Transactional
-    public ResponseEntity<?> buscarCategoriaDespesa() {
-        try {
-            List<CategoriaDespesa> contas = despesaService.buscarTodasCategoriasDespesa();
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(contas);
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar categoria de despesa. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar categoria de despesa.");
-        }
-    }
-
     @GetMapping("/buscarDespesa")
     @Transactional
     public ResponseEntity<?> buscarDespesa() {

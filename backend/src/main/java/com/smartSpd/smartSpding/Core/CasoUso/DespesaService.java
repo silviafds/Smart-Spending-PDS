@@ -16,10 +16,9 @@ public interface DespesaService {
 
     void deletarDespesa(Long id);
 
-    List<CategoriaDespesa> buscarTodasCategoriasDespesa();
-
     List<Despesa> buscarTodasAsDespesas();
 
     List<Despesa> buscarDespesasPorId(Integer id);
+
     List<?> buscarTodosTitulosContabeisDespesa(Integer id);
 }

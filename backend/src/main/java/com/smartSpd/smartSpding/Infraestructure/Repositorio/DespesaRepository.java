@@ -62,9 +62,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
         despesa.setContaInterna(despesaDTO.getContaInterna());
     }
 
-    @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa(c.id, c.nome) FROM categoria_despesa c")
-    List<CategoriaDespesa> buscarTodasAsCategoriaDespesa();
-
     @Query("SELECT d FROM despesa d")
     List<Despesa> buscarTodasDespesas();
 
@@ -73,7 +70,6 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query("SELECT d FROM despesa d WHERE d.id = :idDespesa")
     List<Despesa> buscarDespesaPorId(int idDespesa);
-
 
     @Query("SELECT SUM(d.valorDespesa) FROM despesa d WHERE d.dataDespesa BETWEEN :dataInicio AND :dataTermino")
     double totalDespesaPorPeriodo(@Param("dataInicio") LocalDate dataInicio,
@@ -90,8 +86,5 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query("SELECT cd.nome from categoria_despesa cd where cd.id = :id")
     String projetosPorCategoria(int id);
-
-    @Query("SELECT cd.id, cd.nome from categoria_despesa cd where cd.id = :id")
-    List<Object[]> projetosPorCategorias(int id);
 
 }

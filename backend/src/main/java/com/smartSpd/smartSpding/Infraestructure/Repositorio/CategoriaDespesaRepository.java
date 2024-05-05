@@ -25,5 +25,6 @@ public interface CategoriaDespesaRepository extends JpaRepository<CategoriaDespe
             @Param("nome") String nome
     );
 
-
+    @Query("SELECT CASE WHEN cd.nome = :nome THEN true ELSE false END FROM categoria_despesa cd")
+    List<Object[]> verificaExistenciaCategoria(@Param("nome") String categoria);
 }

@@ -7,6 +7,7 @@ import com.smartSpd.smartSpding.Core.Excecao.CategoriaException;
 import com.smartSpd.smartSpding.Core.Excecao.CategoriaInvalidaException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.CategoriaDespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.CategoriaReceitaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -62,24 +63,30 @@ public class GerenciadorCategoria {
         return palavra.toUpperCase();
     }
 
+
+
+
     public boolean verificaExistenciaCategoriaReceita(String categoria) throws CategoriaInvalidaException {
         List<Object[]> verificador = categoriaReceitaRepository.verificaExistenciaCategoria(categoria);
         for (Object[] array : verificador) {
-            // Itera sobre cada elemento do array
             for (Object obj : array) {
-                System.out.println("obj: "+obj);
                 if (obj instanceof Boolean && (Boolean) obj) {
-                    System.out.println("valor verdadeiro encontrado: "+obj);
-                    throw new CategoriaInvalidaException("Categoria já existe.");
+                    throw new CategoriaInvalidaException("Esta categoria já esta cadastrada no sistema.");
                 }
             }
         }
-        /*if(verificador) {
-            return true;
-        } else {
-            log.severe("Categoria já existe.");
-            throw new CategoriaInvalidaException("Categoria já existe.");
-        }*/
+        return true;
+    }
+
+    public boolean verificaExistenciaCategoriaDespesa(String categoria) throws CategoriaInvalidaException {
+        List<Object[]> verificador = categoriaDespesaRepository.verificaExistenciaCategoria(categoria);
+        for (Object[] array : verificador) {
+            for (Object obj : array) {
+                if (obj instanceof Boolean && (Boolean) obj) {
+                    throw new CategoriaInvalidaException("Esta categoria já esta cadastrada no sistema.");
+                }
+            }
+        }
         return true;
     }
 

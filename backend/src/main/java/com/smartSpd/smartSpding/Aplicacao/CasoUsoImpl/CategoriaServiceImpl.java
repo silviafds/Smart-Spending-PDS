@@ -44,6 +44,7 @@ public class CategoriaServiceImpl implements CategoriaService {
                 switch(data.getTipoCategoria()) {
                     case "Receita":
                         data.setNomeCategoria(gerenciadorCategoria.toUpperCase(data.getNomeCategoria()));
+
                         try {
                             boolean verificador = gerenciadorCategoria.verificaExistenciaCategoriaReceita(data.getNomeCategoria());
 
@@ -56,10 +57,23 @@ public class CategoriaServiceImpl implements CategoriaService {
                             log.log(Level.SEVERE, "Erro ao cadastrar categoria já existente. ", e);
                             throw e;
                         }
+
                         break;
                     case "Despesa":
-                        CategoriaDespesa categoriaDespesa = gerenciadorCategoria.mapeiaDTOparaCategoriaDespesa(data);
-                        categoriaDespesaRepository.save(categoriaDespesa);
+                        data.setNomeCategoria(gerenciadorCategoria.toUpperCase(data.getNomeCategoria()));
+
+                        try {
+                            boolean verificador = gerenciadorCategoria.verificaExistenciaCategoriaDespesa(data.getNomeCategoria());
+
+                            if(verificador) {
+                                CategoriaDespesa categoriaDespesa = gerenciadorCategoria.mapeiaDTOparaCategoriaDespesa(data);
+                                categoriaDespesaRepository.save(categoriaDespesa);
+                            }
+                        } catch (CategoriaInvalidaException e) {
+                            log.log(Level.SEVERE, "Erro ao cadastrar categoria já existente. ", e);
+                            throw e;
+                        }
+
                         break;
                     default:
                         log.log(Level.WARNING, "Valor informado é inválido. ", true);
@@ -75,45 +89,6 @@ public class CategoriaServiceImpl implements CategoriaService {
         }
     }
 
-
-    /*@Override
-    public void salvarCategoria(CategoriaDTO data) {
-        try {
-            boolean validaCategoria = gerenciadorCategoria.verificaCamposObrigatorios(data);
-
-            if(validaCategoria) {
-                switch(data.getTipoCategoria()) {
-                    case "Receita":
-                        data.setNomeCategoria(gerenciadorCategoria.toUpperCase(data.getNomeCategoria()));
-                        boolean verificador = gerenciadorCategoria.verificaExistenciaCategoriaReceita(data.getNomeCategoria());
-
-                        if(verificador) {
-                            CategoriaReceita categoriaReceita = gerenciadorCategoria.mapeiaDTOparaCategoriaReceita(data);
-                            categoriaReceitaRepository.save(categoriaReceita);
-                        }
-
-                        break;
-                    case "Despesa":
-                        CategoriaDespesa categoriaDespesa = gerenciadorCategoria.mapeiaDTOparaCategoriaDespesa(data);
-                        categoriaDespesaRepository.save(categoriaDespesa);
-                        break;
-                    default:
-                        log.log(Level.WARNING, "Valor informado é inválido. ", true);
-                        break;
-                }
-            }
-
-        } catch (CategoriaException e) {
-            throw e;
-        } catch (CategoriaInvalidaException e) {
-            log.log(Level.SEVERE, "Erro ao cadastrar categoria ja existente. ", e);
-            throw e;
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao cadastrar nova categoria no service. ", e);
-            throw e;
-        }
-
-    }*/
 
     @Override
     public void editarCategoria(CategoriaDTO data) {

@@ -5,6 +5,7 @@ import com.smartSpd.smartSpding.Core.DTO.CategoriaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import com.smartSpd.smartSpding.Core.Excecao.CategoriaException;
+import com.smartSpd.smartSpding.Core.Excecao.CategoriaInvalidaException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,37 @@ public class CategoriaController {
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("Categoria cadastrada.");
 
+        } catch (CategoriaInvalidaException e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar categoria já existente. ", e);
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Categoria já existe.\"}");
+
+        } catch (CategoriaException e) {
+            log.log(Level.SEVERE, "Campos obrigatórios da categoria não foram preenchidos. ", e);
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Dados inválidos. Preencha todos os campos obrigatórios da receita.\"}");
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar categoria. Tipo de exceção: " + e.getClass().getName(), e);
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar categoria.");
+        }
+    }
+
+
+   /* @PostMapping("/registroCategoria")
+    @Transactional
+    public ResponseEntity<?> registroCategoria(@RequestBody @Valid CategoriaDTO data) {
+        try {
+            categoriaService.salvarCategoria(data);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Categoria cadastrada.");
+
         } catch (CategoriaException e) {
             log.log(Level.SEVERE, "Campos obrigatórios da categoria não foram preenchidos. ", e);
             return ResponseEntity.badRequest()
@@ -51,7 +83,7 @@ public class CategoriaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao cadastrar categoria.");
         }
-    }
+    }*/
 
     @PatchMapping("/editarCategoria")
     @Transactional

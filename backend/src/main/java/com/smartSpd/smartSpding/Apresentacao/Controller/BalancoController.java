@@ -120,14 +120,42 @@ public class BalancoController {
         }
     }
 
-    @GetMapping("balanco/{id}")
-    public ResponseEntity<Balanco> buscarBalancoPorId(@PathVariable Long id) {
-        Balanco balanco = balancoService.buscarBalancoPorId(id);
+    @GetMapping("balancoPorId/{id}")
+    @Transactional
+    public ResponseEntity<?> buscarBalancoPorId(@PathVariable Long id) {
+        try {
+            if (id == null || id <= 0) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Id inválido!");
+            }
 
-        if (balanco != null) {
-            return ResponseEntity.ok(balanco);
-        } else {
-            return ResponseEntity.notFound().build();
+            Balanco balanco = balancoService.buscarBalancoPorId(id);
+
+            if (balanco != null) {
+                return ResponseEntity.ok(balanco);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar balanço por Id! ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanço por Id!");
+        }
+    }
+
+    @GetMapping("/buscarTodosBalancos")
+    @Transactional
+    public ResponseEntity<?> buscarTodosBalancos() {
+        try {
+            List<Balanco> balancos = balancoService.buscarTodosBalancos();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch (RuntimeException e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços! ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar todos os balanços!");
         }
     }
 }

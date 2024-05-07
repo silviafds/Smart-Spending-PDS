@@ -38,7 +38,6 @@ public class BalancoServiceImpl implements BalancoService {
         if (balancos.isEmpty()) {
             throw new RuntimeException("Não há nenhum balanço.");
         }
-
         return balancos;
     }
 

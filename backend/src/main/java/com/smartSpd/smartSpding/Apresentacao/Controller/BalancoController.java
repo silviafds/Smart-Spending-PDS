@@ -114,7 +114,6 @@ public class BalancoController {
                 balancoService.salvarBalanco(balanco);
                 return ResponseEntity.ok().body("Balanço ok.");
             }
-
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao tentar salvar o balanço.");
         }
@@ -152,6 +151,7 @@ public class BalancoController {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(balancos);
+
         } catch (RuntimeException e) {
             log.log(Level.SEVERE, "Erro ao buscar todos os balanços! ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

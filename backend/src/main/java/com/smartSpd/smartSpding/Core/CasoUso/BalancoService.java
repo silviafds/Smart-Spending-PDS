@@ -13,4 +13,5 @@ public interface BalancoService {
     Balanco buscarBalancoPorId(Long id);
 
     List<Balanco> buscarTodosBalancos();
+
 }

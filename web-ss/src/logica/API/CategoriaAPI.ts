@@ -1,46 +1,27 @@
-import axios from "../../../core/contexto/axios";
-import { BACKEND_URL } from "../../../core/config";
+import axios from "../../core/contexto/axios";
+import {BACKEND_URL} from "../../core/config";
 import Swal from "sweetalert2";
 
-export async function buscarCategoriasDespesa() {
+export async function buscarCategoria() {
     try {
-        const response = await axios.get(`${BACKEND_URL}/categoria/buscarCategoriaDespesa`);
+        const response = await axios.get(`${BACKEND_URL}/categoria/buscarCategoria`);
+        console.log("data: "+response.data)
         return response.data;
     } catch (error) {
-        console.error('Erro ao carregar os dados de categoria', error);
+        console.error('Erro ao carregar os dados de categorias', error);
         throw error;
     }
 }
 
-export async function buscarContaInternaDespesa() {
-    try {
-        const response = await axios.get(`${BACKEND_URL}/contaInterna/buscarContaHabilitadas`);
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao carregar os dados de conta interna', error);
-        throw error;
-    }
-}
-
-export async function buscarOrigem() {
-    try {
-        const response = await axios.get(`${BACKEND_URL}/origem/buscarOrigem`);
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao carregar os dados de origem', error);
-        throw error;
-    }
-}
-
-
-export async function salvarDespesa(jsonString: any) {
+/*
+export async function cadastrarProjeto(jsonString: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.post(BACKEND_URL + "/despesa/registrarDespesa", jsonString, axiosConfig)
+        await axios.post(BACKEND_URL + "/projetos/registroProjetos", jsonString, axiosConfig)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Despesa salva.",
+                    title: "Projeto salvo.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
@@ -49,7 +30,7 @@ export async function salvarDespesa(jsonString: any) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/despesa/";
+                        window.location.href = "/projetos/";
                     }
                 });
             })
@@ -74,7 +55,7 @@ export async function salvarDespesa(jsonString: any) {
     } catch (error) {
         await Swal.fire({
             icon: "error",
-            title: "Sua despesa contém erros.",
+            title: "Seu projeto contém erros.",
             showConfirmButton: true,
             confirmButtonColor: "#D60000",
             confirmButtonText: "OK",
@@ -84,48 +65,29 @@ export async function salvarDespesa(jsonString: any) {
         });
     }
 }
+*/
 
-export async function buscarDespesaPorId(idParaEditar: any) {
+/*
+export async function buscarṔrojetoPorId(idParaEditar: any) {
     try {
-        const response = await axios.get(`${BACKEND_URL}/despesa/buscarDespesasPorId/${idParaEditar}`);
+        const response = await axios.get(`${BACKEND_URL}/projetos/buscarProjetoInvidual/${idParaEditar}`);
         return response.data;
     } catch (error) {
-        console.error('Erro ao carregar os dados de despesa', error);
+        console.error('Erro ao carregar os dados de projeto', error);
         throw error;
     }
 }
+*/
 
-export async function buscarTitulosContabeisDespesa(categoriaId: string) {
+/*export async function editarProjeto(jsonString: any) {
     try {
-        let identificador = Number(categoriaId);
-        const response = await axios.get(`${BACKEND_URL}/despesa/buscarTituloContabilDespesa/${identificador}`);
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao carregar os títulos contábeis', error);
-        throw error;
-    }
-}
-
-export async function buscarTodasDespesas() {
-    try {
-        const response = await axios.get(`${BACKEND_URL}/despesa/buscarDespesa`);
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao carregar os dados de despesa', error);
-        throw error;
-    }
-}
-
-
-export async function editarDespesa(jsonString: any) {
-    try {
-        console.log("tentando editar despesa")
+        console.log("tentando editar projeto")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.patch(BACKEND_URL + "/despesa/editarDespesa", jsonString, axiosConfig)
+        await axios.patch(BACKEND_URL + "/projetos/editarProjeto", jsonString, axiosConfig)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Despesa atualizada.",
+                    title: "Projeto atualizado.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
@@ -133,7 +95,7 @@ export async function editarDespesa(jsonString: any) {
                         confirmButton: "bg-sky-950",
                     },
                 });
-                window.location.href = "/despesa/"
+                window.location.href = "/projetos/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -165,4 +127,57 @@ export async function editarDespesa(jsonString: any) {
             },
         });
     }
-}
+}*/
+
+/*export async function deletarṔrojetoPorId(idParaDeletar: any) {
+    try {
+        const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
+        await axios.delete(`${BACKEND_URL}/projetos/deletarProjeto/${idParaDeletar}`, axiosConfig)
+            .then((response) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Projeto deletado.",
+                    showConfirmButton: true,
+                    confirmButtonColor: "#072e66",
+                    confirmButtonText: "OK",
+                    customClass: {
+                        confirmButton: "bg-sky-950",
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/projetos/";
+                    }
+                });
+            })
+            .catch(function (error) {
+                if (error.response && error.response.status === 400) {
+                    const responseData = error.response.data;
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: responseData.message,
+                        customClass: {
+                            confirmButton: 'error-button'
+                        }
+                    });
+                } else if (error.request) {
+                    console.log("request: ", error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+    } catch (error) {
+        await Swal.fire({
+            icon: "error",
+            title: "Erro ao deletar projeto.",
+            showConfirmButton: true,
+            confirmButtonColor: "#D60000",
+            confirmButtonText: "OK",
+            customClass: {
+                confirmButton: "bg-sky-950",
+            },
+        });
+    }
+}*/
+

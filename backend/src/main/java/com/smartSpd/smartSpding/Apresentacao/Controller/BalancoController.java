@@ -1,8 +1,10 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
+import com.smartSpd.smartSpding.Core.CasoUso.BalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
+import com.smartSpd.smartSpding.Core.Classes.Balanco;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
@@ -36,12 +38,15 @@ public class BalancoController {
 
     private final ReceitaBalancoService receitaBalancoService;
 
+    private final BalancoService balancoService;
+
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService) {
+                             ReceitaBalancoService receitaBalancoService, BalancoService balancoService) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
+        this.balancoService = balancoService;
     }
 
     @PostMapping("/registroBalancoRapido")
@@ -93,4 +98,24 @@ public class BalancoController {
         }
     }
 
+    @PostMapping("/balanco")
+    @Transactional
+    public ResponseEntity<?> salvarBalanco(@RequestBody @Valid Balanco balanco) {
+        try {
+            if (balanco == null || balanco.getNome() == null || balanco.getNome().isEmpty() ||
+                    balanco.getTipoBalanco() == null || balanco.getTipoBalanco().isEmpty() ||
+                    balanco.getAnalise_balanco() == null || balanco.getAnalise_balanco().isEmpty() ||
+                    balanco.getDataInicio() == null || balanco.getDataTermino() == null ||
+                    balanco.getTipoVisualizacao() == null || balanco.getTipoVisualizacao().isEmpty() ||
+                    balanco.getCategoriaTituloContabil() == null || balanco.getCategoriaTituloContabil().isEmpty())  {
+                return ResponseEntity.badRequest().body("Todos os campos devem estar preenchidos.");
+            } else {
+                balancoService.salvarBalanco(balanco);
+                return ResponseEntity.ok().body("Balanço ok.");
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao tentar salvar o balanço.");
+        }
+    }
 }

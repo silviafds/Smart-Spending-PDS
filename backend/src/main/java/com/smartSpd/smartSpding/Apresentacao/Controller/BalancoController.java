@@ -11,6 +11,7 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -116,6 +117,17 @@ public class BalancoController {
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao tentar salvar o balanço.");
+        }
+    }
+
+    @GetMapping("balanco/{id}")
+    public ResponseEntity<Balanco> buscarBalancoPorId(@PathVariable Long id) {
+        Balanco balanco = balancoService.buscarBalancoPorId(id);
+
+        if (balanco != null) {
+            return ResponseEntity.ok(balanco);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

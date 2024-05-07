@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface BalancoService {
 
     void salvarBalanco(Balanco balanco);
+
+    Balanco buscarBalancoPorId(Long id);
 }

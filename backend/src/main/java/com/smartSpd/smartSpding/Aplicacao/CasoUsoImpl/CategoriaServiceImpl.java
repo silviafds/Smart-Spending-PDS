@@ -2,6 +2,7 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Aplicacao.Gerenciador.GerenciadorCategoria;
 import com.smartSpd.smartSpding.Core.CasoUso.CategoriaService;
+import com.smartSpd.smartSpding.Core.Classes.Categorias;
 import com.smartSpd.smartSpding.Core.DTO.CategoriaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
@@ -12,8 +13,7 @@ import com.smartSpd.smartSpding.Infraestructure.Repositorio.CategoriaReceitaRepo
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -177,6 +177,45 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public List<CategoriaDespesa> buscarCategoriaDespesaPorID(Long id) {
         return categoriaDespesaRepository.buscarCategoriaPorId(id);
+    }
+
+    @Override
+    public List<Categorias> buscarTodasCategorias() {
+        List<CategoriaDespesa> categoriaDespesas = categoriaDespesaRepository.buscarTodasAsCategoriaDespesa();
+        List<CategoriaReceita> categoriaReceitas = categoriaReceitaRepository.buscarTodasAsCategoriaReceita();
+        Map<Integer, String> mapaCategorias = new HashMap<>();
+        List<Categorias> categorias = new ArrayList<>(); // Inicializando a lista de categorias
+
+        int contador = 0;
+
+        for(int i = 0; i < categoriaReceitas.size(); i++) {
+            Categorias categoria = new Categorias(contador, categoriaReceitas.get(i).getNome(), "Receita");
+            categorias.add(categoria);
+            //System.out.println("receita: " +categoriaReceitas.get(i).getNome()+" id: "+contador);
+            contador++;
+        }
+
+
+        //mapaCategorias.put(i, categoriaReceitas.get(i).getNome());
+
+
+        /*categoriaReceitas.forEach((indice) -> {
+            System.out.println("Índice: " + indice + ", nome: " + categoriaReceitas.get(indice.getId()).getNome());
+        });*/
+
+        for(int i = 0; i<categoriaDespesas.size(); i++) {
+            Categorias categoria = new Categorias(contador, categoriaDespesas.get(i).getNome(), "Despesa");
+            categorias.add(categoria);
+            mapaCategorias.put(contador, categoriaDespesas.get(i).getNome());
+            System.out.println("despesa: " +categoriaDespesas.get(i).getNome()+" id: "+contador);
+            contador++;
+        }
+
+        /*for(Map.Entry<Integer, String> entry : mapaCategorias.entrySet()) {
+            System.out.println("ID: " + entry.getKey() + ", Nome: " + entry.getValue());
+        }*/
+
+        return categorias;
     }
 
 }

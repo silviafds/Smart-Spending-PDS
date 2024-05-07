@@ -1,6 +1,7 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.CategoriaService;
+import com.smartSpd.smartSpding.Core.Classes.Categorias;
 import com.smartSpd.smartSpding.Core.DTO.CategoriaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa;
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
@@ -15,6 +16,7 @@ import org.springframework.javapoet.ClassName;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,30 +62,6 @@ public class CategoriaController {
                     .body("Erro ao cadastrar categoria.");
         }
     }
-
-
-   /* @PostMapping("/registroCategoria")
-    @Transactional
-    public ResponseEntity<?> registroCategoria(@RequestBody @Valid CategoriaDTO data) {
-        try {
-            categoriaService.salvarCategoria(data);
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body("Categoria cadastrada.");
-
-        } catch (CategoriaException e) {
-            log.log(Level.SEVERE, "Campos obrigatórios da categoria não foram preenchidos. ", e);
-            return ResponseEntity.badRequest()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body("{\"message\": \"Dados inválidos. Preencha todos os campos obrigatórios da receita.\"}");
-
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao cadastrar categoria. ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar categoria.");
-        }
-    }*/
 
     @PatchMapping("/editarCategoria")
     @Transactional
@@ -159,6 +137,21 @@ public class CategoriaController {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(contas);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar categoria de despesa. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar categoria de despesa.");
+        }
+    }
+
+    @GetMapping("/buscarCategoria")
+    @Transactional
+    public ResponseEntity<?> buscarCategoria() {
+        try {
+            List<Categorias> categorias = categoriaService.buscarTodasCategorias();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(categorias);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar categoria de despesa. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

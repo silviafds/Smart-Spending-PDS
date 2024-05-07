@@ -1,6 +1,7 @@
 package com.smartSpd.smartSpding.Infraestructure.Repositorio;
 
 import com.smartSpd.smartSpding.Core.Dominio.CategoriaDespesa;
+import com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,6 @@ public interface CategoriaDespesaRepository extends JpaRepository<CategoriaDespe
 
     @Query("SELECT CASE WHEN cd.nome = :nome THEN true ELSE false END FROM categoria_despesa cd")
     List<Object[]> verificaExistenciaCategoria(@Param("nome") String categoria);
+
+
 }

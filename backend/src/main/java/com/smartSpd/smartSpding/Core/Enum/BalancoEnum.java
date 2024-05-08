@@ -1,6 +1,6 @@
 package com.smartSpd.smartSpding.Core.Enum;
 
-public enum Balanco {
+public enum BalancoEnum {
     DESPESA("Despesa"),
     RECEITA("Receita"),
 
@@ -8,7 +8,7 @@ public enum Balanco {
 
     private String tiposBalanco;
 
-    Balanco(String tiposBalanco) {
+    BalancoEnum(String tiposBalanco) {
         this.tiposBalanco = tiposBalanco;
     }
 

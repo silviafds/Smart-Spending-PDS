@@ -1,5 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
+import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
@@ -7,6 +8,7 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,8 +21,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.smartSpd.smartSpding.Core.Enum.Balanco.DESPESA;
-import static com.smartSpd.smartSpding.Core.Enum.Balanco.RECEITA;
+import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.DESPESA;
+import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.RECEITA;
 import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -36,12 +38,15 @@ public class BalancoController {
 
     private final ReceitaBalancoService receitaBalancoService;
 
+    private final BalancosService balancosService;
+
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
+        this.balancosService = balancosService;
     }
 
     @PostMapping("/registroBalancoRapido")
@@ -93,4 +98,20 @@ public class BalancoController {
         }
     }
 
+    @PostMapping("/registrarBalanco")
+    @Transactional
+    public ResponseEntity<?> cadastrarBalanco(@RequestBody @Valid Balancos balancos) {
+        try {
+            balancosService.registrarBalanco(balancos);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("deu certo");
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
+        }
+    }
 }

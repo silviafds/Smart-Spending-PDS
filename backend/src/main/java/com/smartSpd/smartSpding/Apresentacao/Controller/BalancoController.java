@@ -12,7 +12,6 @@ import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -138,7 +137,7 @@ public class BalancoController {
     public ResponseEntity<?> buscarTodosBalancos() {
         try {
             List<Balancos> balancos = balancosService.buscarTodosBalancos();
-
+            System.out.println("balancos: "+balancos);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(balancos);

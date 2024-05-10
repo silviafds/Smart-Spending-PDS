@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -105,7 +107,20 @@ public class BalancosServiceImpl implements BalancosService {
     @Override
     public List<Balancos> buscarTodosBalancos() {
         try {
-            return balancosRepository.findAll();
+            List<Balancos> balanco = balancosRepository.buscarTodosBalancos();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            balanco.forEach(balancos -> {
+                LocalDate dataInicio = balancos.getData_inicio();
+                String dataFormatada = dataInicio.format(formatter);
+                balancos.setData_inicio_balanco(dataFormatada);
+
+                LocalDate dataFim = balancos.getData_termino();
+                String dataFormatadaFinal = dataFim.format(formatter);
+                balancos.setData_final_balanco(dataFormatadaFinal);
+            });
+
+            return balanco;
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar todos os balanços no service. ", e);
             return Collections.emptyList();

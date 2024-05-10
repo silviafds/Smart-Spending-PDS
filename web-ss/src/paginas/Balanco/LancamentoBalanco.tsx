@@ -21,6 +21,8 @@ import {
 import {CiEdit, CiTrash} from "react-icons/ci";
 import {useNavigate} from "react-router-dom";
 import { IoEyeOutline } from "react-icons/io5";
+import {buscarTodasDespesas} from "../../logica/API/Despesa/DespesaAPI";
+import {buscarBalanco} from "../../logica/API/BalancoAPI";
 
 interface DataIndexable {
     [key: string]: string | Date | number |  boolean | any;
@@ -29,7 +31,7 @@ interface DataIndexable {
 interface Data extends DataIndexable {
     nome: string;
     tipoBalanco: string;
-    analiseBalanco: string;
+    analise_balanco: string;
     dataInicio: Date;
     dataTermino: Date;
     dataInicios: string;
@@ -55,6 +57,22 @@ function LancamentoBalanco() {
         if (storageUser) {
             setNomeUsuario(storageUser);
         }
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [balanco] = await Promise.all([
+                    buscarBalanco()
+                ]);
+
+                setDadosBalanco(balanco);
+            } catch (error) {
+                console.error('Erro ao carregar os dados', error);
+            }
+        };
+
+        fetchData();
     }, []);
 
     function handleCadastro() {
@@ -187,19 +205,19 @@ function LancamentoBalanco() {
                                                     sx={{fontSize: '16px'}}>{balanco.tipoBalanco}</TableCell>
 
                                                 <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.analiseBalanco}</TableCell>
+                                                    sx={{fontSize: '16px'}}>{balanco.analise_balanco}</TableCell>
 
                                                 <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.dataInicios}</TableCell>
+                                                    sx={{fontSize: '16px'}}>{balanco.data_inicio_balanco}</TableCell>
 
                                                 <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.dataTerminos}</TableCell>
+                                                    sx={{fontSize: '16px'}}>{balanco.data_final_balanco}</TableCell>
 
                                                 <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.tipoVisualizacao}</TableCell>
+                                                    sx={{fontSize: '16px'}}>{balanco.tipo_visualizacao}</TableCell>
 
                                                 <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.categoriaOuTituloContabil}</TableCell>
+                                                    sx={{fontSize: '16px'}}>{balanco.categoria_titulo_contabil}</TableCell>
 
                                                 <TableCell key={balanco.id} align={balanco.align}>
                                                             <span style={{ display: 'flex' }}>

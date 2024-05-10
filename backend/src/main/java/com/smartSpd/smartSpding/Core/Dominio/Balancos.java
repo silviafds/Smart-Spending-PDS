@@ -28,6 +28,12 @@ public class Balancos {
     private String tipo_visualizacao;
     private String categoria_titulo_contabil;
 
+    @Transient
+    private String data_inicio_balanco;
+
+    @Transient
+    private String data_final_balanco;
+
     public Balancos(Long id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
                     LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil) {
         this.id = id;

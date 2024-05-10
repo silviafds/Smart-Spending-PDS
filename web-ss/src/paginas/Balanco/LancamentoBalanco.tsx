@@ -22,7 +22,8 @@ import {CiEdit, CiTrash} from "react-icons/ci";
 import {useNavigate} from "react-router-dom";
 import { IoEyeOutline } from "react-icons/io5";
 import {buscarTodasDespesas} from "../../logica/API/Despesa/DespesaAPI";
-import {buscarBalanco} from "../../logica/API/BalancoAPI";
+import {buscarBalanco, deletarBalancoPorId} from "../../logica/API/BalancoAPI";
+import {useForm} from "react-hook-form";
 
 interface DataIndexable {
     [key: string]: string | Date | number |  boolean | any;
@@ -40,6 +41,10 @@ interface Data extends DataIndexable {
     categoriaOuTituloContabil: number;
 }
 
+class IFormInputs {
+    id: any;
+}
+
 function LancamentoBalanco() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [modalAberto, setModalAberto] = useState<boolean>(false);
@@ -51,6 +56,14 @@ function LancamentoBalanco() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const navigate = useNavigate();
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+        watch,
+    } = useForm<IFormInputs>();
 
     useEffect(() => {
         const storageUser = localStorage.getItem('nomeUser');
@@ -112,11 +125,14 @@ function LancamentoBalanco() {
     };
 
     function handleEdit(id: any) {
-        
+        if (id) {
+            setValue('id',id)
+            setSalvarBalancoAberto(true)
+        }
     }
 
     function handleApagar(id: any) {
-        //chama o metodo na API para apagar o balanço
+        deletarBalancoPorId(id)
     }
 
     function handleVisualizarBalanco(id: any) {
@@ -152,7 +168,8 @@ function LancamentoBalanco() {
 
                         {modalAberto && <BasicModal onClose={handleFecharModal} />}
 
-                        {modalSalvarBalancoAberto && <ModalCadastrarBalanco onClose={handleCadastroFechado} />}
+                        {modalSalvarBalancoAberto && <ModalCadastrarBalanco onClose={handleCadastroFechado} id={watch('id')} />}
+
 
                         <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '30px'}}>
                             <FormControl sx={{minWidth: 120, marginRight: '10px'}}>

@@ -67,11 +67,9 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                         buscarBalancoPorId(id)
                     ]);
 
-                    setDadosBalanco(dadosBalancos);
                     for (let prop in dadosBalancos) {
                         setValue('nome', dadosBalancos.nome)
                         setValue('tipoBalanco', dadosBalancos.tipoBalanco);
-                        console.log("analiseBalanco: " + dadosBalancos.tipoBalanco)
                         setValue('analiseBalanco', dadosBalancos.analise_balanco);
                         setValue('dataInicio', dadosBalancos.data_inicio);
                         setValue('dataTermino', dadosBalancos.data_termino);

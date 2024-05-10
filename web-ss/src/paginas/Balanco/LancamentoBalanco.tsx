@@ -19,9 +19,7 @@ import {
     TableRow, TextField
 } from "@mui/material";
 import {CiEdit, CiTrash} from "react-icons/ci";
-import {useNavigate} from "react-router-dom";
 import { IoEyeOutline } from "react-icons/io5";
-import {buscarTodasDespesas} from "../../logica/API/Despesa/DespesaAPI";
 import {buscarBalanco, buscarBalancoPorId, deletarBalancoPorId} from "../../logica/API/BalancoAPI";
 import {useForm} from "react-hook-form";
 import {criarBalancoRapidoDespesa} from "../../logica/API/Despesa/BalancoDespesa";
@@ -56,11 +54,8 @@ function LancamentoBalanco() {
     const [filterField, setFilterField] = useState('nome');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const navigate = useNavigate();
 
     const {
-        register,
-        handleSubmit,
         setValue,
         formState: { errors },
         watch,
@@ -138,7 +133,6 @@ function LancamentoBalanco() {
 
     async function VisualizarBalanco(id: any) {
         try {
-            /*const response = buscarBalancoPorId(id)*/
             buscarBalancoPorId(id)
                 .then(response => {
                     console.log(response);

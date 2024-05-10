@@ -32,42 +32,7 @@ function CadastroCategoria() {
     } = useForm<IFormInputs>();
 
     const onSubmit = async (data: IFormInputs) => {
-        try {
-            const token = localStorage.getItem('@Auth:token');
-            const dadoUsuario = new ContaInternaDTO(data.nome);
-            const JsonData = formataParaJson(dadoUsuario);
-            const response = await axios.post(`${BACKEND_URL}/contaInterna/registrarConta`, JsonData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            await Swal.fire({
-                icon: "success",
-                title: "Conta Interna criada.",
-                showConfirmButton: true,
-                confirmButtonColor: "#029d02",
-                confirmButtonText: "OK",
-                customClass: {
-                    confirmButton: "bg-sky-950",
-                },
-            });
-            window.location.href = "/contaInterna/"
-            console.log("dado salvo: ", response);
-        } catch (error) {
 
-            await Swal.fire({
-                icon: "error",
-                title: "Conta Interna já existe.",
-                text: "Crie uma conta com nome diferente.",
-                showConfirmButton: true,
-                confirmButtonColor: "#D60000",
-                confirmButtonText: "OK",
-                customClass: {
-                    confirmButton: "bg-sky-950",
-                },
-            });
-        }
     };
 
 
@@ -85,7 +50,7 @@ function CadastroCategoria() {
                 <Sidebar/>
                 <div className={"border-solid border border-b-stone-200 w-screen h-20 p-7"}>
                     <div className={"flex justify-between"}>
-                        <h1 className={"text-2xl font-semibold"}> Cadastro de Conta Interna </h1>
+                        <h1 className={"text-2xl font-semibold"}> Cadastro de Categoria </h1>
                         <Ajuda tipoAjuda={AjudaEnum.CADASTRO_CONTA_INTERNA}/>
                     </div>
                     <div className="flex justify-center items-center w-full">

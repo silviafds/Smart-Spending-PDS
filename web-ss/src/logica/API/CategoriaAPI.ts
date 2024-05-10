@@ -13,15 +13,14 @@ export async function buscarCategoria() {
     }
 }
 
-/*
 export async function cadastrarProjeto(jsonString: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.post(BACKEND_URL + "/projetos/registroProjetos", jsonString, axiosConfig)
+        await axios.post(BACKEND_URL + "/categoria/registroCategoria", jsonString, axiosConfig)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Projeto salvo.",
+                    title: "Categoria salva.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
@@ -30,7 +29,7 @@ export async function cadastrarProjeto(jsonString: any) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/projetos/";
+                        window.location.href = "/TelaCategoria/";
                     }
                 });
             })
@@ -55,7 +54,7 @@ export async function cadastrarProjeto(jsonString: any) {
     } catch (error) {
         await Swal.fire({
             icon: "error",
-            title: "Seu projeto contém erros.",
+            title: "Sua categoria contém erros.",
             showConfirmButton: true,
             confirmButtonColor: "#D60000",
             confirmButtonText: "OK",
@@ -65,7 +64,6 @@ export async function cadastrarProjeto(jsonString: any) {
         });
     }
 }
-*/
 
 /*
 export async function buscarṔrojetoPorId(idParaEditar: any) {

@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Balancos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     private String tipoBalanco;
     private String analise_balanco;
@@ -28,7 +28,7 @@ public class Balancos {
     private String tipo_visualizacao;
     private String categoria_titulo_contabil;
 
-    public Balancos(int id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
+    public Balancos(Long id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
                     LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil) {
         this.id = id;
         this.nome = nome;

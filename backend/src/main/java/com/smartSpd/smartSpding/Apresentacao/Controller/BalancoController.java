@@ -9,8 +9,10 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -106,12 +108,84 @@ public class BalancoController {
 
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("deu certo");
+                    .body("{\"message\": \"Balanco cadastrado com sucesso.\"}");
 
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
+            log.log(Level.SEVERE, "Erro ao cadastrar balanço. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
+                    .body("Erro ao cadastrar balanço no sistema.");
+        }
+    }
+
+    @PatchMapping("/editarBalanco")
+    @Transactional
+    public ResponseEntity<?> editarBalanco(@RequestBody @Valid Balancos dados) {
+        try {
+            balancosService.editarBalanco(dados);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message:\": \"Balanço editado com sucesso.\"}");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao editar balanço. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao editar balanço.");
+        }
+    }
+
+    @GetMapping("/buscarBalancos")
+    @Transactional
+    public ResponseEntity<?> buscarTodosBalancos() {
+        try {
+            List<Balancos> balancos = balancosService.buscarTodosBalancos();
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch(Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanços.");
+        }
+    }
+
+    @GetMapping("/buscarBalancoPorId/{id}")
+    @Transactional
+    public ResponseEntity<?> buscarBalancoPorId(@PathVariable int id) {
+        try {
+            Balancos balanco = balancosService.buscarBalancoPorId(id);
+            if (balanco != null) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(balanco);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Balanco não encontrado para o id: " + id);
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar balanço por id. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanço por id: " + id);
+        }
+    }
+
+    @DeleteMapping("/deletarBalanco/{id}")
+    @Transactional
+    public ResponseEntity<?> deletarBalanco(@PathVariable int id) {
+        try {
+            balancosService.deletarBalanco(id);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Balanço deletado com sucesso.\"}");
+        } catch (BalancoNaoEncontradoException e) {
+            log.warning("Balanço com o id " + id + "não encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Balanço não encontrado.\"}");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao deletar balanço.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao deletar balanço.");
         }
     }
 }

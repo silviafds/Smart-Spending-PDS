@@ -6,7 +6,7 @@ export async function criarBalancoRapidoDespesa(jsonString: any) {
     try {
         console.log("metodo da requisição: "+jsonString.tipoBalanco)
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.post(BACKEND_URL + "/balanco/registroBalancoRapido", jsonString, axiosConfig)
+        await axios.post(BACKEND_URL + "/balancoDespesa/registroBalancoRapido", jsonString, axiosConfig)
             .then((response) => {
 
                 window.location.href = "/BalancoRapido?dados=" + encodeURIComponent(JSON.stringify(response.data));

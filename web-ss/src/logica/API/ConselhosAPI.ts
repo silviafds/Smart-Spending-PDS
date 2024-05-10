@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 
 export async function buscarConselhoPorBalanco(jsonString: any) {
     try {
+        console.log("request buscar conselhor por balanço")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         const response = await axios.post(`${BACKEND_URL}/conselhos/conselhoPorBalanco`, jsonString, axiosConfig);
         return response.data;

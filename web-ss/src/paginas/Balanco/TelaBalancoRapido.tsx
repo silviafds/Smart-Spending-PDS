@@ -85,6 +85,7 @@ export function TelaBalancoRapido() {
             setStartDate(dataInicio);
             setEndDate(new Date(dados[prop].dataTermino));
         }
+        console.log("cheguei em tela de balanço rapido")
         buscarConselhosPorBalanco(nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao,
             categoriaOuTituloContabil);
     }, []);

@@ -181,6 +181,7 @@ public class ConselhosServiceImpl implements ConselhosService {
 
     @Override
     public String compararDespesaMesAtualEAnterior(BalancoRapidoDTO dado) {
+        String conselho = null;
         String quantidadeDeMesAnterior = gerenciadorConselhos.buscarData(dado.getDataInicio());
 
         List<LocalDate> listaDataMesAnterior = gerenciadorConselhos.montarDataQuery(dado.getDataInicio(), quantidadeDeMesAnterior);
@@ -193,18 +194,20 @@ public class ConselhosServiceImpl implements ConselhosService {
         Double despesaMesAtual = (Double) balanco[0];
         Double despesaMesAnterior = (Double) balanco[1];
 
-        String conselho = null;
-
-        if (despesaMesAtual > despesaMesAnterior) {
-            double diferenca = despesaMesAtual - despesaMesAnterior;
-            conselho = "Atenção: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
-        } else if (despesaMesAnterior > despesaMesAtual) {
-            double diferenca = despesaMesAnterior - despesaMesAtual;
-            conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
-                    + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        if(despesaMesAnterior == null) {
+            conselho = "Não houve despesas no mês anterior para comprar com o mês atual.";
         } else {
-            conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
-                    " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";
+            if (despesaMesAtual > despesaMesAnterior) {
+                double diferenca = despesaMesAtual - despesaMesAnterior;
+                conselho = "Atenção: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
+            } else if (despesaMesAnterior > despesaMesAtual) {
+                double diferenca = despesaMesAnterior - despesaMesAtual;
+                conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
+                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+            } else {
+                conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                        " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";
+            }
         }
 
         return conselho;
@@ -226,16 +229,20 @@ public class ConselhosServiceImpl implements ConselhosService {
 
         String conselho = null;
 
-        if (despesaMesAtual > despesaMesAnterior) {
-            double diferenca = despesaMesAtual - despesaMesAnterior;
-            conselho = "Parabéns: Sua receita atual ultrapassou a receita dos mês anterior em R$" + diferenca;
-        } else if (despesaMesAnterior > despesaMesAtual) {
-            double diferenca = despesaMesAnterior - despesaMesAtual;
-            conselho = "Atenção! Sua receita no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
-                    + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        if(despesaMesAnterior == null) {
+            conselho = "Não houve receita no mês anterior para comparar com o mês atual.";
         } else {
-            conselho = "Suas receitas atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
-                    " É recomendável analisar os detalhes de suas receitas para manter uma gestão financeira equilibrada.";
+            if (despesaMesAtual > despesaMesAnterior) {
+                double diferenca = despesaMesAtual - despesaMesAnterior;
+                conselho = "Parabéns: Sua receita atual ultrapassou a receita dos mês anterior em R$" + diferenca;
+            } else if (despesaMesAnterior > despesaMesAtual) {
+                double diferenca = despesaMesAnterior - despesaMesAtual;
+                conselho = "Atenção! Sua receita no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
+                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+            } else {
+                conselho = "Suas receitas atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                        " É recomendável analisar os detalhes de suas receitas para manter uma gestão financeira equilibrada.";
+            }
         }
 
         return conselho;

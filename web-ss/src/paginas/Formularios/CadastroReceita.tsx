@@ -144,7 +144,6 @@ export function CadastroReceita() {
         }
     }, [fetchDataComplete]);
 
-
     function verificaDadoBancario(verificaDadosBancarios: string) {
         let idReceita;
         arrayBancos.forEach(bancos => {

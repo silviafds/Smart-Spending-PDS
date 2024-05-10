@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {useForm} from "react-hook-form";
@@ -10,6 +10,9 @@ import {
 } from "../../../core/ENUM/TipoBalanco";
 import {graficoEnum} from "../../../core/ENUM/TipoGrafico";
 import {criarBalancoRapidoDespesa} from "../../../logica/API/Despesa/BalancoDespesa";
+import {buscarBalancoPorId, cadastrarProjeto, editarBalanco} from "../../../logica/API/BalancoAPI";
+import {buscarCategoriasReceita, buscarContaInternaReceita, buscarOrigem} from "../../../logica/API/Receita/ReceitaAPI";
+import {buscarBancoPorNome} from "../../../logica/API/ContaBancaria/ContaBancariaAPI";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -41,10 +44,11 @@ interface IFormInputs {
 }
 
 
-const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
+const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClose, id }) => {
 
     const [balanco, setBalanco] = useState<string>("");
     const [erro, setErro] = useState<boolean>(false);
+    const [dadosBalanco, setDadosBalanco] = useState([]);
 
     const {
         register,
@@ -54,7 +58,38 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
         watch,
     } = useForm<IFormInputs>();
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("id: " + id);
+                if (id !== undefined && id !== null) {
+                    const [dadosBalancos] = await Promise.all([
+                        buscarBalancoPorId(id)
+                    ]);
+
+                    setDadosBalanco(dadosBalancos);
+                    for (let prop in dadosBalancos) {
+                        setValue('nome', dadosBalancos.nome)
+                        setValue('tipoBalanco', dadosBalancos.tipoBalanco);
+                        console.log("analiseBalanco: " + dadosBalancos.tipoBalanco)
+                        setValue('analiseBalanco', dadosBalancos.analise_balanco);
+                        setValue('dataInicio', dadosBalancos.data_inicio);
+                        setValue('dataTermino', dadosBalancos.data_termino);
+                        setValue('tipoVisualizacao', dadosBalancos.tipo_visualizacao);
+                        setValue('categoriaOuTituloContabil', dadosBalancos.categoria_titulo_contabil);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar os dados de balanço', error);
+            }
+        };
+
+
+        fetchData();
+    }, []);
+
     const handleTipoBalanco = async (tipoBalanco: any) => {
+        console.log("id "+id)
         if(tipoBalanco != null) {
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
@@ -99,28 +134,43 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
     }
 
     const onSubmit = async (data: IFormInputs) =>  {
-        if (
-            !data.nome ||
-            !data.tipoBalanco ||
-            !data.analiseBalanco ||
-            !data.dataInicio ||
-            !data.dataTermino ||
-            !data.tipoVisualizacao || (!data.tipoBalanco && !data.categoriaOuTituloContabil)
-        ) {
-            setErro(true)
-            return;
-        }
-        const jsonData = {
-            nome: data.nome,
-            tipoBalanco: data.tipoBalanco,
-            analiseBalanco: data.analiseBalanco,
-            dataInicio: data.dataInicio,
-            dataTermino: data.dataTermino,
-            tipoVisualizacao: data.tipoVisualizacao,
-            categoriaOuTituloContabil: data.categoriaOuTituloContabil
-        };
+        if(id !== undefined && id !== null) {
+            console.log("este balanço é para editar: ",id)
+            const jsonData = {
+                id: id,
+                nome: data.nome,
+                tipoBalanco: data.tipoBalanco,
+                analise_balanco: data.analiseBalanco,
+                data_inicio: data.dataInicio,
+                data_termino: data.dataTermino,
+                tipo_visualizacao: data.tipoVisualizacao,
+                categoria_titulo_contabil: data.categoriaOuTituloContabil
+            };
+            editarBalanco(jsonData)
+        } else {
+            if (
+                !data.nome ||
+                !data.tipoBalanco ||
+                !data.analiseBalanco ||
+                !data.dataInicio ||
+                !data.dataTermino ||
+                !data.tipoVisualizacao || (!data.tipoBalanco && !data.categoriaOuTituloContabil)
+            ) {
+                setErro(true)
+                return;
+            }
+            const jsonData = {
+                nome: data.nome,
+                tipoBalanco: data.tipoBalanco,
+                analise_balanco: data.analiseBalanco,
+                data_inicio: data.dataInicio,
+                data_termino: data.dataTermino,
+                tipo_visualizacao: data.tipoVisualizacao,
+                categoria_titulo_contabil: data.categoriaOuTituloContabil
+            };
 
-        //metodo da API para salvar o balanco
+            cadastrarProjeto(jsonData);
+        }
     }
 
     return (
@@ -155,7 +205,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                         <div className="inputs relative my-4">
                             <Selector dado={balancoEnum}
                                       placeholder={Titulos.INPUT_TIPO_BALANCO.toString()}
-                                      valorSelecionado={""} onGenericoSelect={handleTipoBalanco}/>
+                                      valorSelecionado={watch('tipoBalanco')} onGenericoSelect={handleTipoBalanco}/>
                             <div className="line"></div>
                         </div>
 
@@ -165,7 +215,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                     className="inputs relative my-4">
                                     <Selector dado={analiseBalancoDespesaEnum}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalanco}/>
+                                              valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
 
@@ -175,14 +225,12 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                             className="inputs relative my-4">
                                             <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
                                                       placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                                      valorSelecionado={""}
+                                                      valorSelecionado={watch('categoriaOuTituloContabil')}
                                                       onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
                                             <div className="line"></div>
                                         </div>
                                     </>
                                 )}
-
-
                             </>
                         )}
 
@@ -192,7 +240,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                     className="inputs relative my-4">
                                     <Selector dado={analiseBalancoReceitaEnum}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalanco}/>
+                                              valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
 
@@ -202,7 +250,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                             className="inputs relative my-4">
                                             <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
                                                       placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                                      valorSelecionado={""}
+                                                      valorSelecionado={watch('categoriaOuTituloContabil')}
                                                       onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
                                             <div className="line"></div>
                                         </div>
@@ -217,7 +265,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                     className="inputs relative my-4">
                                     <Selector dado={analiseBalancoReceitaDespesaEnum}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalanco}/>
+                                              valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
                                 </div>
 
@@ -225,7 +273,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                                     className="inputs relative my-4">
                                     <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
                                               placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
+                                              valorSelecionado={watch('categoriaOuTituloContabil')} onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
                                     <div className="line"></div>
                                 </div>
                             </>
@@ -261,7 +309,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps> = ({ onClose }) => {
                         <div className="inputs relative my-4">
                             <Selector dado={graficoEnum}
                                       placeholder={Titulos.INPUT_TIPO_VISUALIZACAO_BALANCO.toString()}
-                                      valorSelecionado={""} onGenericoSelect={handleTipoGrafico}/>
+                                      valorSelecionado={watch('tipoVisualizacao')} onGenericoSelect={handleTipoGrafico}/>
                             <div className="line"></div>
                         </div>
 

@@ -113,24 +113,28 @@ public class BalancosServiceImpl implements BalancosService {
     }
 
     @Override
-    public Balancos buscarBalancoPorId(int id) {
+    public Balancos buscarBalancoPorId(Long id) {
         try {
-            Optional<Balancos> balancoOptional = balancosRepository.findById((long) id);
+            Optional<Balancos> balancoOptional = balancosRepository.findById(id);
             return balancoOptional.orElse(null);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            log.log(Level.SEVERE, "Id inválido", e);
+            throw new IllegalArgumentException("Id fornecido é inválido.", e);
+        }
+        catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço por id ", e);
             throw new RuntimeException("Erro ao buscar balanço por id: ", e);
         }
     }
 
     @Override
-    public void deletarBalanco(int id) {
+    public void deletarBalanco(Long id) {
         try {
             if (id <= 0) {
                 throw new IllegalArgumentException("O id é inválido.");
             }
 
-            Optional<Balancos> balancoOptional = balancosRepository.findById((long) id);
+            Optional<Balancos> balancoOptional = balancosRepository.findById(id);
 
             if (!balancoOptional.isPresent()) {
                 throw new BalancoNaoEncontradoException("Balanço não encontrado para o id: " + id);

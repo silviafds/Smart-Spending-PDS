@@ -14,7 +14,7 @@ public interface BalancosService {
 
     List<Balancos> buscarTodosBalancos();
 
-    Balancos buscarBalancoPorId(int id);
+    Balancos buscarBalancoPorId(Long id);
 
-    void deletarBalanco(int id);
+    void deletarBalanco(Long id);
 }

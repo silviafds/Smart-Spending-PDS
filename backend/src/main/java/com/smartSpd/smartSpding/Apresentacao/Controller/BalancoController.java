@@ -151,7 +151,7 @@ public class BalancoController {
 
     @GetMapping("/buscarBalancoPorId/{id}")
     @Transactional
-    public ResponseEntity<?> buscarBalancoPorId(@PathVariable int id) {
+    public ResponseEntity<?> buscarBalancoPorId(@PathVariable Long id) {
         try {
             Balancos balanco = balancosService.buscarBalancoPorId(id);
             if (balanco != null) {
@@ -171,7 +171,7 @@ public class BalancoController {
 
     @DeleteMapping("/deletarBalanco/{id}")
     @Transactional
-    public ResponseEntity<?> deletarBalanco(@PathVariable int id) {
+    public ResponseEntity<?> deletarBalanco(@PathVariable Long id) {
         try {
             balancosService.deletarBalanco(id);
             return ResponseEntity.ok()

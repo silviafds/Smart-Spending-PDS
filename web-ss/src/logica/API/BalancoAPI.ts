@@ -12,11 +12,12 @@ export async function buscarBalanco() {
     }
 }
 
-export async function cadastrarProjeto(jsonString: any) {
+export async function cadastrarProjeto(jsonString: any, onClose: () => void) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.post(BACKEND_URL + "/balancoDespesa/registrarBalanco", jsonString, axiosConfig)
             .then((response) => {
+                onClose();
                 Swal.fire({
                     icon: "success",
                     title: "Balanço salvo.",

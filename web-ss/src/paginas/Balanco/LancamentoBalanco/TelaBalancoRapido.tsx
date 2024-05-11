@@ -93,8 +93,19 @@ export function TelaBalancoRapido() {
         any, tipoVisualizacao: any, categoriaOuTituloContabil: any) {
         if (!nome || !tipoBalanco || !analiseBalanco || !dataInicial || !dataTermino || !tipoVisualizacao || (!tipoBalanco && !categoriaOuTituloContabil)) {
             console.error("Erro na validação de conselhos por balanço.");
+            Swal.fire({
+                icon: "error",
+                title: "Não há dados a mostrar.",
+                showConfirmButton: true,
+                confirmButtonColor: "#072e66",
+                confirmButtonText: "OK",
+                customClass: {
+                    confirmButton: "bg-sky-950",
+                },
+            });
             return [];
         }
+
         const jsonData = {
             nome: nome,
             tipoBalanco: tipoBalanco,

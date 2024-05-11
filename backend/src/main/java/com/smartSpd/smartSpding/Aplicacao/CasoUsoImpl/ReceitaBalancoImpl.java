@@ -26,31 +26,9 @@ public class ReceitaBalancoImpl implements ReceitaBalancoService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-   /* @Override
-    public List<BalancoReceita> listagemMeiosPagamento() {
-        String sql = "SELECT origem, COUNT(*) AS quantidade_transacao FROM receita " +
-                "WHERE categoria_transacao IS NOT NULL " +
-                "GROUP BY categoria_transacao ORDER BY quantidade_transacao DESC";
-
-        return jdbcTemplate.query(sql, new ResultSetExtractor<List<BalancoReceita>>() {
-            @Override
-            public List<BalancoReceita> extractData(ResultSet rs) throws SQLException {
-                List<BalancoReceita> resultados = new ArrayList<>();
-                while (rs.next()) {
-                    String categoriaTransacao = rs.getString("categoria_transacao");
-                    Long quantidadeTransacao = rs.getLong("quantidade_transacao");
-                    resultados.add(new BalancoReceita(categoriaTransacao, quantidadeTransacao));
-                }
-                return resultados;
-            }
-        });
-    }*/
-
     @Override
     public List<BalancoReceita> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO) {
         List<BalancoReceita> resultados = new ArrayList<>();
-
         verificaDTO(balancoRapidoDTO);
 
         String sql = queryMeiosPagamento();

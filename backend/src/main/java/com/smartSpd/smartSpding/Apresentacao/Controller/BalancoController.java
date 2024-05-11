@@ -76,6 +76,7 @@ public class BalancoController {
             }
 
             if(balancoRapidoDTO.getTipoBalanco().equals(RECEITA.getBalanco())) {
+                System.out.println("balanço do tipo receita");
                 if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
                     List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
                     return ResponseEntity.ok()

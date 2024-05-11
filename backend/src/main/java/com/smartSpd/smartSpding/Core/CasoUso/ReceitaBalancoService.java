@@ -9,8 +9,5 @@ import java.util.List;
 
 @Service
 public interface ReceitaBalancoService {
-
-    /*List<BalancoDespesa> listagemMeiosPagamento();*/
-
     List<BalancoReceita> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO);
 }

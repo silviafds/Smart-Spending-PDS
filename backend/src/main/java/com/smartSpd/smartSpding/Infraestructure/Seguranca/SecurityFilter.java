@@ -24,7 +24,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        /*System.out.println("token doFilterInternal: "+token);*/
         if (token != null) {
             // Verifique se o token está na lista negra antes de validar a autenticação
             if (tokenService.isTokenBlacklisted(token)) {
@@ -37,7 +36,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
 
             var login = tokenService.validateToken(token);
-            /*System.out.println("login retornado da validacao de token: "+login);*/
             UserDetails user = userRepository.findByLogin(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

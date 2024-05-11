@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.ORIGENS_MAIS_RENTAVEIS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
 
 @Component
 public class BalancosServiceImpl implements BalancosService {
@@ -31,7 +31,6 @@ public class BalancosServiceImpl implements BalancosService {
 
     @Override
     public void registrarBalanco(Balancos balancos) {
-
         try {
             if (balancos == null) {
                 throw new IllegalArgumentException("O balanço não pode ser nulo.");
@@ -53,8 +52,11 @@ public class BalancosServiceImpl implements BalancosService {
                 throw new IllegalArgumentException("As datas de início e término de balanço não podem ser nulas.");
             }
 
-            if (balancos.getCategoria_titulo_contabil() == null || balancos.getCategoria_titulo_contabil().isEmpty()) {
-                throw new IllegalArgumentException("É preciso fornecer uma categoria ou título contábil.");
+            if (!Objects.equals(balancos.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) &&
+                    !Objects.equals(balancos.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+                if (balancos.getCategoria_titulo_contabil() == null || balancos.getCategoria_titulo_contabil().isEmpty()) {
+                    throw new IllegalArgumentException("É preciso fornecer uma categoria ou título contábil.");
+                }
             }
 
             balancosRepository.save(balancos);
@@ -66,16 +68,26 @@ public class BalancosServiceImpl implements BalancosService {
         }
     }
 
+
     @Override
     public void editarBalanco(Balancos dados) {
         try {
-            if (dados.getNome() == null || dados.getNome().isEmpty() ||
+            if (Objects.equals(dados.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) ||
+                    Objects.equals(dados.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+                if (dados.getNome() == null || dados.getNome().isEmpty() ||
+                        dados.getData_inicio() == null || dados.getData_termino() == null ||
+                        dados.getTipo_visualizacao() == null || dados.getTipo_visualizacao().isEmpty()) {
+                    throw new IllegalArgumentException("É preciso preencher todos os campos para editar o balanço!.");
+                }
+            } else {
+                if (dados.getNome() == null || dados.getNome().isEmpty() ||
                 dados.getTipoBalanco() == null || dados.getTipoBalanco().isEmpty() ||
                 dados.getAnalise_balanco() == null || dados.getAnalise_balanco().isEmpty() ||
-                dados.getData_inicio() == null || dados.getData_termino() == null ||
-                dados.getTipo_visualizacao() == null || dados.getTipo_visualizacao().isEmpty() ||
+                        dados.getData_inicio() == null || dados.getData_termino() == null ||
+                        dados.getTipo_visualizacao() == null || dados.getTipo_visualizacao().isEmpty() ||
                 dados.getCategoria_titulo_contabil() == null || dados.getCategoria_titulo_contabil().isEmpty()) {
-                throw new IllegalArgumentException("É preciso preencher todos os campos para editar o balanço!");
+                    throw new IllegalArgumentException("É preciso preencher todos os campos para editar o balanço!");
+                }
             }
 
             Optional<Balancos> balancoOptional = balancosRepository.findById(dados.getId());

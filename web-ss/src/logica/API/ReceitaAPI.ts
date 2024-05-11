@@ -1,25 +1,76 @@
 import axios from "../../core/contexto/axios";
-import {BACKEND_URL} from "../../core/config";
+import { BACKEND_URL } from "../../core/config";
 import Swal from "sweetalert2";
 
-export async function buscarBalanco() {
+export async function buscarContaInternaReceita() {
     try {
-        const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancos`);
+        const response = await axios.get(`${BACKEND_URL}/contaInterna/buscarContaHabilitadas`);
         return response.data;
     } catch (error) {
-        console.error('Erro ao carregar os dados de Balanço', error);
+        console.error('Erro ao carregar os dados de conta interna', error);
         throw error;
     }
 }
 
-export async function cadastrarProjeto(jsonString: any) {
+export async function buscarCategoriasReceita() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/receita/buscarCategoriaReceita`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de categoria', error);
+        throw error;
+    }
+}
+
+export async function buscarTitulosContabeis(categoriaId: string) {
+    try {
+        let identificador = Number(categoriaId);
+        const response = await axios.get(`${BACKEND_URL}/receita/buscarTituloContabilReceita/${identificador}`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os títulos contábeis', error);
+        throw error;
+    }
+}
+
+export async function buscarOrigem() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/origem/buscarOrigem`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de origem', error);
+        throw error;
+    }
+}
+
+export async function buscarTodasReceitas() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/receita/buscarReceitas`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de receita', error);
+        throw error;
+    }
+}
+
+export async function buscarReceitaPorId(idParaEditar: any) {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/receita/buscarReceitasPorId/${idParaEditar}`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de receita', error);
+        throw error;
+    }
+}
+
+export async function editarReceita(jsonString: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.post(BACKEND_URL + "/balancoDespesa/registrarBalanco", jsonString, axiosConfig)
+        await axios.patch(BACKEND_URL + "/receita/editarReceita", jsonString, axiosConfig)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Balanço salvo.",
+                    title: "Receita editada.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
@@ -28,7 +79,7 @@ export async function cadastrarProjeto(jsonString: any) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/LancamentoBalanco/";
+                        window.location.href = "/receita/";
                     }
                 });
             })
@@ -53,7 +104,7 @@ export async function cadastrarProjeto(jsonString: any) {
     } catch (error) {
         await Swal.fire({
             icon: "error",
-            title: "Seu balanço contém erros.",
+            title: "Sua receita contém erros.",
             showConfirmButton: true,
             confirmButtonColor: "#D60000",
             confirmButtonText: "OK",
@@ -64,73 +115,14 @@ export async function cadastrarProjeto(jsonString: any) {
     }
 }
 
-export async function buscarBalancoPorId(idParaEditar: any) {
-    try {
-        const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancoPorId/${idParaEditar}`);
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao carregar os dados de projeto', error);
-        throw error;
-    }
-}
-
-export async function editarBalanco(jsonString: any) {
+export async function salvarReceita(jsonString: any) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.patch(BACKEND_URL + "/balancoDespesa/editarBalanco", jsonString, axiosConfig)
+        await axios.post(BACKEND_URL + "/receita/registrarReceita", jsonString, axiosConfig)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
-                    title: "Balanço atualizado.",
-                    showConfirmButton: true,
-                    confirmButtonColor: "#072e66",
-                    confirmButtonText: "OK",
-                    customClass: {
-                        confirmButton: "bg-sky-950",
-                    },
-                });
-                window.location.href = "/LancamentoBalanco/"
-            })
-            .catch(function (error) {
-                if (error.response && error.response.status === 400) {
-                    const responseData = error.response.data;
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: responseData.message,
-                        customClass: {
-                            confirmButton: 'error-button'
-                        }
-                    });
-                } else if (error.request) {
-                    console.error("request: ", error.request);
-                } else {
-                    console.error('Error', error.message);
-                }
-                console.error(error.config);
-            });
-    } catch (error) {
-        await Swal.fire({
-            icon: "error",
-            title: "Sua balanço contém erros.",
-            showConfirmButton: true,
-            confirmButtonColor: "#D60000",
-            confirmButtonText: "OK",
-            customClass: {
-                confirmButton: "bg-sky-950",
-            },
-        });
-    }
-}
-
-export async function deletarBalancoPorId(idParaDeletar: any) {
-    try {
-        const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
-        await axios.delete(`${BACKEND_URL}/balancoDespesa/deletarBalanco/${idParaDeletar}`, axiosConfig)
-            .then((response) => {
-                Swal.fire({
-                    icon: "success",
-                    title: "Balanço deletado.",
+                    title: "Receita salva.",
                     showConfirmButton: true,
                     confirmButtonColor: "#072e66",
                     confirmButtonText: "OK",
@@ -139,7 +131,7 @@ export async function deletarBalancoPorId(idParaDeletar: any) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/LancamentoBalanco/";
+                        window.location.href = "/receita/";
                     }
                 });
             })
@@ -164,7 +156,7 @@ export async function deletarBalancoPorId(idParaDeletar: any) {
     } catch (error) {
         await Swal.fire({
             icon: "error",
-            title: "Erro ao deletar balanço.",
+            title: "Sua receita contém erros.",
             showConfirmButton: true,
             confirmButtonColor: "#D60000",
             confirmButtonText: "OK",
@@ -174,4 +166,3 @@ export async function deletarBalancoPorId(idParaDeletar: any) {
         });
     }
 }
-

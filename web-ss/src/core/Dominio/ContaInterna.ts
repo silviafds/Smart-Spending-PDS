@@ -9,8 +9,6 @@ export class ContaInterna {
         this.desabilitarConta = desabilitarConta;
     }
 
-    // Getters e setters (opcional)
-
     getId(): number {
         return this.id;
     }

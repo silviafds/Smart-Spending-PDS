@@ -6,7 +6,6 @@ export class ContaInternaDTO {
     constructor(nome: string) {
         this._nome = nome;
     }
-
     get nome(): string {
         return this._nome;
     }

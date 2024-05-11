@@ -7,7 +7,6 @@ export class AuthenticationDTO {
         this._password = password;
     }
 
-
     get login(): string {
         return this._login;
     }

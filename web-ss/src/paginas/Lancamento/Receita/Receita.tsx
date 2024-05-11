@@ -53,7 +53,6 @@ interface Data extends DataIndexable {
 
 function Receita() {
     const [loading, setLoading] = useState(true);
-
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [dadosReceita, setDadosReceita] = useState<any[]>([]);
     const [open, setOpen] = useState(-1);
@@ -69,7 +68,6 @@ function Receita() {
             setLoading(false);
         }, 2000);
     }, []);
-
 
     useEffect(() => {
         const storageUser = localStorage.getItem('nomeUser');
@@ -125,7 +123,6 @@ function Receita() {
             navigate(`/cadastroReceita`);
         }
     };
-
 
     return (
         <div>

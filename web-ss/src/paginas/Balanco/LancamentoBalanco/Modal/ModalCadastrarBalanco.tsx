@@ -9,10 +9,7 @@ import {
     balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum, AnaliseBalancoReceita, AnaliseBalancoDespesa
 } from "../../../../core/ENUM/TipoBalanco";
 import {graficoEnum} from "../../../../core/ENUM/TipoGrafico";
-import {criarBalancoRapidoDespesa} from "../../../../logica/API/BalancoDespesa";
 import {buscarBalancoPorId, cadastrarProjeto, editarBalanco} from "../../../../logica/API/BalancoAPI";
-import {buscarCategoriasReceita, buscarContaInternaReceita, buscarOrigem} from "../../../../logica/API/ReceitaAPI";
-import {buscarBancoPorNome} from "../../../../logica/API/ContaBancariaAPI";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -43,12 +40,10 @@ interface IFormInputs {
     categoriaOuTituloContabilReceita: boolean;
 }
 
-
 const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClose, id }) => {
 
     const [balanco, setBalanco] = useState<string>("");
     const [erro, setErro] = useState<boolean>(false);
-    const [dadosBalanco, setDadosBalanco] = useState([]);
 
     const {
         register,
@@ -82,12 +77,10 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
             }
         };
 
-
         fetchData();
     }, []);
 
     const handleTipoBalanco = async (tipoBalanco: any) => {
-        console.log("id "+id)
         if(tipoBalanco != null) {
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
@@ -133,7 +126,6 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
 
     const onSubmit = async (data: IFormInputs) =>  {
         if(id !== undefined && id !== null) {
-            console.log("este balanço é para editar: ",id)
             const jsonData = {
                 id: id,
                 nome: data.nome,

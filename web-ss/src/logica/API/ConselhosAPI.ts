@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 
 export async function buscarConselhoPorBalanco(jsonString: any) {
     try {
-        console.log("request buscar conselhor por balanço")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         const response = await axios.post(`${BACKEND_URL}/conselhos/conselhoPorBalanco`, jsonString, axiosConfig);
         return response.data;
@@ -46,11 +45,11 @@ export async function salvarConselhos(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

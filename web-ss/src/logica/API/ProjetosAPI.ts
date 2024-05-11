@@ -44,11 +44,11 @@ export async function cadastrarProjeto(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -64,7 +64,7 @@ export async function cadastrarProjeto(jsonString: any) {
     }
 }
 
-export async function buscarṔrojetoPorId(idParaEditar: any) {
+export async function buscarProjetoPorId(idParaEditar: any) {
     try {
         const response = await axios.get(`${BACKEND_URL}/projetos/buscarProjetoInvidual/${idParaEditar}`);
         return response.data;
@@ -76,7 +76,6 @@ export async function buscarṔrojetoPorId(idParaEditar: any) {
 
 export async function editarProjeto(jsonString: any) {
     try {
-        console.log("tentando editar projeto")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.patch(BACKEND_URL + "/projetos/editarProjeto", jsonString, axiosConfig)
             .then((response) => {
@@ -104,11 +103,11 @@ export async function editarProjeto(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -156,11 +155,11 @@ export async function deletarṔrojetoPorId(idParaDeletar: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

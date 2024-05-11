@@ -4,7 +4,6 @@ import {Sidebar} from "../../../componentes/sidebar/sidebar";
 import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 
-
 function ProjetosBalanco() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
 
@@ -14,7 +13,6 @@ function ProjetosBalanco() {
             setNomeUsuario(storageUser);
         }
     }, []);
-
 
     return (
         <div>
@@ -30,9 +28,7 @@ function ProjetosBalanco() {
                     <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
 
                     <div className="mt-10 w-full max-w-6xl ">
-
                         <h1>tela de gerenciador de projetos</h1>
-
                     </div>
                 </div>
             </div>

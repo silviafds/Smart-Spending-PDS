@@ -40,7 +40,6 @@ interface IFormInputs {
     categoriaOuTituloContabilReceita: boolean;
 }
 
-
 const ModalIniciarBalancoRapido: React.FC<BasicModalProps> = ({ onClose }) => {
 
     const [balanco, setBalanco] = useState<string>("");
@@ -181,8 +180,6 @@ const ModalIniciarBalancoRapido: React.FC<BasicModalProps> = ({ onClose }) => {
                                         </div>
                                     </>
                                 )}
-
-
                             </>
                         )}
 

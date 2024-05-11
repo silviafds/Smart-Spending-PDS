@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 export async function buscarBalanco() {
     try {
         const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancos`);
-        console.log("dados: "+response.data)
         return response.data;
     } catch (error) {
         console.error('Erro ao carregar os dados de Balanço', error);
@@ -45,11 +44,11 @@ export async function cadastrarProjeto(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -67,7 +66,6 @@ export async function cadastrarProjeto(jsonString: any) {
 
 export async function buscarBalancoPorId(idParaEditar: any) {
     try {
-        console.log("buscando balanco: "+idParaEditar)
         const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancoPorId/${idParaEditar}`);
         return response.data;
     } catch (error) {
@@ -78,7 +76,6 @@ export async function buscarBalancoPorId(idParaEditar: any) {
 
 export async function editarBalanco(jsonString: any) {
     try {
-        console.log("tentando editar projeto")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.patch(BACKEND_URL + "/balancoDespesa/editarBalanco", jsonString, axiosConfig)
             .then((response) => {
@@ -106,11 +103,11 @@ export async function editarBalanco(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -158,11 +155,11 @@ export async function deletarBalancoPorId(idParaDeletar: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

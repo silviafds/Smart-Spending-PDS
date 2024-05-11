@@ -1,4 +1,3 @@
-
 export const verificarSenhas = (senha: string, verificaSenha: string): string | null => {
     if (senha !== verificaSenha) {
         return 'As senhas não coincidem.';

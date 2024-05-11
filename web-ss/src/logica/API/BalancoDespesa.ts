@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 
 export async function criarBalancoRapidoDespesa(jsonString: any) {
     try {
-        console.log("metodo da requisição: "+jsonString.tipoBalanco)
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.post(BACKEND_URL + "/balancoDespesa/registroBalancoRapido", jsonString, axiosConfig)
             .then((response) => {
@@ -24,11 +23,11 @@ export async function criarBalancoRapidoDespesa(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

@@ -65,11 +65,11 @@ export async function salvarDespesa(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -119,7 +119,6 @@ export async function buscarTodasDespesas() {
 
 export async function editarDespesa(jsonString: any) {
     try {
-        console.log("tentando editar despesa")
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
         await axios.patch(BACKEND_URL + "/despesa/editarDespesa", jsonString, axiosConfig)
             .then((response) => {
@@ -147,11 +146,11 @@ export async function editarDespesa(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

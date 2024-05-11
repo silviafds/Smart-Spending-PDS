@@ -7,7 +7,7 @@ import {useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {Titulos} from "../../core/ENUM/Titulos";
 import {validaDadosSubmissao} from "../../logica/Validacoes/CadastroProjetoValidacao";
-import {buscarṔrojetoPorId} from "../../logica/API/ProjetosAPI";
+import {buscarProjetoPorId} from "../../logica/API/ProjetosAPI";
 
 interface IFormInputs {
     nome: string;
@@ -40,7 +40,7 @@ export function CadastroProjeto() {
                 try {
                     if (id != undefined) {
                         const [projeto] = await Promise.all([
-                            buscarṔrojetoPorId(id)
+                            buscarProjetoPorId(id)
                         ]);
                         for (let prop in projeto) {
                             setValue('nome', projeto[prop].nome)
@@ -73,7 +73,6 @@ export function CadastroProjeto() {
         setErro(false);
         let validacaoResultado = validaDadosSubmissao(id, data.nome, data.valor_meta,
             data.data_inicio, data.data_final, data.descricao, data.valor_atual);
-        console.log("teste")
         if(validacaoResultado) {
             console.error('Algum dos dados está nulo.');
             setErro(true);

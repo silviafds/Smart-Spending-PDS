@@ -5,8 +5,7 @@ import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 import { IoWalletOutline } from "react-icons/io5";
 import { TbPigMoney } from "react-icons/tb";
-import { Link } from 'react-router-dom'; // Importe o Link do react-router-dom
-
+import { Link } from 'react-router-dom';
 
 function Balanco() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
@@ -17,7 +16,6 @@ function Balanco() {
             setNomeUsuario(storageUser);
         }
     }, []);
-
 
     return (
         <div>
@@ -35,7 +33,6 @@ function Balanco() {
                     <div className="mt-10 w-full max-w-6xl ">
 
                         <div className="flex justify-center items-center">
-
                             <Link to="/LancamentoBalanco" className="flex flex-col items-center justify-center ">
                                 <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500 rounded-md
                                 drop-shadow-md hover:bg-gray-200">
@@ -56,10 +53,7 @@ function Balanco() {
                                     </div>
                                 </div>
                             </Link>
-
                         </div>
-
-
                     </div>
                 </div>
             </div>

@@ -59,7 +59,6 @@ function Conselhos() {
         fetchData();
     }, []);
 
-
     const handleChangeDespesa = (event: { target: { value: string | number; }; }) => {
         const formattedValue = formatarMoeda(event.target.value);
         setValue("meta_despesa", formattedValue)

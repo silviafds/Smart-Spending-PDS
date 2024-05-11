@@ -8,7 +8,6 @@ export class UserDTO {
     private _email: string;
     private _password: string;
     private _role: Role;
-
     constructor(nome: string, sobrenome: string, login: string, datanascimento: Date, email: string, password: string,
                 role: Role) {
         this._nome = nome;

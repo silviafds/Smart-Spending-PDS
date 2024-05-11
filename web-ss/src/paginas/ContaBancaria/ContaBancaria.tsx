@@ -117,7 +117,6 @@ function ContaBancaria() {
         setFilteredData(filtered);
     }, [filterValue, filterField, dadosBancarios]);
 
-
     async function handleDelete(id: number) {
         await deletarContaBancaria(id);
         const dadosAtualizados = await buscarContaBancaria();

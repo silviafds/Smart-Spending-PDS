@@ -83,11 +83,11 @@ export async function salvarContaBancaria(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({
@@ -126,7 +126,6 @@ export async function editarContaBancaria(jsonString: any) {
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
                     const responseData = error.response.data;
-                    console.log('Erro de BadRequest:', responseData);
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
@@ -136,11 +135,11 @@ export async function editarContaBancaria(jsonString: any) {
                         }
                     });
                 } else if (error.request) {
-                    console.log("request: ", error.request);
+                    console.error("request: ", error.request);
                 } else {
-                    console.log('Error', error.message);
+                    console.error('Error', error.message);
                 }
-                console.log(error.config);
+                console.error(error.config);
             });
     } catch (error) {
         await Swal.fire({

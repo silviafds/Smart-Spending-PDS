@@ -64,7 +64,7 @@ function Projetos() {
                 const [projetos] = await Promise.all([
                     buscarProjetos()
                 ]);
-                console.log("projetos: "+projetos)
+
                 setDadosProjeto(projetos);
             } catch (error) {
                 console.error('Erro ao carregar os dados', error);

@@ -21,7 +21,6 @@ import {buscarTodasDespesas} from "../../../logica/API/DespesaAPI";
 import {useNavigate} from "react-router-dom";
 import  Loading  from "../../../componentes/Loading";
 
-
 interface DataIndexable {
     [key: string]: string | number | Date | boolean | any;
 }
@@ -45,7 +44,6 @@ interface Data extends DataIndexable {
 
 function Despesa() {
     const [loading, setLoading] = useState(true);
-
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [dadosDespesa, setDadosDespesa] = useState<any[]>([]);
     const [open, setOpen] = useState(-1);
@@ -321,8 +319,6 @@ function Despesa() {
                 </div>
             )}
         </div>
-
-
     );
 }
 

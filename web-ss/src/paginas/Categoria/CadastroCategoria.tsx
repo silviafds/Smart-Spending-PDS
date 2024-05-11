@@ -70,7 +70,6 @@ function CadastroCategoria() {
         }
     };
 
-
     useEffect(() => {
         const storageUser = localStorage.getItem('nomeUser');
         if (storageUser) {

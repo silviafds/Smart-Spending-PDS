@@ -146,86 +146,15 @@ function LancamentoBalanco() {
                         categoriaOuTituloContabil: response.categoria_titulo_contabil
                     };
 
-                    console.log("nome: "+jsonData.nome)
-                    console.log("tipoBalanco: "+jsonData.tipoBalanco)
-                    console.log("analiseBalanco: "+jsonData.analiseBalanco)
-                    console.log("dataInicio: "+jsonData.dataInicio)
-                    console.log("dataTermino: "+jsonData.dataTermino)
-                    console.log("tipoVisualizacao: "+jsonData.tipoVisualizacao)
-                    console.log("categoriaOuTituloContabil: "+jsonData.categoriaOuTituloContabil)
-
-
                     criarBalancoRapidoDespesa(jsonData)
                 })
                 .catch(error => {
                     console.error('Erro ao buscar dados do balanço:', error);
                 });
-            //console.log(response);
         } catch (error) {
-            // Lidar com erros, por exemplo, exibindo uma mensagem de erro
             console.error('Erro ao buscar dados do balanço:', error);
         }
     }
-
-    /*function VisualizarBalanco(id: any) {
-
-
-        const balancoSelecionado = filteredData.find(balanco => balanco.id === id);
-        console.log("data inicio: "+balancoSelecionado?.dataInicio+"  data fim: "+balancoSelecionado?.dataTermino);
-
-        if (balancoSelecionado) {
-            const jsonData = {
-                nome: balancoSelecionado.nome,
-                tipoBalanco: balancoSelecionado.tipoBalanco,
-                analise_balanco: balancoSelecionado.analiseBalanco,
-                data_inicio: balancoSelecionado.dataInicio,
-                data_termino: balancoSelecionado.dataTermino,
-                tipo_visualizacao: balancoSelecionado.tipoVisualizacao,
-                categoria_titulo_contabil: balancoSelecionado.categoriaOuTituloContabil
-            };
-            console.log("nome: "+jsonData.nome)
-            console.log("tipoBalanco: "+jsonData.tipoBalanco)
-            console.log("analise_balanco: "+jsonData.analise_balanco)
-            console.log("data_inicio: "+jsonData.data_inicio)
-            console.log("data_termino: "+jsonData.data_termino)
-            console.log("tipo_visualizacao: "+jsonData.tipo_visualizacao)
-            console.log("categoria_titulo_contabil: "+jsonData.categoria_titulo_contabil)
-            criarBalancoRapidoDespesa(jsonData);
-        } else {
-            // Lidar com o caso em que nenhum balanço é encontrado com o ID fornecido
-            console.error("Balanço não encontrado com o ID:", id);
-        }
-
-        // Fazer algo com os dados do balanço selecionado, por exemplo, exibir em um modal
-        /!*useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    console.log("id: " + id);
-                    if (id !== undefined && id !== null) {
-                        const [dadosBalancos] = await Promise.all([
-                            buscarBalancoPorId(id)
-                        ]);
-
-                        const jsonData = {
-                            nome: dadosBalancos.nome,
-                            tipoBalanco: dadosBalancos.tipoBalanco,
-                            analise_balanco: dadosBalancos.analiseBalanco,
-                            data_inicio: dadosBalancos.dataInicio,
-                            data_termino: dadosBalancos.dataTermino,
-                            tipo_visualizacao: dadosBalancos.tipoVisualizacao,
-                            categoria_titulo_contabil: dadosBalancos.categoriaOuTituloContabil
-                        };
-                        criarBalancoRapidoDespesa(jsonData)
-                    }
-                } catch (error) {
-                    console.error('Erro ao carregar os dados de balanço', error);
-                }
-            };
-            fetchData();
-        }, [id]); // Adicione 'id' como uma dependência do useEffect
-
-        return null;*!/
-    }*/
 
     return (
         <div>
@@ -362,8 +291,6 @@ function LancamentoBalanco() {
                                 labelRowsPerPage=""
                             />
                         </TableContainer>
-
-
                     </div>
                 </div>
             </div>

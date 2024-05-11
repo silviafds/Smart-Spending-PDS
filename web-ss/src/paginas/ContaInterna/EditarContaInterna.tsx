@@ -63,12 +63,11 @@ function EditarContaInterna() {
                         },
                     });
                     window.location.href = "/contaInterna/"
-                    console.log("dado salvo: ", response.data);
                 })
                 .catch(function (error) {
                     if (error.response && error.response.status === 400) {
                         const responseData = error.response.data;
-                        console.log('Erro de BadRequest:', responseData);
+                        console.error('Erro de BadRequest:', responseData);
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
@@ -78,11 +77,11 @@ function EditarContaInterna() {
                             }
                         });
                     } else if (error.request) {
-                        console.log("request: ", error.request);
+                        console.error("request: ", error.request);
                     } else {
-                        console.log('Error', error.message);
+                        console.error('Error', error.message);
                     }
-                    console.log(error.config);
+                    console.error(error.config);
                 });
         } catch (error) {
             console.error('Erro ao editar conta interna:', error);

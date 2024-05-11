@@ -20,7 +20,6 @@ function TelaConfiguracao() {
         }
     }, []);
 
-
     return (
         <div>
             <HeaderPadrao nomeUsuario={nomeUsuario}/>

@@ -4,7 +4,6 @@ import {Sidebar} from "../../componentes/sidebar/sidebar";
 import {Ajuda} from "../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../core/ENUM/Ajuda";
 
-
 function TelaCategoria() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
 
@@ -18,7 +17,6 @@ function TelaCategoria() {
     const handleCadastro = async () => {
         window.location.href = "/cadastroCategoria/";
     };
-
 
     return (
         <div>

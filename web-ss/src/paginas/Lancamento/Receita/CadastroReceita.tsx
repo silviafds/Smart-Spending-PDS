@@ -32,12 +32,10 @@ interface IFormInputs {
 }
 
 export function CadastroReceita() {
-
     let { id } = useParams();
     const [nomeUsuarioLocalStorage, setNomeUsuarioLocalStorage] = useState<string>("");
     const [fetchDataComplete, setFetchDataComplete] = useState(false);
     const [configOrigem, setConfigOrigem] = useState<string>("");
-
     const [arrayContaInterna, setArrayContaInterna] = useState([]);
     const [arrayCategoria, setArrayCategoria] = useState([]);
     const [arrayTituloContabil, setArrayTituloContabil] = useState([]);

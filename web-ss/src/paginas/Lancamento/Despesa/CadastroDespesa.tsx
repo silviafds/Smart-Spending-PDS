@@ -129,8 +129,6 @@ export function CadastroDespesa() {
 
                         const bancosCadastrados = await buscarBancoPorNome();
                         setArrayBancos(bancosCadastrados)
-                        console.log("dados de origem: "+watch('categoriaTransacao'))
-                        console.log("dados de bancarios: "+watch('dadosBancariosOrigem'))
                         if(watch('categoriaTransacao') === "Transferência" ) {
                             setConfigOrigem("Transferência")
                         } else if(verificaOrigem === "Pix") {
@@ -213,7 +211,6 @@ export function CadastroDespesa() {
         try {
             if(watch('categoria')=="Projeto") {
                 setValue('idProjeto', dado.id)
-                console.log("ID: "+dado.id)
             }
             setValue('tituloContabil', dado.nome);
         } catch (error) {

@@ -211,7 +211,8 @@ public class ConselhosServiceImpl implements ConselhosService {
             } else if (despesaMesAnterior > despesaMesAtual) {
                 double diferenca = despesaMesAnterior - despesaMesAtual;
                 conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
-                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês" +
+                        " anterior, com uma diferença de R$" + String.format("%.2f", diferenca);
             } else {
                 conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
                         " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";

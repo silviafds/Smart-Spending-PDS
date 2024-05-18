@@ -1,5 +1,7 @@
 package com.smartSpd.smartSpding.Infraestructure.Seguranca;
 
+import com.smartSpd.smartSpding.Infraestructure.Seguranca.Mensagem.CustomAccessDeniedHandler;
+import com.smartSpd.smartSpding.Infraestructure.Seguranca.Mensagem.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfigurations {
     @Autowired
-    SecurityFilter securityFilter;
+    SecurityFilter securityFilter; @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,13 +37,11 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/logout").authenticated()
-
                         .requestMatchers(HttpMethod.POST, "/contaInterna/registrarConta").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/contaInterna/editarConta").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/contaInterna/deletarConta/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/contaInterna/buscarConta").authenticated()
                         .requestMatchers(HttpMethod.GET, "/contaInterna/buscarContaInvidual/{id}").authenticated()
-
                         .requestMatchers(HttpMethod.POST, "/receita/registrarReceita").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/receita/editarReceita").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/receita/deletarRceita").authenticated()
@@ -45,17 +49,16 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/receita/buscarReceitasPorId/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/receita/buscarTituloContabilReceita/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/receita/buscarReceitas").authenticated()
-
                         .requestMatchers(HttpMethod.GET, "/origem/buscarOrigem").authenticated()
-
                         .requestMatchers(HttpMethod.POST, "/contaBancaria/registrarContaBancaria").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/contaBancaria/deletarContaBancaria/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/contaBancaria/buscarContaBancariaPorNome/{nome}").authenticated()
-
                         .requestMatchers(HttpMethod.GET, "/saldo/calcularSaldoPorConta").authenticated()
-
-                                .anyRequest().authenticated()
-                        //.anyRequest().authenticated()
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())

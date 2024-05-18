@@ -1,8 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
-import {Navigate} from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 interface User {
     login: string;
@@ -28,6 +27,7 @@ export const useAuth = () => useContext(AuthContext);
 interface AuthProviderProps {
     children: ReactNode;
 }
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
         const storageUser = localStorage.getItem('@Auth:user');
@@ -46,8 +46,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
             localStorage.setItem('@Auth:token', userData.token);
             localStorage.setItem('@Auth:user', JSON.stringify(userData));
-            localStorage.setItem('nomeUser', data.login)
-        } catch (error: any) { // Defina o tipo da variável error como any explicitamente
+            localStorage.setItem('nomeUser', data.login);
+        } catch (error: any) {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('@Auth:user');
         localStorage.removeItem('nomeUser');
         localStorage.clear();
-        return <Navigate to="/" />;
+        window.location.href = '/'; // Redirecionar para a página inicial
     };
 
     return (
@@ -84,3 +84,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+

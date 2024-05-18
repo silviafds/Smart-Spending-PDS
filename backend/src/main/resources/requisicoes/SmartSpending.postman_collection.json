@@ -807,15 +807,185 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/buscarCategoriaDespesa",
+							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesa",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"port": "{{port}}",
 							"path": [
-								"despesa",
+								"categoria",
 								"buscarCategoriaDespesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar todas as categorias juntas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"buscarCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrar categoria",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoCategoria\": \"Receita\",\n    \"nomeCategoria\": \"estorno2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/registroCategoria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"registroCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar categoria",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"tipoCategoria\": \"Despesa\",\n    \"nomeCategoria\": \"Lazer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/editarCategoria",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"editarCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar categoria despesa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/deletarCategoriaDespesa/9",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"deletarCategoriaDespesa",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar categoria receita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/deletarCategoriaReceita/8",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"deletarCategoriaReceita",
+								"8"
 							]
 						}
 					},
@@ -837,15 +1007,77 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarCategoriaReceita",
+							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceita",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"port": "{{port}}",
 							"path": [
-								"receita",
+								"categoria",
 								"buscarCategoriaReceita"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar categoria de receita por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceitaPorId/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"buscarCategoriaReceitaPorId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar categoria de despesa por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesaPorId/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"categoria",
+								"buscarCategoriaDespesaPorId",
+								"1"
 							]
 						}
 					},
@@ -1074,7 +1306,7 @@
 							"response": []
 						},
 						{
-							"name": "Listagem de despesas por tempo",
+							"name": "Registrar balanco",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1098,7 +1330,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
+									"raw": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco",
 									"protocol": "http",
 									"host": [
 										"{{host}}"
@@ -1106,7 +1338,7 @@
 									"port": "{{port}}",
 									"path": [
 										"balancoDespesa",
-										"registroBalancoRapido"
+										"registrarBalanco"
 									]
 								}
 							},
@@ -1201,6 +1433,176 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Cadastro de balanço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"balanço 1\",\n    \"tipoBalanco\": \"Despesa\",\n    \"analise_balanco\": \"Todos os gastos\",\n    \"data_inicio\": \"2024-03-02\",\n    \"data_termino\": \"2024-03-25\",\n    \"tipo_visualizacao\": \"grafico\",\n    \"categoria_titulo_contabil\": \"Categoria\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"balancoDespesa",
+								"registrarBalanco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar balanço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"nome\": \"balanço editado\",\n    \"tipoBalanco\": \"Receita\",\n    \"analise_balanco\": \"Todos os gastos\",\n    \"data_inicio\": \"2024-03-02\",\n    \"data_termino\": \"2024-03-25\",\n    \"tipo_visualizacao\": \"grafico\",\n    \"categoria_titulo_contabil\": \"Titulo Contabil\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/balancoDespesa/editarBalanco",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"balancoDespesa",
+								"editarBalanco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar todos os balanços",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancos",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"balancoDespesa",
+								"buscarBalancos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar balanço por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancoPorId/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"balancoDespesa",
+								"buscarBalancoPorId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar balanço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}:{{port}}/balancoDespesa/deletarBalanco/1",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"balancoDespesa",
+								"deletarBalanco",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

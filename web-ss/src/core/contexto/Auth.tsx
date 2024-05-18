@@ -49,9 +49,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.setItem('nomeUser', data.login);
         } catch (error: any) {
             if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+                console.error(error.response.data);
+                console.error(error.response.status);
+                console.error(error.response.headers);
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
@@ -61,11 +61,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     }
                 });
             } else if (error.request) {
-                console.log(error.request);
+                console.error(error.request);
             } else {
-                console.log('Error', error.message);
+                console.error('Error', error.message);
             }
-            console.log(error.config);
+            console.error(error.config);
         }
     };
 

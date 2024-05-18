@@ -133,10 +133,14 @@ public class ConselhosServiceImpl implements ConselhosService {
         Double totalReceita = (Double) balanco[1];
         String conselho = null;
 
-        if (totalDespesa > totalReceita) {
-            double diferenca = totalDespesa - totalReceita;
-            conselho = "O montante de despesa superou o de receita em R$" + diferenca + " Sugere-se revisar o " +
-                    "orçamento para manter um equilíbrio financeiro adequado.";
+        if(totalReceita != null) {
+            if (totalDespesa > totalReceita) {
+                double diferenca = totalDespesa - totalReceita;
+                conselho = "O montante de despesa superou o de receita em R$" + diferenca + " Sugere-se revisar o " +
+                        "orçamento para manter um equilíbrio financeiro adequado.";
+            }
+        } else {
+            conselho = "Não houve receita até o momento para calcular.";
         }
 
         return conselho;
@@ -152,10 +156,14 @@ public class ConselhosServiceImpl implements ConselhosService {
         Double totalReceita = (Double) balanco[1];
         String conselho = null;
 
-        if (totalReceita > totalDespesa) {
-            double diferenca = totalReceita - totalDespesa;
-            conselho = "O montante de receita superou o de despesa em R$" + diferenca + " Isso é ótimo, continuando dessa" +
-                    "forma seu patrimônio irá crescer.";
+        if(totalReceita != null) {
+            if (totalReceita > totalDespesa) {
+                double diferenca = totalReceita - totalDespesa;
+                conselho = "O montante de receita superou o de despesa em R$" + diferenca + " Isso é ótimo, continuando dessa" +
+                        "forma seu patrimônio irá crescer.";
+            }
+        } else {
+            conselho = "No momento, o montante de receita ainda não superou o de despesa.";
         }
 
         return conselho;
@@ -181,6 +189,7 @@ public class ConselhosServiceImpl implements ConselhosService {
 
     @Override
     public String compararDespesaMesAtualEAnterior(BalancoRapidoDTO dado) {
+        String conselho = null;
         String quantidadeDeMesAnterior = gerenciadorConselhos.buscarData(dado.getDataInicio());
 
         List<LocalDate> listaDataMesAnterior = gerenciadorConselhos.montarDataQuery(dado.getDataInicio(), quantidadeDeMesAnterior);
@@ -193,18 +202,21 @@ public class ConselhosServiceImpl implements ConselhosService {
         Double despesaMesAtual = (Double) balanco[0];
         Double despesaMesAnterior = (Double) balanco[1];
 
-        String conselho = null;
-
-        if (despesaMesAtual > despesaMesAnterior) {
-            double diferenca = despesaMesAtual - despesaMesAnterior;
-            conselho = "Atenção: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
-        } else if (despesaMesAnterior > despesaMesAtual) {
-            double diferenca = despesaMesAnterior - despesaMesAtual;
-            conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
-                    + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        if(despesaMesAnterior == null) {
+            conselho = "Não houve despesas no mês anterior para comprar com o mês atual.";
         } else {
-            conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
-                    " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";
+            if (despesaMesAtual > despesaMesAnterior) {
+                double diferenca = despesaMesAtual - despesaMesAnterior;
+                conselho = "Atenção: Sua despesa atual ultrapassou a despesa dos mês anterior em R$" + diferenca;
+            } else if (despesaMesAnterior > despesaMesAtual) {
+                double diferenca = despesaMesAnterior - despesaMesAtual;
+                conselho = "Parabéns! Sua despesa no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
+                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês" +
+                        " anterior, com uma diferença de R$" + String.format("%.2f", diferenca);
+            } else {
+                conselho = "Seus gastos atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                        " É recomendável analisar os detalhes de seus gastos para manter uma gestão financeira equilibrada.";
+            }
         }
 
         return conselho;
@@ -226,16 +238,20 @@ public class ConselhosServiceImpl implements ConselhosService {
 
         String conselho = null;
 
-        if (despesaMesAtual > despesaMesAnterior) {
-            double diferenca = despesaMesAtual - despesaMesAnterior;
-            conselho = "Parabéns: Sua receita atual ultrapassou a receita dos mês anterior em R$" + diferenca;
-        } else if (despesaMesAnterior > despesaMesAtual) {
-            double diferenca = despesaMesAnterior - despesaMesAtual;
-            conselho = "Atenção! Sua receita no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
-                    + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+        if(despesaMesAnterior == null || despesaMesAtual == null) {
+            conselho = "Não houve receita no mês anterior para comparar com o mês atual.";
         } else {
-            conselho = "Suas receitas atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
-                    " É recomendável analisar os detalhes de suas receitas para manter uma gestão financeira equilibrada.";
+            if (despesaMesAtual > despesaMesAnterior) {
+                double diferenca = despesaMesAtual - despesaMesAnterior;
+                conselho = "Parabéns: Sua receita atual ultrapassou a receita dos mês anterior em R$" + diferenca;
+            } else if (despesaMesAnterior > despesaMesAtual) {
+                double diferenca = despesaMesAnterior - despesaMesAtual;
+                conselho = "Atenção! Sua receita no período de " + gerenciadorConselhos.formataData(dado.getDataInicio())
+                        + " a "+ gerenciadorConselhos.formataData(dado.getDataTermino()) +" permanece inferior à do mês anterior, com uma diferença de R$" + diferenca;
+            } else {
+                conselho = "Suas receitas atuais permanecem iguais aos do mês anterior, totalizando R$" +despesaMesAtual+
+                        " É recomendável analisar os detalhes de suas receitas para manter uma gestão financeira equilibrada.";
+            }
         }
 
         return conselho;
@@ -269,21 +285,28 @@ public class ConselhosServiceImpl implements ConselhosService {
         valorMetaStr = valorMetaStr.replaceAll("\\.", "");
         valorMetaStr = valorMetaStr.replace(",", ".");
         double valorMeta = Double.parseDouble(valorMetaStr);
+        System.out.println("datainicio: "+dataInicio+" datafinal: "+dataFinal);
 
-        double valorReceitaAtual = receitaRepository.totalReceitaPorPeriodo(dataInicio, dataFinal);
+        Double valorReceitaRetornado = receitaRepository.totalReceitaPorPeriodo(dataInicio, dataFinal);
+
         String conselho = null;
         double percentual;
-        if (valorReceitaAtual < valorMeta) {
-            percentual = ((valorReceitaAtual / valorMeta) * 100);
-            double diferenca = valorMeta - valorReceitaAtual;
-            conselho = "Você atingiu " + String.format("%.2f", percentual) + "% da sua meta de receita, representando um " +
-                    "total de R$" + valorReceitaAtual + ". Faltam R$" + diferenca + " para alcançar sua meta.";
+        if (valorReceitaRetornado != null) {
+            if (valorReceitaRetornado < valorMeta) {
+                percentual = ((valorReceitaRetornado / valorMeta) * 100);
+                double diferenca = valorMeta - valorReceitaRetornado;
+                conselho = "Você atingiu " + String.format("%.2f", percentual) + "% da sua meta de receita, representando um " +
+                        "total de R$" + valorReceitaRetornado + ". Faltam R$" + diferenca + " para alcançar sua meta.";
+            } else {
+                percentual = ((valorReceitaRetornado / valorMeta) * 100);
+                double diferenca = valorReceitaRetornado - valorMeta;
+                conselho = "Parabéns! Você alcançou " + String.format("%.2f", percentual) + "% da sua meta de receita. Você " +
+                        "excedeu sua meta em R$" + diferenca + ".";
+            }
         } else {
-            percentual = ((valorReceitaAtual / valorMeta) * 100);
-            double diferenca = valorReceitaAtual - valorMeta;
-            conselho = "Parabéns! Você alcançou " + String.format("%.2f", percentual) + "% da sua meta de receita. Você " +
-                    "excedeu sua meta em R$" + diferenca + ".";
+            conselho = "Não houve um valor de receita registrado em meta para ser atingindo.";
         }
+
         return conselho;
     }
 

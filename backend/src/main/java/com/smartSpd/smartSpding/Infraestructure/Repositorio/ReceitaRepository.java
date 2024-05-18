@@ -73,7 +73,7 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     List<Receita> buscarReceitaPorId(int idReceita);
 
     @Query("SELECT SUM(r.valorReceita) FROM receita r WHERE r.dataReceita BETWEEN :dataInicio AND :dataTermino")
-    double totalReceitaPorPeriodo(@Param("dataInicio") LocalDate dataInicio,
+    Double totalReceitaPorPeriodo(@Param("dataInicio") LocalDate dataInicio,
                                   @Param("dataTermino") LocalDate dataTermino);
 
     @Query(nativeQuery = true,

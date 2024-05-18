@@ -3,28 +3,27 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Login } from "../../paginas/usuario/login";
 import CadastroUsuario from '../../paginas/usuario/cadastroUsuario';
 import { RotaPrivada } from "./rotaPrivada";
-import Dashboard from "../../paginas/Principal/dashboard";
-import Receita from "../../paginas/Principal/Receita"
-import Despesa from "../../paginas/Principal/Despesa"
-import Projetos from "../../paginas/Principal/Projetos"
-import Balanco from "../../paginas/Principal/Balanco";
-import ContaInterna from "../../paginas/Principal/ContaInterna";
-import CadastroContaInterna from "../../paginas/Formularios/ContaInterna/CadastroContaInterna";
-import EditarContaInterna from "../../paginas/Formularios/ContaInterna/EditarContaInterna";
-import CadastroReceita from "../../paginas/Formularios/CadastroReceita";
-import CadastroDespesa from "../../paginas/Formularios/CadastroDespesa";
-import ContaBancaria from "../../paginas/Principal/ContaBancaria";
-import CadastroContaBancaria from "../../paginas/Formularios/ContaBancaria/CadastroContaBancaria";
-import EditarContaBancaria from "../../paginas/Formularios/ContaBancaria/EditarContaBancaria";
-import LancamentoBalanco from "../../paginas/Balanco/LancamentoBalanco";
-import MetasBalanco from "../../paginas/Balanco/MetasBalanco";
-import ProjetosBalanco from "../../paginas/Balanco/ProjetosBalanco";
-import TelaConfiguracao from "../../paginas/Principal/TelaConfiguracao";
-import TelaCategoria from "../../paginas/Configuracao/Categoria/TelaCategoria";
-import CadastroCategoria from "../../paginas/Configuracao/Categoria/CadastroCategoria";
-import TelaBalancoRapido from "../../paginas/Balanco/TelaBalancoRapido";
-import Conselhos from "../../paginas/Configuracao/Conselhos";
-import CadastroProjeto from "../../paginas/Formularios/CadastroProjeto";
+import Dashboard from "../../paginas/Dashboard/dashboard";
+import Receita from "../../paginas/Lancamento/Receita/Receita"
+import Despesa from "../../paginas/Lancamento/Despesa/Despesa"
+import Projetos from "../../paginas/Projeto/Projetos"
+import Balanco from "../../paginas/Balanco/LancamentoBalanco/Balanco";
+import ContaInterna from "../../paginas/ContaInterna/ContaInterna";
+import CadastroContaInterna from "../../paginas/ContaInterna/CadastroContaInterna";
+import EditarContaInterna from "../../paginas/ContaInterna/EditarContaInterna";
+import CadastroReceita from "../../paginas/Lancamento/Receita/CadastroReceita";
+import CadastroDespesa from "../../paginas/Lancamento/Despesa/CadastroDespesa";
+import ContaBancaria from "../../paginas/ContaBancaria/ContaBancaria";
+import CadastroContaBancaria from "../../paginas/ContaBancaria/CadastroContaBancaria";
+import EditarContaBancaria from "../../paginas/ContaBancaria/EditarContaBancaria";
+import LancamentoBalanco from "../../paginas/Balanco/LancamentoBalanco/LancamentoBalanco";
+import ProjetosBalanco from "../../paginas/Balanco/ProjetoBalanco/ProjetosBalanco";
+import TelaConfiguracao from "../../paginas/Configuracao/TelaConfiguracao";
+import TelaCategoria from "../../paginas/Categoria/TelaCategoria";
+import CadastroCategoria from "../../paginas/Categoria/CadastroCategoria";
+import TelaBalancoRapido from "../../paginas/Balanco/LancamentoBalanco/TelaBalancoRapido";
+import Conselhos from "../../paginas/Conselhos/Conselhos";
+import CadastroProjeto from "../../paginas/Projeto/CadastroProjeto";
 
 export const AppRouter = () => {
     return (
@@ -92,10 +91,6 @@ export const AppRouter = () => {
 
                 <Route path="/LancamentoBalanco" element={<RotaPrivada />} >
                     <Route path="/LancamentoBalanco" element={<LancamentoBalanco />} />
-                </Route>
-
-                <Route path="/MetasBalanco" element={<RotaPrivada />} >
-                    <Route path="/MetasBalanco" element={<MetasBalanco />} />
                 </Route>
 
                 <Route path="/ProjetosBalanco" element={<RotaPrivada />} >

@@ -1,4 +1,4 @@
-import {verificaContaInterna} from "../API/ContaInterna/ContaInternaAPI";
+import {verificaContaInterna} from "../API/ContaInternaAPI";
 
 export function validaDadosSubmissao(id: string, contaInterna: string, categoria: string, titulo_contabil: string, dataReceita: Date,
                                      valorReceita: number, pagador: string, origem: string, bancoOrigem: string,

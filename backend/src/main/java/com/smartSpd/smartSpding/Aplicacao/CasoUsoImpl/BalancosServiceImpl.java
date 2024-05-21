@@ -14,8 +14,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.ORIGENS_MAIS_RENTAVEIS;
-import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.ORIGENS_MAIS_RENTAVEIS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
 
 @Component
 public class BalancosServiceImpl implements BalancosService {
@@ -52,8 +52,8 @@ public class BalancosServiceImpl implements BalancosService {
                 throw new IllegalArgumentException("As datas de início e término de balanço não podem ser nulas.");
             }
 
-            if (!Objects.equals(balancos.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) &&
-                    !Objects.equals(balancos.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+            if (!Objects.equals(balancos.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco()) &&
+                    !Objects.equals(balancos.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposBalanco())) {
                 if (balancos.getCategoria_titulo_contabil() == null || balancos.getCategoria_titulo_contabil().isEmpty()) {
                     throw new IllegalArgumentException("É preciso fornecer uma categoria ou título contábil.");
                 }
@@ -72,8 +72,8 @@ public class BalancosServiceImpl implements BalancosService {
     @Override
     public void editarBalanco(Balancos dados) {
         try {
-            if (Objects.equals(dados.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) ||
-                    Objects.equals(dados.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+            if (Objects.equals(dados.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco()) ||
+                    Objects.equals(dados.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposBalanco())) {
                 if (dados.getNome() == null || dados.getNome().isEmpty() ||
                         dados.getData_inicio() == null || dados.getData_termino() == null ||
                         dados.getTipo_visualizacao() == null || dados.getTipo_visualizacao().isEmpty()) {

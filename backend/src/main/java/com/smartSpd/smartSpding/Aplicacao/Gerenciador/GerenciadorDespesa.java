@@ -129,8 +129,11 @@ public class GerenciadorDespesa {
         List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getIdentificadorProjeto());
 
         if(!projeto.isEmpty()) {
+            Double valorAntigo = 0.0;
             Projetos projetoEncontrado = projeto.get(0);
-            Double valorAntigo = Double.valueOf(projetoEncontrado.getValor_arrecadado_atual());
+            if(projetoEncontrado.getValor_arrecadado_atual()!=null) {
+                valorAntigo = Double.valueOf(projetoEncontrado.getValor_arrecadado_atual());
+            }
 
             Double novoValor = valorAntigo + data.getValorDespesa();
             projetoEncontrado.setValor_arrecadado_atual(String.valueOf(novoValor));

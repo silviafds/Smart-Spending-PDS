@@ -1,6 +1,9 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.DashboardService;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
+import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Dominio.Dashboard;
 import com.smartSpd.smartSpding.Core.Excecao.DashboardNaoEncontradoException;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -106,6 +111,41 @@ public class DashboardController {
             log.log(Level.SEVERE, "Erro ao remover balanço do dashboard. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao remover balanço do dashboard.");
+        }
+    }
+
+
+
+
+
+
+    @PostMapping("/adicionarBalancoDashboard")
+    @Transactional
+    public ResponseEntity<?> adicionarBalancoDashboard(@RequestBody @Valid DashDTO data) {
+        try {
+            String mensagem = dashboardService.salvarBalancoDashboard(data.identicador_balanco());
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(mensagem);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os dashboards. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar dashboards.");
+        }
+    }
+
+    @GetMapping("/buscarBalancosDashboard")
+    @Transactional
+    public ResponseEntity<?> buscarBalancosDashboard() {
+        try {
+            List<BalancoDespesaReceita> dashboards = dashboardService.buscarBalancosDashboard();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(dashboards);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os dashboards. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar dashboards.");
         }
     }
 }

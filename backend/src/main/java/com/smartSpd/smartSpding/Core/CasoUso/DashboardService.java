@@ -1,5 +1,6 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Dominio.Dashboard;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 
@@ -20,4 +21,11 @@ public interface DashboardService {
     public void removeBalanco(Balancos balanco);
     
     public void deletarDashboard();
+
+
+
+    String salvarBalancoDashboard(Long id);
+
+    List<BalancoDespesaReceita> buscarBalancosDashboard();
+
 }

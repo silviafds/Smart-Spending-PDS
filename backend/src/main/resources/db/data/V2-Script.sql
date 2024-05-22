@@ -30,3 +30,5 @@ CREATE TABLE dashboard (
 
 insert into dashboard (id, nome)
 values (1, 'Dashboard 1');
+
+alter table dashboard add column check_dashboard BOOLEAN DEFAULT FALSE;

@@ -253,6 +253,7 @@ function LancamentoBalanco() {
                                             sx={{ fontSize: '16px', fontWeight: 600 }}>Tipo Visualização</TableCell>
                                         <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Categoria/Título</TableCell>
                                         <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Ação</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Dashboard</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -284,10 +285,6 @@ function LancamentoBalanco() {
 
                                             <TableCell key={balanco.id} align={balanco.align}>
                                                 <span style={{ display: 'flex' }}>
-                                                    <Checkbox
-                                                        checked={checked[balanco.id] || false}
-                                                        onChange={() => handleCheckboxChange(balanco.id)}
-                                                    />
                                                     <IconButton
                                                         aria-label="Editar"
                                                         onClick={() => handleEdit(balanco.id)}
@@ -307,6 +304,12 @@ function LancamentoBalanco() {
                                                         <IoEyeOutline />
                                                     </IconButton>
                                                 </span>
+                                            </TableCell >
+                                            <TableCell key={balanco.id} align={balanco.align}>
+                                                <Checkbox
+                                                    checked={checked[balanco.id] || false}
+                                                    onChange={() => handleCheckboxChange(balanco.id)}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     ))}

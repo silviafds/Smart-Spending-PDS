@@ -138,7 +138,7 @@ public class DashboardController {
     @Transactional
     public ResponseEntity<?> buscarBalancosDashboard() {
         try {
-            List<BalancoDespesaReceita> dashboards = dashboardService.buscarBalancosDashboard();
+            List<List<?>> dashboards = dashboardService.buscarBalancosDashboard();
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(dashboards);

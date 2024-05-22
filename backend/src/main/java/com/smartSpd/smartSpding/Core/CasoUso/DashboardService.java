@@ -26,6 +26,6 @@ public interface DashboardService {
 
     String salvarBalancoDashboard(Long id);
 
-    List<BalancoDespesaReceita> buscarBalancosDashboard();
+    List<List<?>> buscarBalancosDashboard();
 
 }

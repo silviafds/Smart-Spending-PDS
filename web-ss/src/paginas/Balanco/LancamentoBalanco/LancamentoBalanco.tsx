@@ -8,7 +8,7 @@ import ModalCadastrarBalanco from "./Modal/ModalCadastrarBalanco";
 import {
     Box,
     FormControl,
-    IconButton, InputLabel, MenuItem,
+    InputLabel, MenuItem,
     Paper, Select,
     Table,
     TableBody,
@@ -16,16 +16,18 @@ import {
     TableContainer,
     TableHead,
     TablePagination,
-    TableRow, TextField
+    TableRow, TextField, Checkbox,
+    IconButton
 } from "@mui/material";
-import {CiEdit, CiTrash} from "react-icons/ci";
+import { CiEdit, CiTrash } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
-import {buscarBalanco, buscarBalancoPorId, deletarBalancoPorId} from "../../../logica/API/BalancoAPI";
-import {useForm} from "react-hook-form";
-import {criarBalancoRapidoDespesa} from "../../../logica/API/BalancoDespesa";
+import { buscarBalanco, buscarBalancoPorId, deletarBalancoPorId } from "../../../logica/API/BalancoAPI";
+import { useForm } from "react-hook-form";
+import { criarBalancoRapidoDespesa } from "../../../logica/API/BalancoDespesa";
+import { adicionarBalancoAoDashboard, removerBalancoDoDashboard } from "../../../logica/API/DashboardAPI";
 
 interface DataIndexable {
-    [key: string]: string | Date | number |  boolean | any;
+    [key: string]: string | Date | number | boolean | any;
 }
 
 interface Data extends DataIndexable {
@@ -54,6 +56,7 @@ function LancamentoBalanco() {
     const [filterField, setFilterField] = useState('nome');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [checked, setChecked] = useState<{ [key: string]: boolean }>({});
 
     const {
         setValue,
@@ -122,7 +125,7 @@ function LancamentoBalanco() {
 
     function handleEdit(id: any) {
         if (id) {
-            setValue('id',id)
+            setValue('id', id)
             setSalvarBalancoAberto(true)
         }
     }
@@ -156,6 +159,36 @@ function LancamentoBalanco() {
         }
     }
 
+    const handleCheckboxChange = async (id: any) => {
+        const isChecked = !checked[id];
+        setChecked(prevState => ({
+            ...prevState,
+            [id]: isChecked
+        }));
+    
+        try {
+            if (isChecked) {
+                if (onclose !== null) {
+                    await adicionarBalancoAoDashboard({ id }, () => onclose);
+                } else {
+                    // Lógica para lidar com a ausência de onclose, se necessário
+                }
+            } else {
+                if (onclose !== null) {
+                    await removerBalancoDoDashboard({ id }, () => onclose);
+                } else {
+                    // Lógica para lidar com a ausência de onclose, se necessário
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar o balanço no dashboard:', error);
+        }
+    };
+    
+    
+    
+    
+
     return (
         <div>
             <HeaderPadrao nomeUsuario={nomeUsuario} />
@@ -172,12 +205,12 @@ function LancamentoBalanco() {
                     <div className="mt-4 w-full max-w-6xl ">
 
                         <button className="bg-principal hover:bg-sky-800 text-white p-2 w-38 rounded-md"
-                                onClick={handleCadastro}>
+                            onClick={handleCadastro}>
                             Criar Balanço
                         </button>
 
                         <button className="bg-principal hover:bg-sky-800 text-white p-2 w-38 rounded-md ml-4"
-                                onClick={handleAbrirModal}>
+                            onClick={handleAbrirModal}>
                             Balanço Rápido
                         </button>
 
@@ -185,10 +218,9 @@ function LancamentoBalanco() {
 
                         {modalSalvarBalancoAberto && <ModalCadastrarBalanco onClose={handleCadastroFechado} id={watch('id')} />}
 
-
-                        <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '30px'}}>
-                            <FormControl sx={{minWidth: 120, marginRight: '10px'}}>
-                                <InputLabel id="filter-field-label" sx={{marginTop: '-15px'}}></InputLabel>
+                        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '30px' }}>
+                            <FormControl sx={{ minWidth: 120, marginRight: '10px' }}>
+                                <InputLabel id="filter-field-label" sx={{ marginTop: '-15px' }}></InputLabel>
                                 <Select
                                     labelId="filter-field-label"
                                     id="filter-field-select"
@@ -206,77 +238,77 @@ function LancamentoBalanco() {
                             />
                         </Box>
                         <TableContainer component={Paper}
-                                        sx={{width: '100%', overflow: 'hidden', padding: '9px'}}>
+                            sx={{ width: '100%', overflow: 'hidden', padding: '9px' }}>
                             <Table>
                                 <TableHead>
-                                    <TableRow sx={{backgroundColor: "rgba(211,211,211,.2)"}}>
+                                    <TableRow sx={{ backgroundColor: "rgba(211,211,211,.2)" }}>
                                         <TableCell
-                                            sx={{fontSize: '16px', fontWeight: 600}}>Nome</TableCell>
-                                        <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Tipo Balanço</TableCell>
-                                        <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Análise Balanço</TableCell>
+                                            sx={{ fontSize: '16px', fontWeight: 600 }}>Nome</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Tipo Balanço</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Análise Balanço</TableCell>
                                         <TableCell
-                                            sx={{fontSize: '16px', fontWeight: 600}}>Data Início</TableCell>
-                                        <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Data Final</TableCell>
+                                            sx={{ fontSize: '16px', fontWeight: 600 }}>Data Início</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Data Final</TableCell>
                                         <TableCell
-                                            sx={{fontSize: '16px', fontWeight: 600}}>Tipo Visualização</TableCell>
-                                        <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Categoria/Título</TableCell>
-                                        <TableCell sx={{fontSize: '16px', fontWeight: 600}}>Ação</TableCell>
+                                            sx={{ fontSize: '16px', fontWeight: 600 }}>Tipo Visualização</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Categoria/Título</TableCell>
+                                        <TableCell sx={{ fontSize: '16px', fontWeight: 600 }}>Ação</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                            ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            : filteredData
+                                        ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : filteredData
                                     ).map((balanco, index) => (
-                                        <>
-                                            <TableRow key={balanco.id}>
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.nome}</TableCell>
+                                        <TableRow key={balanco.id}>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.nome}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.tipoBalanco}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.tipoBalanco}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.analise_balanco}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.analise_balanco}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.data_inicio_balanco}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.data_inicio_balanco}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.data_final_balanco}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.data_final_balanco}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.tipo_visualizacao}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.tipo_visualizacao}</TableCell>
 
-                                                <TableCell
-                                                    sx={{fontSize: '16px'}}>{balanco.categoria_titulo_contabil}</TableCell>
+                                            <TableCell
+                                                sx={{ fontSize: '16px' }}>{balanco.categoria_titulo_contabil}</TableCell>
 
-                                                <TableCell key={balanco.id} align={balanco.align}>
-                                                            <span style={{ display: 'flex' }}>
-                                                                <IconButton
-                                                                    aria-label="Editar"
-                                                                    onClick={() => handleEdit(balanco.id)}
-                                                                >
-                                                                    <CiEdit/>
-                                                                </IconButton>
-                                                                <IconButton
-                                                                    aria-label="Apagar"
-                                                                    onClick={() => handleApagar(balanco.id)}
-                                                                >
-                                                                    <CiTrash/>
-                                                                </IconButton>
-                                                                <IconButton
-                                                                    aria-label="Visualizar Balanço"
-                                                                    onClick={() => VisualizarBalanco(balanco.id)}
-                                                                >
-                                                                    <IoEyeOutline/>
-                                                                </IconButton>
-                                                            </span>
-                                                </TableCell>
-
-                                            </TableRow>
-
-                                        </>
+                                            <TableCell key={balanco.id} align={balanco.align}>
+                                                <span style={{ display: 'flex' }}>
+                                                    <Checkbox
+                                                        checked={checked[balanco.id] || false}
+                                                        onChange={() => handleCheckboxChange(balanco.id)}
+                                                    />
+                                                    <IconButton
+                                                        aria-label="Editar"
+                                                        onClick={() => handleEdit(balanco.id)}
+                                                    >
+                                                        <CiEdit />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        aria-label="Apagar"
+                                                        onClick={() => handleApagar(balanco.id)}
+                                                    >
+                                                        <CiTrash />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        aria-label="Visualizar Balanço"
+                                                        onClick={() => VisualizarBalanco(balanco.id)}
+                                                    >
+                                                        <IoEyeOutline />
+                                                    </IconButton>
+                                                </span>
+                                            </TableCell>
+                                        </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>

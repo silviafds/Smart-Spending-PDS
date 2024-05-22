@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,8 +31,8 @@ public class Dashboard {
     @OneToMany(mappedBy = "dashboard", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Balancos> balancos = new HashSet<>();
 
-    public Dashboard(String nome, Balancos balanco) {
+    public Dashboard(String nome, Set<Balancos> balancos) {
         this.nome = nome;
-        this.balancos.add(balanco);
+        this.balancos.addAll(balancos);
     }
 }

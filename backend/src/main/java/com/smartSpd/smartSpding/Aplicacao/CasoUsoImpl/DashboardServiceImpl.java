@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,13 +26,13 @@ public class DashboardServiceImpl implements DashboardService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Override
-    public void createDashboard(String nome, Balancos balanco) {
+    public void createDashboard(String nome, Set<Balancos> balancos) {
         try {
             if (nome == null || nome.isEmpty()) {
                 throw new IllegalArgumentException("O nome do dashboard não pode ser nulo ou vazio.");
             }
 
-            Dashboard dashboard = new Dashboard(nome, balanco);
+            Dashboard dashboard = new Dashboard(nome, balancos);
             dashboardRepository.save(dashboard);
         } catch (IllegalArgumentException e) {
             log.warning("Nome do dashboard é inválido: " + nome);
@@ -88,11 +89,21 @@ public class DashboardServiceImpl implements DashboardService {
     }
     
     @Override
+    public void deletarDashboard() {
+        try {
+            dashboardRepository.deleteAll();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao deletar o dashboard.", e);
+            throw new RuntimeException("Erro ao deletar o dashboard.", e);
+        }
+    }
+    
+    @Override
     public Dashboard buscarDashboard() {
         try {
             return dashboardRepository.buscarDashboard();
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao buscar todos os dashboards.", e);
+            log.log(Level.SEVERE, "Erro ao buscar o dashboard.", e);
             return null;
         }
     }

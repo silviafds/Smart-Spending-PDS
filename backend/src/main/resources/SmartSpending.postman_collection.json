@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3a52b6de-7b90-4e31-b9bf-fc00e81a1252",
+		"_postman_id": "524bd9c7-146d-41f3-aae9-36b2620afbf1",
 		"name": "SmartSpending",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23899393"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16448737"
 	},
 	"item": [
 		{
@@ -36,18 +36,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/auth/login",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"auth",
-								"login"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/auth/login"
 					},
 					"response": []
 				},
@@ -65,18 +54,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
+						"url": "http://localhost:8080/auth/register"
 					},
 					"response": []
 				},
@@ -85,18 +63,7 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/logout",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"logout"
-							]
-						}
+						"url": "http://localhost:8080/auth/logout"
 					},
 					"response": []
 				}
@@ -119,18 +86,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaInterna/editarConta",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaInterna",
-								"editarConta"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaInterna/editarConta"
 					},
 					"response": []
 				},
@@ -139,13 +95,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
@@ -158,18 +110,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaInterna/deletarConta",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaInterna",
-								"deletarConta"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaInterna/deletarConta"
 					},
 					"response": []
 				},
@@ -178,13 +119,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -197,18 +134,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaInterna/registrarConta",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaInterna",
-								"registrarConta"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaInterna/registrarConta"
 					},
 					"response": []
 				},
@@ -217,28 +143,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaInterna/buscarConta",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaInterna",
-								"buscarConta"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaInterna/buscarConta"
 					},
 					"response": []
 				},
@@ -247,29 +158,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaInterna/buscarContaInvidual/5",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaInterna",
-								"buscarContaInvidual",
-								"5"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaInterna/buscarContaInvidual/5"
 					},
 					"response": []
 				}
@@ -283,13 +178,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -302,18 +193,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/registrarReceita",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"registrarReceita"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/registrarReceita"
 					},
 					"response": []
 				},
@@ -322,13 +202,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -341,18 +217,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/editarReceita",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"editarReceita"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/editarReceita"
 					},
 					"response": []
 				},
@@ -361,29 +226,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/deletarReceita/61",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"deletarReceita",
-								"61"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/deletarReceita/61"
 					},
 					"response": []
 				},
@@ -392,28 +241,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarReceitas",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"buscarReceitas"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/buscarReceitas"
 					},
 					"response": []
 				},
@@ -422,29 +256,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarReceitasPorId/49",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"buscarReceitasPorId",
-								"49"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/buscarReceitasPorId/49"
 					},
 					"response": []
 				}
@@ -458,28 +276,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/origem/buscarOrigem",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"origem",
-								"buscarOrigem"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/origem/buscarOrigem"
 					},
 					"response": []
 				}
@@ -493,29 +296,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/receita/buscarTituloContabilReceita/1",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"receita",
-								"buscarTituloContabilReceita",
-								"1"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/receita/buscarTituloContabilReceita/1"
 					},
 					"response": []
 				},
@@ -524,29 +311,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/buscarTituloContabilDespesa/8",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"buscarTituloContabilDespesa",
-								"8"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/buscarTituloContabilDespesa/8"
 					},
 					"response": []
 				}
@@ -560,13 +331,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -579,18 +346,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/registrarContaBancaria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"registrarContaBancaria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/registrarContaBancaria"
 					},
 					"response": []
 				},
@@ -599,13 +355,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -618,18 +370,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/editarContaBancaria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"editarContaBancaria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/editarContaBancaria"
 					},
 					"response": []
 				},
@@ -638,28 +379,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancaria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"buscarContaBancaria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancaria"
 					},
 					"response": []
 				},
@@ -668,29 +394,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorId/7",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"buscarContaBancariaPorId",
-								"7"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorId/7"
 					},
 					"response": []
 				},
@@ -699,28 +409,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorNome",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"buscarContaBancariaPorNome"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/buscarContaBancariaPorNome"
 					},
 					"response": []
 				},
@@ -729,29 +424,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/buscarDadosBancariosPorBanco/PicPay",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"buscarDadosBancariosPorBanco",
-								"PicPay"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/buscarDadosBancariosPorBanco/PicPay"
 					},
 					"response": []
 				},
@@ -760,29 +439,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/contaBancaria/deletarContaBancaria/19",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"contaBancaria",
-								"deletarContaBancaria",
-								"19"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/contaBancaria/deletarContaBancaria/19"
 					},
 					"response": []
 				}
@@ -796,28 +459,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesa",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"buscarCategoriaDespesa"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesa"
 					},
 					"response": []
 				},
@@ -826,28 +474,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"buscarCategoria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/buscarCategoria"
 					},
 					"response": []
 				},
@@ -856,13 +489,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -875,18 +504,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/registroCategoria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"registroCategoria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/registroCategoria"
 					},
 					"response": []
 				},
@@ -895,13 +513,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -914,18 +528,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/editarCategoria",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"editarCategoria"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/editarCategoria"
 					},
 					"response": []
 				},
@@ -934,29 +537,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/deletarCategoriaDespesa/9",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"deletarCategoriaDespesa",
-								"9"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/deletarCategoriaDespesa/9"
 					},
 					"response": []
 				},
@@ -965,29 +552,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/deletarCategoriaReceita/8",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"deletarCategoriaReceita",
-								"8"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/deletarCategoriaReceita/8"
 					},
 					"response": []
 				},
@@ -996,28 +567,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceita",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"buscarCategoriaReceita"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceita"
 					},
 					"response": []
 				},
@@ -1026,29 +582,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceitaPorId/1",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"buscarCategoriaReceitaPorId",
-								"1"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/buscarCategoriaReceitaPorId/1"
 					},
 					"response": []
 				},
@@ -1057,29 +597,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesaPorId/1",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"categoria",
-								"buscarCategoriaDespesaPorId",
-								"1"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/categoria/buscarCategoriaDespesaPorId/1"
 					},
 					"response": []
 				}
@@ -1093,13 +617,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -1112,18 +632,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/editarDespesa",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"editarDespesa"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/editarDespesa"
 					},
 					"response": []
 				},
@@ -1132,13 +641,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -1151,18 +656,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/registrarDespesa",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"registrarDespesa"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/registrarDespesa"
 					},
 					"response": []
 				},
@@ -1171,29 +665,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/deletarDespesa/1114",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"deletarDespesa",
-								"1114"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/deletarDespesa/1114"
 					},
 					"response": []
 				},
@@ -1202,28 +680,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/buscarDespesa",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"buscarDespesa"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/buscarDespesa"
 					},
 					"response": []
 				},
@@ -1232,29 +695,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/despesa/buscarDespesasPorId/6",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"despesa",
-								"buscarDespesasPorId",
-								"6"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/despesa/buscarDespesasPorId/6"
 					},
 					"response": []
 				}
@@ -1271,13 +718,9 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "Bearer {{token}}",
-											"type": "string"
-										}
-									]
+									"bearer": {
+										"token": "Bearer {{token}}"
+									}
 								},
 								"method": "POST",
 								"header": [],
@@ -1290,18 +733,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
-									"protocol": "http",
-									"host": [
-										"{{host}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"balancoDespesa",
-										"registroBalancoRapido"
-									]
-								}
+								"url": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido"
 							},
 							"response": []
 						},
@@ -1310,13 +742,9 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "Bearer {{token}}",
-											"type": "string"
-										}
-									]
+									"bearer": {
+										"token": "Bearer {{token}}"
+									}
 								},
 								"method": "POST",
 								"header": [],
@@ -1329,18 +757,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco",
-									"protocol": "http",
-									"host": [
-										"{{host}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"balancoDespesa",
-										"registrarBalanco"
-									]
-								}
+								"url": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco"
 							},
 							"response": []
 						}
@@ -1354,13 +771,9 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "Bearer {{token}}",
-											"type": "string"
-										}
-									]
+									"bearer": {
+										"token": "Bearer {{token}}"
+									}
 								},
 								"method": "POST",
 								"header": [],
@@ -1373,18 +786,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
-									"protocol": "http",
-									"host": [
-										"{{host}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"balancoDespesa",
-										"registroBalancoRapido"
-									]
-								}
+								"url": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido"
 							},
 							"response": []
 						}
@@ -1398,13 +800,9 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "Bearer {{token}}",
-											"type": "string"
-										}
-									]
+									"bearer": {
+										"token": "Bearer {{token}}"
+									}
 								},
 								"method": "POST",
 								"header": [],
@@ -1417,18 +815,7 @@
 										}
 									}
 								},
-								"url": {
-									"raw": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido",
-									"protocol": "http",
-									"host": [
-										"{{host}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"balancoDespesa",
-										"registroBalancoRapido"
-									]
-								}
+								"url": "http://{{host}}:{{port}}/balancoDespesa/registroBalancoRapido"
 							},
 							"response": []
 						}
@@ -1439,13 +826,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -1458,18 +841,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"balancoDespesa",
-								"registrarBalanco"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/balancoDespesa/registrarBalanco"
 					},
 					"response": []
 				},
@@ -1478,13 +850,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -1497,18 +865,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/balancoDespesa/editarBalanco",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"balancoDespesa",
-								"editarBalanco"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/balancoDespesa/editarBalanco"
 					},
 					"response": []
 				},
@@ -1517,28 +874,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancos",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"balancoDespesa",
-								"buscarBalancos"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancos"
 					},
 					"response": []
 				},
@@ -1547,29 +889,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancoPorId/1",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"balancoDespesa",
-								"buscarBalancoPorId",
-								"1"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/balancoDespesa/buscarBalancoPorId/1"
 					},
 					"response": []
 				},
@@ -1578,29 +904,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://{{host}}:{{port}}/balancoDespesa/deletarBalanco/1",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"balancoDespesa",
-								"deletarBalanco",
-								"1"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/balancoDespesa/deletarBalanco/1"
 					},
 					"response": []
 				}
@@ -1614,13 +924,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -1633,18 +939,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/conselhos/conselhoPorBalanco",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"conselhos",
-								"conselhoPorBalanco"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/conselhos/conselhoPorBalanco"
 					},
 					"response": []
 				},
@@ -1653,13 +948,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -1672,18 +963,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/conselhos/registroConselho",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"conselhos",
-								"registroConselho"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/conselhos/registroConselho"
 					},
 					"response": []
 				},
@@ -1695,13 +975,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -1714,18 +990,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/conselhos/buscarConfiguracaoConselhos",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"conselhos",
-								"buscarConfiguracaoConselhos"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/conselhos/buscarConfiguracaoConselhos"
 					},
 					"response": []
 				}
@@ -1742,13 +1007,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -1761,18 +1022,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/saldo/buscarSaldos",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"saldo",
-								"buscarSaldos"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/saldo/buscarSaldos"
 					},
 					"response": []
 				}
@@ -1786,13 +1036,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "POST",
 						"header": [],
@@ -1805,18 +1051,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/projetos/registroProjetos",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"projetos",
-								"registroProjetos"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/projetos/registroProjetos"
 					},
 					"response": []
 				},
@@ -1825,13 +1060,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -1844,18 +1075,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/projetos/editarProjeto",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"projetos",
-								"editarProjeto"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/projetos/editarProjeto"
 					},
 					"response": []
 				},
@@ -1864,13 +1084,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "DELETE",
 						"header": [],
@@ -1883,19 +1099,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/projetos/deletarProjeto/6",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"projetos",
-								"deletarProjeto",
-								"6"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/projetos/deletarProjeto/6"
 					},
 					"response": []
 				},
@@ -1907,13 +1111,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -1926,18 +1126,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/projetos/buscarProjetos",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"projetos",
-								"buscarProjetos"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/projetos/buscarProjetos"
 					},
 					"response": []
 				},
@@ -1949,13 +1138,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "Bearer {{token}}",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
 						},
 						"method": "GET",
 						"header": [],
@@ -1968,19 +1153,75 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/projetos/buscarProjetoInvidual/5",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"projetos",
-								"buscarProjetoInvidual",
-								"5"
-							]
-						}
+						"url": "http://{{host}}:{{port}}/projetos/buscarProjetoInvidual/5"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "deletar balanco dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identicador_balanco\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://{{host}}:{{port}}/dashboard/deletarBalancoDashboard"
+					},
+					"response": []
+				},
+				{
+					"name": "add balanco dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identicador_balanco\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://{{host}}:{{port}}/dashboard/adicionarBalancoDashboard"
+					},
+					"response": []
+				},
+				{
+					"name": "buscar balanco dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "Bearer {{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://{{host}}:{{port}}/dashboard/buscarBalancosDashboard"
 					},
 					"response": []
 				}

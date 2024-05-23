@@ -15,8 +15,12 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
 
     const chartData: { name: string; value: number }[] = [];
 
-    for(let prop in data) {
-        chartData.push({name: data[prop].dado, value: data[prop].valor})
+    if (data) {
+        for(let prop in data) {
+            if (data[prop] && data[prop].dado) {
+                chartData.push({name: data[prop].dado, value: data[prop].valor})
+            }
+        }
     }
 
     useEffect(() => {

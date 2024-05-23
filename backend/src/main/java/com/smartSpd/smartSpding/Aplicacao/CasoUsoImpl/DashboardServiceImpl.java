@@ -1,0 +1,141 @@
+package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
+
+import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
+import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.Dominio.Dash;
+import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
+import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.CasoUso.DashboardService;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.DashRepository;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.javapoet.ClassName;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.logging.Logger;
+
+import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.DESPESA;
+import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.RECEITA;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.*;
+
+@Service
+public class DashboardServiceImpl implements DashboardService {
+
+    @Autowired
+    private BalancosRepository balancoRepository;
+
+    @Autowired
+    private DashRepository dashRepository;
+
+    @Autowired
+    private DespesaReceitaBalancoServiceImpl despesaReceitaBalancoService;
+
+    @Autowired
+    private DespesaBalancoService despesaBalancoService;
+
+    @Autowired
+    private ReceitaBalancoService receitaBalancoService;
+
+    static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
+
+    @Override
+    public String salvarBalancoDashboard(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id está nulo.");
+        }
+
+        Optional<Balancos> balanco = balancoRepository.findById(id);
+        if (balanco.isPresent()) {
+            Dash dash = new Dash();
+            dash.setIdenticador_balanco(id);
+            dashRepository.save(dash);
+            return "Balanço salvo no dashboard.";
+        } else {
+            throw new BalancoNaoEncontradoException("Não existe este balanço na base de dados.");
+        }
+    }
+
+    @Override
+    public List<List<?>> buscarBalancosDashboard() {
+        List<Dash> lista = dashRepository.buscarDashboard();
+
+        List<Balancos> resultados = new ArrayList<>();
+        List<List<?>> resultadosProcessamentos = new ArrayList<>();
+
+        for (Dash dash : lista) {
+            List<Balancos> resultado = dashRepository.buscarBalancos(dash.getIdenticador_balanco());
+            resultados.addAll(resultado);
+        }
+
+        for (Balancos resultado : resultados) {
+            BalancoRapidoDTO dto = convertToDTO(resultado);
+            List<?> result = executarBalancos(dto);
+            resultadosProcessamentos.add(result);
+        }
+
+        return resultadosProcessamentos;
+    }
+    
+    @Override
+    public String deletarBalancoDashboard(Long id) {
+        try {
+            if (id != null) {
+                Optional<Dash> dash = dashRepository.findById(id);
+                if (dash.isPresent()) {
+                    dashRepository.delete(dash.get());
+                    return "Balanço deletado do dashboard.";
+                } else {
+                    throw new BalancoNaoEncontradoException("Balanço não encontrado no dashboard.");
+                }
+            }
+            return "Id está nulo.";
+        } catch (BalancoNaoEncontradoException e) {
+            throw e;  // Re-throw the custom exception to be handled by the controller advice or other exception handlers
+        } catch (Exception e) {
+            System.err.println("Ocorreu um erro ao deletar o balanço do dashboard: " + e.getMessage());
+            return "Ocorreu um erro ao deletar o balanço do dashboard.";
+        }
+    }
+
+    public List<?> executarBalancos(BalancoRapidoDTO dto) {
+        List<BalancoDespesaReceita> dados = new ArrayList<>();
+        if(dto.getTipoBalanco().equals(DESPESA_RECEITA.getTiposBalanco())) {
+            dados = despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
+        }
+
+        if(dto.getTipoBalanco().equals(DESPESA.getBalanco())) {
+            if(dto.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
+                dados = despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
+            } else {
+                return despesaBalancoService.balancoMeiosPagamento(dto);
+            }
+        }
+
+        if(dto.getTipoBalanco().equals(RECEITA.getBalanco())) {
+            if(dto.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
+                return despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
+            } else {
+                return receitaBalancoService.balancoMeiosPagamento(dto);
+
+            }
+        }
+        return dados;
+    }
+
+    private static BalancoRapidoDTO convertToDTO(Balancos balanco) {
+
+        return new BalancoRapidoDTO(
+                balanco.getNome(),
+                balanco.getTipoBalanco(),
+                balanco.getAnalise_balanco(),
+                balanco.getData_inicio() != null ? balanco.getData_inicio() : null,
+                balanco.getData_termino() != null ? balanco.getData_termino() : null,
+                balanco.getTipo_visualizacao(),
+                balanco.getCategoria_titulo_contabil()
+        );
+    }
+
+}

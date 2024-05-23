@@ -21,3 +21,17 @@ create table balancos (
       categoria_titulo_contabil text NOT NULL,
       CONSTRAINT balancos_pkey PRIMARY KEY (id)
 )
+
+CREATE TABLE dashboard (
+      id bigint NOT NULL,
+      nome text NULL,
+      CONSTRAINT id_pkey PRIMARY KEY (id)
+);
+
+insert into dashboard (id, nome)
+values (1, 'Dashboard 1');
+
+create table dash (
+  id serial4 NOT NULL,
+  identicador_balanco bigint NOT NULL
+)

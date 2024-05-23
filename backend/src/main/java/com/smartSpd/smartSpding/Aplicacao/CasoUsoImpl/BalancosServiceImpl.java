@@ -2,6 +2,7 @@ package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Dominio.Dashboard;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,4 +177,10 @@ public class BalancosServiceImpl implements BalancosService {
             throw new RuntimeException("Erro ao deletar balanço.", e);
         }
     }
+
+//	@Override
+//	public void setDashboard(Dashboard dashboard) {
+//		balancosRepository.buscarTodosBalancos().add(dashboard);
+//		
+//	}
 }

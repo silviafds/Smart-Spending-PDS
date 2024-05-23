@@ -61,10 +61,6 @@ export const AppRouter = () => {
                     <Route path="/balanco" element={<Balanco />} />
                 </Route>
 
-                <Route path="/dashboard" element={<RotaPrivada />} >
-                    <Route path="/dashboard" element={<Dashboard />} />
-                </Route>
-
                 <Route path="/contaInterna" element={<RotaPrivada />} >
                     <Route path="/contaInterna" element={<ContaInterna />} />
                 </Route>

@@ -15,9 +15,6 @@ public interface DashRepository extends JpaRepository<Dash, Long> {
     @Query("SELECT b FROM balancos b where b.id = :identificador")
     List<Balancos> buscarBalancos(Long identificador);
 
-   /* @Query("Select b.nome, b from balancos b where b.id = :identificador")
-    Object[] buscarBalancosTeste(Long identificador);*/
-
     @Query("SELECT b.nome, b FROM balancos b WHERE b.id = :identificador")
     List<Object[]> buscarBalancosTeste(Long identificador);
 

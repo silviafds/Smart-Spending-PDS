@@ -100,18 +100,10 @@ public class DashboardServiceImpl implements DashboardService {
                 } else {
                     throw new BalancoNaoEncontradoException("Balanço não encontrado no dashboard.");
                 }
-
-                //Optional<Dash> dash = dashRepository.findById(id);
-                /*if (dash.isPresent()) {
-                    dashRepository.delete(dash.get());
-                    return "Balanço deletado do dashboard.";
-                } else {
-                    throw new BalancoNaoEncontradoException("Balanço não encontrado no dashboard.");
-                }*/
             }
             return "Id está nulo.";
         } catch (BalancoNaoEncontradoException e) {
-            throw e;  // Re-throw the custom exception to be handled by the controller advice or other exception handlers
+            throw e;
         } catch (Exception e) {
             System.err.println("Ocorreu um erro ao deletar o balanço do dashboard: " + e.getMessage());
             return "Ocorreu um erro ao deletar o balanço do dashboard.";

@@ -160,8 +160,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                 tipo_visualizacao: data.tipoVisualizacao,
                 categoria_titulo_contabil: data.categoriaOuTituloContabil,
                 dashboard_check: watch('dashboard_check')
-            };;
-            console.log("analise balanco: "+jsonData.analise_balanco)
+            };
             cadastrarProjeto(jsonData, onClose);
         }
     }

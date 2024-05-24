@@ -5,27 +5,12 @@ import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import ModalIniciarBalancoRapido from "../LancamentoBalanco/Modal/ModalIniciarBalancoRapido";
 import ModalCadastrarBalanco from "./Modal/ModalCadastrarBalanco";
-import {
-    Box,
-    FormControl,
-    InputLabel, MenuItem,
-    Paper, Select,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow, TextField, Checkbox,
-    IconButton
-} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Paper, Select,
+    Table, TableBody, TableCell, TableContainer, TableHead,
+    TablePagination, TableRow, TextField, IconButton} from "@mui/material";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
-import {
-    buscarBalanco,
-    buscarBalancoPorId,
-    deletarBalancoPorId,
-    editarBalancoDashboard
+import {buscarBalanco, buscarBalancoPorId, deletarBalancoPorId, editarBalancoDashboard
 } from "../../../logica/API/BalancoAPI";
 import { useForm } from "react-hook-form";
 import { criarBalancoRapidoDespesa } from "../../../logica/API/BalancoDespesa";
@@ -34,7 +19,6 @@ import {
     listaBalancoDash,
     removerBalancoDoDashboard
 } from "../../../logica/API/DashboardAPI";
-import {ContaInternaDTO} from "../../../core/DTO/ContaInternaDTO";
 import {DashboardDTO} from "../../../core/DTO/DashboardDTO";
 
 interface DataIndexable {
@@ -69,7 +53,6 @@ function LancamentoBalanco() {
     const [filterField, setFilterField] = useState('nome');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [checked, setChecked] = useState<{ [key: string]: boolean }>({});
 
     const {
         setValue,
@@ -93,7 +76,6 @@ function LancamentoBalanco() {
                 ]);
 
                 setDadosBalanco(balanco);
-                setDadosBalancoDashboard(lista);
             } catch (error) {
                 console.error('Erro ao carregar os dados', error);
             }

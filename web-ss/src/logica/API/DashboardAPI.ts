@@ -15,7 +15,6 @@ export async function listaBalancoDash() {
 export async function buscarDashboard() {
     try {
         const response = await axios.get(`${BACKEND_URL}/dashboard/buscarBalancosDashboardProcessados`);
-        //console.log("balancossss: "+response.data)
         return response.data;
     } catch (error) {
         console.error('Erro ao carregar os dados do Dashboard', error);

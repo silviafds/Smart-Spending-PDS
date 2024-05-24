@@ -32,7 +32,6 @@ instance.interceptors.response.use(
         return response;
     },
     (error) => {
-        console.log("sttatus do error: "+error.response.status)
         if (error.response && error.response.status === 401) {
             // Token expirado ou inválido, deslogar o usuário
             signOut(); // Deslogar o usuário e redirecionar para a página de login

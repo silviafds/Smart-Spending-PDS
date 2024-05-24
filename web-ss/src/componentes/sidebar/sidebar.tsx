@@ -42,6 +42,9 @@ export function Sidebar() {
             case 'Projetos':
                 window.location.href = "/projetos/";
                 break;
+            case 'Saldo':
+                window.location.href = "/saldo/";
+                break;
             case 'Balanço':
                 window.location.href = "/balanco/";
                 break;

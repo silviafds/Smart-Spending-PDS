@@ -3,7 +3,6 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.ProjetosService;
 import com.smartSpd.smartSpding.Core.Dominio.Projetos;
 import com.smartSpd.smartSpding.Core.Excecao.ProjetoInvalidoException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +28,6 @@ public class ProjetosController {
     }
 
     @PostMapping("/registroProjetos")
-    @Transactional
     public ResponseEntity<?> registroProjetos(@RequestBody @Valid Projetos data) {
         try {
             projetosService.salvarProjetos(data);
@@ -45,7 +43,6 @@ public class ProjetosController {
     }
 
     @GetMapping("/buscarProjetos")
-    @Transactional
     public ResponseEntity<?> buscarProjetos() {
         try {
             List<Projetos> projetos = projetosService.buscarTodosProjetos();
@@ -62,7 +59,6 @@ public class ProjetosController {
     }
 
     @PatchMapping("/editarProjeto")
-    @Transactional
     public  ResponseEntity<?> editarProjeto(@RequestBody @Valid Projetos data) {
         try {
             projetosService.editarProjeto(data);
@@ -78,7 +74,6 @@ public class ProjetosController {
     }
 
     @DeleteMapping("/deletarProjeto/{id}")
-    @Transactional
     public ResponseEntity<?> deletarProjeto(@PathVariable Long id) {
         try {
             projetosService.deletarProjeto(id);
@@ -96,7 +91,6 @@ public class ProjetosController {
     }
 
     @GetMapping("/buscarProjetoInvidual/{id}")
-    @Transactional
     public ResponseEntity<?> buscarProjetoInvidual(@PathVariable Long id) {
         try {
             List<Projetos> projeto = projetosService.buscarProjetoPorId(id);

@@ -30,7 +30,7 @@ public class DespesaController {
     }
 
     @PostMapping("/registrarDespesa")
-    @Transactional
+    //@Transactional
     public ResponseEntity<String> register(@RequestBody @Valid DespesaDTO data) {
         try {
             despesaService.cadastrarDespesa(data);
@@ -51,7 +51,7 @@ public class DespesaController {
     }
 
     @PatchMapping("/editarDespesa")
-    @Transactional
+    //@Transactional
     public ResponseEntity<String> editarDespesa(@RequestBody @Valid DespesaDTO data) {
         try {
             despesaService.editarDespesa(data);
@@ -66,7 +66,7 @@ public class DespesaController {
     }
 
     @DeleteMapping("/deletarDespesa/{id}")
-    @Transactional
+    //@Transactional
     public ResponseEntity<String> deletarDespesa(@PathVariable Long id) {
         try {
             despesaService.deletarDespesa(id);
@@ -81,7 +81,7 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarCategoriaDespesa")
-    @Transactional
+    //@Transactional
     public ResponseEntity<?> buscarCategoriaDespesa() {
         try {
             List<CategoriaDespesa> contas = despesaService.buscarTodasCategoriasDespesa();
@@ -96,7 +96,7 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarDespesa")
-    @Transactional
+    //@Transactional
     public ResponseEntity<?> buscarDespesa() {
         try {
             List<Despesa> despesas = despesaService.buscarTodasAsDespesas();
@@ -111,7 +111,7 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarDespesasPorId/{id}")
-    @Transactional
+    //@Transactional
     public ResponseEntity<?> buscarDepesasPorId(@PathVariable Integer id) {
         try {
             List<Despesa> despesas = despesaService.buscarDespesasPorId(id);
@@ -127,7 +127,7 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarTituloContabilDespesa/{id}")
-    @Transactional
+    //@Transactional
     public ResponseEntity<?> buscarTituloContabilDespesa(@PathVariable Integer id) {
         try {
             List<?> titulos = despesaService.buscarTodosTitulosContabeisDespesa(id);
@@ -140,6 +140,5 @@ public class DespesaController {
                     .body("Erro ao buscar título contábil de id: "+id);
         }
     }
-
 
 }

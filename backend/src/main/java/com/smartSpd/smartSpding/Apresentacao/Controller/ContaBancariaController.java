@@ -30,7 +30,6 @@ public class ContaBancariaController {
     }
 
     @PostMapping("/registrarContaBancaria")
-    @Transactional
     public ResponseEntity register(@RequestBody @Valid ContaBancariaDTO data) {
         try {
             boolean contaCriada = contaBancariaService.cadastrarContaBancaria(data);
@@ -47,7 +46,6 @@ public class ContaBancariaController {
     }
 
     @PatchMapping("/editarContaBancaria")
-    @Transactional
     public ResponseEntity editarContaBancaria(@RequestBody @Valid ContaBancariaDTO data) {
         try {
             boolean contaCriada = contaBancariaService.editarContaBancaria(data);
@@ -64,7 +62,6 @@ public class ContaBancariaController {
     }
 
     @GetMapping("/buscarContaBancaria")
-    @Transactional
     public ResponseEntity buscarContaBancaria() {
         try {
             List<ContaBancaria> receitas = contaBancariaService.buscarContaBacaria();
@@ -80,7 +77,6 @@ public class ContaBancariaController {
     }
 
     @DeleteMapping("/deletarContaBancaria/{id}")
-    @Transactional
     public ResponseEntity deletarContaBancaria(@PathVariable int id) {
         try {
             boolean contaBancaria = contaBancariaService.deletarContaBacaria(id);
@@ -97,7 +93,6 @@ public class ContaBancariaController {
     }
 
     @GetMapping("/buscarContaBancariaPorId/{id}")
-    @Transactional
     public ResponseEntity buscarContaBancariaPorId(@PathVariable int id) {
         try {
             List<ContaBancaria> receitas = contaBancariaService.buscarContaBancariaPorId(id);
@@ -113,7 +108,6 @@ public class ContaBancariaController {
     }
 
     @GetMapping("/buscarContaBancariaPorNome")
-    @Transactional
     public ResponseEntity buscarBancoPorNome() {
         try {
             List<Bancos> bancos = contaBancariaService.buscarBancoPeloNome();
@@ -129,7 +123,6 @@ public class ContaBancariaController {
     }
 
     @GetMapping("/buscarDadosBancariosPorBanco/{banco}")
-    @Transactional
     public ResponseEntity buscarDadosBancariosPorBanco(@PathVariable String banco) {
         try {
             List<DadosBancarios> bancos = contaBancariaService.buscarDadosBancariosPorBanco(banco);

@@ -10,9 +10,7 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
-import com.smartSpd.smartSpding.Core.Dominio.Dash;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,7 +51,6 @@ public class BalancoController {
     }
 
     @PostMapping("/registroBalancoRapido")
-    @Transactional
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
             if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA.getBalanco())) {
@@ -103,7 +100,6 @@ public class BalancoController {
     }
 
     @PostMapping("/registrarBalanco")
-    @Transactional
     public ResponseEntity<?> cadastrarBalanco(@RequestBody @Valid Balancos balancos) {
         try {
             balancosService.registrarBalanco(balancos);
@@ -120,7 +116,6 @@ public class BalancoController {
     }
 
     @PatchMapping("/editarBalanco")
-    @Transactional
     public ResponseEntity<?> editarBalanco(@RequestBody @Valid Balancos dados) {
         try {
             balancosService.editarBalanco(dados);
@@ -136,7 +131,6 @@ public class BalancoController {
     }
 
     @GetMapping("/buscarBalancos")
-    @Transactional
     public ResponseEntity<?> buscarTodosBalancos() {
         try {
             List<Balancos> balancos = balancosService.buscarTodosBalancos();
@@ -152,7 +146,6 @@ public class BalancoController {
     }
 
     @GetMapping("/buscarBalancoPorId/{id}")
-    @Transactional
     public ResponseEntity<?> buscarBalancoPorId(@PathVariable Long id) {
         try {
             Balancos balanco = balancosService.buscarBalancoPorId(id);
@@ -172,7 +165,6 @@ public class BalancoController {
     }
 
     @DeleteMapping("/deletarBalanco/{id}")
-    @Transactional
     public ResponseEntity<?> deletarBalanco(@PathVariable Long id) {
         try {
             balancosService.deletarBalanco(id);
@@ -192,7 +184,6 @@ public class BalancoController {
     }
 
     @PatchMapping("/editarBalancoDashboard")
-    @Transactional
     public ResponseEntity<?> editarBalancoDashboard(@RequestBody @Valid DashDTO dados) {
         try {
             balancosService.editarBalancoNoDashboard(dados);

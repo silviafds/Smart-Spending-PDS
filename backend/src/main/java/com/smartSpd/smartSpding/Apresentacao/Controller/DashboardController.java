@@ -3,7 +3,6 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.DashboardService;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Dash;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,9 +27,7 @@ public class DashboardController {
         this.dashboardService = dashboardService;
     }
 
-
     @PostMapping("/adicionarBalancoDashboard")
-    @Transactional
     public ResponseEntity<?> adicionarBalancoDashboard(@RequestBody @Valid DashDTO data) {
         try {
             String mensagem = dashboardService.salvarBalancoDashboard(data);
@@ -45,7 +42,6 @@ public class DashboardController {
     }
 
     @GetMapping("/buscarBalancosDashboardProcessados")
-    @Transactional
     public ResponseEntity<?> buscarBalancosDashboardProcessados() {
         try {
             List<List<?>> dashboards = dashboardService.buscarBalancosDashboard();
@@ -60,7 +56,6 @@ public class DashboardController {
     }
     
     @DeleteMapping("/deletarBalancoDashboard")
-    @Transactional
     public ResponseEntity<?> deletarBalancoDashboard(@RequestBody @Valid DashDTO data) {
         try {
             String mensagem = dashboardService.deletarBalancoDashboard(data);
@@ -75,7 +70,6 @@ public class DashboardController {
     }
 
     @GetMapping("/listaBalancoDash")
-    @Transactional
     public ResponseEntity<?> listaBalancoDash() {
         try {
             List<Dash> dashboards = dashboardService.buscarBalancosNoDashboard();

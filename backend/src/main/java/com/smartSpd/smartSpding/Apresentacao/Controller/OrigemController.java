@@ -24,7 +24,7 @@ public class OrigemController {
     }
 
     @GetMapping("/buscarOrigem")
-    @Transactional
+    //@Transactional
     public ResponseEntity buscarConta() {
         List<Origem> origem = origemService.buscarTodasOrigens();
         return ResponseEntity.ok()

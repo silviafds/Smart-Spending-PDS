@@ -73,17 +73,17 @@ public class GerenciadorReceita {
         } else if (data.getOrigem().equals(PIX.toString()) || data.getOrigem().equals(TRANSFERENCIA.toString())) {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
                     data.getDataReceita() == null || data.getValorReceita() <= 0 || data.getPagador() == null ||
-                    data.getOrigem() == null || data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
+                    data.getOrigem() == null || data.getDescricao() == null || data.getContaInterna().equals("") ||
+                    data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
                     data.getPagador().equals("") || data.getOrigem().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                    data.getDataReceita() == null || data.getValorReceita() <= 0 || data.getBancoOrigem() == null ||
-                    data.getDadosBancariosDestino() == null || data.getPagador() == null || data.getOrigem() == null ||
-                    data.getDescricao() == null || data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
-                    data.getBancoOrigem().equals("") || data.getDadosBancariosDestino().equals("") || data.getPagador().equals("") || data.getOrigem().equals("") ||
-                    data.getDescricao().equals("")) {
+                    data.getDataReceita() == null || data.getValorReceita() <= 0 ||
+                    data.getPagador() == null || data.getOrigem() == null || data.getDescricao() == null ||
+                    data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
+                    data.getPagador().equals("") || data.getOrigem().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         }

@@ -9,7 +9,6 @@ import com.smartSpd.smartSpding.Infraestructure.Repositorio.UserRepository;
 import com.smartSpd.smartSpding.Infraestructure.Seguranca.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,10 +51,7 @@ public class AuthenticationController {
         }
     }
 
-
-
     @PostMapping("/register")
-    @Transactional
     public ResponseEntity register(@RequestBody @Valid UserDTO data) {
         Role roleConvertido = Role.fromString(data.getRole());
         if(this.userRepository.findByLogin(data.getLogin()) != null) {
@@ -79,9 +75,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("logout: "+request);
-        // Obtenha o token do cabeçalho da autorização
         String token = extractTokenFromHeader(request);
-        // Adicione o token à lista negra para invalidá-lo
         tokenService.addToBlacklist(token);
 
         return ResponseEntity.ok("Logout successful");
@@ -90,7 +84,7 @@ public class AuthenticationController {
     private String extractTokenFromHeader(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7); // O token JWT começa após "Bearer "
+            return authHeader.substring(7);
         }
         return null;
     }

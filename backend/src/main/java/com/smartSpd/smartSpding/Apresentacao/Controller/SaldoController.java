@@ -32,7 +32,6 @@ public class SaldoController {
     }
 
     @GetMapping("/buscarSaldos")
-    @Transactional
     public ResponseEntity<?> buscarSaldos() {
         try {
             Map<String, BigDecimal> saldo = saldoService.saldos();

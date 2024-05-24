@@ -12,6 +12,7 @@ import java.util.List;
 public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Long> {
 
     @Modifying
+    @Transactional
     @Query("UPDATE conta_bancaria cb SET cb.nomeBanco = :nome, cb.tipoConta = :tipo, " +
         "cb.agencia = :agencia, cb.numeroConta = :numeroConta WHERE cb.id = :idContaBancaria")
     int editarContaBancaria(

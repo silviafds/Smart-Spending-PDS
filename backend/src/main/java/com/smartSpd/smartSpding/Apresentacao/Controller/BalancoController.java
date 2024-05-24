@@ -8,7 +8,9 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Dominio.Dash;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -186,6 +188,22 @@ public class BalancoController {
             log.log(Level.SEVERE, "Erro ao deletar balanço.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao deletar balanço.");
+        }
+    }
+
+    @PatchMapping("/editarBalancoDashboard")
+    @Transactional
+    public ResponseEntity<?> editarBalancoDashboard(@RequestBody @Valid DashDTO dados) {
+        try {
+            balancosService.editarBalancoNoDashboard(dados);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message:\": \"Balanço editado com sucesso.\"}");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao editar balanço. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao editar balanço.");
         }
     }
 }

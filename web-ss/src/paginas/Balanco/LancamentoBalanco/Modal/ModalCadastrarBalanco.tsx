@@ -134,7 +134,8 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                 data_inicio: data.dataInicio,
                 data_termino: data.dataTermino,
                 tipo_visualizacao: data.tipoVisualizacao,
-                categoria_titulo_contabil: data.categoriaOuTituloContabil
+                categoria_titulo_contabil: data.categoriaOuTituloContabil,
+                dashboard_check: false
             };
             editarBalanco(jsonData)
         } else {
@@ -155,7 +156,8 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                 data_inicio: data.dataInicio,
                 data_termino: data.dataTermino,
                 tipo_visualizacao: data.tipoVisualizacao,
-                categoria_titulo_contabil: data.categoriaOuTituloContabil
+                categoria_titulo_contabil: data.categoriaOuTituloContabil,
+                dashboard_check: false
             };;
             console.log("analise balanco: "+jsonData.analise_balanco)
             cadastrarProjeto(jsonData, onClose);

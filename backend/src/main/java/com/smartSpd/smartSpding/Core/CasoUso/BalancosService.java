@@ -1,5 +1,6 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ public interface BalancosService {
     void registrarBalanco(Balancos balancos);
 
     void editarBalanco(Balancos balancos);
+
+    void editarBalancoNoDashboard(DashDTO dto);
 
     List<Balancos> buscarTodosBalancos();
 

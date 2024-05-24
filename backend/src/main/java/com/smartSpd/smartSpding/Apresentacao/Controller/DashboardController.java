@@ -2,6 +2,7 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 
 import com.smartSpd.smartSpding.Core.CasoUso.DashboardService;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
+import com.smartSpd.smartSpding.Core.Dominio.Dash;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class DashboardController {
     @Transactional
     public ResponseEntity<?> adicionarBalancoDashboard(@RequestBody @Valid DashDTO data) {
         try {
-            String mensagem = dashboardService.salvarBalancoDashboard(data.identicador_balanco());
+            String mensagem = dashboardService.salvarBalancoDashboard(data);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(mensagem);
@@ -43,9 +44,9 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/buscarBalancosDashboard")
+    @GetMapping("/buscarBalancosDashboardProcessados")
     @Transactional
-    public ResponseEntity<?> buscarBalancosDashboard() {
+    public ResponseEntity<?> buscarBalancosDashboardProcessados() {
         try {
             List<List<?>> dashboards = dashboardService.buscarBalancosDashboard();
             return ResponseEntity.ok()
@@ -62,7 +63,7 @@ public class DashboardController {
     @Transactional
     public ResponseEntity<?> deletarBalancoDashboard(@RequestBody @Valid DashDTO data) {
         try {
-            String mensagem = dashboardService.deletarBalancoDashboard(data.identicador_balanco());
+            String mensagem = dashboardService.deletarBalancoDashboard(data);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(mensagem);
@@ -70,6 +71,21 @@ public class DashboardController {
             log.log(Level.SEVERE, "Erro ao deletar o balanço do dashboard. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao deletar o balanço do dashboard.");
+        }
+    }
+
+    @GetMapping("/listaBalancoDash")
+    @Transactional
+    public ResponseEntity<?> listaBalancoDash() {
+        try {
+            List<Dash> dashboards = dashboardService.buscarBalancosNoDashboard();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(dashboards);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os dashboards. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar dashboards.");
         }
     }
 }

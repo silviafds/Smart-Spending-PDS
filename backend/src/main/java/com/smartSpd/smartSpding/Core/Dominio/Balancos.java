@@ -27,6 +27,7 @@ public class Balancos {
     private LocalDate data_termino;
     private String tipo_visualizacao;
     private String categoria_titulo_contabil;
+    private boolean dashboard_check;
 
     @Transient
     private String data_inicio_balanco;
@@ -39,7 +40,8 @@ public class Balancos {
     private Dashboard dashboard;
 
     public Balancos(Long id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
-                    LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil) {
+                    LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil,
+                    boolean dashboard_check) {
         this.id = id;
         this.nome = nome;
         this.tipoBalanco = tipoBalanco;
@@ -48,9 +50,7 @@ public class Balancos {
         this.data_termino = data_termino;
         this.tipo_visualizacao = tipo_visualizacao;
         this.categoria_titulo_contabil = categoria_titulo_contabil;
+        this.dashboard_check = dashboard_check;
     }
-    
-    public void setDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-    }
+
 }

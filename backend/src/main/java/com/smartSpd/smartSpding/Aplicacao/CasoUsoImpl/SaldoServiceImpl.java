@@ -36,7 +36,6 @@ public class SaldoServiceImpl implements SaldoService {
             saldoTotal = saldoTotal.add(saldo);
         }
 
-        saldos.put("Saldo Total", saldoTotal.setScale(2, RoundingMode.HALF_UP));
 
         return saldos;
     }

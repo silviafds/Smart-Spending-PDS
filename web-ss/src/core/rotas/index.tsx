@@ -24,6 +24,7 @@ import CadastroCategoria from "../../paginas/Categoria/CadastroCategoria";
 import TelaBalancoRapido from "../../paginas/Balanco/LancamentoBalanco/TelaBalancoRapido";
 import Conselhos from "../../paginas/Conselhos/Conselhos";
 import CadastroProjeto from "../../paginas/Projeto/CadastroProjeto";
+import Saldo from "../../paginas/Saldo/Saldo";
 
 export const AppRouter = () => {
     return (
@@ -35,6 +36,10 @@ export const AppRouter = () => {
 
                 <Route path="/dashboard" element={<RotaPrivada />} >
                     <Route path="/dashboard" element={<Dashboard />} />
+                </Route>
+
+                <Route path="/saldo" element={<RotaPrivada />} >
+                    <Route path="/saldo" element={<Saldo />} />
                 </Route>
 
                 <Route path="/receita" element={<RotaPrivada />} >

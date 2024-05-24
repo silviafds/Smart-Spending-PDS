@@ -34,10 +34,6 @@ public class Balancos {
 
     @Transient
     private String data_final_balanco;
-    
-    @ManyToOne
-    @JoinColumn(name = "dashboard_id")
-    private Dashboard dashboard;
 
     public Balancos(Long id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
                     LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil,

@@ -55,10 +55,14 @@ public class DashboardServiceImpl implements DashboardService {
 
         Optional<Balancos> balanco = balancoRepository.findById(dto.getIdenticador_balanco());
         if (balanco.isPresent()) {
-            Dash dash = new Dash();
-            dash.setIdenticador_balanco(dto.getIdenticador_balanco());
-            dashRepository.save(dash);
-            return "Balanço salvo no dashboard.";
+            int validador = dashRepository.existsByIdenticadorBalanco(dto.getIdenticador_balanco());
+            if(validador != 1) {
+                Dash dash = new Dash();
+                dash.setIdenticador_balanco(dto.getIdenticador_balanco());
+                dashRepository.save(dash);
+                return "Balanço salvo no dashboard.";
+            }
+            return "Não foi possivel salvar no dashboard.";
         } else {
             throw new BalancoNaoEncontradoException("Não existe este balanço na base de dados.");
         }

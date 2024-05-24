@@ -124,7 +124,7 @@ function Saldo() {
             <div className="w-11/12 h-44 bg-gray-100 m-4 border-solid border-slate-500 rounded-md drop-shadow-md hover:bg-gray-200 text-center" key={conta}>
                 <h2 className="mt-16 font-semibold text-xl">{`Saldo ${conta}`}</h2>
                 <div className="mt-2">
-                    <h2 className={`font-semibold text-xl ${corSaldo}`}>{valor.toFixed(2)} R$</h2>
+                    <h2 className={`font-semibold text-xl ${corSaldo}`}>R$ {valor.toFixed(2)}</h2>
                 </div>
             </div>
         );
@@ -150,7 +150,7 @@ function Saldo() {
                             className="flex flex-row justify-center items-center w-11/12 h-36 bg-gray-100 m-4 border-solid border-slate-500 rounded-md drop-shadow-md hover:bg-gray-200 text-center">
                             <h2 className="font-semibold text-xl mr-2">Saldo Total</h2>
                             <div className="mt-2">
-                                <h2 className={`${corTotalSaldo} font-semibold text-xl`}>{totalSaldo.toFixed(2)} R$</h2>
+                                <h2 className={`${corTotalSaldo} font-semibold text-xl`}>R$ {totalSaldo.toFixed(2)}</h2>
                             </div>
                         </div>
 

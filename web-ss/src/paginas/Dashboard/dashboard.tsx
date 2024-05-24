@@ -55,17 +55,47 @@ function Dashboard() {
             <div className={"flex"}>
                 <Sidebar/>
                 <div className={"flex flex-col items-center border-solid border border-b-stone-200 w-screen p-7"}>
-                    {data.map((grupo, index) => (
-                        <div key={index} className="mb-8 border-[1px] p-5 rounded-md w-10/12">
-                            <h2 className="text-xl font-semibold mb-4">{grupo[0].nome}</h2>
-                            <h2 className="font-light text-lg mb-4">{grupo[0].tipoBalanco}</h2>
-                            {renderizarGrafico(grupo)}
-                        </div>
-                    ))}
+                    {data.length === 0 ? (
+                        <p>Não há dados disponíveis.</p>
+                    ) : (
+                        data.map((grupo, index) => (
+                            <div key={index} className="mb-8 border-[1px] p-5 rounded-md w-10/12">
+                                {grupo.length === 0 ? (
+                                    <p>Não há balanços para exibir no dashboard.</p>
+                                ) : (
+                                    <>
+                                        <h2 className="text-xl font-semibold mb-4">{grupo[0]?.nome}</h2>
+                                        <h2 className="font-light text-lg mb-4">{grupo[0]?.tipoBalanco}</h2>
+                                        {renderizarGrafico(grupo)}
+                                    </>
+                                )}
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>
     );
+
+
+
+    /* return (
+         <div>
+             <HeaderPadrao nomeUsuario={nomeUsuario} />
+             <div className={"flex"}>
+                 <Sidebar/>
+                 <div className={"flex flex-col items-center border-solid border border-b-stone-200 w-screen p-7"}>
+                     {data.map((grupo, index) => (
+                         <div key={index} className="mb-8 border-[1px] p-5 rounded-md w-10/12">
+                             <h2 className="text-xl font-semibold mb-4">{grupo[0].nome}</h2>
+                             <h2 className="font-light text-lg mb-4">{grupo[0].tipoBalanco}</h2>
+                             {renderizarGrafico(grupo)}
+                         </div>
+                     ))}
+                 </div>
+             </div>
+         </div>
+     );*/
 }
 
 export default Dashboard;

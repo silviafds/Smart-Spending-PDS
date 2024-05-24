@@ -1,10 +1,11 @@
 package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
-import com.smartSpd.smartSpding.Core.Dominio.Dashboard;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
@@ -104,6 +105,7 @@ public class BalancosServiceImpl implements BalancosService {
             balancoExistente.setData_termino(dados.getData_termino());
             balancoExistente.setTipo_visualizacao(dados.getTipo_visualizacao());
             balancoExistente.setCategoria_titulo_contabil(dados.getCategoria_titulo_contabil());
+            balancoExistente.setDashboard_check(dados.isDashboard_check());
 
             balancosRepository.save(balancoExistente);
         } catch (IllegalArgumentException e) {
@@ -115,6 +117,12 @@ public class BalancosServiceImpl implements BalancosService {
             log.log(Level.SEVERE, "Erro ao tentar editar o balanço: ", e);
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public void editarBalancoNoDashboard(DashDTO dto) {
+        balancosRepository.updateDashboardCheck(dto.isDashboard_check(), dto.getIdenticador_balanco());
     }
 
     @Override
@@ -178,9 +186,4 @@ public class BalancosServiceImpl implements BalancosService {
         }
     }
 
-//	@Override
-//	public void setDashboard(Dashboard dashboard) {
-//		balancosRepository.buscarTodosBalancos().add(dashboard);
-//		
-//	}
 }

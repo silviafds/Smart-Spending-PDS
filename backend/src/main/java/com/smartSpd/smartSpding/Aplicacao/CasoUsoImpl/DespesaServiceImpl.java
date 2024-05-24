@@ -6,7 +6,6 @@ import com.smartSpd.smartSpding.Core.DTO.DespesaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.*;
 import com.smartSpd.smartSpding.Core.Excecao.DespesaInvalidaException;
 import com.smartSpd.smartSpding.Core.Excecao.DespesaNaoEncontradaException;
-import com.smartSpd.smartSpding.Infraestructure.Repositorio.DashboardRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import org.springframework.javapoet.ClassName;

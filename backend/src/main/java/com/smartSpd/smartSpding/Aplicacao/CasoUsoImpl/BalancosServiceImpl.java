@@ -1,10 +1,11 @@
 package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
 import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
-import com.smartSpd.smartSpding.Core.Dominio.Dashboard;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.ORIGENS_MAIS_RENTAVEIS;
-import static com.smartSpd.smartSpding.Core.Enum.TiposAnaliseBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.ORIGENS_MAIS_RENTAVEIS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
 
 @Component
 public class BalancosServiceImpl implements BalancosService {
@@ -53,8 +54,8 @@ public class BalancosServiceImpl implements BalancosService {
                 throw new IllegalArgumentException("As datas de início e término de balanço não podem ser nulas.");
             }
 
-            if (!Objects.equals(balancos.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) &&
-                    !Objects.equals(balancos.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+            if (!Objects.equals(balancos.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco()) &&
+                    !Objects.equals(balancos.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposBalanco())) {
                 if (balancos.getCategoria_titulo_contabil() == null || balancos.getCategoria_titulo_contabil().isEmpty()) {
                     throw new IllegalArgumentException("É preciso fornecer uma categoria ou título contábil.");
                 }
@@ -73,8 +74,8 @@ public class BalancosServiceImpl implements BalancosService {
     @Override
     public void editarBalanco(Balancos dados) {
         try {
-            if (Objects.equals(dados.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposAnaliseBalanco()) ||
-                    Objects.equals(dados.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposAnaliseBalanco())) {
+            if (Objects.equals(dados.getAnalise_balanco(), PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco()) ||
+                    Objects.equals(dados.getAnalise_balanco(), ORIGENS_MAIS_RENTAVEIS.getTiposBalanco())) {
                 if (dados.getNome() == null || dados.getNome().isEmpty() ||
                         dados.getData_inicio() == null || dados.getData_termino() == null ||
                         dados.getTipo_visualizacao() == null || dados.getTipo_visualizacao().isEmpty()) {
@@ -104,6 +105,7 @@ public class BalancosServiceImpl implements BalancosService {
             balancoExistente.setData_termino(dados.getData_termino());
             balancoExistente.setTipo_visualizacao(dados.getTipo_visualizacao());
             balancoExistente.setCategoria_titulo_contabil(dados.getCategoria_titulo_contabil());
+            balancoExistente.setDashboard_check(dados.isDashboard_check());
 
             balancosRepository.save(balancoExistente);
         } catch (IllegalArgumentException e) {
@@ -115,6 +117,12 @@ public class BalancosServiceImpl implements BalancosService {
             log.log(Level.SEVERE, "Erro ao tentar editar o balanço: ", e);
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public void editarBalancoNoDashboard(DashDTO dto) {
+        balancosRepository.updateDashboardCheck(dto.isDashboard_check(), dto.getIdenticador_balanco());
     }
 
     @Override
@@ -178,9 +186,4 @@ public class BalancosServiceImpl implements BalancosService {
         }
     }
 
-//	@Override
-//	public void setDashboard(Dashboard dashboard) {
-//		balancosRepository.buscarTodosBalancos().add(dashboard);
-//		
-//	}
 }

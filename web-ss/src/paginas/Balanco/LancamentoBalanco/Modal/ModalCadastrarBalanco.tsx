@@ -38,6 +38,7 @@ interface IFormInputs {
     categoriaOuTituloContabil: string;
     categoriaOuTituloContabilDespesa: boolean;
     categoriaOuTituloContabilReceita: boolean;
+    dashboard_check: boolean;
 }
 
 const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClose, id }) => {
@@ -70,6 +71,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                         setValue('dataTermino', dadosBalancos.data_termino);
                         setValue('tipoVisualizacao', dadosBalancos.tipo_visualizacao);
                         setValue('categoriaOuTituloContabil', dadosBalancos.categoria_titulo_contabil);
+                        setValue('dashboard_check', dadosBalancos.dashboard_check);
                     }
                 }
             } catch (error) {
@@ -134,7 +136,8 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                 data_inicio: data.dataInicio,
                 data_termino: data.dataTermino,
                 tipo_visualizacao: data.tipoVisualizacao,
-                categoria_titulo_contabil: data.categoriaOuTituloContabil
+                categoria_titulo_contabil: data.categoriaOuTituloContabil,
+                dashboard_check: watch('dashboard_check')
             };
             editarBalanco(jsonData)
         } else {
@@ -155,9 +158,9 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                 data_inicio: data.dataInicio,
                 data_termino: data.dataTermino,
                 tipo_visualizacao: data.tipoVisualizacao,
-                categoria_titulo_contabil: data.categoriaOuTituloContabil
-            };;
-            console.log("analise balanco: "+jsonData.analise_balanco)
+                categoria_titulo_contabil: data.categoriaOuTituloContabil,
+                dashboard_check: watch('dashboard_check')
+            };
             cadastrarProjeto(jsonData, onClose);
         }
     }

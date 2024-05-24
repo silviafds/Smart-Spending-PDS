@@ -4,6 +4,7 @@ import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
 import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
+import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Dash;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
@@ -42,17 +43,26 @@ public class DashboardServiceImpl implements DashboardService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Override
-    public String salvarBalancoDashboard(Long id) {
-        if (id == null) {
+    public List<Dash> buscarBalancosNoDashboard() {
+        return dashRepository.buscarDashboard();
+    }
+
+    @Override
+    public String salvarBalancoDashboard(DashDTO dto) {
+        if (dto.getIdenticador_balanco() == null) {
             throw new IllegalArgumentException("Id está nulo.");
         }
 
-        Optional<Balancos> balanco = balancoRepository.findById(id);
+        Optional<Balancos> balanco = balancoRepository.findById(dto.getIdenticador_balanco());
         if (balanco.isPresent()) {
-            Dash dash = new Dash();
-            dash.setIdenticador_balanco(id);
-            dashRepository.save(dash);
-            return "Balanço salvo no dashboard.";
+            int validador = dashRepository.existsByIdenticadorBalanco(dto.getIdenticador_balanco());
+            if(validador != 1) {
+                Dash dash = new Dash();
+                dash.setIdenticador_balanco(dto.getIdenticador_balanco());
+                dashRepository.save(dash);
+                return "Balanço salvo no dashboard.";
+            }
+            return "Não foi possivel salvar no dashboard.";
         } else {
             throw new BalancoNaoEncontradoException("Não existe este balanço na base de dados.");
         }
@@ -80,12 +90,12 @@ public class DashboardServiceImpl implements DashboardService {
     }
     
     @Override
-    public String deletarBalancoDashboard(Long id) {
+    public String deletarBalancoDashboard(DashDTO dto) {
         try {
-            if (id != null) {
-                Optional<Dash> dash = dashRepository.findById(id);
-                if (dash.isPresent()) {
-                    dashRepository.delete(dash.get());
+            if (dto.getIdenticador_balanco() != null) {
+                int valida = dashRepository.existsByIdenticadorBalanco(dto.getIdenticador_balanco());
+                if(valida==1) {
+                    dashRepository.removeBalancoDashboard(dto.getIdenticador_balanco());
                     return "Balanço deletado do dashboard.";
                 } else {
                     throw new BalancoNaoEncontradoException("Balanço não encontrado no dashboard.");
@@ -93,7 +103,7 @@ public class DashboardServiceImpl implements DashboardService {
             }
             return "Id está nulo.";
         } catch (BalancoNaoEncontradoException e) {
-            throw e;  // Re-throw the custom exception to be handled by the controller advice or other exception handlers
+            throw e;
         } catch (Exception e) {
             System.err.println("Ocorreu um erro ao deletar o balanço do dashboard: " + e.getMessage());
             return "Ocorreu um erro ao deletar o balanço do dashboard.";

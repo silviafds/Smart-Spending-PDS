@@ -4,6 +4,8 @@ public enum TiposBalanco {
     BUSCAR_TODAS_DESPESAS("Listagem despesa por tempo"),
     BUSCAR_TODAS_RECEITAS("Listagem receita por tempo"),
     DESPESA_RECEITA("Despesa e Receita"),
+    PAGAMENTOS_MAIS_UTILIZADOS("Pagamentos mais utilizados"),
+    ORIGENS_MAIS_RENTAVEIS("Origens mais rentáveis"),
     PROJETOS("Projetos");
 
     private String tiposBalanco;

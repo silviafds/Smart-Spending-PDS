@@ -5,26 +5,21 @@ import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import ModalIniciarBalancoRapido from "../LancamentoBalanco/Modal/ModalIniciarBalancoRapido";
 import ModalCadastrarBalanco from "./Modal/ModalCadastrarBalanco";
-import {
-    Box,
-    FormControl,
-    InputLabel, MenuItem,
-    Paper, Select,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow, TextField, Checkbox,
-    IconButton
-} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Paper, Select,
+    Table, TableBody, TableCell, TableContainer, TableHead,
+    TablePagination, TableRow, TextField, IconButton} from "@mui/material";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
-import { buscarBalanco, buscarBalancoPorId, deletarBalancoPorId } from "../../../logica/API/BalancoAPI";
+import {buscarBalanco, buscarBalancoPorId, deletarBalancoPorId, editarBalancoDashboard
+} from "../../../logica/API/BalancoAPI";
 import { useForm } from "react-hook-form";
 import { criarBalancoRapidoDespesa } from "../../../logica/API/BalancoDespesa";
-import { adicionarBalancoAoDashboard, removerBalancoDoDashboard } from "../../../logica/API/DashboardAPI";
+import {
+    adicionarBalancoAoDashboard,
+    listaBalancoDash,
+    removerBalancoDoDashboard
+} from "../../../logica/API/DashboardAPI";
+import {DashboardDTO} from "../../../core/DTO/DashboardDTO";
 
 interface DataIndexable {
     [key: string]: string | Date | number | boolean | any;
@@ -40,6 +35,7 @@ interface Data extends DataIndexable {
     dataTerminos: string;
     tipoVisualizacao: string;
     categoriaOuTituloContabil: number;
+    dashboard_check: boolean;
 }
 
 class IFormInputs {
@@ -51,12 +47,12 @@ function LancamentoBalanco() {
     const [modalAberto, setModalAberto] = useState<boolean>(false);
     const [modalSalvarBalancoAberto, setSalvarBalancoAberto] = useState<boolean>(false);
     const [dadosBalanco, setDadosBalanco] = useState<any[]>([]);
+    const [dadosBalancoDashboard, setDadosBalancoDashboard] = useState<any[]>([]);
     const [filteredData, setFilteredData] = useState<Data[]>(dadosBalanco);
     const [filterValue, setFilterValue] = useState('');
     const [filterField, setFilterField] = useState('nome');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [checked, setChecked] = useState<{ [key: string]: boolean }>({});
 
     const {
         setValue,
@@ -74,8 +70,9 @@ function LancamentoBalanco() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [balanco] = await Promise.all([
-                    buscarBalanco()
+                const [balanco, lista] = await Promise.all([
+                    buscarBalanco(),
+                    listaBalancoDash()
                 ]);
 
                 setDadosBalanco(balanco);
@@ -159,35 +156,30 @@ function LancamentoBalanco() {
         }
     }
 
-    const handleCheckboxChange = async (id: any) => {
-        const isChecked = !checked[id];
-        setChecked(prevState => ({
-            ...prevState,
-            [id]: isChecked
-        }));
-    
-        try {
-            if (isChecked) {
-                if (onclose !== null) {
-                    await adicionarBalancoAoDashboard({ id }, () => onclose);
-                } else {
-                    // Lógica para lidar com a ausência de onclose, se necessário
-                }
-            } else {
-                if (onclose !== null) {
-                    await removerBalancoDoDashboard({ id }, () => onclose);
-                } else {
-                    // Lógica para lidar com a ausência de onclose, se necessário
-                }
-            }
-        } catch (error) {
-            console.error('Erro ao atualizar o balanço no dashboard:', error);
+    const handleCheckboxChange = async (event: React.ChangeEvent<HTMLInputElement>, id: number)  => {
+        console.log("isdashboard: "+watch());
+        const { checked } = event.target;
+        const dto = new DashboardDTO();
+        dto.identicador_balanco = Number(id);
+        dto.isDashboard = checked;
+        const payload = {
+            identicador_balanco: dto.identicador_balanco,
+            dashboard_check: dto.dashboard
+        }
+        console.log("dados payload: "+payload.dashboard_check+" | id: "+payload.identicador_balanco);
+
+        if(payload.dashboard_check) {
+            console.log("eita")
+            await adicionarBalancoAoDashboard(payload);
+            await editarBalancoDashboard(payload);
+        }
+
+        if(payload.dashboard_check === false) {
+            console.log("remover chek")
+            await removerBalancoDoDashboard(payload);
+            await editarBalancoDashboard(payload);
         }
     };
-    
-    
-    
-    
 
     return (
         <div>
@@ -306,9 +298,10 @@ function LancamentoBalanco() {
                                                 </span>
                                             </TableCell >
                                             <TableCell key={balanco.id} align={balanco.align}>
-                                                <Checkbox
-                                                    checked={checked[balanco.id] || false}
-                                                    onChange={() => handleCheckboxChange(balanco.id)}
+                                                <input
+                                                    type="checkbox"
+                                                    checked={balanco.dashboard_check}
+                                                    onChange={(event) => handleCheckboxChange(event, balanco.id)}
                                                 />
                                             </TableCell>
                                         </TableRow>

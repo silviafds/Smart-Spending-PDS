@@ -8,7 +8,6 @@ import GraficoDePizza from "../../componentes/Grafico/GraficoDePizza";
 
 function Dashboard() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
-    const [selectedVisualization, setSelectedVisualization] = useState<string>("Gráfico em Colunas");
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Estado para controlar o carregamento dos dados
 
@@ -50,15 +49,14 @@ function Dashboard() {
         }
     }
 
-
     return (
         <div>
             <HeaderPadrao nomeUsuario={nomeUsuario} />
             <div className={"flex"}>
                 <Sidebar/>
-                <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
+                <div className={"flex flex-col items-center border-solid border border-b-stone-200 w-screen p-7"}>
                     {data.map((grupo, index) => (
-                        <div key={index} className="mb-8 border-[1px] p-5 rounded-md">
+                        <div key={index} className="mb-8 border-[1px] p-5 rounded-md w-10/12">
                             <h2 className="text-xl font-semibold mb-4">{grupo[0].nome}</h2>
                             <h2 className="font-light text-lg mb-4">{grupo[0].tipoBalanco}</h2>
                             {renderizarGrafico(grupo)}

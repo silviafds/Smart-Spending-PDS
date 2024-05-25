@@ -17,7 +17,6 @@ import {
     buscarTitulosContabeisDespesa
 } from "../../../logica/API/DespesaAPI";
 import {validaDadosSubmissao} from "../../../logica/Validacoes/CadastroDespesaValidacao";
-import {formatarMoeda} from "../../../logica/formatador";
 
 interface IFormInputs {
     idProjeto: number;
@@ -231,7 +230,6 @@ export function CadastroDespesa() {
             data.categoria,
             data.tituloContabil,
             data.dataDespesa,
-            data.valorDespesa,
             data.categoriaTransacao,
             data.bancoOrigem,
             data.dadosBancariosOrigem,
@@ -274,18 +272,11 @@ export function CadastroDespesa() {
     }
 
     const handleChangeDespesa = (event: React.ChangeEvent<HTMLInputElement>, onChange: { (...event: any[]): void; (arg0: any): void; }) => {
-        /*const formattedValue = formatarMoeda(event.target.value);
-        setValue("valorDespesa", formattedValue)*/
-
         let value = event.target.value;
 
-        // Remove tudo que não é dígito
         value = value.replace(/\D/g, '');
-
-        // Converte para número e divide por 100 para obter centavos
         const numericValue = parseFloat(value) / 100;
 
-        // Formata para real brasileiro
         const formattedValue = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
@@ -351,7 +342,7 @@ export function CadastroDespesa() {
                                         render={({field: {onChange, value, ...field}}) => (
                                             <input
                                                 {...field}
-                                                value={value}
+                                                value={watch('valorDespesa')}
                                                 onChange={(e) => handleChangeDespesa(e, onChange)}
                                                 placeholder="Digite o valor da despesa"
                                                 type="text"
@@ -361,19 +352,6 @@ export function CadastroDespesa() {
                                     />
                                     <div className="line"></div>
                                 </div>
-
-                                <div className="inputs relative my-4">
-                                    <input
-                                        {...register('valorDespesa', {required: false})}
-                                        placeholder={Titulos.INPUT_VALOR_DESPESA.toString()}
-                                        type="number"
-                                        value={watch('valorDespesa')}
-                                        className="input-with-line w-full"
-                                    />
-                                    <div className="line"></div>
-                                </div>
-
-                                {errors.valorDespesa && <p>Selecione o título contábil.</p>}
 
                                 <div className="inputs relative my-4">
                                     <input

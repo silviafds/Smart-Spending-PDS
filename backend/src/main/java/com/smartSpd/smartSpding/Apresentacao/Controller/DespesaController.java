@@ -49,7 +49,7 @@ public class DespesaController {
         }
     }
 
-   /* @PatchMapping("/editarDespesa")
+    @PatchMapping("/editarDespesa")
     public ResponseEntity<String> editarDespesa(@RequestBody @Valid DespesaDTO data) {
         try {
             despesaService.editarDespesa(data);
@@ -62,7 +62,6 @@ public class DespesaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar despesa.");
         }
     }
-*/
     @DeleteMapping("/deletarDespesa/{id}")
     public ResponseEntity<String> deletarDespesa(@PathVariable Long id) {
         try {

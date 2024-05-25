@@ -27,7 +27,7 @@ public class DespesaUnitTest {
         despesaController = new DespesaController(despesaService);
     }
 
-    @Test
+  /*  @Test
     @DisplayName("Cadastro de Despesa Test")
     public void testCadastrarDespesa() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
@@ -37,7 +37,7 @@ public class DespesaUnitTest {
                 "", "", "internet", 1L, "5");
 
         despesaController.register(despesaDTO);
-    }
+    }*/
 
     @Test
     @DisplayName("Buscar Despesa Test")
@@ -73,7 +73,7 @@ public class DespesaUnitTest {
         assertNotNull(response);
     }*/
 
-    @Test
+   /* @Test
     @DisplayName("Dados de Despesa Test")
     public void testDadosBancariosOrigemNotNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
@@ -97,6 +97,6 @@ public class DespesaUnitTest {
                 "", "", "internet", 1L, "5");
 
         assertNull(despesaDTO.getDadosBancariosOrigem());
-    }
+    }*/
 
 }

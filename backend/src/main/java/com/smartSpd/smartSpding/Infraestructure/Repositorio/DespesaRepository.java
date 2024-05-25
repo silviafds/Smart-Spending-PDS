@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.CHEQUE;
 import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PAPEL_E_MOEDA;
@@ -36,10 +40,12 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     }
 
     private void updateDespesaFields(Despesa despesa, DespesaDTO despesaDTO, String[] dadosReformulados) {
+        BigDecimal big = formataMoeda(despesaDTO.getValorProjeto());
+
         despesa.setCategoria(despesaDTO.getCategoria());
         despesa.setTitulo_contabil(despesaDTO.getTitulo_contabil());
         despesa.setDataDespesa(despesaDTO.getDataDespesa());
-        //despesa.setValorDespesa(despesaDTO.getValorDespesa());
+        despesa.setValorDespesa(big);
         despesa.setCategoriaTransacao(despesaDTO.getCategoriaTransacao());
 
         if (despesaDTO.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento()) ||
@@ -54,6 +60,7 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
             despesa.setAgenciaOrigem(dadosReformulados[1]);
             despesa.setNumeroContaOrigem(dadosReformulados[2]);
         }
+
         despesa.setBeneficiario(despesaDTO.getBeneficiario());
         despesa.setBancoDestino(despesaDTO.getBancoDestino());
         despesa.setAgenciaDestino(despesaDTO.getAgenciaDestino());
@@ -91,7 +98,35 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
     @Query("SELECT cd.nome from categoria_despesa cd where cd.id = :id")
     String projetosPorCategoria(int id);
 
-    @Query("SELECT cd.id, cd.nome from categoria_despesa cd where cd.id = :id")
-    List<Object[]> projetosPorCategorias(int id);
+
+    default BigDecimal formataMoeda(String numero) {
+        // Remove todos os caracteres que não são números ou vírgulas
+        String stringNumerica = numero.replaceAll("[^0-9,]", "");
+
+        // Configura os símbolos para formatação decimal
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+
+        // Cria o formato decimal com duas casas decimais
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+
+        BigDecimal numeros;
+        try {
+            // Faz o parse da string para um objeto Number
+            Number parsedNumber = decimalFormat.parse(stringNumerica);
+
+            // Converte o Number para BigDecimal
+            numeros = new BigDecimal(parsedNumber.toString());
+
+            // Define a escala para duas casas decimais
+            numeros = numeros.setScale(2, BigDecimal.ROUND_HALF_UP);
+        } catch (Exception e) {
+            System.out.println("Erro ao converter número: " + e.getMessage());
+            return null;
+        }
+
+        System.out.println("Número convertido: " + numeros + " | número entrada: " + stringNumerica);
+        return numeros;
+    }
 
 }

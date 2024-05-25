@@ -6,7 +6,6 @@ export function validaDadosSubmissao(
     categoria: string,
     titulo_contabil: string,
     dataDespesa: Date,
-    valorDespesa: number,
     categoriaTransacao: string,
     bancoOrigem: string,
     dadosBancariosOrigem: string,
@@ -24,7 +23,6 @@ export function validaDadosSubmissao(
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataDespesa === null || dataDespesa === undefined ||
-            /*valorDespesa === null || valorDespesa === undefined ||*/
             bancoOrigem === null || bancoOrigem === undefined ||
             dadosBancariosOrigem === null || dadosBancariosOrigem === undefined ||
             beneficiario === null || beneficiario === undefined ||
@@ -39,7 +37,6 @@ export function validaDadosSubmissao(
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataDespesa === null || dataDespesa === undefined ||
-           /* valorDespesa === null || valorDespesa === undefined ||*/
             beneficiario === null || beneficiario === undefined ||
             descricao === null || descricao === undefined
         ) {
@@ -54,7 +51,6 @@ export function validaDadosSubmissao(
         categoria: categoria,
         titulo_contabil: titulo_contabil,
         dataDespesa: dataDespesa,
-        valorDespesa: 80.0,
         categoriaTransacao: categoriaTransacao,
         bancoOrigem: bancoOrigem,
         dadosBancariosOrigem: dadosBancariosOrigem,

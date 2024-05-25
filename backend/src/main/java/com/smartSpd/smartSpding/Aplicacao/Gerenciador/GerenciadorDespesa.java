@@ -72,39 +72,40 @@ public class GerenciadorDespesa {
         return despesa;
     }
 
-    private BigDecimal formataMoeda(String numero) {
+    public BigDecimal formataMoeda(String numero) {
         String stringNumerica = numero.replaceAll("[^0-9,]", "");
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setDecimalSeparator(',');
+
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+
         BigDecimal numeros;
         try {
-            numeros = new BigDecimal(decimalFormat.parse(stringNumerica).toString());
+            Number parsedNumber = decimalFormat.parse(stringNumerica);
+
+            numeros = new BigDecimal(parsedNumber.toString());
+
+            numeros = numeros.setScale(2, BigDecimal.ROUND_HALF_UP);
         } catch (Exception e) {
             System.out.println("Erro ao converter número: " + e.getMessage());
             return null;
         }
 
-        System.out.println("Número converttido: " + numeros+" | numero entrada: "+stringNumerica);
         return numeros;
-    }
-
-    private static String substituirPontoPorVirgula(String numeroComPonto) {
-        return numeroComPonto.replace('.', ',');
     }
 
     private boolean camposObrigatoriosNaoNulos(DespesaDTO data) {
         if(Objects.equals(data.getCategoriaTransacao(), "Pix") || Objects.equals(data.getCategoriaTransacao(), "Transferência")) {
             return data.getContaInterna() != null && data.getCategoria() != null &&
                     data.getTitulo_contabil() != null && data.getCategoriaTransacao() != null &&
-                    data.getValorDespesa() != null && data.getDataDespesa() != null &&
+                    data.getDataDespesa() != null &&
                     data.getDescricao() != null && data.getDadosBancariosOrigem() != null &&
                     data.getBeneficiario() != null;
         }
         return data.getContaInterna() != null && data.getCategoria() != null &&
                 data.getTitulo_contabil() != null && data.getCategoriaTransacao() != null &&
-                data.getValorDespesa() != null && data.getDataDespesa() != null &&
+                data.getDataDespesa() != null &&
                 data.getDescricao() != null && data.getBeneficiario() != null;
     }
 
@@ -120,17 +121,17 @@ public class GerenciadorDespesa {
             return false;
         } else if (data.getCategoriaTransacao().equals(PIX.toString()) || data.getCategoriaTransacao().equals(TRANSFERENCIA.toString())) {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
+                data.getDataDespesa() == null ||  data.getBeneficiario() == null ||
                 data.getCategoriaTransacao().equals("") || data.getDescricao().equals("") || data.getContaInterna().equals("") ||
-                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa() <= 0 ||
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
                 data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                data.getDataDespesa() == null || data.getValorDespesa() <= 0 || data.getBeneficiario() == null ||
+                data.getDataDespesa() == null ||  data.getBeneficiario() == null ||
                 data.getCategoriaTransacao() == null || data.getDescricao() == null || data.getContaInterna().equals("") ||
-                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") || data.getValorDespesa().equals("") ||
+                data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
                 data.getBeneficiario().equals("") || data.getCategoriaTransacao().equals("") || data.getDescricao().equals("")) {
                 return false;
             }
@@ -153,23 +154,23 @@ public class GerenciadorDespesa {
     }
 
     public void verificaCategoriaProjeto(DespesaDTO data) {
-
         List<Projetos> projeto = projetosRepository.buscarProjetoPorID(data.getIdentificadorProjeto());
 
-        if(!projeto.isEmpty()) {
-            Double valorAntigo = 0.0;
+        if (!projeto.isEmpty()) {
+            BigDecimal valorAntigo = BigDecimal.ZERO;
+
             Projetos projetoEncontrado = projeto.get(0);
-            if(projetoEncontrado.getValor_arrecadado_atual()!=null) {
-                valorAntigo = Double.valueOf(projetoEncontrado.getValor_arrecadado_atual());
+            if (projetoEncontrado.getValor_arrecadado_atual() != null) {
+                valorAntigo = new BigDecimal(projetoEncontrado.getValor_arrecadado_atual());
             }
 
-            Double novoValor = valorAntigo + data.getValorDespesa();
-            projetoEncontrado.setValor_arrecadado_atual(String.valueOf(novoValor));
+            BigDecimal valorDespesa = formataMoeda(data.getValorProjeto());
+            BigDecimal novoValor = valorAntigo.add(valorDespesa);
+
+            projetoEncontrado.setValor_arrecadado_atual(novoValor.toString());
 
             projetosRepository.save(projetoEncontrado);
-
         }
-
     }
 
 }

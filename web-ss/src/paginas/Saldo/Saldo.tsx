@@ -36,16 +36,13 @@ function Saldo() {
         const corSaldo = valor >= 0 ? "text-green-600" : "text-red-600";
         return (
             <div className="w-11/12 h-44 bg-gray-100 m-4 border-solid border-slate-500 rounded-md drop-shadow-md text-center" key={conta}>
-                <h2 className="mt-16 font-semibold text-xl">{`Saldo ${conta}`}</h2>
+                <h2 className="mt-16 font-semibold text-xl">{`${conta}`}</h2>
                 <div className="mt-2">
                     <h2 className={`font-semibold text-xl ${corSaldo}`}>R$ {valor.toFixed(2)}</h2>
                 </div>
             </div>
         );
     };
-
-    const totalSaldo = saldoMap ? Array.from(saldoMap.values()).reduce((acc, val) => acc + val, 0) : 0;
-    const corTotalSaldo = totalSaldo >= 0 ? "text-green-600" : "text-red-600";
 
     return (
         <div>
@@ -59,15 +56,6 @@ function Saldo() {
                     </div>
                     <hr className="my-4 mt-6 p-0 w-full border-gray-300" />
                     <div className="flex flex-col justify-center items-center mt-10">
-
-                        <div
-                            className="flex flex-row justify-center items-center w-11/12 h-36 bg-gray-100 m-4 border-solid border-slate-500 rounded-md drop-shadow-md text-center">
-                            <h2 className="font-semibold text-xl mr-2">Saldo Total</h2>
-                            <div className="mt-2">
-                                <h2 className={`${corTotalSaldo} font-semibold text-xl`}>R$ {totalSaldo.toFixed(2)}</h2>
-                            </div>
-                        </div>
-
                         <div className="flex flex-col justify-center items-center w-11/12 ">
                             {saldoMap && Array.from(saldoMap.keys()).map(renderSaldo)}
                         </div>

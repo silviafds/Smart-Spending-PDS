@@ -1,6 +1,5 @@
 import axios from "../../core/contexto/axios";
 import { BACKEND_URL } from "../../core/config";
-import Swal from "sweetalert2";
 
 export async function buscarSaldo() {
     try {

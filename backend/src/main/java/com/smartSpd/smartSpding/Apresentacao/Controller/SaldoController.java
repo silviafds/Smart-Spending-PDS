@@ -34,7 +34,7 @@ public class SaldoController {
     @GetMapping("/buscarSaldos")
     public ResponseEntity<?> buscarSaldos() {
         try {
-            Map<String, BigDecimal> saldo = saldoService.saldos();
+            Map<String, BigDecimal> saldo = saldoService.calculaSaldo();
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(saldo);

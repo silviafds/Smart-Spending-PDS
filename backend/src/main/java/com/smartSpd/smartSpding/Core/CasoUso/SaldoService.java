@@ -10,4 +10,6 @@ public interface SaldoService {
 
     Map<String, BigDecimal> saldos();
 
+    Map<String, BigDecimal> calculaSaldo();
+
 }

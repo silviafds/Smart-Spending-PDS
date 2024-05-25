@@ -20,9 +20,10 @@ public class DespesaDTO {
     private String numeroContaDestino;
     private String descricao;
     private Long identificadorProjeto;
+    private String valorProjeto;
 
 
-    public DespesaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil,
+    /*public DespesaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil,
                       LocalDate dataDespesa, Double valorDespesa, String categoriaTransacao, String bancoOrigem,
                       String dadosBancariosOrigem, String beneficiario, String bancoDestino, String agenciaDestino,
                       String numeroContaDestino, String descricao, Long identificadorProjeto) {
@@ -41,6 +42,36 @@ public class DespesaDTO {
         this.numeroContaDestino = numeroContaDestino;
         this.descricao = descricao;
         this.identificadorProjeto = identificadorProjeto;
+    }*/
+
+    public String getValorProjeto() {
+        return valorProjeto;
+    }
+
+    public void setValorProjeto(String valorProjeto) {
+        this.valorProjeto = valorProjeto;
+    }
+
+    public DespesaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil,
+                      LocalDate dataDespesa, Double valorDespesa, String categoriaTransacao, String bancoOrigem,
+                      String dadosBancariosOrigem, String beneficiario, String bancoDestino, String agenciaDestino,
+                      String numeroContaDestino, String descricao, Long identificadorProjeto, String valorProjeto) {
+        this.id = id;
+        this.contaInterna = contaInterna;
+        this.categoria = categoria;
+        this.titulo_contabil = titulo_contabil;
+        this.dataDespesa = dataDespesa;
+        this.valorDespesa = valorDespesa;
+        this.categoriaTransacao = categoriaTransacao;
+        this.bancoOrigem = bancoOrigem;
+        this.dadosBancariosOrigem = dadosBancariosOrigem;
+        this.beneficiario = beneficiario;
+        this.bancoDestino = bancoDestino;
+        this.agenciaDestino = agenciaDestino;
+        this.numeroContaDestino = numeroContaDestino;
+        this.descricao = descricao;
+        this.identificadorProjeto = identificadorProjeto;
+        this.valorProjeto = valorProjeto;
     }
 
     public Long getId() {

@@ -7,7 +7,11 @@ import com.smartSpd.smartSpding.Infraestructure.Repositorio.ProjetosRepository;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -34,6 +38,8 @@ public class GerenciadorDespesa {
 
     public Despesa mapeiaDTOparaDespesa(DespesaDTO data, String[] dadosReformulados) {
         Despesa despesa = new Despesa();
+        BigDecimal big = formataMoeda(data.getValorProjeto());
+
         try {
             if(dadosReformulados == null ||dadosReformulados.length == 0) {
                 despesa.setTipoContaOrigem("");
@@ -50,7 +56,7 @@ public class GerenciadorDespesa {
                 despesa.setCategoria(data.getCategoria());
                 despesa.setTitulo_contabil(data.getTitulo_contabil());
                 despesa.setDataDespesa(data.getDataDespesa());
-                despesa.setValorDespesa(data.getValorDespesa());
+                despesa.setValorDespesa(big);
                 despesa.setCategoriaTransacao(data.getCategoriaTransacao());
                 despesa.setBeneficiario(data.getBeneficiario());
                 despesa.setBancoDestino(data.getBancoDestino());
@@ -64,6 +70,28 @@ public class GerenciadorDespesa {
             throw new IllegalArgumentException("Dados de despesa estão nulos.");
         }
         return despesa;
+    }
+
+    private BigDecimal formataMoeda(String numero) {
+        String stringNumerica = numero.replaceAll("[^0-9,]", "");
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        BigDecimal numeros;
+        try {
+            numeros = new BigDecimal(decimalFormat.parse(stringNumerica).toString());
+        } catch (Exception e) {
+            System.out.println("Erro ao converter número: " + e.getMessage());
+            return null;
+        }
+
+        System.out.println("Número converttido: " + numeros+" | numero entrada: "+stringNumerica);
+        return numeros;
+    }
+
+    private static String substituirPontoPorVirgula(String numeroComPonto) {
+        return numeroComPonto.replace('.', ',');
     }
 
     private boolean camposObrigatoriosNaoNulos(DespesaDTO data) {

@@ -5,6 +5,10 @@ import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PIX;
@@ -25,6 +29,8 @@ public class GerenciadorReceita {
 
     public Receita mapeiaDTOparaReceita(ReceitaDTO data, String[] dadosReformulados) {
         Receita receita = new Receita();
+        BigDecimal big = formataMoeda(data.getValorProjeto());
+
         if(data.getOrigem().equals("Pix") || data.getOrigem().equals("Transferência")) {
             receita.setTipoContaDestino(dadosReformulados[0]);
             receita.setAgenciaDestino(dadosReformulados[1]);
@@ -38,7 +44,7 @@ public class GerenciadorReceita {
             receita.setCategoria(data.getCategoria());
             receita.setTitulo_contabil(data.getTitulo_contabil());
             receita.setDataReceita(data.getDataReceita());
-            receita.setValorReceita(data.getValorReceita());
+            receita.setValorReceita(big);
             receita.setOrigem(data.getOrigem());
             receita.setPagador(data.getPagador());
             receita.setBancoOrigem(data.getBancoOrigem());
@@ -51,6 +57,24 @@ public class GerenciadorReceita {
         } else {
             throw new IllegalArgumentException("Dados de receita estão nulos.");
         }
+    }
+
+    private BigDecimal formataMoeda(String numero) {
+        String stringNumerica = numero.replaceAll("[^0-9,]", "");
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        BigDecimal numeros;
+        try {
+            numeros = new BigDecimal(decimalFormat.parse(stringNumerica).toString());
+        } catch (Exception e) {
+            System.out.println("Erro ao converter número: " + e.getMessage());
+            return null;
+        }
+
+        System.out.println("Número converttido: " + numeros+" | numero entrada: "+stringNumerica);
+        return numeros;
     }
 
     private boolean camposObrigatoriosNaoNulos(ReceitaDTO data) {

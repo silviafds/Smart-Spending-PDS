@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Setter
@@ -27,7 +28,7 @@ public class Despesa {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.DATE)
     private LocalDate dataDespesa;
-    private Double valorDespesa;
+    private BigDecimal valorDespesa;
     private String categoriaTransacao;
     private String bancoOrigem;
     private String tipoContaOrigem;
@@ -49,7 +50,7 @@ public class Despesa {
     @Transient
     private String dadosBancarios;
 
-    public Despesa(String categoria, String titulo_contabil, LocalDate dataDespesa, Double valorDespesa,
+    public Despesa(String categoria, String titulo_contabil, LocalDate dataDespesa, BigDecimal valorDespesa,
                    String categoriaTransacao, String bancoOrigem, String tipoContaOrigem, String agenciaOrigem,
                    String numeroContaOrigem, String beneficiario, String bancoDestino, String agenciaDestino,
                    String numeroContaDestino, String descricao, ContaInterna contaInterna, String dataFormatada,

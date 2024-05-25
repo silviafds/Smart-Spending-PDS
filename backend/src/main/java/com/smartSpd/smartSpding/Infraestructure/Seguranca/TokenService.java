@@ -69,5 +69,4 @@ public class TokenService {
         return tokenBlacklist.contains(token);
     }
 
-
 }

@@ -3,7 +3,7 @@ import { HeaderPadrao } from "../../../componentes/header/headerPadrao";
 import { Sidebar } from "../../../componentes/sidebar/sidebar";
 import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
-import { useForm } from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import { buscarContaInternaReceita, buscarCategoriasReceita, buscarTitulosContabeis,
     buscarOrigem, buscarReceitaPorId } from "../../../logica/API/ReceitaAPI";
 import Selector from "../../../componentes/Selector";
@@ -16,6 +16,7 @@ interface IFormInputs {
     contaInterna: string;
     categoria: string;
     tituloContabil: string;
+    valorTeste: string;
     valorReceita: number;
     dataReceita: Date;
     pagador: string;
@@ -56,6 +57,7 @@ export function CadastroReceita() {
         setValue,
         formState: { errors },
         watch,
+        control,
     } = useForm<IFormInputs>();
 
     useEffect(() => {
@@ -229,6 +231,7 @@ export function CadastroReceita() {
 
     const onSubmit = async (data: IFormInputs) => {
         id = id || '';
+        let valorProjeto =  watch('valorTeste');
         setValue('erro', false);
         let validacaoResultado = validaDadosSubmissao(
             id,
@@ -244,13 +247,38 @@ export function CadastroReceita() {
             data.contaOrigem,
             data.bancoDestino,
             data.dadosBancarios,
-            data.descricao
+            data.descricao,
+            valorProjeto
         )
         if (validacaoResultado) {
             console.error('Algum dos dados está nulo.');
             setValue('erro', true);
             return;
         }
+    };
+
+    const handleChangeDespesa = (event: React.ChangeEvent<HTMLInputElement>, onChange: { (...event: any[]): void; (arg0: any): void; }) => {
+        /*const formattedValue = formatarMoeda(event.target.value);
+        setValue("valorDespesa", formattedValue)*/
+
+        let value = event.target.value;
+
+        // Remove tudo que não é dígito
+        value = value.replace(/\D/g, '');
+
+        // Converte para número e divide por 100 para obter centavos
+        const numericValue = parseFloat(value) / 100;
+
+        // Formata para real brasileiro
+        const formattedValue = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+        }).format(numericValue);
+        setValue('valorReceita', numericValue)
+        setValue('valorTeste', formattedValue)
+        console.log("valor: "+numericValue+" | "+formattedValue)
+        onChange(formattedValue);
     };
 
     return (
@@ -269,9 +297,10 @@ export function CadastroReceita() {
                         <div
                             className="p-5 mt-4 sm:w-11/12 md:w-11/12 lg:w-11/12 border-solid border-1 border-stone-200 border-t-2 border-b-2 rounded-xl shadow-xl 	">
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                                {watch('erro') === true  && (
+                                {watch('erro') === true && (
                                     <>
-                                        <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
+                                        <div
+                                            className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
                                             <p className={"text-black font-medium"}>Prencha todos os campos.</p>
                                         </div>
                                     </>
@@ -296,6 +325,24 @@ export function CadastroReceita() {
                                               placeholder={Titulos.INPUT_TITULO_CONTABIL.toString()}
                                               valorSelecionado={watch('tituloContabil')}
                                               onGenericoSelect={handleTituloContabil}/>
+                                </div>
+
+                                <div className="inputs relative my-4">
+                                    <Controller
+                                        name="valorTeste"
+                                        control={control}
+                                        render={({field: {onChange, value, ...field}}) => (
+                                            <input
+                                                {...field}
+                                                value={value}
+                                                onChange={(e) => handleChangeDespesa(e, onChange)}
+                                                placeholder="Digite o valor da despesa"
+                                                type="text"
+                                                className="input-with-line w-full"
+                                            />
+                                        )}
+                                    />
+                                    <div className="line"></div>
                                 </div>
 
                                 <div className="inputs relative my-4">

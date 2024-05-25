@@ -36,7 +36,6 @@ public class SaldoServiceImpl implements SaldoService {
             saldoTotal = saldoTotal.add(saldo);
         }
 
-
         return saldos;
     }
 

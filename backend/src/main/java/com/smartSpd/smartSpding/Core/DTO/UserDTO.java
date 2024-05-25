@@ -2,7 +2,6 @@ package com.smartSpd.smartSpding.Core.DTO;
 
 import java.time.LocalDate;
 
-
 public class UserDTO {
     private String nome;
     private String sobrenome;

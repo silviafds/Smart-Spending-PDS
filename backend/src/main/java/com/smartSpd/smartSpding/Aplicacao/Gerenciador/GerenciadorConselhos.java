@@ -1,7 +1,6 @@
 package com.smartSpd.smartSpding.Aplicacao.Gerenciador;
 
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -29,7 +28,6 @@ public class GerenciadorConselhos {
 
         return String.valueOf(quantidadeDiasMesAnterior);
     }
-
 
     public List<LocalDate> montarDataQuery(LocalDate dataInicio, String quantidadeDeMesAnterior) {
         int ano = dataInicio.getYear();
@@ -59,7 +57,5 @@ public class GerenciadorConselhos {
     public boolean verificacaoMetaReceita() {
         return conselhosRepository.verificaDefinicaoMetaReceita();
     }
-
-
 
 }

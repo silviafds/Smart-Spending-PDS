@@ -3,7 +3,7 @@ import {verificaContaInterna} from "../API/ContaInternaAPI";
 export function validaDadosSubmissao(id: string, contaInterna: string, categoria: string, titulo_contabil: string, dataReceita: Date,
                                      valorReceita: number, pagador: string, origem: string, bancoOrigem: string,
                                      agenciaOrigem: string, numeroContaOrigem: string, bancoDestino: string,
-                                     dadosBancariosDestino: string, descricao: string
+                                     dadosBancariosDestino: string, descricao: string, valorProjeto: string
 ): boolean {
     if (origem === "Pix" || origem === "Transferência") {
         if (
@@ -11,7 +11,7 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataReceita === null || dataReceita === undefined ||
-            valorReceita === null || valorReceita === undefined ||
+            /*valorReceita === null || valorReceita === undefined ||*/
             bancoOrigem === undefined ||
             pagador === null || pagador === undefined ||
             dadosBancariosDestino === null || dadosBancariosDestino === undefined ||
@@ -25,7 +25,7 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataReceita === null || dataReceita === undefined ||
-            valorReceita === null || valorReceita === undefined ||
+            /*valorReceita === null || valorReceita === undefined ||*/
             pagador === null || pagador === undefined ||
             descricao === null || descricao === undefined
         ) {
@@ -47,7 +47,8 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
         numeroContaOrigem: numeroContaOrigem,
         bancoDestino: bancoDestino,
         dadosBancariosDestino: dadosBancariosDestino,
-        descricao: descricao
+        descricao: descricao,
+        valorProjeto: valorProjeto
     };
     verificaContaInterna(jsonData, id ? "editarReceita" : "salvarReceita");
     return false;

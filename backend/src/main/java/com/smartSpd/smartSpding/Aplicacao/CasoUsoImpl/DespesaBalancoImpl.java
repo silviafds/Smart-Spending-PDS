@@ -26,7 +26,6 @@ public class DespesaBalancoImpl implements DespesaBalancoService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     @Override
     public List<BalancoDespesa> listagemMeiosPagamento() {
         String sql = "SELECT categoria_transacao, COUNT(*) AS quantidade_transacao FROM despesa " +

@@ -58,7 +58,7 @@ public class ReceitaController {
         }
     }
 
-    @PatchMapping("/editarReceita")
+   /* @PatchMapping("/editarReceita")
     public ResponseEntity<String> editarReceita(@RequestBody @Valid ReceitaDTO data) {
         try {
             receitaService.editarReceita(data);
@@ -71,7 +71,7 @@ public class ReceitaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar receita.");
         }
     }
-
+*/
     @DeleteMapping("/deletarReceita/{id}")
     public ResponseEntity<String> deletarReceita(@PathVariable Long id) {
         try {

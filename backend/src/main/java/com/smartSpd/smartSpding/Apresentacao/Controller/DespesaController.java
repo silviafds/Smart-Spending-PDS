@@ -30,7 +30,6 @@ public class DespesaController {
     }
 
     @PostMapping("/registrarDespesa")
-    //@Transactional
     public ResponseEntity<String> register(@RequestBody @Valid DespesaDTO data) {
         try {
             despesaService.cadastrarDespesa(data);
@@ -50,8 +49,7 @@ public class DespesaController {
         }
     }
 
-    @PatchMapping("/editarDespesa")
-    //@Transactional
+   /* @PatchMapping("/editarDespesa")
     public ResponseEntity<String> editarDespesa(@RequestBody @Valid DespesaDTO data) {
         try {
             despesaService.editarDespesa(data);
@@ -64,9 +62,8 @@ public class DespesaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar despesa.");
         }
     }
-
+*/
     @DeleteMapping("/deletarDespesa/{id}")
-    //@Transactional
     public ResponseEntity<String> deletarDespesa(@PathVariable Long id) {
         try {
             despesaService.deletarDespesa(id);
@@ -81,7 +78,6 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarCategoriaDespesa")
-    //@Transactional
     public ResponseEntity<?> buscarCategoriaDespesa() {
         try {
             List<CategoriaDespesa> contas = despesaService.buscarTodasCategoriasDespesa();
@@ -96,7 +92,6 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarDespesa")
-    //@Transactional
     public ResponseEntity<?> buscarDespesa() {
         try {
             List<Despesa> despesas = despesaService.buscarTodasAsDespesas();
@@ -111,7 +106,6 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarDespesasPorId/{id}")
-    //@Transactional
     public ResponseEntity<?> buscarDepesasPorId(@PathVariable Integer id) {
         try {
             List<Despesa> despesas = despesaService.buscarDespesasPorId(id);
@@ -127,7 +121,6 @@ public class DespesaController {
     }
 
     @GetMapping("/buscarTituloContabilDespesa/{id}")
-    //@Transactional
     public ResponseEntity<?> buscarTituloContabilDespesa(@PathVariable Integer id) {
         try {
             List<?> titulos = despesaService.buscarTodosTitulosContabeisDespesa(id);

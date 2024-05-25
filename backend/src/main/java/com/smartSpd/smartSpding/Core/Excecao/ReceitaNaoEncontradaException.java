@@ -5,4 +5,3 @@ public class ReceitaNaoEncontradaException extends RuntimeException {
         super(message);
     }
 }
-

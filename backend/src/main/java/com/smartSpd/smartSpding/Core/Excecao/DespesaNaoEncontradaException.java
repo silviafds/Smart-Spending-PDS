@@ -5,4 +5,3 @@ public class DespesaNaoEncontradaException extends RuntimeException {
         super(message);
     }
 }
-

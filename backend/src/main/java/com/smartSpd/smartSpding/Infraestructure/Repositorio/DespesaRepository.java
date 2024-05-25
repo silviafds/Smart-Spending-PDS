@@ -39,7 +39,7 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
         despesa.setCategoria(despesaDTO.getCategoria());
         despesa.setTitulo_contabil(despesaDTO.getTitulo_contabil());
         despesa.setDataDespesa(despesaDTO.getDataDespesa());
-        despesa.setValorDespesa(despesaDTO.getValorDespesa());
+        //despesa.setValorDespesa(despesaDTO.getValorDespesa());
         despesa.setCategoriaTransacao(despesaDTO.getCategoriaTransacao());
 
         if (despesaDTO.getCategoriaTransacao().equals(CHEQUE.getMeiosPagamento()) ||

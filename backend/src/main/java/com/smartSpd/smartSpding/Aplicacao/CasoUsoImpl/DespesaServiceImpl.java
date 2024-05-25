@@ -66,7 +66,7 @@ public class DespesaServiceImpl implements DespesaService {
         }
     }
 
-    @Override
+   // @Override
     public void editarDespesa(DespesaDTO data) throws Exception {
         try {
             gerenciadorDespesa.validarEntrada(data);

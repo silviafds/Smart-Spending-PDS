@@ -64,7 +64,7 @@ public class ReceitaServiceImpl implements ReceitaService {
         }
     }
 
-    @Override
+    /*@Override
     public void editarReceita(ReceitaDTO data) throws Exception {
         try {
             gerenciadorReceita.validarEntrada(data);
@@ -89,7 +89,7 @@ public class ReceitaServiceImpl implements ReceitaService {
             log.log(Level.SEVERE, "Erro ao cadastrar nova receita no service. ", e);
             throw e;
         }
-    }
+    }*/
 
     @Override
     public void deletarReceita(Long id) {

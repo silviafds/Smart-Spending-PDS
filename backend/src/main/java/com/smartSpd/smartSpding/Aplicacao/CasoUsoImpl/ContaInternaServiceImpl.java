@@ -16,12 +16,8 @@ public class ContaInternaServiceImpl implements ContaInternaService {
 
     private final ContaInternaRepository contaInternaRepository;
 
-    @Autowired
-    private final ContaInterna contaInterna;
-
-    public ContaInternaServiceImpl(ContaInternaRepository contaInternaRepository, ContaInterna contaInterna) {
+    public ContaInternaServiceImpl(ContaInternaRepository contaInternaRepository) {
         this.contaInternaRepository = contaInternaRepository;
-        this.contaInterna = contaInterna;
     }
 
     @Transactional
@@ -37,7 +33,6 @@ public class ContaInternaServiceImpl implements ContaInternaService {
         }
         return false;
     }
-
 
     @Transactional
     public Boolean editarContaInterna(ContaInternaDTO data) {

@@ -12,7 +12,7 @@ public interface DespesaService {
 
     void cadastrarDespesa(DespesaDTO data) throws Excecoes;
 
-    void editarDespesa(DespesaDTO data) throws Exception;
+    //void editarDespesa(DespesaDTO data) throws Exception;
 
     void deletarDespesa(Long id);
 

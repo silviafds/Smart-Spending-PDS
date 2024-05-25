@@ -6,7 +6,7 @@ import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 import Selector from "../../../componentes/Selector";
 import {Titulos} from "../../../core/ENUM/Titulos";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {
     buscarOrigem, buscarTitulosContabeis
 } from "../../../logica/API/ReceitaAPI";
@@ -23,6 +23,7 @@ interface IFormInputs {
     contaInterna: string;
     categoria: string;
     tituloContabil: string;
+    valorTeste: string;
     valorDespesa: number;
     dataDespesa: Date;
     beneficiario: string;
@@ -62,6 +63,7 @@ export function CadastroDespesa() {
         setValue,
         formState: { errors },
         watch,
+        control,
     } = useForm<IFormInputs>();
 
     useEffect(() => {
@@ -221,25 +223,53 @@ export function CadastroDespesa() {
     const onSubmit = async (data: IFormInputs) => {
         id = id || '';
         let identificadorProjeto = watch('idProjeto');
+        let valorProjeto =  watch('valorTeste');
+        console.log("dshfkhsf "+valorProjeto)
         setErro(false);
-        let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
-            data.categoria,
-            data.tituloContabil,
-            data.dataDespesa,
-            data.valorDespesa,
-            data.categoriaTransacao,
-            data.bancoOrigem,
-            data.dadosBancariosOrigem,
-            data.beneficiario,
-            data.bancoDestino,
-            data.agenciaDestino,
-            data.numeroContaDestino,
-            data.descricao,
-            identificadorProjeto);
-        if (validacaoResultado) {
-            console.error('Algum dos dados está nulo.');
-            setErro(true);
-            return;
+
+        if(id !== '') {
+            let valor = watch('valorDespesa').toString();
+            let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataDespesa,
+                data.categoriaTransacao,
+                data.bancoOrigem,
+                data.dadosBancariosOrigem,
+                data.beneficiario,
+                data.bancoDestino,
+                data.agenciaDestino,
+                data.numeroContaDestino,
+                data.descricao,
+                identificadorProjeto,
+                valor
+            );
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setErro(true);
+                return;
+            }
+        } else {
+            let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataDespesa,
+                data.categoriaTransacao,
+                data.bancoOrigem,
+                data.dadosBancariosOrigem,
+                data.beneficiario,
+                data.bancoDestino,
+                data.agenciaDestino,
+                data.numeroContaDestino,
+                data.descricao,
+                identificadorProjeto,
+                valorProjeto
+            );
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setErro(true);
+                return;
+            }
         }
     };
 
@@ -266,6 +296,23 @@ export function CadastroDespesa() {
         setValue('dadosBancariosOrigem', dado.nome);
     }
 
+    const handleChangeDespesa = (event: React.ChangeEvent<HTMLInputElement>, onChange: { (...event: any[]): void; (arg0: any): void; }) => {
+        let value = event.target.value;
+
+        value = value.replace(/\D/g, '');
+        const numericValue = parseFloat(value) / 100;
+
+        const formattedValue = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+        }).format(numericValue);
+        setValue('valorDespesa', numericValue)
+        setValue('valorTeste', formattedValue)
+        console.log("valor: "+numericValue+" | "+formattedValue)
+        onChange(formattedValue);
+    };
+
     return (
         <div>
             <HeaderPadrao nomeUsuario={nomeUsuarioLocalStorage}/>
@@ -285,7 +332,8 @@ export function CadastroDespesa() {
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                                 {erro && (
                                     <>
-                                        <div className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
+                                        <div
+                                            className="inputs relative my-4 bg-red-300 p-2 rounded-md border-rose-800 border-2">
                                             <p className={"text-black font-medium"}>Prencha todos os campos.</p>
                                         </div>
                                     </>
@@ -313,16 +361,22 @@ export function CadastroDespesa() {
                                 </div>
 
                                 <div className="inputs relative my-4">
-                                    <input
-                                        {...register('valorDespesa', {required: false})}
-                                        placeholder={Titulos.INPUT_VALOR_DESPESA.toString()}
-                                        type={"number"}
-                                        value={watch('valorDespesa')}
-                                        className="input-with-line w-full"
+                                    <Controller
+                                        name="valorDespesa"
+                                        control={control}
+                                        render={({field: {onChange, value, ...field}}) => (
+                                            <input
+                                                {...field}
+                                                value={watch('valorDespesa')}
+                                                onChange={(e) => handleChangeDespesa(e, onChange)}
+                                                placeholder="Digite o valor da despesa"
+                                                type="text"
+                                                className="input-with-line w-full"
+                                            />
+                                        )}
                                     />
                                     <div className="line"></div>
                                 </div>
-                                {errors.valorDespesa && <p>Selecione o título contábil.</p>}
 
                                 <div className="inputs relative my-4">
                                     <input

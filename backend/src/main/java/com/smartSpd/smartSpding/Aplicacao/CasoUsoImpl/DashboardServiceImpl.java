@@ -136,7 +136,6 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     private static BalancoRapidoDTO convertToDTO(Balancos balanco) {
-
         return new BalancoRapidoDTO(
                 balanco.getNome(),
                 balanco.getTipoBalanco(),

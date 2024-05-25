@@ -2,6 +2,7 @@ package com.smartSpd.smartSpding.Core.DTO;
 
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ReceitaDTO {
@@ -10,7 +11,7 @@ public class ReceitaDTO {
     private String categoria;
     private String titulo_contabil;
     private LocalDate dataReceita;
-    private Double valorReceita;
+    private BigDecimal valorReceita;
     private String pagador;
     private String origem;
     private String bancoOrigem;
@@ -19,10 +20,12 @@ public class ReceitaDTO {
     private String bancoDestino;
     private String dadosBancariosDestino;
     private String descricao;
+    private String valorProjeto;
 
     public ReceitaDTO(Long id, ContaInterna contaInterna, String categoria, String titulo_contabil, LocalDate dataReceita,
-                      Double valorReceita, String pagador, String origem, String bancoOrigem, String agenciaOrigem,
-                      String numeroContaOrigem, String bancoDestino, String dadosBancariosDestino, String descricao) {
+                      BigDecimal valorReceita, String pagador, String origem, String bancoOrigem, String agenciaOrigem,
+                      String numeroContaOrigem, String bancoDestino, String dadosBancariosDestino, String descricao,
+                      String valorProjeto) {
         this.id = id;
         this.contaInterna = contaInterna;
         this.categoria = categoria;
@@ -37,6 +40,23 @@ public class ReceitaDTO {
         this.bancoDestino = bancoDestino;
         this.dadosBancariosDestino = dadosBancariosDestino;
         this.descricao = descricao;
+        this.valorProjeto = valorProjeto;
+    }
+
+    public BigDecimal getValorReceita() {
+        return valorReceita;
+    }
+
+    public void setValorReceita(BigDecimal valorReceita) {
+        this.valorReceita = valorReceita;
+    }
+
+    public String getValorProjeto() {
+        return valorProjeto;
+    }
+
+    public void setValorProjeto(String valorProjeto) {
+        this.valorProjeto = valorProjeto;
     }
 
     public Long getId() {
@@ -85,14 +105,6 @@ public class ReceitaDTO {
 
     public void setDataReceita(LocalDate dataReceita) {
         this.dataReceita = dataReceita;
-    }
-
-    public Double getValorReceita() {
-        return valorReceita;
-    }
-
-    public void setValorReceita(Double valorReceita) {
-        this.valorReceita = valorReceita;
     }
 
     public String getOrigem() {

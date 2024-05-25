@@ -41,12 +41,4 @@ public class BalancoReceita {
         this.valor = valor;
     }
 
-    public BalancoReceita(String nome, String tipoBalanco, String analiseBalanco, LocalDate dataInicio, LocalDate dataTermino, String tipoVisualizacao) {
-        this.nome = nome;
-        this.tipoBalanco = tipoBalanco;
-        this.analiseBalanco = analiseBalanco;
-        this.dataInicio = dataInicio;
-        this.dataTermino = dataTermino;
-        this.tipoVisualizacao = tipoVisualizacao;
-    }
 }

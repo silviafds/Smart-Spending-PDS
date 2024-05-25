@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 @Component
 public class ProjetosServiceImpl implements ProjetosService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));

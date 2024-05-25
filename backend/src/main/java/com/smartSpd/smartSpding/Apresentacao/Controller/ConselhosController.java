@@ -4,7 +4,6 @@ import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +29,6 @@ public class ConselhosController {
     }
 
     @PostMapping("/registroConselho")
-    @Transactional
     public ResponseEntity<?> registroConselho(@RequestBody @Valid ConselhosDTO data) {
         try {
             boolean statusConselho = conselhosService.salvarConselhos(data);
@@ -48,7 +46,6 @@ public class ConselhosController {
     }
 
     @GetMapping("/buscarConfiguracaoConselhos")
-    @Transactional
     public ResponseEntity<?> registroConselho() {
         try {
             List<Conselhos> conselho = conselhosService.buscarConfiguracaoConselhos();
@@ -65,7 +62,6 @@ public class ConselhosController {
     }
 
     @PostMapping("/conselhoPorBalanco")
-    @Transactional
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
             List<String> balanco = conselhosService.conselhosPorBalanco(balancoRapidoDTO);

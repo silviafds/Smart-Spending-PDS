@@ -7,7 +7,6 @@ import com.smartSpd.smartSpding.Core.Dominio.Receita;
 import com.smartSpd.smartSpding.Core.Dominio.TituloContabilReceita;
 import com.smartSpd.smartSpding.Core.Excecao.ReceitaInvalidaException;
 import com.smartSpd.smartSpding.Core.Excecao.ReceitaNaoEncontradaException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,7 +39,6 @@ public class ReceitaController {
     }
 
     @PostMapping("/registrarReceita")
-    @Transactional
     public ResponseEntity<String> register(@RequestBody @Valid ReceitaDTO data) {
         try {
             receitaService.cadastrarReceita(data);
@@ -61,7 +59,6 @@ public class ReceitaController {
     }
 
     @PatchMapping("/editarReceita")
-    @Transactional
     public ResponseEntity<String> editarReceita(@RequestBody @Valid ReceitaDTO data) {
         try {
             receitaService.editarReceita(data);
@@ -74,9 +71,7 @@ public class ReceitaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao editar receita.");
         }
     }
-
     @DeleteMapping("/deletarReceita/{id}")
-    @Transactional
     public ResponseEntity<String> deletarReceita(@PathVariable Long id) {
         try {
             receitaService.deletarReceita(id);
@@ -94,7 +89,6 @@ public class ReceitaController {
     }
 
     @GetMapping("/buscarCategoriaReceita")
-    @Transactional
     public ResponseEntity<?> buscarCategoriaReceita() {
         try {
             List<CategoriaReceita> contas = receitaService.buscarTodasCategoriasReceitas();
@@ -109,7 +103,6 @@ public class ReceitaController {
     }
 
     @GetMapping("/buscarReceitas")
-    @Transactional
     public ResponseEntity<?> buscarReceitas() {
         try {
             List<Receita> receitas = receitaService.buscarTodasAsReceitas();
@@ -124,7 +117,6 @@ public class ReceitaController {
     }
 
     @GetMapping("/buscarReceitasPorId/{id}")
-    @Transactional
     public ResponseEntity<?> buscarReceitasPorId(@PathVariable Integer id) {
         try {
             List<Receita> receitas = receitaService.buscarReceitasPorId(id);
@@ -140,7 +132,6 @@ public class ReceitaController {
     }
 
     @GetMapping("/buscarTituloContabilReceita/{id}")
-    @Transactional
     public ResponseEntity<?> buscarTituloContabilReceita(@PathVariable Integer id) {
         try {
             List<TituloContabilReceita> titulos = receitaService.buscarTodosTitulosContabeisReceitas(id);

@@ -24,7 +24,6 @@ export function Dropdown({ nomeUsuario }) {
     const handleLogout = async () => {
         await axios.post(BACKEND_URL + '/auth/logout', {}, axiosConfig)
             .then((response) => {
-                console.log('Logout successful');
                 localStorage.removeItem('@Auth:token');
                 localStorage.removeItem('@Auth:user');
                 localStorage.removeItem('nomeUser');

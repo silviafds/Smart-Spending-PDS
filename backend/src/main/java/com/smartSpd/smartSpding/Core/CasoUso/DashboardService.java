@@ -1,6 +1,5 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
-
 import java.util.List;
 
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;

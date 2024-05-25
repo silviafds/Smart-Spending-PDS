@@ -28,8 +28,4 @@ public class BalancoDespesaReceita extends BalancoDespesa {
         this.categoriaOuTituloContabil = categoriaOuTituloContabil;
     }
 
-    public BalancoDespesaReceita(String nome, String tipoBalanco, String analiseBalanco, LocalDate dataInicio, LocalDate dataTermino, String tipoVisualizacao, String categoriaOuTituloContabil) {
-        super(nome, tipoBalanco, analiseBalanco, dataInicio, dataTermino, tipoVisualizacao);
-        this.categoriaOuTituloContabil = categoriaOuTituloContabil;
-    }
 }

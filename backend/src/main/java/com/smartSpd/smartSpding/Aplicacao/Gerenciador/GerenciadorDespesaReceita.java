@@ -114,7 +114,6 @@ public class GerenciadorDespesaReceita {
         return resultados;
     }
 
-
     private BalancoDespesaReceita extrairBalancoDespesa(ResultSet rs, BalancoRapidoDTO balancoRapidoDTO) throws SQLException {
         String categoriaTransacao;
         if(balancoRapidoDTO.getCategoriaOuTituloContabil().equals("Categoria")) {

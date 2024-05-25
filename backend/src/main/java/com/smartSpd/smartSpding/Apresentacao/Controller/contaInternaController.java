@@ -3,7 +3,6 @@ package com.smartSpd.smartSpding.Apresentacao.Controller;
 import com.smartSpd.smartSpding.Core.CasoUso.ContaInternaService;
 import com.smartSpd.smartSpding.Core.DTO.ContaInternaDTO;
 import com.smartSpd.smartSpding.Core.Dominio.ContaInterna;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,6 @@ public class contaInternaController {
     }
 
     @PostMapping("/registrarConta")
-    @Transactional
     public ResponseEntity register(@RequestBody @Valid ContaInternaDTO data) {
         boolean contaCriada = contaInternaService.cadastrarContaInterna(data);
         String mensagem = contaCriada ? "Registro de Conta Interna realizado com sucesso." : "Conta Interna já existe.";
@@ -48,7 +46,6 @@ public class contaInternaController {
     }
 
     @PatchMapping("/editarConta")
-    @Transactional
     public ResponseEntity editarConta(@RequestBody @Valid ContaInternaDTO data) {
         boolean contaCriada = contaInternaService.editarContaInterna(data);
         String mensagem = contaCriada ? "Conta atualizada com sucesso." : "Conta Interna não atualizada.";
@@ -65,7 +62,6 @@ public class contaInternaController {
     }
 
     @PatchMapping("/editarStatusConta")
-    @Transactional
     public ResponseEntity editarStausConta(@RequestBody @Valid ContaInternaDTO data) {
         boolean contaCriada = contaInternaService.editarStatusContaInterna(data);
         String mensagem = contaCriada ? "Conta atualizada com sucesso." : "Conta Interna não atualizada.";
@@ -82,7 +78,6 @@ public class contaInternaController {
     }
 
     @DeleteMapping("/deletarConta/{id}")
-    @Transactional
     public ResponseEntity deletarConta(@PathVariable int id) {
         boolean contaCriada = contaInternaService.deletarContaInterna(id);
         String mensagem = contaCriada ? "Conta deletada com sucesso." : "Existem dados vinculados a esta conta.";
@@ -98,7 +93,6 @@ public class contaInternaController {
     }
 
     @GetMapping("/buscarConta")
-    @Transactional
     public ResponseEntity buscarConta() {
         List<ContaInterna> contas = contaInternaService.buscarTodasContasInterna();
         return ResponseEntity.ok()
@@ -107,7 +101,6 @@ public class contaInternaController {
     }
 
     @GetMapping("/buscarContaHabilitadas")
-    @Transactional
     public ResponseEntity buscarContaHabilitada() {
         List<ContaInterna> contas = contaInternaService.buscarTodasContasInternaHabilitadas();
         return ResponseEntity.ok()
@@ -116,7 +109,6 @@ public class contaInternaController {
     }
 
     @GetMapping("/buscarContaInvidual/{id}")
-    @Transactional
     public ResponseEntity buscarContaPeloId(@PathVariable int id) {
         ContaInterna contas = contaInternaService.buscarContaInternaPeloId(id);
 

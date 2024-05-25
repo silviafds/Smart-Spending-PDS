@@ -14,6 +14,7 @@ import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -79,6 +80,8 @@ public class ReceitaServiceImpl implements ReceitaService {
                     dadosReformulados = gerenciadorReceita.reformulaDadosBancarios(data.getDadosBancariosDestino());
                 }
 
+                BigDecimal big = gerenciadorReceita.formataMoeda(data.getValorProjeto());
+                data.setValorReceita(big);
                 receitaRepository.editarReceita(data, dadosReformulados);
             } else {
                 throw new DespesaInvalidaException("Campos obrigatórios da receita não foram preenchidos.");

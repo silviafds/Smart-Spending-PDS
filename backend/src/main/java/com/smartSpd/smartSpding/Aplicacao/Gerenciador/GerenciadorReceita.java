@@ -59,7 +59,7 @@ public class GerenciadorReceita {
         }
     }
 
-    private BigDecimal formataMoeda(String numero) {
+    public BigDecimal formataMoeda(String numero) {
         String stringNumerica = numero.replaceAll("[^0-9,]", "");
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -80,7 +80,7 @@ public class GerenciadorReceita {
     private boolean camposObrigatoriosNaoNulos(ReceitaDTO data) {
         return data.getContaInterna() != null && data.getCategoria() != null &&
                 data.getTitulo_contabil() != null && data.getOrigem() != null &&
-                data.getValorReceita() != null && data.getDataReceita() != null &&
+                data.getValorProjeto() != null && data.getDataReceita() != null &&
                 data.getDescricao() != null && data.getPagador() != null;
     }
 
@@ -96,7 +96,7 @@ public class GerenciadorReceita {
             return false;
         } else if (data.getOrigem().equals(PIX.toString()) || data.getOrigem().equals(TRANSFERENCIA.toString())) {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                    data.getDataReceita() == null || data.getValorReceita() <= 0 || data.getPagador() == null ||
+                    data.getDataReceita() == null || data.getValorProjeto() == null || data.getPagador() == null ||
                     data.getOrigem() == null || data.getDescricao() == null || data.getContaInterna().equals("") ||
                     data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
                     data.getPagador().equals("") || data.getOrigem().equals("") || data.getDescricao().equals("")) {
@@ -104,7 +104,7 @@ public class GerenciadorReceita {
             }
         } else {
             if (data.getContaInterna() == null || data.getCategoria() == null || data.getTitulo_contabil() == null ||
-                    data.getDataReceita() == null || data.getValorReceita() <= 0 ||
+                    data.getDataReceita() == null || data.getValorProjeto() == null ||
                     data.getPagador() == null || data.getOrigem() == null || data.getDescricao() == null ||
                     data.getContaInterna().equals("") || data.getCategoria().equals("") || data.getTitulo_contabil().equals("") ||
                     data.getPagador().equals("") || data.getOrigem().equals("") || data.getDescricao().equals("")) {

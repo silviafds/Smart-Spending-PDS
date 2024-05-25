@@ -14,7 +14,7 @@ public interface ReceitaService {
 
     void cadastrarReceita(ReceitaDTO data) throws Excecoes;
 
-    //void editarReceita(ReceitaDTO data) throws Exception;
+    void editarReceita(ReceitaDTO data) throws Exception;
 
     void deletarReceita(Long id);
 

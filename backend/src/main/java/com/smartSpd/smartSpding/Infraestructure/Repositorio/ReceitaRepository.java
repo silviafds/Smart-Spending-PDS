@@ -14,7 +14,7 @@ import static com.smartSpd.smartSpding.Core.Enum.MetodosPagamento.PAPEL_E_MOEDA;
 
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 
-    /*default int editarReceita(ReceitaDTO receitaDTO, String[] dadosReformulados) throws Exception {
+    default int editarReceita(ReceitaDTO receitaDTO, String[] dadosReformulados) throws Exception {
         int rowsUpdated = 0;
 
         try {
@@ -31,9 +31,9 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
         }
 
         return rowsUpdated;
-    }*/
+    }
 
-    /*private void atualizarCamposReceita(Receita receita, ReceitaDTO receitaDTO, String[] dadosReformulados) {
+    private void atualizarCamposReceita(Receita receita, ReceitaDTO receitaDTO, String[] dadosReformulados) {
         receita.setCategoria(receitaDTO.getCategoria());
         receita.setTitulo_contabil(receitaDTO.getTitulo_contabil());
         receita.setDataReceita(receitaDTO.getDataReceita());
@@ -58,7 +58,7 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
         receita.setBancoDestino(receitaDTO.getBancoDestino());
         receita.setDescricao(receitaDTO.getDescricao());
         receita.setContaInterna(receitaDTO.getContaInterna());
-    }*/
+    }
 
     @Query("SELECT new com.smartSpd.smartSpding.Core.Dominio.CategoriaReceita(c.id, c.nome) FROM categoria_receita c")
     List<CategoriaReceita> buscarTodasAsCategoriaReceita();

@@ -1,7 +1,7 @@
 import {verificaContaInterna} from "../API/ContaInternaAPI";
 
 export function validaDadosSubmissao(id: string, contaInterna: string, categoria: string, titulo_contabil: string, dataReceita: Date,
-                                     valorReceita: number, pagador: string, origem: string, bancoOrigem: string,
+                                     pagador: string, origem: string, bancoOrigem: string,
                                      agenciaOrigem: string, numeroContaOrigem: string, bancoDestino: string,
                                      dadosBancariosDestino: string, descricao: string, valorProjeto: string
 ): boolean {
@@ -11,7 +11,6 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataReceita === null || dataReceita === undefined ||
-            /*valorReceita === null || valorReceita === undefined ||*/
             bancoOrigem === undefined ||
             pagador === null || pagador === undefined ||
             dadosBancariosDestino === null || dadosBancariosDestino === undefined ||
@@ -25,7 +24,6 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
             categoria === null || categoria === undefined ||
             titulo_contabil === null || titulo_contabil === undefined ||
             dataReceita === null || dataReceita === undefined ||
-            /*valorReceita === null || valorReceita === undefined ||*/
             pagador === null || pagador === undefined ||
             descricao === null || descricao === undefined
         ) {
@@ -39,7 +37,6 @@ export function validaDadosSubmissao(id: string, contaInterna: string, categoria
         categoria: categoria,
         titulo_contabil: titulo_contabil,
         dataReceita: dataReceita,
-        valorReceita: valorReceita,
         pagador: pagador,
         origem: origem,
         bancoOrigem: bancoOrigem,

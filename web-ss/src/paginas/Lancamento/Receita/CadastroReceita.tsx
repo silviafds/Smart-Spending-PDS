@@ -239,7 +239,7 @@ export function CadastroReceita() {
             data.categoria,
             data.tituloContabil,
             data.dataReceita,
-            data.valorReceita,
+            /*data.valorReceita,*/
             data.pagador,
             data.origem,
             data.bancoOrigem,
@@ -329,12 +329,12 @@ export function CadastroReceita() {
 
                                 <div className="inputs relative my-4">
                                     <Controller
-                                        name="valorTeste"
+                                        name="valorReceita"
                                         control={control}
                                         render={({field: {onChange, value, ...field}}) => (
                                             <input
                                                 {...field}
-                                                value={value}
+                                                value={watch('valorReceita')}
                                                 onChange={(e) => handleChangeDespesa(e, onChange)}
                                                 placeholder="Digite o valor da despesa"
                                                 type="text"
@@ -345,7 +345,7 @@ export function CadastroReceita() {
                                     <div className="line"></div>
                                 </div>
 
-                                <div className="inputs relative my-4">
+                                {/*<div className="inputs relative my-4">
                                     <input
                                         {...register('valorReceita', {required: false})}
                                         placeholder={Titulos.INPUT_VALOR_RECEITA.toString()}
@@ -355,7 +355,7 @@ export function CadastroReceita() {
                                     />
                                     <div className="line"></div>
                                 </div>
-                                {errors.valorReceita && <p>Selecione o título contábil.</p>}
+                                {errors.valorReceita && <p>Selecione o título contábil.</p>}*/}
 
                                 <div className="inputs relative my-4">
                                     <input

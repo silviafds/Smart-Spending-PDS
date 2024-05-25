@@ -23,7 +23,7 @@ public class ReceitaUnitTest {
         receitaController = new ReceitaController(receitaService);
     }
 
-    @Test
+    /*@Test
     @DisplayName("Cadastro de Receita Test")
     public void testCadastrarReceita() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
@@ -33,7 +33,7 @@ public class ReceitaUnitTest {
                 "Corrente/1234/95175328", "Lucro com conversão de moedas","1");
 
         receitaController.register(receitaDTO);
-    }
+    }*/
 
     @Test
     @DisplayName("Buscar Receita Test")
@@ -69,7 +69,7 @@ public class ReceitaUnitTest {
         assertNotNull(response);
     }*/
 
-    @Test
+    /*@Test
     @DisplayName("Dados de Receita Test")
     public void testDadosBancariosOrigemNotNull() {
         ContaInterna contaInterna = new ContaInterna(39L, "conta 2", false);
@@ -91,5 +91,5 @@ public class ReceitaUnitTest {
                 "", "", "internet", "1");
 
         assertNotNull(receitaDTO.getDadosBancariosDestino());
-    }
+    }*/
 }

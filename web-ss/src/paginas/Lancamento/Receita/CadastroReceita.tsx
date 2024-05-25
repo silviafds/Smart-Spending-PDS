@@ -233,27 +233,53 @@ export function CadastroReceita() {
         id = id || '';
         let valorProjeto =  watch('valorTeste');
         setValue('erro', false);
-        let validacaoResultado = validaDadosSubmissao(
-            id,
-            data.contaInterna,
-            data.categoria,
-            data.tituloContabil,
-            data.dataReceita,
-            /*data.valorReceita,*/
-            data.pagador,
-            data.origem,
-            data.bancoOrigem,
-            data.agenciaOrigem,
-            data.contaOrigem,
-            data.bancoDestino,
-            data.dadosBancarios,
-            data.descricao,
-            valorProjeto
-        )
-        if (validacaoResultado) {
-            console.error('Algum dos dados está nulo.');
-            setValue('erro', true);
-            return;
+
+        if(id !== '') {
+            let valor = watch('valorReceita').toString();
+            let validacaoResultado = validaDadosSubmissao(
+                id,
+                data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataReceita,
+                data.pagador,
+                data.origem,
+                data.bancoOrigem,
+                data.agenciaOrigem,
+                data.contaOrigem,
+                data.bancoDestino,
+                data.dadosBancarios,
+                data.descricao,
+                valor
+            )
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setValue('erro', true);
+                return;
+            }
+        } else {
+            let validacaoResultado = validaDadosSubmissao(
+                id,
+                data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataReceita,
+                /*data.valorReceita,*/
+                data.pagador,
+                data.origem,
+                data.bancoOrigem,
+                data.agenciaOrigem,
+                data.contaOrigem,
+                data.bancoDestino,
+                data.dadosBancarios,
+                data.descricao,
+                valorProjeto
+            )
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setValue('erro', true);
+                return;
+            }
         }
     };
 

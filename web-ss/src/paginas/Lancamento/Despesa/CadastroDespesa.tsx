@@ -226,25 +226,50 @@ export function CadastroDespesa() {
         let valorProjeto =  watch('valorTeste');
         console.log("dshfkhsf "+valorProjeto)
         setErro(false);
-        let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
-            data.categoria,
-            data.tituloContabil,
-            data.dataDespesa,
-            data.categoriaTransacao,
-            data.bancoOrigem,
-            data.dadosBancariosOrigem,
-            data.beneficiario,
-            data.bancoDestino,
-            data.agenciaDestino,
-            data.numeroContaDestino,
-            data.descricao,
-            identificadorProjeto,
-            valorProjeto
-        );
-        if (validacaoResultado) {
-            console.error('Algum dos dados está nulo.');
-            setErro(true);
-            return;
+
+        if(id !== '') {
+            let valor = watch('valorDespesa').toString();
+            let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataDespesa,
+                data.categoriaTransacao,
+                data.bancoOrigem,
+                data.dadosBancariosOrigem,
+                data.beneficiario,
+                data.bancoDestino,
+                data.agenciaDestino,
+                data.numeroContaDestino,
+                data.descricao,
+                identificadorProjeto,
+                valor
+            );
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setErro(true);
+                return;
+            }
+        } else {
+            let validacaoResultado = validaDadosSubmissao(id, data.contaInterna,
+                data.categoria,
+                data.tituloContabil,
+                data.dataDespesa,
+                data.categoriaTransacao,
+                data.bancoOrigem,
+                data.dadosBancariosOrigem,
+                data.beneficiario,
+                data.bancoDestino,
+                data.agenciaDestino,
+                data.numeroContaDestino,
+                data.descricao,
+                identificadorProjeto,
+                valorProjeto
+            );
+            if (validacaoResultado) {
+                console.error('Algum dos dados está nulo.');
+                setErro(true);
+                return;
+            }
         }
     };
 

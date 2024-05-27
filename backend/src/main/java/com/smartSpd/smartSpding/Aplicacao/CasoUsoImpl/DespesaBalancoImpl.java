@@ -27,26 +27,6 @@ public class DespesaBalancoImpl implements DespesaBalancoService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<BalancoDespesa> listagemMeiosPagamento() {
-        String sql = "SELECT categoria_transacao, COUNT(*) AS quantidade_transacao FROM despesa " +
-                "WHERE categoria_transacao IS NOT NULL " +
-                "GROUP BY categoria_transacao ORDER BY quantidade_transacao DESC";
-
-        return jdbcTemplate.query(sql, new ResultSetExtractor<List<BalancoDespesa>>() {
-            @Override
-            public List<BalancoDespesa> extractData(ResultSet rs) throws SQLException {
-                List<BalancoDespesa> resultados = new ArrayList<>();
-                while (rs.next()) {
-                    String categoriaTransacao = rs.getString("categoria_transacao");
-                    Long quantidadeTransacao = rs.getLong("quantidade_transacao");
-                    resultados.add(new BalancoDespesa(categoriaTransacao, quantidadeTransacao));
-                }
-                return resultados;
-            }
-        });
-    }
-
-    @Override
     public List<BalancoDespesa> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO) {
         List<BalancoDespesa> resultados = new ArrayList<>();
 

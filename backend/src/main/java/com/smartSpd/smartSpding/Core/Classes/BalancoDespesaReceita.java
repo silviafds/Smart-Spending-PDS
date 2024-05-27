@@ -6,7 +6,6 @@ import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Transient;
-import java.time.LocalDate;
 
 @Data
 @SqlResultSetMapping(

@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public interface DespesaBalancoService {
 
-    List<BalancoDespesa> listagemMeiosPagamento();
 
     List<BalancoDespesa> balancoMeiosPagamento(BalancoRapidoDTO balancoRapidoDTO);
 }

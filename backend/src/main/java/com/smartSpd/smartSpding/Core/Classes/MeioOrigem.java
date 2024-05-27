@@ -34,16 +34,4 @@ public class MeioOrigem {
     @Transient
     private String tipoVisualizacao;
 
-    public MeioOrigem(String dado, Long valor) {
-        this.dado = dado;
-        this.valor = valor;
-    }
-
-    public MeioOrigem(String nome, String tipoOrigem, LocalDate dataInicio, LocalDate dataTermino, String tipoVisualizacao) {
-        this.nome = nome;
-        this.tipoOrigem = tipoOrigem;
-        this.dataInicio = dataInicio;
-        this.dataTermino = dataTermino;
-        this.tipoVisualizacao = tipoVisualizacao;
-    }
 }

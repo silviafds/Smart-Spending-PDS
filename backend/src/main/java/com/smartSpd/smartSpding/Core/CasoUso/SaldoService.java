@@ -8,8 +8,6 @@ import java.util.Map;
 @Service
 public interface SaldoService {
 
-    Map<String, BigDecimal> saldos();
-
     Map<String, BigDecimal> calculaSaldo();
 
 }

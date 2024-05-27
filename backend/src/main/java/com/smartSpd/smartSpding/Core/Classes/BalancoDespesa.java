@@ -41,12 +41,4 @@ public class BalancoDespesa {
         this.valor = valor;
     }
 
-    public BalancoDespesa(String nome, String tipoBalanco, String analiseBalanco, LocalDate dataInicio, LocalDate dataTermino, String tipoVisualizacao) {
-        this.nome = nome;
-        this.tipoBalanco = tipoBalanco;
-        this.analiseBalanco = analiseBalanco;
-        this.dataInicio = dataInicio;
-        this.dataTermino = dataTermino;
-        this.tipoVisualizacao = tipoVisualizacao;
-    }
 }

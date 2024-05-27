@@ -100,32 +100,25 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
 
     default BigDecimal formataMoeda(String numero) {
-        // Remove todos os caracteres que não são números ou vírgulas
         String stringNumerica = numero.replaceAll("[^0-9,]", "");
 
-        // Configura os símbolos para formatação decimal
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setDecimalSeparator(',');
 
-        // Cria o formato decimal com duas casas decimais
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
 
         BigDecimal numeros;
         try {
-            // Faz o parse da string para um objeto Number
             Number parsedNumber = decimalFormat.parse(stringNumerica);
 
-            // Converte o Number para BigDecimal
             numeros = new BigDecimal(parsedNumber.toString());
 
-            // Define a escala para duas casas decimais
             numeros = numeros.setScale(2, BigDecimal.ROUND_HALF_UP);
         } catch (Exception e) {
             System.out.println("Erro ao converter número: " + e.getMessage());
             return null;
         }
 
-        System.out.println("Número convertido: " + numeros + " | número entrada: " + stringNumerica);
         return numeros;
     }
 

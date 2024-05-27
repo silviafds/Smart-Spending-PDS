@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,12 +34,6 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public User(String login, String password, Role role){
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
 
     public User(String nome, String sobrenome, String login, LocalDate datanascimento, String email,
                 String password, Role role){

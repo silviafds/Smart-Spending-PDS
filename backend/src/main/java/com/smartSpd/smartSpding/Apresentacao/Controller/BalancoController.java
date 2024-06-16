@@ -18,7 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.javapoet.ClassName;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +44,9 @@ public class BalancoController {
 
     private final BalancosService balancosService;
 
+    private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
+
+
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
                              ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
@@ -48,55 +54,51 @@ public class BalancoController {
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
+
+        balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
+        balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
+        balancoHandlers.put(RECEITA.getBalanco(), this::balancosReceitas);
     }
 
     @PostMapping("/registroBalancoRapido")
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
-            if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA.getBalanco())) {
-                if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
-                    List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-                    return ResponseEntity.ok()
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(balanco);
-                }
+            Function<BalancoRapidoDTO, List<?>> handler = balancoHandlers.get(balancoRapidoDTO.getTipoBalanco());
 
-                List<BalancoDespesa> balanco = despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+            if (handler != null) {
+                List<?> balanco = handler.apply(balancoRapidoDTO);
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(balanco);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Tipo de balanço desconhecido.");
             }
-
-            if(balancoRapidoDTO.getTipoBalanco().equals(DESPESA_RECEITA.getTiposBalanco())) {
-                List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(balanco);
-            }
-
-            if(balancoRapidoDTO.getTipoBalanco().equals(RECEITA.getBalanco())) {
-                System.out.println("balanço do tipo receita");
-                if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
-                    List<BalancoDespesaReceita> balanco = despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-                    return ResponseEntity.ok()
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(balanco);
-                }
-
-                List<BalancoReceita> balanco = receitaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(balanco);
-            }
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Houve um erro no processamento do balanço.");
-
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
         }
+    }
+
+    private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
+            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+    }
+
+    private List<?> balancosReceitas(BalancoRapidoDTO balancoRapidoDTO) {
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
+            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        return receitaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+    }
+
+    private List<?> balancosDespesasReceitas(BalancoRapidoDTO balancoRapidoDTO) {
+        return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
     }
 
     @PostMapping("/registrarBalanco")

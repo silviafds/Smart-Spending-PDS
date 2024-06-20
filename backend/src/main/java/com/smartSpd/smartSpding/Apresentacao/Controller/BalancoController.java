@@ -1,17 +1,20 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.BalancoHospitalStrategy;
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.BalancoRestauranteStrategy;
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.BalancoSupermercadoStrategy;
+import com.smartSpd.smartSpding.Core.CasoUso.*;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Enum.BalancoEnum;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,52 +28,69 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.DESPESA;
-import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.RECEITA;
+import static com.smartSpd.smartSpding.Core.Enum.BalancoEnum.*;
 import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.*;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.DESPESA_RECEITA;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/balancoDespesa")
 public class BalancoController {
 
-    static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
+    static Logger log = Logger.getLogger(String.valueOf(BalancoController.class));
 
+    private final BalancoStrategy balancoStrategy;
     private final DespesaBalancoService despesaBalancoService;
-
     private final DespesaReceitaBalancoService despesaReceitaBalancoService;
-
     private final ReceitaBalancoService receitaBalancoService;
-
     private final BalancosService balancosService;
-
+    private final Map<String, BalancoStrategy> balancoStrategies = new HashMap<>();
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
-
-    public BalancoController(DespesaBalancoService despesaBalancoService,
+    @Autowired
+    public BalancoController(List<BalancoStrategy> strategyList, BalancoStrategy balancoStrategy,
+                             DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
+                             ReceitaBalancoService receitaBalancoService,
+                             BalancosService balancosService) {
+        this.balancoStrategy = balancoStrategy;
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
 
-        balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
-        balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
-        balancoHandlers.put(RECEITA.getBalanco(), this::balancosReceitas);
+        for (BalancoStrategy strategy : strategyList) {
+            if (strategy instanceof BalancoHospitalStrategy) {
+                balancoStrategies.put(BalancoEnum.HOSPITAL.getBalanco(), strategy);
+            } else if (strategy instanceof BalancoRestauranteStrategy) {
+                balancoStrategies.put(BalancoEnum.RESTAURANTE.getBalanco(), strategy);
+            } else if (strategy instanceof BalancoSupermercadoStrategy) {
+                balancoStrategies.put(BalancoEnum.SUPERMERCADO.getBalanco(), strategy);
+            }
+        }
+
+        balancoHandlers.put(BalancoEnum.DESPESA.getBalanco(), this::balancosDespesas);
+        balancoHandlers.put(BalancoEnum.DESPESA_RECEITA.getBalanco(), this::balancosDespesasReceitas);
+        balancoHandlers.put(BalancoEnum.RECEITA.getBalanco(), this::balancosReceitas);
+        balancoHandlers.put(BalancoEnum.SUPERMERCADO.getBalanco(), this::balancosSupermercado);
+        balancoHandlers.put(BalancoEnum.HOSPITAL.getBalanco(), this::balancosHospital);
+        balancoHandlers.put(BalancoEnum.RESTAURANTE.getBalanco(), this::balancosRestaurante);
     }
 
     @PostMapping("/registroBalancoRapido")
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
-            Function<BalancoRapidoDTO, List<?>> handler = balancoHandlers.get(balancoRapidoDTO.getTipoBalanco());
+            String tipoBalanco = balancoRapidoDTO.getTipoBalanco();
+            log.info("Tipo de balanço recebido: " + tipoBalanco);
 
+            Function<BalancoRapidoDTO, List<?>> handler = balancoHandlers.get(tipoBalanco);
             if (handler != null) {
                 List<?> balanco = handler.apply(balancoRapidoDTO);
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(balanco);
             } else {
+                log.warning("Tipo de balanço desconhecido: " + tipoBalanco);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Tipo de balanço desconhecido.");
             }
@@ -79,6 +99,26 @@ public class BalancoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao buscar balanço de quantidade de meios de pagamento.");
         }
+    }
+
+
+    private List<?> balancosRestaurante(BalancoRapidoDTO balancoRapidoDTO) {
+        /*BalancoStrategy strategy = balancoStrategies.get(BalancoEnum.RESTAURANTE.getBalanco());
+        if (strategy == null) {
+            throw new IllegalStateException("Estratégia de Restaurante não encontrada!");
+        }*/
+        return balancoStrategy.obterDadosBalanco(balancoRapidoDTO);
+    }
+
+
+    private List<?> balancosHospital(BalancoRapidoDTO balancoRapidoDTO) {
+        BalancoStrategy strategy = balancoStrategies.get(HOSPITAL.getBalanco());
+        return strategy.obterDadosBalanco(balancoRapidoDTO);
+    }
+
+    private List<?> balancosSupermercado(BalancoRapidoDTO balancoRapidoDTO) {
+        BalancoStrategy strategy = balancoStrategies.get(SUPERMERCADO.getBalanco());
+        return strategy.obterDadosBalanco(balancoRapidoDTO);
     }
 
     private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {

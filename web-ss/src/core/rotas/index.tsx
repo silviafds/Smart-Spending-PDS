@@ -17,7 +17,9 @@ import ContaBancaria from "../../paginas/ContaBancaria/ContaBancaria";
 import CadastroContaBancaria from "../../paginas/ContaBancaria/CadastroContaBancaria";
 import EditarContaBancaria from "../../paginas/ContaBancaria/EditarContaBancaria";
 import LancamentoBalanco from "../../paginas/Balanco/LancamentoBalanco/LancamentoBalanco";
-import ProjetosBalanco from "../../paginas/Balanco/ProjetoBalanco/ProjetosBalanco";
+import HospitalBalanco from "../../paginas/Balanco/HospitalBalanco/HospitalBalanco";
+import RestauranteBalanco from "../../paginas/Balanco/RestauranteBalanco/RestauranteBalanco";
+import SupermercadoBalanco from "../../paginas/Balanco/SupermercadoRestaurante/SupermercadoBalanco";
 import TelaConfiguracao from "../../paginas/Configuracao/TelaConfiguracao";
 import TelaCategoria from "../../paginas/Categoria/TelaCategoria";
 import CadastroCategoria from "../../paginas/Categoria/CadastroCategoria";
@@ -94,8 +96,16 @@ export const AppRouter = () => {
                     <Route path="/LancamentoBalanco" element={<LancamentoBalanco />} />
                 </Route>
 
-                <Route path="/ProjetosBalanco" element={<RotaPrivada />} >
-                    <Route path="/ProjetosBalanco" element={<ProjetosBalanco />} />
+                <Route path="/HospitalBalanco" element={<RotaPrivada />} >
+                    <Route path="/HospitalBalanco" element={<HospitalBalanco />} />
+                </Route>
+
+                <Route path="/SupermercadoBalanco" element={<RotaPrivada />} >
+                    <Route path="/SupermercadoBalanco" element={<SupermercadoBalanco />} />
+                </Route>
+
+                <Route path="/RestauranteBalanco" element={<RotaPrivada />} >
+                    <Route path="/RestauranteBalanco" element={<RestauranteBalanco />} />
                 </Route>
 
                 <Route path="/TelaConfiguracao" element={<RotaPrivada />} >

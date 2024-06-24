@@ -24,9 +24,9 @@ public class TituloContabilDespesa {
     @JoinColumn(name = "categoria_despesa_id")
     private CategoriaDespesa categoriaDespesa;
 
-    public TituloContabilDespesa(Long id, String nome){
-        this.id = id;
+    public TituloContabilDespesa(String nome, CategoriaDespesa categoriaDespesa){
         this.nome = nome;
+        this.categoriaDespesa = categoriaDespesa;
     }
 
 }

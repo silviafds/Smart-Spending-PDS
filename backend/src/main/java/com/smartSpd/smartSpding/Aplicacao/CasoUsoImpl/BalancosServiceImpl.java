@@ -4,6 +4,8 @@ import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
+import com.smartSpd.smartSpding.Core.Strategy.BalancoStrategy;
+import com.smartSpd.smartSpding.Core.Strategy.HospitalBalancoStrategy;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,14 @@ import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.PAGAMENTOS_MAIS_UT
 public class BalancosServiceImpl implements BalancosService {
 
     private final BalancosRepository balancosRepository;
+    private final BalancoStrategy balancoStrategy;
 
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Autowired
-    public BalancosServiceImpl(BalancosRepository balancosRepository) {
+    public BalancosServiceImpl(BalancosRepository balancosRepository, HospitalBalancoStrategy hospitalBalancoStrategy) {
         this.balancosRepository = balancosRepository;
+        this.balancoStrategy = hospitalBalancoStrategy;
     }
 
     @Override
@@ -61,6 +65,7 @@ public class BalancosServiceImpl implements BalancosService {
                 }
             }
 
+            balancoStrategy.criarBalanco(balancos);
             balancosRepository.save(balancos);
         } catch (IllegalArgumentException e) {
             log.log(Level.SEVERE, "Erro ao registrar balanço: ", e);
@@ -69,7 +74,6 @@ public class BalancosServiceImpl implements BalancosService {
             throw new RuntimeException("Ocorreu um erro ao registrar o balanço.", e);
         }
     }
-
 
     @Override
     public void editarBalanco(Balancos dados) {
@@ -107,6 +111,7 @@ public class BalancosServiceImpl implements BalancosService {
             balancoExistente.setCategoria_titulo_contabil(dados.getCategoria_titulo_contabil());
             balancoExistente.setDashboard_check(dados.isDashboard_check());
 
+            balancoStrategy.criarBalanco(balancoExistente);
             balancosRepository.save(balancoExistente);
         } catch (IllegalArgumentException e) {
             log.log(Level.SEVERE, "Erro ao editar o balanço: ", e);

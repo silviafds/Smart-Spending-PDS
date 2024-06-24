@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Table(name = "balancos")
@@ -35,6 +37,14 @@ public class Balancos {
     @Transient
     private String data_final_balanco;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "balanco_id")
+    private List<CategoriaDespesa> categorias = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "balanco_id")
+    private List<TituloContabilDespesa> titulosContabeis = new ArrayList<>();
+
     public Balancos(Long id, String nome, String tipoBalanco, String analise_balanco, LocalDate data_inicio,
                     LocalDate data_termino, String tipo_visualizacao, String categoria_titulo_contabil,
                     boolean dashboard_check) {
@@ -47,6 +57,15 @@ public class Balancos {
         this.tipo_visualizacao = tipo_visualizacao;
         this.categoria_titulo_contabil = categoria_titulo_contabil;
         this.dashboard_check = dashboard_check;
+        this.categorias = new ArrayList<>();
+        this.titulosContabeis = new ArrayList<>();
     }
 
+    public void adicionaCategoria(CategoriaDespesa categoria) {
+        this.categorias.add(categoria);
+    }
+
+    public void adicionaTituloContabil(TituloContabilDespesa tituloContabil) {
+        this.titulosContabeis.add(tituloContabil);
+    }
 }

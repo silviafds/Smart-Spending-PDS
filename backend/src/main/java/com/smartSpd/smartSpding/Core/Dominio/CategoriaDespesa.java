@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -21,13 +22,24 @@ public class CategoriaDespesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
+    private String contexto;
 
     @OneToMany(mappedBy = "categoriaDespesa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TituloContabilDespesa> titulosContabeis;
+    private List<TituloContabilDespesa> titulosContabeis = new ArrayList<>();
 
-    public CategoriaDespesa(int id, String nome){
-        this.id = id;
+    public CategoriaDespesa(String nome, String contexto){
         this.nome = nome;
+        this.contexto = contexto;
+        this.titulosContabeis = new ArrayList<>();
     }
 
+    public void adicionarTituloContabil(TituloContabilDespesa tituloContabil) {
+        this.titulosContabeis.add(tituloContabil);
+        tituloContabil.setCategoriaDespesa(this);
+    }
+
+    public void removerTituloContabil(TituloContabilDespesa tituloContabil) {
+        this.titulosContabeis.remove(tituloContabil);
+        tituloContabil.setCategoriaDespesa(null);
+    }
 }

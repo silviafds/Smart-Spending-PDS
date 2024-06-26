@@ -6,6 +6,10 @@ import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 import { IoWalletOutline } from "react-icons/io5";
 import { TbPigMoney } from "react-icons/tb";
 import { Link } from 'react-router-dom';
+import { FaRegHospital } from "react-icons/fa";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { IoRestaurantOutline } from "react-icons/io5";
+
 
 function Balanco() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
@@ -38,18 +42,41 @@ function Balanco() {
                                 drop-shadow-md hover:bg-gray-200">
                                     <h2 className="text-center mt-16 font-semibold text-xl">Lançamento</h2>
                                     <div className="flex items-center justify-center mt-2">
-                                        <IoWalletOutline className="h-8 w-8" />
+                                        <IoWalletOutline className="h-8 w-8"/>
                                     </div>
                                 </div>
                             </Link>
 
-                            <Link to="/ProjetosBalanco" className="flex flex-col items-center justify-center ">
+                            <Link to="/HospitalBalanco" className="flex flex-col items-center justify-center ">
                                 <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md
                                 drop-shadow-md hover:bg-gray-200">
-                                    <h2 className="text-center mt-16 font-semibold text-xl	">Projetos</h2>
+                                    <h2 className="text-center mt-16 font-semibold text-xl	">Hospital</h2>
                                     <div
                                         className="flex items-center justify-center mt-2">
-                                        <TbPigMoney className="h-8 w-8"/>
+                                        <FaRegHospital className="h-8 w-8"/>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+
+                        <div className="flex justify-center items-center">
+                            <Link to="/SupermercadoBalanco" className="flex flex-col items-center justify-center ">
+                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500 rounded-md
+                                drop-shadow-md hover:bg-gray-200">
+                                    <h2 className="text-center mt-16 font-semibold text-xl">Supermercado</h2>
+                                    <div className="flex items-center justify-center mt-2">
+                                        <MdOutlineShoppingCart className="h-8 w-8"/>
+                                    </div>
+                                </div>
+                            </Link>
+
+                            <Link to="/RestauranteBalanco" className="flex flex-col items-center justify-center ">
+                                <div className="w-48 h-48 bg-gray-100 m-4 border-solid border-slate-500	rounded-md
+                                drop-shadow-md hover:bg-gray-200">
+                                    <h2 className="text-center mt-16 font-semibold text-xl	">Restaurante</h2>
+                                    <div
+                                        className="flex items-center justify-center mt-2">
+                                        <IoRestaurantOutline className="h-8 w-8"/>
                                     </div>
                                 </div>
                             </Link>

@@ -1,8 +1,7 @@
 export enum TipoBalanco {
     DESPESA = "Despesa",
     RECEITA = "Receita",
-    DESPESA_RECEITA = "Despesa e Receita",
-    PROJETOS = "Projetos"
+    DESPESA_RECEITA = "Despesa e Receita"
 }
 
 export const balancoEnum = Object.values(TipoBalanco).map((tipo, index) => ({
@@ -29,6 +28,17 @@ export enum AnaliseTipoDespesaReceita {
     TITULO_CONTABIL = "Titulo Contábil"
 }
 
+export enum AnaliseBalancoDespesaHospital {
+    MANUTENCAO_MAQUINARIO = "Manuntenção de maquinário",
+    MANUNTENCAO_LEITOS_UTI = "Manuntenççao leitos UTI",
+    MATERIAL_DESCARTAVEL = "Material descartavel"
+}
+
+export enum AnaliseBalancoReceitaHospital {
+    MAQUINARIO = "Maquinário comprado",
+    CURSOS = "Curso para capacitação"
+}
+
 export const analiseBalancoReceitaEnum = Object.values(AnaliseBalancoReceita).map((tipo, index) => ({
     id: index + 1,
     nome: tipo
@@ -45,6 +55,16 @@ export const analiseBalancoReceitaDespesaEnum = Object.values(AnaliseBalancoDesp
 }));
 
 export const analiseTipoBalancoReceitaDespesaEnum = Object.values(AnaliseTipoDespesaReceita).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
+export const analiseBalancoDespesaHospital = Object.values(AnaliseBalancoDespesaHospital).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
+export const analiseBalancoReceitaHospital = Object.values(AnaliseBalancoReceitaHospital).map((tipo, index) => ({
     id: index + 1,
     nome: tipo
 }));

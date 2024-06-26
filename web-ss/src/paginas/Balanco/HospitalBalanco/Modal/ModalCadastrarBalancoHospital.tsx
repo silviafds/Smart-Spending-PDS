@@ -5,8 +5,15 @@ import {useForm} from "react-hook-form";
 import Selector from "../../../../componentes/Selector";
 import {Titulos} from "../../../../core/ENUM/Titulos";
 import {
-    analiseBalancoReceitaEnum, analiseBalancoDespesaEnum, analiseBalancoReceitaDespesaEnum,
-    balancoEnum, TipoBalanco, analiseTipoBalancoReceitaDespesaEnum, AnaliseBalancoReceita, AnaliseBalancoDespesa
+    analiseBalancoReceitaEnum,
+    analiseBalancoDespesaEnum,
+    analiseBalancoReceitaDespesaEnum,
+    balancoEnum,
+    TipoBalanco,
+    analiseTipoBalancoReceitaDespesaEnum,
+    AnaliseBalancoReceita,
+    AnaliseBalancoDespesa,
+    analiseBalancoDespesaHospital, analiseBalancoReceitaHospital
 } from "../../../../core/ENUM/TipoBalanco";
 import {graficoEnum} from "../../../../core/ENUM/TipoGrafico";
 import {buscarBalancoPorId, cadastrarProjeto, editarBalanco} from "../../../../logica/API/BalancoAPI";
@@ -41,7 +48,7 @@ interface IFormInputs {
     dashboard_check: boolean;
 }
 
-const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClose, id }) => {
+const ModalCadastrarBalancoHospital: React.FC<BasicModalProps & { id: any }> = ({ onClose, id }) => {
 
     const [balanco, setBalanco] = useState<string>("");
     const [erro, setErro] = useState<boolean>(false);
@@ -205,7 +212,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                             <>
                                 <div
                                     className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoDespesaEnum}
+                                    <Selector dado={analiseBalancoDespesaHospital}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
                                               valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
@@ -230,7 +237,7 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                             <>
                                 <div
                                     className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoReceitaEnum}
+                                    <Selector dado={analiseBalancoReceitaHospital}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
                                               valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>
@@ -251,25 +258,6 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
                             </>
                         )}
 
-                        {balanco === "Despesa e Receita" && (
-                            <>
-                                <div
-                                    className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoReceitaDespesaEnum}
-                                              placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
-                                    <div className="line"></div>
-                                </div>
-
-                                <div
-                                    className="inputs relative my-4">
-                                    <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
-                                              placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                              valorSelecionado={watch('categoriaOuTituloContabil')} onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
-                                    <div className="line"></div>
-                                </div>
-                            </>
-                        )}
 
                         <div className="inputs relative my-4">
                             <label className="text-gray-500">Data Inicio</label>
@@ -321,4 +309,4 @@ const ModalCadastrarBalanco: React.FC<BasicModalProps & { id: any }> = ({ onClos
     );
 }
 
-export default ModalCadastrarBalanco;
+export default ModalCadastrarBalancoHospital;

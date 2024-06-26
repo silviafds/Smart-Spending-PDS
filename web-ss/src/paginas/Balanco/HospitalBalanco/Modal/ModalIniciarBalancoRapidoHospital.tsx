@@ -216,26 +216,6 @@ const ModalIniciarBalancoRapidoHospital: React.FC<BasicModalProps> = ({ onClose 
                             </>
                         )}
 
-                        {balanco === "Despesa e Receita" && (
-                            <>
-                                <div
-                                    className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoReceitaDespesaEnum}
-                                              placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalanco}/>
-                                    <div className="line"></div>
-                                </div>
-
-                                <div
-                                    className="inputs relative my-4">
-                                    <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
-                                              placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
-                                    <div className="line"></div>
-                                </div>
-                            </>
-                        )}
-
                         <div className="inputs relative my-4">
                             <label className="text-gray-500">Data Inicio</label>
                             <input

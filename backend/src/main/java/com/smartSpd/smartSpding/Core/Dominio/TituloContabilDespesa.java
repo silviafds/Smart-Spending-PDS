@@ -19,6 +19,7 @@ public class TituloContabilDespesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private double valor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_despesa_id")

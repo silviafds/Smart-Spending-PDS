@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class BalancoRapidoDespesaReceitaDTO {
+    private String tipoEstabelecimento;
     private String nome;
     private String tipoBalanco;
     private String analiseBalanco;

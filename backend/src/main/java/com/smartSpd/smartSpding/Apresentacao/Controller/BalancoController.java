@@ -7,10 +7,13 @@ import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoCategoriaDTO;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
+import com.smartSpd.smartSpding.Core.Strategy.BalancoStrategy;
+import com.smartSpd.smartSpding.Core.Strategy.HospitalBalancoStrategy;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,18 +49,90 @@ public class BalancoController {
 
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
+    private final Map<String, BalancoStrategy> balancoStrategyMap = new HashMap<>();
 
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService, HospitalBalancoStrategy hospitalBalancoStrategy) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
+        this.balancoStrategyMap.put("hospital", hospitalBalancoStrategy);
 
         balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
         balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
         balancoHandlers.put(RECEITA.getBalanco(), this::balancosReceitas);
+    }
+
+    private BalancoStrategy getBalancoStrategy(String tipoEstabelecimento) {
+        return balancoStrategyMap.getOrDefault(tipoEstabelecimento, null);
+    }
+
+    @PostMapping("/registrarBalancoFramework")
+    public ResponseEntity<?> cadastrarBalancoFramework(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
+        try {
+            BalancoStrategy balancoStrategy = getBalancoStrategy(balancoRapidoDTO.getTipoEstabelecimento());
+            if (balancoStrategy == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Tipo de estabelecimento desconhecido.");
+            }
+
+            Balancos balancos = new Balancos();
+            balancos.setTipoEstabelecimento(balancoRapidoDTO.getTipoEstabelecimento());
+            balancos.setNome(balancoRapidoDTO.getNome());
+            balancos.setTipoBalanco(balancoRapidoDTO.getTipoBalanco());
+            balancos.setAnalise_balanco(balancoRapidoDTO.getAnaliseBalanco());
+            balancos.setData_inicio(balancoRapidoDTO.getDataInicio());
+            balancos.setData_termino(balancoRapidoDTO.getDataTermino());
+            balancos.setTipo_visualizacao(balancoRapidoDTO.getTipoVisualizacao());
+
+            for (BalancoCategoriaDTO categoriaDTO : balancoRapidoDTO.getCategorias()) {
+                balancoStrategy.criarCategoria(categoriaDTO.getNomeCategoria(), categoriaDTO.getValorGasto(), categoriaDTO.getValorInvestimento(), balancos);
+            }
+
+            balancosService.registrarBalanco(balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Balanço framework cadastrado com sucesso.\"}");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar balanço framework.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar balanço framework no sistema.");
+        }
+    }
+
+    @PatchMapping("/editarBalancoFramework")
+    public ResponseEntity<?> editarBalancoFramework(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
+        try {
+            BalancoStrategy balancoStrategy = getBalancoStrategy(balancoRapidoDTO.getTipoEstabelecimento());
+            if (balancoStrategy == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Tipo de estabelecimento desconhecido.");
+            }
+
+            Balancos balancos = new Balancos();
+            balancos.setTipoEstabelecimento(balancoRapidoDTO.getTipoEstabelecimento());
+            balancos.setNome(balancoRapidoDTO.getNome());
+            balancos.setTipoBalanco(balancoRapidoDTO.getTipoBalanco());
+            balancos.setAnalise_balanco(balancoRapidoDTO.getAnaliseBalanco());
+            balancos.setData_inicio(balancoRapidoDTO.getDataInicio());
+            balancos.setData_termino(balancoRapidoDTO.getDataTermino());
+            balancos.setTipo_visualizacao(balancoRapidoDTO.getTipoVisualizacao());
+
+            for (BalancoCategoriaDTO categoriaDTO : balancoRapidoDTO.getCategorias()) {
+                balancoStrategy.criarCategoria(categoriaDTO.getNomeCategoria(), categoriaDTO.getValorGasto(), categoriaDTO.getValorInvestimento(), balancos);
+            }
+
+            balancosService.editarBalanco(balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"Balanço framework editado com sucesso.\"}");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao editar balanço framework. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao editar balanço framework.");
+        }
     }
 
     @PostMapping("/registroBalancoRapido")
@@ -104,8 +179,8 @@ public class BalancoController {
     @PostMapping("/registrarBalanco")
     public ResponseEntity<?> cadastrarBalanco(@RequestBody @Valid Balancos balancos) {
         try {
-            balancosService.registrarBalanco(balancos);
 
+            balancosService.registrarBalanco(balancos);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("{\"message\": \"Balanco cadastrado com sucesso.\"}");

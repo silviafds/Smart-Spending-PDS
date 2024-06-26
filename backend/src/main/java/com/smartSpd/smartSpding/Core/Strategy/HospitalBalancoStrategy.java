@@ -8,7 +8,6 @@ public class HospitalBalancoStrategy implements BalancoStrategy {
 
     @Override
     public void criarBalanco(Balancos balancos) {
-
         CategoriaDespesa manutencaoMaquinario = criarCategoria("Manutenção de Maquinário");
         CategoriaDespesa manutencaoLeitos = criarCategoria("Manutenção dos Leitos de UTI");
         CategoriaDespesa materialDescartavel = criarCategoria("Material Descartável");
@@ -24,7 +23,21 @@ public class HospitalBalancoStrategy implements BalancoStrategy {
         balancos.adicionaTituloContabil(reparosMaquinario);
         balancos.adicionaTituloContabil(reparosLeito);
         balancos.adicionaTituloContabil(compraMaterial);
+    }
 
+    @Override
+    public void criarCategoria(String nomeCategoria, double valorGasto, double valorInvestimento, Balancos balancos) {
+        CategoriaDespesa categoria = criarCategoria(nomeCategoria);
+
+        TituloContabilDespesa gasto = criarTituloContabil("Gasto em " + nomeCategoria, categoria);
+        gasto.setValor(valorGasto);
+
+        TituloContabilDespesa investimento = criarTituloContabil("Investimento em " + nomeCategoria, categoria);
+        investimento.setValor(valorInvestimento);
+
+        balancos.adicionaCategoria(categoria);
+        balancos.adicionaTituloContabil(gasto);
+        balancos.adicionaTituloContabil(investimento);
     }
 
     @Override
@@ -35,5 +48,12 @@ public class HospitalBalancoStrategy implements BalancoStrategy {
     @Override
     public TituloContabilDespesa criarTituloContabil(String nome, CategoriaDespesa categoria) {
         return new TituloContabilDespesa(nome, categoria);
+    }
+
+    @Override
+    public void editarBalanco(Balancos balancos) {
+        balancos.getCategorias().clear();
+        balancos.getTitulosContabeis().clear();
+        criarBalanco(balancos);
     }
 }

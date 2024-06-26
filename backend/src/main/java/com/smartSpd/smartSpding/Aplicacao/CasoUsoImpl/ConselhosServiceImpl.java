@@ -5,9 +5,12 @@ import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
+import com.smartSpd.smartSpding.Core.Strategy.ConselhosStrategy;
+import com.smartSpd.smartSpding.Core.Strategy.HospitalConselhosStrategy;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
+import com.smartSpd.smartSpding.Core.Strategy.ConselhosStrategy;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -32,19 +35,23 @@ public class ConselhosServiceImpl implements ConselhosService {
 
     private final ReceitaRepository receitaRepository;
 
+    private final ConselhosStrategy conselhosStrategy;
+
     public ConselhosServiceImpl(ConselhosRepository conselhosRepository, GerenciadorConselhos gerenciadorConselhos,
-                                DespesaRepository despesaRepository, ReceitaRepository receitaRepository) {
+                                DespesaRepository despesaRepository, ReceitaRepository receitaRepository, HospitalConselhosStrategy hospitalConselhosStrategy) {
         this.conselhosRepository = conselhosRepository;
         this.gerenciadorConselhos = gerenciadorConselhos;
         this.despesaRepository = despesaRepository;
         this.receitaRepository = receitaRepository;
+        this.conselhosStrategy = hospitalConselhosStrategy;
     }
 
     @Override
     public Boolean salvarConselhos(ConselhosDTO data) {
         try {
             if (data.identificador() == 1) {
-                conselhosRepository.salvarConselhos(data);
+                ConselhosDTO dataStrategy = conselhosStrategy.gerarConselho(data);
+                conselhosRepository.salvarConselhos(dataStrategy);
             }
             return true;
         } catch (Exception e) {

@@ -45,6 +45,23 @@ public class ConselhosController {
         }
     }
 
+    @PostMapping("/registroConselhoFramework")
+    public ResponseEntity<?> registroConselhoFramework(@RequestBody @Valid ConselhosDTO data) {
+        try {
+            boolean statusConselho = conselhosService.salvarConselhos(data);
+            String mensagem = statusConselho ? "Conselho casdastrado com sucesso." : "Erro ao cadastrar status.";
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\": \"" + mensagem + "\"}");
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao cadastrar conselho. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar conselho.");
+        }
+    }
+
     @GetMapping("/buscarConfiguracaoConselhos")
     public ResponseEntity<?> registroConselho() {
         try {

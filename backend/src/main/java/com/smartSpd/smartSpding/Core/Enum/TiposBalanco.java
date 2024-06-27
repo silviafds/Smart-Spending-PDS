@@ -6,7 +6,10 @@ public enum TiposBalanco {
     DESPESA_RECEITA("Despesa e Receita"),
     PAGAMENTOS_MAIS_UTILIZADOS("Pagamentos mais utilizados"),
     ORIGENS_MAIS_RENTAVEIS("Origens mais rentáveis"),
-    PROJETOS("Projetos");
+    PROJETOS("Projetos"),
+    MANUTENCAO_MAQUINARIO("Manutenção maquinário"),
+    MANUTENCAO_LEITOS_UTI("Manutenção leitos UTI"),
+    MAQUINARIO_COMPRADO("Maquinário comprado");
 
     private String tiposBalanco;
 

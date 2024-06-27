@@ -11,8 +11,11 @@ import java.util.List;
 
 public interface BalancosRepository extends JpaRepository<Balancos, Long> {
 
-    @Query("SELECT b FROM balancos b")
+    @Query("SELECT b FROM balancos b where b.hospital_check != true")
     List<Balancos> buscarTodosBalancos();
+
+    @Query("SELECT b FROM balancos b where b.hospital_check = true")
+    List<Balancos> buscarTodosBalancosHospital();
 
     @Modifying
     @Transactional

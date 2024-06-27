@@ -1,9 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
+import com.smartSpd.smartSpding.Core.CasoUso.*;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
@@ -46,14 +43,17 @@ public class BalancoController {
 
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
+    private final BalancoStrategy balancoStrategy;
+
 
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService, BalancoStrategy balancoStrategy) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
+        this.balancoStrategy = balancoStrategy;
 
         balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
         balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
@@ -84,6 +84,15 @@ public class BalancoController {
     private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
         if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_LEITOS_UTI.getTiposBalanco())) {
+            return balancoStrategy.gerarBalancoDespesa(balancoRapidoDTO);
+        }
+
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_COMPRADO.getTiposBalanco())) {
+            return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);
         }
 
         return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
@@ -146,6 +155,22 @@ public class BalancoController {
                     .body("Erro ao buscar balanços.");
         }
     }
+
+    @GetMapping("/buscarBalancosHospital")
+    public ResponseEntity<?> buscarBalancosHospital() {
+        try {
+            List<Balancos> balancos = balancosService.buscarBalancosHospital();
+            System.out.println("balancos: "+balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch(Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanços.");
+        }
+    }
+
 
     @GetMapping("/buscarBalancoPorId/{id}")
     public ResponseEntity<?> buscarBalancoPorId(@PathVariable Long id) {

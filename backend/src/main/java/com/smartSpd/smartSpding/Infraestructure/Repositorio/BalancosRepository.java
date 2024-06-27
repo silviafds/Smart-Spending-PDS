@@ -19,4 +19,10 @@ public interface BalancosRepository extends JpaRepository<Balancos, Long> {
     @Query("UPDATE balancos b SET b.dashboard_check = :isDashboard WHERE b.id = :id")
     void updateDashboardCheck(@Param("isDashboard") boolean isDashboard, @Param("id") Long id);
 
+    @Query("SELECT b.categoria_titulo_contabil, SUM(b.valor) FROM balancos b WHERE b.tipoBalanco = 'Despesa' GROUP BY b.categoria_titulo_contabil")
+    List<Object[]> somarGastosPorCategoria();
+
+    @Query("SELECT b.categoria_titulo_contabil, SUM(b.valor) FROM balancos b WHERE b.tipoBalanco = 'Investimento' GROUP BY b.categoria_titulo_contabil")
+    List<Object[]> somarInvestimentosPorCategoria();
+
 }

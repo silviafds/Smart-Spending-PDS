@@ -5,6 +5,7 @@ import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
+import com.smartSpd.smartSpding.Infraestructure.Strategy.BalancoStrategy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.javapoet.ClassName;
@@ -185,5 +186,11 @@ public class BalancosServiceImpl implements BalancosService {
             throw new RuntimeException("Erro ao deletar balanço.", e);
         }
     }
+
+    @Override
+    public List<Object[]> calcularBalanco(BalancoStrategy strategy) {
+        return strategy.calcularBalanco();
+    }
+
 
 }

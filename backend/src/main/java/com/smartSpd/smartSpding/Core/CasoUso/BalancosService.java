@@ -3,6 +3,7 @@ package com.smartSpd.smartSpding.Core.CasoUso;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 
+import com.smartSpd.smartSpding.Infraestructure.Strategy.BalancoStrategy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface BalancosService {
     Balancos buscarBalancoPorId(Long id);
 
     void deletarBalanco(Long id);
+
+    List<Object[]> calcularBalanco(BalancoStrategy strategy);
+
 }

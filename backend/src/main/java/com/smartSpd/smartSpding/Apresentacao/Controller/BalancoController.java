@@ -11,6 +11,10 @@ import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
+import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
+import com.smartSpd.smartSpding.Infraestructure.Strategy.BalancoGastosStrategy;
+import com.smartSpd.smartSpding.Infraestructure.Strategy.BalancoInvestimentosStrategy;
+import com.smartSpd.smartSpding.Infraestructure.Strategy.BalancoStrategy;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,21 +47,38 @@ public class BalancoController {
     private final ReceitaBalancoService receitaBalancoService;
 
     private final BalancosService balancosService;
+    
+    private final BalancosRepository balancosRepository;
 
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
 
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService, BalancosRepository balancosRepository) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
+        this.balancosRepository = balancosRepository;
 
         balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
         balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
         balancoHandlers.put(RECEITA.getBalanco(), this::balancosReceitas);
+    }
+
+    @GetMapping("/gastosPorCategoria")
+    public ResponseEntity<List<Object[]>> getGastosPorCategoria() {
+        BalancoStrategy strategy = new BalancoGastosStrategy(balancosRepository);
+        List<Object[]> gastos = balancosService.calcularBalanco(strategy);
+        return ResponseEntity.ok(gastos);
+    }
+
+    @GetMapping("/investimentosPorCategoria")
+    public ResponseEntity<List<Object[]>> getInvestimentosPorCategoria() {
+        BalancoStrategy strategy = new BalancoInvestimentosStrategy(balancosRepository);
+        List<Object[]> investimentos = balancosService.calcularBalanco(strategy);
+        return ResponseEntity.ok(investimentos);
     }
 
     @PostMapping("/registroBalancoRapido")

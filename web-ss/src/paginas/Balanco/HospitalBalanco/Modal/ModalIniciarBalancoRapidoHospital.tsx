@@ -13,7 +13,7 @@ import {
     analiseTipoBalancoReceitaDespesaEnum,
     AnaliseBalancoReceita,
     AnaliseBalancoDespesa,
-    analiseBalancoDespesaHospital
+    analiseBalancoDespesaHospital, AnaliseBalancoDespesaHospital, balancoHospitalEnum
 } from "../../../../core/ENUM/TipoBalanco";
 import {graficoEnum} from "../../../../core/ENUM/TipoGrafico";
 import {criarBalancoRapidoDespesa} from "../../../../logica/API/BalancoDespesa";
@@ -65,12 +65,6 @@ const ModalIniciarBalancoRapidoHospital: React.FC<BasicModalProps> = ({ onClose 
             if(tipoBalanco.nome === TipoBalanco.DESPESA) {
                 setBalanco(tipoBalanco.nome)
                 setValue('tipoBalanco', tipoBalanco.nome);
-            } else if (tipoBalanco.nome === TipoBalanco.RECEITA.toString()) {
-                setValue('tipoBalanco', tipoBalanco.nome);
-                setBalanco(tipoBalanco.nome)
-            } else if (tipoBalanco.nome === TipoBalanco.DESPESA_RECEITA.toString()) {
-                setBalanco(tipoBalanco.nome)
-                setValue('tipoBalanco', tipoBalanco.nome);
             } else {
                 setValue('tipoBalanco', tipoBalanco.nome);
                 setBalanco(tipoBalanco.nome)
@@ -82,10 +76,8 @@ const ModalIniciarBalancoRapidoHospital: React.FC<BasicModalProps> = ({ onClose 
         if(tipoBalanco != null) {
             console.log(`tipo balanco: `+tipoBalanco.nome)
             setValue('analiseBalanco', tipoBalanco.nome);
-            if(tipoBalanco.nome === AnaliseBalancoDespesa.BUSCAR_TODAS_DESPESAS) {
+            if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MANUTENCAO_MAQUINARIO) {
                 setValue('categoriaOuTituloContabilDespesa', true)
-            } else if (tipoBalanco.nome === AnaliseBalancoReceita.BUSCAR_TODAS_RECEITAS) {
-                setValue('categoriaOuTituloContabilReceita', true)
             } else {
                 setValue('categoriaOuTituloContabilDespesa', false)
                 setValue('categoriaOuTituloContabilReceita', false)
@@ -160,7 +152,7 @@ const ModalIniciarBalancoRapidoHospital: React.FC<BasicModalProps> = ({ onClose 
                         {errors.nome && (<p>Insira o nome do balanço.</p>)}
 
                         <div className="inputs relative my-4">
-                            <Selector dado={balancoEnum}
+                            <Selector dado={balancoHospitalEnum}
                                       placeholder={Titulos.INPUT_TIPO_BALANCO.toString()}
                                       valorSelecionado={""} onGenericoSelect={handleTipoBalanco}/>
                             <div className="line"></div>
@@ -177,31 +169,6 @@ const ModalIniciarBalancoRapidoHospital: React.FC<BasicModalProps> = ({ onClose 
                                 </div>
 
                                 {watch('categoriaOuTituloContabilDespesa') === true && (
-                                    <>
-                                        <div
-                                            className="inputs relative my-4">
-                                            <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
-                                                      placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
-                                                      valorSelecionado={""}
-                                                      onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
-                                            <div className="line"></div>
-                                        </div>
-                                    </>
-                                )}
-                            </>
-                        )}
-
-                        {balanco === "Receita" && (
-                            <>
-                                <div
-                                    className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoReceitaEnum}
-                                              placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={""} onGenericoSelect={handleBalanco}/>
-                                    <div className="line"></div>
-                                </div>
-
-                                {watch('categoriaOuTituloContabilReceita') === true && (
                                     <>
                                         <div
                                             className="inputs relative my-4">

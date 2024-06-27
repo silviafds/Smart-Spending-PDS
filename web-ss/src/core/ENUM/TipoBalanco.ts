@@ -4,7 +4,16 @@ export enum TipoBalanco {
     DESPESA_RECEITA = "Despesa e Receita"
 }
 
+export enum TipoBalancoHospital {
+    DESPESA = "Despesa"
+}
+
 export const balancoEnum = Object.values(TipoBalanco).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
+export const balancoHospitalEnum = Object.values(TipoBalancoHospital).map((tipo, index) => ({
     id: index + 1,
     nome: tipo
 }));

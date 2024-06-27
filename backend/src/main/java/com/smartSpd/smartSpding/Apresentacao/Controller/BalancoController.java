@@ -1,9 +1,6 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
-import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.DespesaReceitaBalancoService;
-import com.smartSpd.smartSpding.Core.CasoUso.ReceitaBalancoService;
+import com.smartSpd.smartSpding.Core.CasoUso.*;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
 import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
@@ -46,14 +43,17 @@ public class BalancoController {
 
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
+    private final BalancoStrategy balancoStrategy;
+
 
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService, BalancoStrategy balancoStrategy) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
+        this.balancoStrategy = balancoStrategy;
 
         balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
         balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
@@ -84,6 +84,15 @@ public class BalancoController {
     private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
         if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        // adiciona aqui o balanço para as despesas de hospital
+        /*if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_MAQUINARIO.getTiposBalanco())) {
+            return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);
+        }*/
+
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_COMPRADO.getTiposBalanco())) {
+            return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);
         }
 
         return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);

@@ -86,10 +86,9 @@ public class BalancoController {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
         }
 
-        // adiciona aqui o balanço para as despesas de hospital
-        /*if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_MAQUINARIO.getTiposBalanco())) {
-            return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);
-        }*/
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_MAQUINARIO.getTiposBalanco())) {
+            return balancoStrategy.gerarBalancoDespesa(balancoRapidoDTO);
+        }
 
         if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_COMPRADO.getTiposBalanco())) {
             return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);

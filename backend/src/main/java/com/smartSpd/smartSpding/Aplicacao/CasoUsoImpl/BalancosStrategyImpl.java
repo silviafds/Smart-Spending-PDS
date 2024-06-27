@@ -33,6 +33,11 @@ public class BalancosStrategyImpl implements BalancoStrategy {
     }
 
     @Override
+    public List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO) {
+        return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+    }
+
+    @Override
     public List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO) {
         return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
     }

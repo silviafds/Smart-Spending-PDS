@@ -4,10 +4,8 @@ import {Sidebar} from "../../../componentes/sidebar/sidebar";
 import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
 import {useForm} from "react-hook-form";
-import ModalIniciarBalancoRapido from "../LancamentoBalanco/Modal/ModalIniciarBalancoRapido";
 import ModalIniciarBalancoRapidoHospital from "./Modal/ModalIniciarBalancoRapidoHospital";
-import ModalCadastrarBalanco from "../LancamentoBalanco/Modal/ModalCadastrarBalanco";
-import ModalCadastrarBalancoHospital from "./Modal/ModalCadastrarBalancoHospital";
+import ModalCadastrarBalancoHosp from "./Modal/ModalCadastrarBalancoHosp";
 import {
     Box,
     FormControl, IconButton,
@@ -22,10 +20,19 @@ import {
 } from "@mui/material";
 import {CiEdit, CiTrash} from "react-icons/ci";
 import {IoEyeOutline} from "react-icons/io5";
-import {buscarBalancoPorId, deletarBalancoPorId, editarBalancoDashboard} from "../../../logica/API/BalancoAPI";
+import {
+    buscarBalanco, buscarBalancoHospital,
+    buscarBalancoPorId,
+    deletarBalancoPorId,
+    editarBalancoDashboard
+} from "../../../logica/API/BalancoAPI";
 import {criarBalancoRapidoDespesa} from "../../../logica/API/BalancoDespesa";
 import {DashboardDTO} from "../../../core/DTO/DashboardDTO";
-import {adicionarBalancoAoDashboard, removerBalancoDoDashboard} from "../../../logica/API/DashboardAPI";
+import {
+    adicionarBalancoAoDashboard,
+    listaBalancoDash,
+    removerBalancoDoDashboard
+} from "../../../logica/API/DashboardAPI";
 
 interface DataIndexable {
     [key: string]: string | Date | number | boolean | any;
@@ -58,6 +65,7 @@ function HospitalBalanco() {
     const [filterValue, setFilterValue] = useState('');
     const [dadosBalanco, setDadosBalanco] = useState<any[]>([]);
     const [filteredData, setFilteredData] = useState<Data[]>(dadosBalanco);
+    const [dadosBalancoDashboard, setDadosBalancoDashboard] = useState<any[]>([]);
 
     const {
         setValue,
@@ -71,6 +79,51 @@ function HospitalBalanco() {
             setNomeUsuario(storageUser);
         }
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [balanco, lista] = await Promise.all([
+                    buscarBalancoHospital(),
+                    listaBalancoDash()
+                ]);
+
+                setDadosBalanco(balanco);
+            } catch (error) {
+                console.error('Erro ao carregar os dados', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    function handleCadastro() {
+        setSalvarBalancoAberto(true)
+    }
+
+    function handleCadastroFechado() {
+        setSalvarBalancoAberto(false)
+    }
+
+    function handleAbrirModal() {
+        setModalAberto(true);
+    }
+
+    function handleFecharModal() {
+        setModalAberto(false);
+    }
+
+    useEffect(() => {
+        setFilteredData(dadosBalanco);
+    }, [dadosBalanco]);
+
+    useEffect(() => {
+        const filtered = dadosBalanco.filter(item =>
+            item[filterField].toString().toLowerCase().includes(filterValue.toLowerCase())
+        );
+        setFilteredData(filtered);
+    }, [filterValue, filterField, dadosBalanco]);
+
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     };
@@ -79,24 +132,6 @@ function HospitalBalanco() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
-
-    function handleCadastro() {
-        setSalvarBalancoAberto(true)
-    }
-
-    function handleAbrirModal() {
-        console.log(`modal aberto`)
-        setModalAberto(true);
-    }
-
-    function handleFecharModal() {
-        setModalAberto(false);
-    }
-
-    function handleCadastroFechado() {
-
-    }
 
     function handleEdit(id: any) {
         if (id) {
@@ -185,7 +220,7 @@ function HospitalBalanco() {
 
                         {modalAberto && <ModalIniciarBalancoRapidoHospital onClose={handleFecharModal} />}
 
-                        {modalSalvarBalancoAberto && <ModalCadastrarBalancoHospital onClose={handleCadastroFechado} id={watch('id')} />}
+                        {modalSalvarBalancoAberto && <ModalCadastrarBalancoHosp onClose={handleCadastroFechado} id={watch('id')} />}
 
                         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '30px' }}>
                             <FormControl sx={{ minWidth: 120, marginRight: '10px' }}>

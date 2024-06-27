@@ -156,6 +156,22 @@ public class BalancoController {
         }
     }
 
+    @GetMapping("/buscarBalancosHospital")
+    public ResponseEntity<?> buscarBalancosHospital() {
+        try {
+            List<Balancos> balancos = balancosService.buscarBalancosHospital();
+            System.out.println("balancos: "+balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch(Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanços.");
+        }
+    }
+
+
     @GetMapping("/buscarBalancoPorId/{id}")
     public ResponseEntity<?> buscarBalancoPorId(@PathVariable Long id) {
         try {

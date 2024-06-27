@@ -12,6 +12,16 @@ export async function buscarBalanco() {
     }
 }
 
+export async function buscarBalancoHospital() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancosHospital`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de Balanço', error);
+        throw error;
+    }
+}
+
 export async function cadastrarProjeto(jsonString: any, onClose: () => void) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
@@ -29,7 +39,7 @@ export async function cadastrarProjeto(jsonString: any, onClose: () => void) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/LancamentoBalanco/";
+                        window.location.href = "/HospitalBalanco/";
                     }
                 });
             })

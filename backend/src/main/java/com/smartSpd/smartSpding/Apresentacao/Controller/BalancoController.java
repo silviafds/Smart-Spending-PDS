@@ -86,7 +86,8 @@ public class BalancoController {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
         }
 
-        if(balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_MAQUINARIO.getTiposBalanco())) {
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_LEITOS_UTI.getTiposBalanco())) {
             return balancoStrategy.gerarBalancoDespesa(balancoRapidoDTO);
         }
 

@@ -7,7 +7,11 @@ import {Titulos} from "../../../../core/ENUM/Titulos";
 import {
     TipoBalanco,
     analiseTipoBalancoReceitaDespesaEnum,
-    balancoHospitalEnum, AnaliseBalancoReceitaHospital, analiseBalancoReceitaHospital
+    balancoHospitalEnum,
+    AnaliseBalancoReceitaHospital,
+    analiseBalancoReceitaHospital,
+    AnaliseBalancoDespesaHospital,
+    analiseBalancoDespesaHospital
 } from "../../../../core/ENUM/TipoBalanco";
 import {graficoEnum} from "../../../../core/ENUM/TipoGrafico";
 import {buscarBalancoPorId, cadastrarProjeto, editarBalanco} from "../../../../logica/API/BalancoAPI";
@@ -98,7 +102,11 @@ const ModalCadastrarBalancoHosp: React.FC<BasicModalProps & { id: any }> = ({ on
     const handleBalanco = async (tipoBalanco: any) => {
         if(tipoBalanco != null) {
             setValue('analiseBalanco', tipoBalanco.nome);
-            if(tipoBalanco.nome === AnaliseBalancoReceitaHospital.MAQUINARIO) {
+            if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MAQUINARIO) {
+                setValue('categoriaOuTituloContabilDespesa', true)
+            } if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MANUTENCAO_MAQUINARIO) {
+                setValue('categoriaOuTituloContabilDespesa', true)
+            } if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MANUTENCAO_LEITOS_UTI) {
                 setValue('categoriaOuTituloContabilDespesa', true)
             } else {
                 setValue('categoriaOuTituloContabilDespesa', false)
@@ -200,7 +208,7 @@ const ModalCadastrarBalancoHosp: React.FC<BasicModalProps & { id: any }> = ({ on
                             <>
                                 <div
                                     className="inputs relative my-4">
-                                    <Selector dado={analiseBalancoReceitaHospital}
+                                    <Selector dado={analiseBalancoDespesaHospital}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
                                               valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
                                     <div className="line"></div>

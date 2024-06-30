@@ -22,20 +22,11 @@ public class RestauranteBalancosStrategyImpl implements BalancoStrategy {
 
     @Override
     public List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO) {
-        if (balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
-                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
-                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco())) {
-            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-        }
-        return null;    }
+        return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+    }
 
     @Override
     public List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO) {
-        if (balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
-                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
-                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco())) {
-            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-        }
-        return null;
+        return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
     }
 }

@@ -81,7 +81,7 @@ public class BalancoController {
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(balanco);
-            } else {
+            } else  {
                 BalancoStrategy strategy = verificaStrategy(balancoRapidoDTO.getAnaliseBalanco());
 
                 List<BalancoDespesaReceita> balanco = null;

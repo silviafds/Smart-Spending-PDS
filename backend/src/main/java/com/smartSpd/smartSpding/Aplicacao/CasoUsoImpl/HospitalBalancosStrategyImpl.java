@@ -27,4 +27,5 @@ public class HospitalBalancosStrategyImpl implements BalancoStrategy {
     public List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO) {
         return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
     }
+
 }

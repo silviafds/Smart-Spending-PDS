@@ -26,7 +26,8 @@ public class SupermercadoBalancosStrategyImpl implements BalancoStrategy {
                 balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco())) {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
         }
-        return null;    }
+        return null;
+    }
 
     @Override
     public List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO) {

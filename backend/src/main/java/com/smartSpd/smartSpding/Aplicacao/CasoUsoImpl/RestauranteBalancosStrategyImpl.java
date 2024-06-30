@@ -19,6 +19,7 @@ public class RestauranteBalancosStrategyImpl implements BalancoStrategy {
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
     }
 
+
     @Override
     public List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO) {
         if (balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||

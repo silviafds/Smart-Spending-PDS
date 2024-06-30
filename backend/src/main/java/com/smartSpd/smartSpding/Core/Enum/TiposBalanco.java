@@ -20,6 +20,7 @@ public enum TiposBalanco {
     RELACIONAMENTO_CLIENTES("Relacionamento com clientes"),
     SERVICOS_TERCEIRIZADOS("Serviços terceirizados");
 
+
     private String tiposBalanco;
 
     TiposBalanco(String tiposBalanco) {

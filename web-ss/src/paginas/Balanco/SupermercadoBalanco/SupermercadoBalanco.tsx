@@ -3,24 +3,9 @@ import {HeaderPadrao} from "../../../componentes/header/headerPadrao";
 import {Sidebar} from "../../../componentes/sidebar/sidebar";
 import {Ajuda} from "../../../componentes/ajuda/Ajuda";
 import {AjudaEnum} from "../../../core/ENUM/Ajuda";
-import {useForm} from "react-hook-form";
-import {
-    buscarBalancoHospital,
-    buscarBalancoPorId, buscarBalancoRestaurante,
-    deletarBalancoPorId,
-    editarBalancoDashboard
-} from "../../../logica/API/BalancoAPI";
-import {
-    adicionarBalancoAoDashboard,
-    listaBalancoDash,
-    removerBalancoDoDashboard
-} from "../../../logica/API/DashboardAPI";
-import {criarBalancoRapidoDespesa} from "../../../logica/API/BalancoDespesa";
-import {DashboardDTO} from "../../../core/DTO/DashboardDTO";
-import ModalIniciarBalancoRapidoHospital from "../HospitalBalanco/Modal/ModalIniciarBalancoRapidoHospital";
 import ModalCadastrarBalancoHosp from "../HospitalBalanco/Modal/ModalCadastrarBalancoHosp";
-import ModalIniciarBalancoRapidoRestaurante from "./Modal/ModalIniciarBalancoRapidoRestaurante";
-import ModalCadastrarBalancoRestaurante from "./Modal/ModalCadastrarBalancoRestaurante";
+import ModalCadastrarBalancoSup from "./Modal/ModalCadastrarBalancoSup";
+import {useForm} from "react-hook-form";
 import {
     Box,
     FormControl, IconButton,
@@ -35,6 +20,19 @@ import {
 } from "@mui/material";
 import {CiEdit, CiTrash} from "react-icons/ci";
 import {IoEyeOutline} from "react-icons/io5";
+import {
+    buscarBalancoHospital,
+    buscarBalancoPorId, buscarBalancoSupermercado,
+    deletarBalancoPorId,
+    editarBalancoDashboard
+} from "../../../logica/API/BalancoAPI";
+import {
+    adicionarBalancoAoDashboard,
+    listaBalancoDash,
+    removerBalancoDoDashboard
+} from "../../../logica/API/DashboardAPI";
+import {criarBalancoRapidoDespesa} from "../../../logica/API/BalancoDespesa";
+import {DashboardDTO} from "../../../core/DTO/DashboardDTO";
 
 interface DataIndexable {
     [key: string]: string | Date | number | boolean | any;
@@ -57,7 +55,7 @@ class IFormInputs {
     id: any;
 }
 
-function RestauranteBalanco() {
+function SupermercadoBalanco() {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [modalAberto, setModalAberto] = useState<boolean>(false);
     const [modalSalvarBalancoAberto, setSalvarBalancoAberto] = useState<boolean>(false);
@@ -86,7 +84,7 @@ function RestauranteBalanco() {
         const fetchData = async () => {
             try {
                 const [balanco, lista] = await Promise.all([
-                    buscarBalancoRestaurante(),
+                    buscarBalancoSupermercado(),
                     listaBalancoDash()
                 ]);
 
@@ -107,12 +105,9 @@ function RestauranteBalanco() {
         setSalvarBalancoAberto(false)
     }
 
+
     function handleAbrirModal() {
         setModalAberto(true);
-    }
-
-    function handleFecharModal() {
-        setModalAberto(false);
     }
 
     useEffect(() => {
@@ -204,7 +199,7 @@ function RestauranteBalanco() {
                 <Sidebar/>
                 <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
                     <div className={"flex justify-between"}>
-                        <h1 className={"text-2xl font-semibold"}> Balanços de Restaurante </h1>
+                        <h1 className={"text-2xl font-semibold"}> Balanços de Supermercado </h1>
                         <Ajuda tipoAjuda={AjudaEnum.DEFINICAO_ANALISE}/>
                     </div>
                     <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>
@@ -220,9 +215,7 @@ function RestauranteBalanco() {
                             Balanço Rápido
                         </button>
 
-                        {modalAberto && <ModalIniciarBalancoRapidoRestaurante onClose={handleFecharModal} />}
-
-                        {modalSalvarBalancoAberto && <ModalCadastrarBalancoRestaurante onClose={handleCadastroFechado} id={watch('id')} />}
+                        {modalSalvarBalancoAberto && <ModalCadastrarBalancoSup onClose={handleCadastroFechado} id={watch('id')} />}
 
                         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '30px' }}>
                             <FormControl sx={{ minWidth: 120, marginRight: '10px' }}>
@@ -243,6 +236,7 @@ function RestauranteBalanco() {
                                 onChange={(e) => setFilterValue(e.target.value)}
                             />
                         </Box>
+
                         <TableContainer component={Paper}
                                         sx={{ width: '100%', overflow: 'hidden', padding: '9px' }}>
                             <Table>
@@ -340,4 +334,4 @@ function RestauranteBalanco() {
     );
 }
 
-export default RestauranteBalanco;
+export default SupermercadoBalanco;

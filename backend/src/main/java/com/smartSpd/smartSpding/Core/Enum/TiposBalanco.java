@@ -7,9 +7,19 @@ public enum TiposBalanco {
     PAGAMENTOS_MAIS_UTILIZADOS("Pagamentos mais utilizados"),
     ORIGENS_MAIS_RENTAVEIS("Origens mais rentáveis"),
     PROJETOS("Projetos"),
+    //Hospital
     MANUTENCAO_MAQUINARIO("Manutenção maquinário"),
     MANUTENCAO_LEITOS_UTI("Manutenção leitos UTI"),
-    MAQUINARIO_COMPRADO("Maquinário comprado");
+    MAQUINARIO_COMPRADO("Maquinário comprado"),
+    //Restaurante
+    TREINAMENTO_FUNCIONARIOS("Treinamento de funcionários"),
+    MARKETING_PROPAGANDA("Marketing e propaganda"),
+    DECORACAO_AMBIENTE("Decoração do ambiente"),
+    //Supermercado
+    ENTREGA("Entregas"),
+    RELACIONAMENTO_CLIENTES("Relacionamento com clientes"),
+    SERVICOS_TERCEIRIZADOS("Serviços terceirizados");
+
 
     private String tiposBalanco;
 

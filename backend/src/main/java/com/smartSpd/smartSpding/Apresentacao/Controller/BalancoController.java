@@ -1,5 +1,8 @@
 package com.smartSpd.smartSpding.Apresentacao.Controller;
 
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.HospitalBalancosStrategyImpl;
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.RestauranteBalancosStrategyImpl;
+import com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl.SupermercadoBalancosStrategyImpl;
 import com.smartSpd.smartSpding.Core.CasoUso.*;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesa;
 import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
@@ -7,6 +10,7 @@ import com.smartSpd.smartSpding.Core.Classes.BalancoReceita;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Enum.TiposBalanco;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -43,17 +47,24 @@ public class BalancoController {
 
     private final Map<String, Function<BalancoRapidoDTO, List<?>>> balancoHandlers = new HashMap<>();
 
-    private final BalancoStrategy balancoStrategy;
+    private final HospitalBalancosStrategyImpl hospitalBalancosStrategy;
+    private  final RestauranteBalancosStrategyImpl restauranteBalancosStrategy;
+    private final SupermercadoBalancosStrategyImpl supermercadoBalancosStrategy;
 
 
     public BalancoController(DespesaBalancoService despesaBalancoService,
                              DespesaReceitaBalancoService despesaReceitaBalancoService,
-                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService, BalancoStrategy balancoStrategy) {
+                             ReceitaBalancoService receitaBalancoService, BalancosService balancosService,
+                             HospitalBalancosStrategyImpl hospitalBalancosStrategy,
+                             RestauranteBalancosStrategyImpl restauranteBalancosStrategy,
+                             SupermercadoBalancosStrategyImpl supermercadoBalancosStrategy) {
         this.despesaBalancoService = despesaBalancoService;
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.balancosService = balancosService;
-        this.balancoStrategy = balancoStrategy;
+        this.hospitalBalancosStrategy = hospitalBalancosStrategy;
+        this.restauranteBalancosStrategy = restauranteBalancosStrategy;
+        this.supermercadoBalancosStrategy = supermercadoBalancosStrategy;
 
         balancoHandlers.put(DESPESA.getBalanco(), this::balancosDespesas);
         balancoHandlers.put(DESPESA_RECEITA.getTiposBalanco(), this::balancosDespesasReceitas);
@@ -70,9 +81,24 @@ public class BalancoController {
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(balanco);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Tipo de balanço desconhecido.");
+            } else  {
+                BalancoStrategy strategy = verificaStrategy(balancoRapidoDTO.getAnaliseBalanco());
+
+                List<BalancoDespesaReceita> balanco = null;
+                if (isBalancoDeGastos(balancoRapidoDTO.getAnaliseBalanco())) {
+                    balanco = strategy.gerarBalancoDespesa(balancoRapidoDTO);
+                } else if (isBalancoDeInvestimento(balancoRapidoDTO.getAnaliseBalanco())) {
+                    balanco = strategy.gerarBalancoInvestimento(balancoRapidoDTO);
+                }
+
+                if (balanco != null) {
+                    return ResponseEntity.ok()
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(balanco);
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body("Tipo de balanço desconhecido.");
+                }
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
@@ -81,18 +107,53 @@ public class BalancoController {
         }
     }
 
+    private BalancoStrategy verificaStrategy(String analiseBalanco) {
+        if (analiseBalanco.equals(TiposBalanco.MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.MANUTENCAO_LEITOS_UTI.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.MAQUINARIO_COMPRADO.getTiposBalanco())) {
+            return hospitalBalancosStrategy;
+        } else if (analiseBalanco.equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco())) {
+            return restauranteBalancosStrategy;
+        } else if (analiseBalanco.equals(TiposBalanco.ENTREGA.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.RELACIONAMENTO_CLIENTES.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco())) {
+            return supermercadoBalancosStrategy;
+        } else {
+            throw new IllegalArgumentException("Tipo de análise de balanço desconhecido: " + analiseBalanco);
+        }
+    }
+
+    private boolean isBalancoDeGastos(String analiseBalanco) {
+        return analiseBalanco.equals(TiposBalanco.MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.MANUTENCAO_LEITOS_UTI.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.ENTREGA.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco());
+    }
+
+    private boolean isBalancoDeInvestimento(String analiseBalanco) {
+        return analiseBalanco.equals(TiposBalanco.MAQUINARIO_COMPRADO.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
+                analiseBalanco.equals(TiposBalanco.RELACIONAMENTO_CLIENTES.getTiposBalanco());
+    }
+
     private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
+
+        BalancoStrategy strategy = verificaStrategy(balancoRapidoDTO.getAnaliseBalanco());
+
         if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
         }
 
-        if(balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
-                balancoRapidoDTO.getAnaliseBalanco().equals(MANUTENCAO_LEITOS_UTI.getTiposBalanco())) {
-            return balancoStrategy.gerarBalancoDespesa(balancoRapidoDTO);
+        if(isBalancoDeGastos(balancoRapidoDTO.getAnaliseBalanco())) {
+            return strategy.gerarBalancoDespesa(balancoRapidoDTO);
         }
 
-        if(balancoRapidoDTO.getAnaliseBalanco().equals(MAQUINARIO_COMPRADO.getTiposBalanco())) {
-            return balancoStrategy.gerarBalancoInvestimento(balancoRapidoDTO);
+        if(isBalancoDeInvestimento(balancoRapidoDTO.getAnaliseBalanco())) {
+            return strategy.gerarBalancoInvestimento(balancoRapidoDTO);
         }
 
         return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
@@ -160,6 +221,36 @@ public class BalancoController {
     public ResponseEntity<?> buscarBalancosHospital() {
         try {
             List<Balancos> balancos = balancosService.buscarBalancosHospital();
+            System.out.println("balancos: "+balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch(Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanços.");
+        }
+    }
+
+    @GetMapping("/buscarBalancosSupermercado")
+    public ResponseEntity<?> buscarBalancosSupermercado() {
+        try {
+            List<Balancos> balancos = balancosService.buscarBalancosSupermercado();
+            System.out.println("balancos: "+balancos);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(balancos);
+        } catch(Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços. ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao buscar balanços.");
+        }
+    }
+
+    @GetMapping("/buscarBalancosRestaurante")
+    public ResponseEntity<?> buscarBalancosRestaurante() {
+        try {
+            List<Balancos> balancos = balancosService.buscarBalancosRestaurante();
             System.out.println("balancos: "+balancos);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)

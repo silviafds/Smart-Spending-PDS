@@ -22,6 +22,27 @@ export async function buscarBalancoHospital() {
     }
 }
 
+export async function buscarBalancoSupermercado() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancosSupermercado`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de Balanço', error);
+        throw error;
+    }
+}
+
+export async function buscarBalancoRestaurante() {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/balancoDespesa/buscarBalancosRestaurante`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao carregar os dados de Balanço', error);
+        throw error;
+    }
+}
+
+
 export async function cadastrarProjeto(jsonString: any, onClose: () => void) {
     try {
         const axiosConfig = { headers: { 'Content-Type': 'application/json' } };
@@ -39,7 +60,7 @@ export async function cadastrarProjeto(jsonString: any, onClose: () => void) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/HospitalBalanco/";
+                        window.location.href = "/balanco/";
                     }
                 });
             })
@@ -100,7 +121,7 @@ export async function editarBalanco(jsonString: any) {
                         confirmButton: "bg-sky-950",
                     },
                 });
-                window.location.href = "/LancamentoBalanco/"
+                window.location.href = "/balanco/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {
@@ -150,7 +171,7 @@ export async function deletarBalancoPorId(idParaDeletar: any) {
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "/LancamentoBalanco/";
+                        window.location.href = "/balanco/";
                     }
                 });
             })
@@ -201,7 +222,7 @@ export async function editarBalancoDashboard(jsonString: any) {
                         confirmButton: "bg-sky-950",
                     },
                 });
-                window.location.href = "/LancamentoBalanco/"
+                window.location.href = "/balanco/"
             })
             .catch(function (error) {
                 if (error.response && error.response.status === 400) {

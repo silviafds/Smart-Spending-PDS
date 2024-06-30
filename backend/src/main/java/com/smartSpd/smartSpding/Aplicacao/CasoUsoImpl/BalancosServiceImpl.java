@@ -172,6 +172,52 @@ public class BalancosServiceImpl implements BalancosService {
     }
 
     @Override
+    public List<Balancos> buscarBalancosSupermercado() {
+        try {
+            List<Balancos> balanco = balancosRepository.buscarTodosBalancosSupermercado();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            balanco.forEach(balancos -> {
+                LocalDate dataInicio = balancos.getData_inicio();
+                String dataFormatada = dataInicio.format(formatter);
+                balancos.setData_inicio_balanco(dataFormatada);
+
+                LocalDate dataFim = balancos.getData_termino();
+                String dataFormatadaFinal = dataFim.format(formatter);
+                balancos.setData_final_balanco(dataFormatadaFinal);
+            });
+
+            return balanco;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços no service. ", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Balancos> buscarBalancosRestaurante() {
+        try {
+            List<Balancos> balanco = balancosRepository.buscarTodosBalancosRestaurante();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            balanco.forEach(balancos -> {
+                LocalDate dataInicio = balancos.getData_inicio();
+                String dataFormatada = dataInicio.format(formatter);
+                balancos.setData_inicio_balanco(dataFormatada);
+
+                LocalDate dataFim = balancos.getData_termino();
+                String dataFormatadaFinal = dataFim.format(formatter);
+                balancos.setData_final_balanco(dataFormatadaFinal);
+            });
+
+            return balanco;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro ao buscar todos os balanços no service. ", e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
     public Balancos buscarBalancoPorId(Long id) {
         try {
             Optional<Balancos> balancoOptional = balancosRepository.findById(id);

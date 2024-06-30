@@ -19,7 +19,7 @@ import EditarContaBancaria from "../../paginas/ContaBancaria/EditarContaBancaria
 import LancamentoBalanco from "../../paginas/Balanco/LancamentoBalanco/LancamentoBalanco";
 import HospitalBalanco from "../../paginas/Balanco/HospitalBalanco/HospitalBalanco";
 import RestauranteBalanco from "../../paginas/Balanco/RestauranteBalanco/RestauranteBalanco";
-import SupermercadoBalanco from "../../paginas/Balanco/SupermercadoRestaurante/SupermercadoBalanco";
+import SupermercadoBalanco from "../../paginas/Balanco/SupermercadoBalanco/SupermercadoBalanco";
 import TelaConfiguracao from "../../paginas/Configuracao/TelaConfiguracao";
 import TelaCategoria from "../../paginas/Categoria/TelaCategoria";
 import CadastroCategoria from "../../paginas/Categoria/CadastroCategoria";

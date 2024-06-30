@@ -43,6 +43,28 @@ export enum AnaliseBalancoDespesaHospital {
     MANUTENCAO_MAQUINARIO = "Manutenção maquinário"
 }
 
+export enum AnaliseBalancoDespesaSupermercado {
+    ENTREGA = "Entrega",
+    RELACIONAMENTO_CLIENTES = "Relacionamento com clientes",
+    SERVICOS_TERCEIRIZADOS = "Serviços terceirizados"
+}
+
+export const analiseBalancoDespesaSupermercado = Object.values(AnaliseBalancoDespesaSupermercado).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
+export enum AnaliseBalancoDespesaRestaurante {
+    TREINAMENTO_FUNCIONARIO = "Treinamento funcionário",
+    DECORACAO_AMBIENTE = "Decoração de ambiente",
+    MARKETING_PROPAGANDA = "Marketing e propaganda"
+}
+
+export const analiseBalancoDespesaRestaurante = Object.values(AnaliseBalancoDespesaRestaurante).map((tipo, index) => ({
+    id: index + 1,
+    nome: tipo
+}));
+
 export enum AnaliseBalancoReceitaHospital {
     MAQUINARIO = "Maquinário comprado",
     MANUTENCAO_LEITOS_UTI = "Manutenção leitos UTI",

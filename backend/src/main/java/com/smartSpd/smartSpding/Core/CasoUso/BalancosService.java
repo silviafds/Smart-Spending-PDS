@@ -20,6 +20,10 @@ public interface BalancosService {
 
     List<Balancos> buscarBalancosHospital();
 
+    List<Balancos> buscarBalancosSupermercado();
+
+    List<Balancos> buscarBalancosRestaurante();
+
     Balancos buscarBalancoPorId(Long id);
 
     void deletarBalanco(Long id);

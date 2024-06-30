@@ -18,6 +18,7 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
     if (data) {
         for(let prop in data) {
             if (data[prop] && data[prop].dado) {
+                console.log("teste: "+data[prop].dado)
                 chartData.push({name: data[prop].dado, value: data[prop].valor})
             }
         }

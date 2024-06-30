@@ -126,7 +126,7 @@ function Despesa() {
                         <Sidebar/>
                         <div className={"border-solid border border-b-stone-200 w-screen p-7"}>
                             <div className={"flex justify-between"}>
-                                <h1 className={"text-2xl font-semibold"}> Listagem de Despesas </h1>
+                                <h1 className={"text-2xl font-semibold"}> Listagem de Despesas e Investimentos</h1>
                                 <Ajuda tipoAjuda={AjudaEnum.DEFINICAO_DESPESA}/>
                             </div>
                             <hr className={"my-4 mt-6 p-0 w-full border-gray-300"}/>

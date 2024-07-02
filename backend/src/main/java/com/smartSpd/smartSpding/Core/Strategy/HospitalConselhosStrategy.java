@@ -1,9 +1,11 @@
 package com.smartSpd.smartSpding.Core.Strategy;
 
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+@Qualifier("hospitalConselhosStrategy")
     public class HospitalConselhosStrategy implements ConselhosStrategy {
 
     final int precoMaquinarioNovo = 15000;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
                 metaDespesa = metaDespesa + precoMaquinarioNovo;
             }
             String updatedMetaDespesa = String.format("%d", metaDespesa);
-            return new ConselhosDTO(data.identificador(), data.statusDespesa(), updatedMetaDespesa, data.statusReceita(), data.metaReceita(), data.tempoConselho());
+            return new ConselhosDTO(data.identificador(), data.statusDespesa(), updatedMetaDespesa, data.statusReceita(), data.metaReceita(), data.tempoConselho(), data.tipoConselho());
         }
     }
 

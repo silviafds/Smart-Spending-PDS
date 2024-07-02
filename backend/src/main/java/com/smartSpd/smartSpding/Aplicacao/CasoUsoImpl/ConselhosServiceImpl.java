@@ -7,10 +7,12 @@ import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
 import com.smartSpd.smartSpding.Core.Strategy.ConselhosStrategy;
 import com.smartSpd.smartSpding.Core.Strategy.HospitalConselhosStrategy;
+import com.smartSpd.smartSpding.Core.Strategy.RestauranteConselhosStrategy;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
 import com.smartSpd.smartSpding.Core.Strategy.ConselhosStrategy;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
 
@@ -35,23 +37,50 @@ public class ConselhosServiceImpl implements ConselhosService {
 
     private final ReceitaRepository receitaRepository;
 
-    private final ConselhosStrategy conselhosStrategy;
+    private final ConselhosStrategy hospitalConselhosStrategy;
+    private final ConselhosStrategy restauranteConselhosStrategy;
+    private final ConselhosStrategy supermercadoConselhosStrategy;
+
 
     public ConselhosServiceImpl(ConselhosRepository conselhosRepository, GerenciadorConselhos gerenciadorConselhos,
-                                DespesaRepository despesaRepository, ReceitaRepository receitaRepository, HospitalConselhosStrategy hospitalConselhosStrategy) {
+                                DespesaRepository despesaRepository, ReceitaRepository receitaRepository,
+                                @Qualifier("hospitalConselhosStrategy") ConselhosStrategy hospitalConselhosStrategy,
+                                @Qualifier("restauranteConselhosStrategy") ConselhosStrategy restauranteConselhosStrategy,
+                                @Qualifier("supermercadoConselhosStrategy") ConselhosStrategy supermercadoConselhosStrategy) {
         this.conselhosRepository = conselhosRepository;
         this.gerenciadorConselhos = gerenciadorConselhos;
         this.despesaRepository = despesaRepository;
         this.receitaRepository = receitaRepository;
-        this.conselhosStrategy = hospitalConselhosStrategy;
+        this.hospitalConselhosStrategy = hospitalConselhosStrategy;
+        this.restauranteConselhosStrategy = restauranteConselhosStrategy;
+        this.supermercadoConselhosStrategy = supermercadoConselhosStrategy;
+    }
+
+    private ConselhosStrategy getStrategy(String tipoConselho) {
+        switch (tipoConselho.toUpperCase()) {
+            case "HOSPITAL":
+                return hospitalConselhosStrategy;
+            case "RESTAURANTE":
+                return restauranteConselhosStrategy;
+            case "SUPERMERCADO":
+                return supermercadoConselhosStrategy;
+            case "":
+                return null;
+            default:
+                throw new IllegalArgumentException("Tipo de conselho desconhecido: " + tipoConselho);
+        }
     }
 
     @Override
     public Boolean salvarConselhos(ConselhosDTO data) {
         try {
-            if (data.identificador() == 1) {
+            ConselhosStrategy conselhosStrategy = getStrategy(data.tipoConselho());
+            if (data.identificador() == 1 && conselhosStrategy != null) {
                 ConselhosDTO dataStrategy = conselhosStrategy.gerarConselho(data);
                 conselhosRepository.salvarConselhos(dataStrategy);
+            }
+            else{
+                conselhosRepository.salvarConselhos(data);
             }
             return true;
         } catch (Exception e) {

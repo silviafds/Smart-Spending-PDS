@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@Qualifier("restauranteConselhosStrategy")
-public class RestauranteConselhosStrategy implements ConselhosStrategy{
+@Qualifier("supermercadoConselhosStrategy")
+public class SupermercadoConselhosStrategy implements ConselhosStrategy {
     @Override
     public ConselhosDTO gerarConselho(ConselhosDTO data) {
         int metaDespesa = Integer.parseInt(data.metaDespesa());
-        int metaReceita = Integer.parseInt(data.metaReceita());
+        int alimentosPerdidos = 3000;
 
-        if((double) metaDespesa /metaReceita <= 0.3){
-            metaDespesa += (int) (metaReceita*0.3);
-        }
+        metaDespesa += alimentosPerdidos;
         String updatedMetaDespesa = String.format("%d", metaDespesa);
         return new ConselhosDTO(data.identificador(), data.statusDespesa(), updatedMetaDespesa, data.statusReceita(), data.metaReceita(), data.tempoConselho(), data.tipoConselho());
     }
 }
+

@@ -89,8 +89,8 @@ export function TelaBalancoRapido() {
             setStartDate(dataInicio);
             setEndDate(new Date(dados[prop].dataTermino));
         }
-        //buscarConselhosPorBalanco(nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao,
-            //categoriaOuTituloContabil);
+        buscarConselhosPorBalanco(nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao,
+            categoriaOuTituloContabil);
     }, []);
 
     async function buscarConselhosPorBalanco(nome: any, analiseBalanco: any, tipoBalanco: any, dataInicial: any, dataTermino:
@@ -225,16 +225,13 @@ export function TelaBalancoRapido() {
                                     {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
                                         <GraficoColunaVertical data={dados}/>
                                     )}
-                                   {/* {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
-                                        <GraficoColunaVerticalEmpilhado data={dados}/>
-                                    )}*/}
                                     {watch('tipoVisualizacao') === 'Gráfico de Pizza' && (
                                         <GraficoDePizza data={dados}/>
                                     )}
                                     {watch('tipoVisualizacao') === 'Gráfico de Donut' && (
                                         <GraficoDeDonut data={dados}/>
                                     )}
-                                    {/*<hr className={"my-4  p-0 w-full border-gray-300"}/>
+                                    <hr className={"my-4  p-0 w-full border-gray-300"}/>
 
                                     <div className={"bg-slate-100 w-full border rounded-xl p-2"}>
                                         <div className="flex flex-col items-center justify-center">
@@ -265,7 +262,7 @@ export function TelaBalancoRapido() {
                                                 <CarouselNext/>
                                             </Carousel>
                                         </div>
-                                    </div>*/}
+                                    </div>
 
                                 </div>
                             </div>

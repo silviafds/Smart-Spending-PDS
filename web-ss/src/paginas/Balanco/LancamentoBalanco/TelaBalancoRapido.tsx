@@ -3,7 +3,6 @@ import { HeaderPadrao } from "../../../componentes/header/headerPadrao";
 import { Sidebar } from "../../../componentes/sidebar/sidebar";
 import { Ajuda } from "../../../componentes/ajuda/Ajuda";
 import  Loading  from "../../../componentes/Loading";
-import GraficoColunaVertical from "../../../componentes/Grafico/GraficoColunaVertical";
 import { AjudaEnum } from "../../../core/ENUM/Ajuda";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -22,6 +21,7 @@ import {
 } from "../../../componentes/Carrossel/Carousel";
 import { Card, CardContent } from "../../../componentes/Card";
 import {buscarConselhoPorBalanco} from "../../../logica/API/ConselhosAPI";
+import GraficoColunaVertical from "../../../componentes/Grafico/GraficoColunaVertical";
 
 interface IFormInputs {
     nomeBalanco: string;
@@ -33,6 +33,7 @@ interface IFormInputs {
     dataTermino: Date;
     tipoVisualizacao: string;
     categoriaOuTituloContabil: string;
+    imposto: Number;
 }
 
 export function TelaBalancoRapido() {
@@ -65,7 +66,7 @@ export function TelaBalancoRapido() {
 
     // @ts-ignore
     useEffect(() => {
-        let nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao, categoriaOuTituloContabil;
+        let nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao, categoriaOuTituloContabil, imposto;
         for (let prop in dados) {
             setValue("nome", dados[prop].nome)
             setValue("analiseBalanco", dados[prop].analiseBalanco)
@@ -74,6 +75,7 @@ export function TelaBalancoRapido() {
             setValue("dataTermino", dados[prop].dataTermino)
             setValue("tipoVisualizacao", dados[prop].tipoVisualizacao)
             setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
+            setValue("imposto", dados[prop].imposto)
             nome = dados[prop].nome;
             analiseBalanco = dados[prop].analiseBalanco;
             tipoBalanco = dados[prop].tipoBalanco;
@@ -81,6 +83,8 @@ export function TelaBalancoRapido() {
             dataTermino = dados[prop].dataTermino;
             tipoVisualizacao = dados[prop].tipoVisualizacao;
             categoriaOuTituloContabil = dados[prop].categoriaOuTituloContabil;
+            imposto = dados[prop].imposto;
+            console.log("imposto:" +imposto)
             const dataInicio = parseDate(dados[prop].dataInicio);
             setStartDate(dataInicio);
             setEndDate(new Date(dados[prop].dataTermino));
@@ -135,7 +139,7 @@ export function TelaBalancoRapido() {
             setValue('tipoBalanco', dados[prop].tipoBalanco);
             setValue('dataInicio', dados[prop].dataInicio);
             setValue('dataTermino', dados[prop].dataTermino);
-            setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
+            setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil);
         }
     };
 
@@ -163,7 +167,7 @@ export function TelaBalancoRapido() {
                 dataInicio: watch('dataInicio'),
                 dataTermino: watch('dataTermino'),
                 tipoVisualizacao: watch('tipoVisualizacao'),
-                categoriaOuTituloContabil: watch('categoriaOuTituloContabil')
+                categoriaOuTituloContabil: watch('categoriaOuTituloContabil'),
             };
             criarBalancoRapidoDespesa(jsonData);
         }
@@ -221,6 +225,9 @@ export function TelaBalancoRapido() {
                                     {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
                                         <GraficoColunaVertical data={dados}/>
                                     )}
+                                   {/* {watch('tipoVisualizacao') === 'Gráfico em Colunas' && (
+                                        <GraficoColunaVerticalEmpilhado data={dados}/>
+                                    )}*/}
                                     {watch('tipoVisualizacao') === 'Gráfico de Pizza' && (
                                         <GraficoDePizza data={dados}/>
                                     )}

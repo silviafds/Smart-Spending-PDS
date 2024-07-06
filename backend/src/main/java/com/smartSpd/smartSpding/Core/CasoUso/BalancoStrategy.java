@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface BalancoStrategy {
 
+    double calcularDespesaComImposto(double despesa);
     List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO);
     List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO);
 }

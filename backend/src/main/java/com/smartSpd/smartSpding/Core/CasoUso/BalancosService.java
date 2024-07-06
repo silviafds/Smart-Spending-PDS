@@ -1,8 +1,11 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 
+import com.smartSpd.smartSpding.Core.Enum.TiposBalanco;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +30,14 @@ public interface BalancosService {
     Balancos buscarBalancoPorId(Long id);
 
     void deletarBalanco(Long id);
+
+    BalancoStrategy verificaStrategy(TiposBalanco tiposBalanco);
+
+    TiposBalanco getTiposBalancoFromString(String analiseBalanco);
+
+    List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO);
+
+    List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO);
+
+
 }

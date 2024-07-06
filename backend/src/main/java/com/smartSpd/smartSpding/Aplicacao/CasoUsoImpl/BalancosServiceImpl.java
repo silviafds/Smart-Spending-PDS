@@ -1,8 +1,12 @@
 package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
+import com.smartSpd.smartSpding.Core.CasoUso.BalancoStrategy;
 import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
+import com.smartSpd.smartSpding.Core.Classes.BalancoDespesaReceita;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Enum.TiposBalanco;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
 import jakarta.transaction.Transactional;
@@ -23,12 +27,24 @@ import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.PAGAMENTOS_MAIS_UT
 public class BalancosServiceImpl implements BalancosService {
 
     private final BalancosRepository balancosRepository;
+    private final HospitalBalancosStrategyImpl hospitalBalancosStrategy;
+    private final RestauranteBalancosStrategyImpl restauranteBalancosStrategy;
+    private final SupermercadoBalancosStrategyImpl supermercadoBalancosStrategy;
+    private final DespesaReceitaBalancoServiceImpl despesaReceitaBalancoService;
 
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Autowired
-    public BalancosServiceImpl(BalancosRepository balancosRepository) {
+    public BalancosServiceImpl(BalancosRepository balancosRepository, HospitalBalancosStrategyImpl hospitalBalancosStrategy,
+                               RestauranteBalancosStrategyImpl restauranteBalancosStrategy,
+                               SupermercadoBalancosStrategyImpl supermercadoBalancosStrategy,
+                               DespesaReceitaBalancoServiceImpl despesaReceitaBalancoService) {
         this.balancosRepository = balancosRepository;
+        this.hospitalBalancosStrategy = hospitalBalancosStrategy;
+        this.restauranteBalancosStrategy = restauranteBalancosStrategy;
+        this.supermercadoBalancosStrategy = supermercadoBalancosStrategy;
+        this.despesaReceitaBalancoService = despesaReceitaBalancoService;
+
     }
 
     @Override
@@ -254,5 +270,51 @@ public class BalancosServiceImpl implements BalancosService {
             throw new RuntimeException("Erro ao deletar balanço.", e);
         }
     }
+
+    @Override
+    public BalancoStrategy verificaStrategy(TiposBalanco tiposBalanco) {
+        switch(tiposBalanco) {
+            case MANUTENCAO_MAQUINARIO:
+            case MANUTENCAO_LEITOS_UTI:
+            case MAQUINARIO_COMPRADO:
+                return hospitalBalancosStrategy;
+            case TREINAMENTO_FUNCIONARIOS:
+            case MARKETING_PROPAGANDA:
+            case DECORACAO_AMBIENTE:
+                return restauranteBalancosStrategy;
+            case ENTREGA:
+            case RELACIONAMENTO_CLIENTES:
+            case SERVICOS_TERCEIRIZADOS:
+                return supermercadoBalancosStrategy;
+            default:
+                throw new IllegalArgumentException("Tipo de balanço desconhecido: " + tiposBalanco);
+        }
+    }
+
+    // Converte a String (analiseBalanco) em um enum do TiposBalanco
+    @Override
+    public TiposBalanco getTiposBalancoFromString(String analiseBalanco) {
+        for (TiposBalanco tipo : TiposBalanco.values()) {
+            if (tipo.getTiposBalanco().equals(analiseBalanco)) {
+                return tipo;
+            }
+        }
+        throw new IllegalArgumentException("Tipo de balanço desconhecido: " + analiseBalanco);
+    }
+
+    @Override
+    public List<BalancoDespesaReceita> gerarBalancoDespesa(BalancoRapidoDTO balancoRapidoDTO) {
+        TiposBalanco tipoBalanco = getTiposBalancoFromString(balancoRapidoDTO.getAnaliseBalanco());
+        BalancoStrategy strategy = verificaStrategy(tipoBalanco);
+        return strategy.gerarBalancoDespesa(balancoRapidoDTO);
+    }
+
+    @Override
+    public List<BalancoDespesaReceita> gerarBalancoInvestimento(BalancoRapidoDTO balancoRapidoDTO) {
+        TiposBalanco tipoBalanco = getTiposBalancoFromString(balancoRapidoDTO.getAnaliseBalanco());
+        BalancoStrategy strategy = verificaStrategy(tipoBalanco);
+        return strategy.gerarBalancoInvestimento(balancoRapidoDTO);
+    }
+
 
 }

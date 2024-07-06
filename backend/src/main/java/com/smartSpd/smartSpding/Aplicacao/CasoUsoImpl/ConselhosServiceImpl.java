@@ -325,24 +325,26 @@ public class ConselhosServiceImpl implements ConselhosService {
         valorMetaStr = valorMetaStr.replaceAll("\\.", "").replace(",", ".");
         BigDecimal valorMeta = new BigDecimal(valorMetaStr);
 
-        BigDecimal valorReceitaRetornado = BigDecimal.valueOf(receitaRepository.totalReceitaPorPeriodo(dataInicio, dataFinal));
+        Double valorReceitaRetornado = receitaRepository.totalReceitaPorPeriodo(dataInicio, dataFinal);
+        BigDecimal valorReceita;
+        if (valorReceitaRetornado != null) {
+            valorReceita = BigDecimal.valueOf(valorReceitaRetornado);
+        } else {
+            valorReceita = BigDecimal.ZERO;
+        }
 
         String conselho = null;
         BigDecimal percentual;
-        if (valorReceitaRetornado != null) {
-            if (valorReceitaRetornado.compareTo(valorMeta) < 0) {
-                percentual = valorReceitaRetornado.divide(valorMeta, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
-                BigDecimal diferenca = valorMeta.subtract(valorReceitaRetornado);
-                conselho = "Você atingiu " + percentual.setScale(2, RoundingMode.HALF_UP) + "% da sua meta de receita, representando um " +
-                        "total de R$" + valorReceitaRetornado.setScale(2, RoundingMode.HALF_UP) + ". Faltam R$" + diferenca.setScale(2, RoundingMode.HALF_UP) + " para alcançar sua meta.";
-            } else {
-                percentual = valorReceitaRetornado.divide(valorMeta, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
-                BigDecimal diferenca = valorReceitaRetornado.subtract(valorMeta);
-                conselho = "Parabéns! Você alcançou " + percentual.setScale(2, RoundingMode.HALF_UP) + "% da sua meta de receita. Você " +
-                        "excedeu sua meta em R$" + diferenca.setScale(2, RoundingMode.HALF_UP) + ".";
-            }
+        if (valorReceita.compareTo(valorMeta) < 0) {
+            percentual = valorReceita.divide(valorMeta, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+            BigDecimal diferenca = valorMeta.subtract(valorReceita);
+            conselho = "Você atingiu " + percentual.setScale(2, RoundingMode.HALF_UP) + "% da sua meta de receita, representando um " +
+                    "total de R$" + valorReceita.setScale(2, RoundingMode.HALF_UP) + ". Faltam R$" + diferenca.setScale(2, RoundingMode.HALF_UP) + " para alcançar sua meta.";
         } else {
-            conselho = "Não houve um valor de receita registrado em meta para ser atingindo.";
+            percentual = valorReceita.divide(valorMeta, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+            BigDecimal diferenca = valorReceita.subtract(valorMeta);
+            conselho = "Parabéns! Você alcançou " + percentual.setScale(2, RoundingMode.HALF_UP) + "% da sua meta de receita. Você " +
+                    "excedeu sua meta em R$" + diferenca.setScale(2, RoundingMode.HALF_UP) + ".";
         }
 
         return conselho;

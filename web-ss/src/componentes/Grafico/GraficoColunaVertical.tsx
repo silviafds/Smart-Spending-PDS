@@ -4,6 +4,7 @@ import * as echarts from 'echarts';
 interface Transacao {
     dado: string;
     valor: number;
+    imposto: number;
 }
 
 interface ChartProps {
@@ -13,13 +14,32 @@ interface ChartProps {
 const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
     const chartRef = useRef<HTMLDivElement>(null);
 
-    const chartData: { name: string; value: number }[] = [];
+    const chartData: { name: string; value: number; imposto: number; valueColor: string; taxColor: string }[] = [];
+
+    // Função para gerar uma cor pastel aleatória
+    const getRandomPastelColor = () => {
+        const hue = Math.floor(Math.random() * 360);
+        return `hsl(${hue}, 100%, 80%)`; // Cores pastel têm alta luminosidade e saturação
+    };
 
     if (data) {
-        for(let prop in data) {
+        for (let prop in data) {
             if (data[prop] && data[prop].dado) {
-                console.log("teste: "+data[prop].dado)
-                chartData.push({name: data[prop].dado, value: data[prop].valor})
+                const valueColor = getRandomPastelColor();
+                let taxColor = getRandomPastelColor();
+
+                // Garante que a cor do imposto seja diferente da cor do valor
+                while (taxColor === valueColor) {
+                    taxColor = getRandomPastelColor();
+                }
+
+                chartData.push({
+                    name: data[prop].dado,
+                    value: data[prop].valor,
+                    imposto: data[prop].imposto,
+                    valueColor: valueColor,
+                    taxColor: taxColor
+                });
             }
         }
     }
@@ -55,15 +75,33 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'shadow'
+                    },
+                    formatter: (params) => {
+                        // @ts-ignore
+                        const mainSeries = params[0];
+                        // @ts-ignore
+                        const taxSeries = params[1];
+                        return `${mainSeries.seriesName}: ${mainSeries.value}<br>${taxSeries.seriesName}: ${taxSeries.value}`;
                     }
                 },
                 series: [
                     {
-                        data: chartData.map(item => item.value),
+                        name: 'Valor',
+                        data: chartData.map(item => ({
+                            value: item.value,
+                            itemStyle: { color: item.valueColor }
+                        })),
                         type: 'bar',
-                        itemStyle: {
-                            color: '#3f74d2'
-                        }
+                        stack: 'total'
+                    },
+                    {
+                        name: 'Imposto',
+                        data: chartData.map(item => ({
+                            value: item.imposto,
+                            itemStyle: { color: item.taxColor }
+                        })),
+                        type: 'bar',
+                        stack: 'total'
                     }
                 ]
             };

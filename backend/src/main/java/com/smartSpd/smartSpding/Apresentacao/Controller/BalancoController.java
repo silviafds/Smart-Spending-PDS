@@ -74,32 +74,19 @@ public class BalancoController {
     @PostMapping("/registroBalancoRapido")
     public ResponseEntity<?> registroBalancoRapido(@RequestBody @Valid BalancoRapidoDTO balancoRapidoDTO) {
         try {
-            Function<BalancoRapidoDTO, List<?>> handler = balancoHandlers.get(balancoRapidoDTO.getTipoBalanco());
+            List<?> balanco = balancosService.gerenciadorBalancos(balancoRapidoDTO);
+            //Function<BalancoRapidoDTO, List<?>> handler = balancoHandlers.get(balancoRapidoDTO.getTipoBalanco());
 
-            if (handler != null) {
-                List<?> balanco = handler.apply(balancoRapidoDTO);
+            if (balanco != null) {
+                //List<?> balanco = handler.apply(balancoRapidoDTO);
                 return ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(balanco);
-            } else  {
-                BalancoStrategy strategy = verificaStrategy(balancoRapidoDTO.getAnaliseBalanco());
-
-                List<BalancoDespesaReceita> balanco = null;
-                if (isBalancoDeGastos(balancoRapidoDTO.getAnaliseBalanco())) {
-                    balanco = strategy.gerarBalancoDespesa(balancoRapidoDTO);
-                } else if (isBalancoDeInvestimento(balancoRapidoDTO.getAnaliseBalanco())) {
-                    balanco = strategy.gerarBalancoInvestimento(balancoRapidoDTO);
-                }
-
-                if (balanco != null) {
-                    return ResponseEntity.ok()
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(balanco);
-                } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body("Tipo de balanço desconhecido.");
-                }
             }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("teste");
+
         } catch (Exception e) {
             log.log(Level.SEVERE, "Erro ao buscar balanço de quantidade de meios de pagamento. ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -107,53 +94,9 @@ public class BalancoController {
         }
     }
 
-    private BalancoStrategy verificaStrategy(String analiseBalanco) {
-        if (analiseBalanco.equals(TiposBalanco.MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.MANUTENCAO_LEITOS_UTI.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.MAQUINARIO_COMPRADO.getTiposBalanco())) {
-            return hospitalBalancosStrategy;
-        } else if (analiseBalanco.equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco())) {
-            return restauranteBalancosStrategy;
-        } else if (analiseBalanco.equals(TiposBalanco.ENTREGA.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.RELACIONAMENTO_CLIENTES.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco())) {
-            return supermercadoBalancosStrategy;
-        } else {
-            throw new IllegalArgumentException("Tipo de análise de balanço desconhecido: " + analiseBalanco);
-        }
-    }
-
-    private boolean isBalancoDeGastos(String analiseBalanco) {
-        return analiseBalanco.equals(TiposBalanco.MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.MANUTENCAO_LEITOS_UTI.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.ENTREGA.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco());
-    }
-
-    private boolean isBalancoDeInvestimento(String analiseBalanco) {
-        return analiseBalanco.equals(TiposBalanco.MAQUINARIO_COMPRADO.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
-                analiseBalanco.equals(TiposBalanco.RELACIONAMENTO_CLIENTES.getTiposBalanco());
-    }
-
     private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
-
-        BalancoStrategy strategy = verificaStrategy(balancoRapidoDTO.getAnaliseBalanco());
-
         if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
             return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
-        }
-
-        if(isBalancoDeGastos(balancoRapidoDTO.getAnaliseBalanco())) {
-            return strategy.gerarBalancoDespesa(balancoRapidoDTO);
-        }
-
-        if(isBalancoDeInvestimento(balancoRapidoDTO.getAnaliseBalanco())) {
-            return strategy.gerarBalancoInvestimento(balancoRapidoDTO);
         }
 
         return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);

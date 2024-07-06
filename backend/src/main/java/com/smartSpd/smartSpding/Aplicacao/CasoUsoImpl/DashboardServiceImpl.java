@@ -117,19 +117,19 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         if(dto.getTipoBalanco().equals(DESPESA.getBalanco())) {
-            if(dto.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
-                dados = despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
-            } else {
+            if(dto.getAnaliseBalanco().equals(PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco())) {
                 return despesaBalancoService.balancoMeiosPagamento(dto);
+            } else {
+                dados = despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
+
             }
         }
 
         if(dto.getTipoBalanco().equals(RECEITA.getBalanco())) {
-            if(dto.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
-                return despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
-            } else {
+            if(dto.getAnaliseBalanco().equals(PAGAMENTOS_MAIS_UTILIZADOS.getTiposBalanco())) {
                 return receitaBalancoService.balancoMeiosPagamento(dto);
-
+            } else {
+                return despesaReceitaBalancoService.buscarDadosReceitaDespesa(dto);
             }
         }
         return dados;
@@ -143,7 +143,8 @@ public class DashboardServiceImpl implements DashboardService {
                 balanco.getData_inicio() != null ? balanco.getData_inicio() : null,
                 balanco.getData_termino() != null ? balanco.getData_termino() : null,
                 balanco.getTipo_visualizacao(),
-                balanco.getCategoria_titulo_contabil()
+                balanco.getCategoria_titulo_contabil(),
+                null
         );
     }
 

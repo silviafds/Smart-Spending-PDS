@@ -23,7 +23,7 @@ import java.time.LocalDate;
 public class BalancoDespesa {
     private String dado;
     private Long valor;
-    private BigDecimal impostoTotal;
+    private BigDecimal imposto;
     @Transient
     private String nome;
     @Transient

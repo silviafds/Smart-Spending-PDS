@@ -35,9 +35,9 @@ public class BalancoSupermercadoStrategy implements BalancoStrategy {
                 BigDecimal valor = BigDecimal.valueOf(balanco.getValor());
                 BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.03)) // cálculo de 3%
                         .setScale(2, RoundingMode.HALF_UP);
-                balanco.setImpostoTotal(imposto);
+                balanco.setImposto(imposto);
             } else {
-                balanco.setImpostoTotal(BigDecimal.ZERO);
+                balanco.setImposto(BigDecimal.ZERO);
             }
         }
 
@@ -53,9 +53,9 @@ public class BalancoSupermercadoStrategy implements BalancoStrategy {
                 BigDecimal valor = BigDecimal.valueOf(balanco.getValor());
                 BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.06)) // cálculo de 6%
                         .setScale(2, RoundingMode.HALF_UP);
-                balanco.setImpostoTotal(imposto);
+                balanco.setImposto(imposto);
             } else {
-                balanco.setImpostoTotal(BigDecimal.ZERO);
+                balanco.setImposto(BigDecimal.ZERO);
             }
         }
 

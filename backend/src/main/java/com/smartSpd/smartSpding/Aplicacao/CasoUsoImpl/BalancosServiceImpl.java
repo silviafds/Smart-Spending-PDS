@@ -1,8 +1,11 @@
 package com.smartSpd.smartSpding.Aplicacao.CasoUsoImpl;
 
-import com.smartSpd.smartSpding.Core.CasoUso.BalancosService;
+import com.smartSpd.smartSpding.Core.CasoUso.*;
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
+import com.smartSpd.smartSpding.Core.Enum.BalancoEnum;
+import com.smartSpd.smartSpding.Core.Enum.TiposBalanco;
 import com.smartSpd.smartSpding.Core.Excecao.BalancoNaoEncontradoException;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.BalancosRepository;
 import jakarta.transaction.Transactional;
@@ -16,19 +19,77 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.ORIGENS_MAIS_RENTAVEIS;
-import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.PAGAMENTOS_MAIS_UTILIZADOS;
+import static com.smartSpd.smartSpding.Core.Enum.TiposBalanco.*;
 
 @Component
 public class BalancosServiceImpl implements BalancosService {
 
+    private final DespesaReceitaBalancoService despesaReceitaBalancoService;
+    private final ReceitaBalancoService receitaBalancoService;
+    private final DespesaBalancoService despesaBalancoService;
     private final BalancosRepository balancosRepository;
-
+    private final BalancoHospitalStrategy balancoHospitalStrategy;
+    private final BalancoRestauranteStrategy balancoRestauranteStrategy;
+    private final BalancoSupermercadoStrategy balancoSupermercadoStrategy;
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Autowired
-    public BalancosServiceImpl(BalancosRepository balancosRepository) {
+    public BalancosServiceImpl(DespesaReceitaBalancoService despesaReceitaBalancoService, ReceitaBalancoService receitaBalancoService, DespesaBalancoService despesaBalancoService, BalancosRepository balancosRepository, BalancoHospitalStrategy balancoHospitalStrategy, BalancoRestauranteStrategy balancoRestauranteStrategy, BalancoSupermercadoStrategy balancoSupermercadoStrategy) {
+        this.despesaReceitaBalancoService = despesaReceitaBalancoService;
+        this.receitaBalancoService = receitaBalancoService;
+        this.despesaBalancoService = despesaBalancoService;
         this.balancosRepository = balancosRepository;
+        this.balancoHospitalStrategy = balancoHospitalStrategy;
+        this.balancoRestauranteStrategy = balancoRestauranteStrategy;
+        this.balancoSupermercadoStrategy = balancoSupermercadoStrategy;
+    }
+
+    @Override
+    public List<?> gerenciadorBalancos(BalancoRapidoDTO balancoRapidoDTO) {
+        List<?> balanco = new ArrayList<>();
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MANUTENCAO_MAQUINARIO.getTiposBalanco()) ||
+        balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MANUTENCAO_LEITOS_UTI.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MAQUINARIO_COMPRADO.getTiposBalanco())) {
+                balanco = balancoHospitalStrategy.gerenciadorTipoBalanco(balancoRapidoDTO);
+        } else if(balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.TREINAMENTO_FUNCIONARIOS.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.MARKETING_PROPAGANDA.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.DECORACAO_AMBIENTE.getTiposBalanco())) {
+            balanco = balancoRestauranteStrategy.gerenciadorTipoBalanco(balancoRapidoDTO);
+        } else if(balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.ENTREGA.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.RELACIONAMENTO_CLIENTES.getTiposBalanco()) ||
+                balancoRapidoDTO.getAnaliseBalanco().equals(TiposBalanco.SERVICOS_TERCEIRIZADOS.getTiposBalanco())) {
+            balanco = balancoSupermercadoStrategy.gerenciadorTipoBalanco(balancoRapidoDTO);
+        } else {
+            if(balancoRapidoDTO.getTipoBalanco().equals(BalancoEnum.DESPESA.getBalanco())) {
+                balanco = balancosDespesas(balancoRapidoDTO);
+            } else if(balancoRapidoDTO.getTipoBalanco().equals(BalancoEnum.RECEITA.getBalanco())) {
+                balanco = balancosReceitas(balancoRapidoDTO);
+            } else if(balancoRapidoDTO.getTipoBalanco().equals(BalancoEnum.DESPESA_RECEITA.getBalanco())) {
+                balanco = balancosDespesasReceitas(balancoRapidoDTO);
+            }
+        }
+
+        return balanco;
+    }
+
+    private List<?> balancosDespesas(BalancoRapidoDTO balancoRapidoDTO) {
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_DESPESAS.getTiposBalanco())) {
+            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        return despesaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+    }
+
+    private List<?> balancosReceitas(BalancoRapidoDTO balancoRapidoDTO) {
+        if(balancoRapidoDTO.getAnaliseBalanco().equals(BUSCAR_TODAS_RECEITAS.getTiposBalanco())) {
+            return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
+        }
+
+        return receitaBalancoService.balancoMeiosPagamento(balancoRapidoDTO);
+    }
+
+    private List<?> balancosDespesasReceitas(BalancoRapidoDTO balancoRapidoDTO) {
+        return despesaReceitaBalancoService.buscarDadosReceitaDespesa(balancoRapidoDTO);
     }
 
     @Override

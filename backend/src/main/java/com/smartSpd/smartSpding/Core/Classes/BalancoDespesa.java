@@ -6,6 +6,7 @@ import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Transient;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 public class BalancoDespesa {
     private String dado;
     private Long valor;
-
+    private BigDecimal impostoTotal;
     @Transient
     private String nome;
     @Transient

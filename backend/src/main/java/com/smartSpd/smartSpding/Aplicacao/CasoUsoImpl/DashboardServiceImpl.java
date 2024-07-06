@@ -143,7 +143,8 @@ public class DashboardServiceImpl implements DashboardService {
                 balanco.getData_inicio() != null ? balanco.getData_inicio() : null,
                 balanco.getData_termino() != null ? balanco.getData_termino() : null,
                 balanco.getTipo_visualizacao(),
-                balanco.getCategoria_titulo_contabil()
+                balanco.getCategoria_titulo_contabil(),
+                null
         );
     }
 

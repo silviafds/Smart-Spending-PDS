@@ -1,5 +1,6 @@
 package com.smartSpd.smartSpding.Core.CasoUso;
 
+import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.DashDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Balancos;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface BalancosService {
-
+    List<?> gerenciadorBalancos(BalancoRapidoDTO balancoRapidoDTO);
     void registrarBalanco(Balancos balancos);
 
     void editarBalanco(Balancos balancos);

@@ -16,7 +16,7 @@ public enum TiposBalanco {
     MARKETING_PROPAGANDA("Marketing e propaganda"),
     DECORACAO_AMBIENTE("Decoração do ambiente"),
     //Supermercado
-    ENTREGA("Entregas"),
+    ENTREGA("Entrega"),
     RELACIONAMENTO_CLIENTES("Relacionamento com clientes"),
     SERVICOS_TERCEIRIZADOS("Serviços terceirizados");
 

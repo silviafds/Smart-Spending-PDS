@@ -44,7 +44,7 @@ export enum AnaliseBalancoDespesaHospital {
 }
 
 export enum AnaliseBalancoDespesaSupermercado {
-    ENTREGA = "Entrega",
+    ENTREGA = "Entregas",
     RELACIONAMENTO_CLIENTES = "Relacionamento com clientes",
     SERVICOS_TERCEIRIZADOS = "Serviços terceirizados"
 }

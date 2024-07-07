@@ -5,16 +5,17 @@ interface Transacao {
     dado: string;
     valor: number;
     imposto: number;
+    lucro: number;
 }
 
 interface ChartProps {
     data: Transacao[];
 }
 
-const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
+const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) => {
     const chartRef = useRef<HTMLDivElement>(null);
 
-    const chartData: { name: string; value: number; imposto: number; valueColor: string; taxColor: string }[] = [];
+    const chartData: { name: string; value: number; imposto: number; lucro: number; valueColor: string; taxColor: string }[] = [];
 
     // Função para gerar uma cor pastel aleatória
     const getRandomPastelColor = () => {
@@ -28,7 +29,6 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
                 const valueColor = getRandomPastelColor();
                 let taxColor = getRandomPastelColor();
 
-                // Garante que a cor do imposto seja diferente da cor do valor
                 while (taxColor === valueColor) {
                     taxColor = getRandomPastelColor();
                 }
@@ -37,6 +37,7 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
                     name: data[prop].dado,
                     value: data[prop].valor,
                     imposto: data[prop].imposto,
+                    lucro: data[prop].lucro,
                     valueColor: valueColor,
                     taxColor: taxColor
                 });
@@ -76,12 +77,14 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
                     axisPointer: {
                         type: 'shadow'
                     },
-                    formatter: (params) => {
-                        // @ts-ignore
-                        const mainSeries = params[0];
-                        // @ts-ignore
-                        const taxSeries = params[1];
-                        return `${mainSeries.seriesName}: ${mainSeries.value}<br>${taxSeries.seriesName}: ${taxSeries.value}`;
+                    formatter: (params: any) => {
+                        let result = '';
+                        params.forEach((param: any) => {
+                            if (param.value !== null && param.value !== undefined) {
+                                result += `${param.seriesName}: ${param.value}<br>`;
+                            }
+                        });
+                        return result;
                     }
                 },
                 series: [
@@ -91,18 +94,27 @@ const GraficoColunaVertical: React.FC<ChartProps> = ({ data }) =>  {
                             value: item.value,
                             itemStyle: { color: item.valueColor }
                         })),
-                        type: 'bar',
+                        type: 'bar' as const, // Use type assertion
                         stack: 'total'
                     },
-                    {
+                    ...(chartData.some(item => item.imposto !== null && item.imposto !== undefined) ? [{
                         name: 'Imposto',
-                        data: chartData.map(item => ({
+                        data: chartData.filter(item => item.imposto !== null && item.imposto !== undefined).map(item => ({
                             value: item.imposto,
                             itemStyle: { color: item.taxColor }
                         })),
-                        type: 'bar',
+                        type: 'bar' as const, // Use type assertion
                         stack: 'total'
-                    }
+                    }] : []),
+                    ...(chartData.some(item => item.lucro !== null && item.lucro !== undefined) ? [{
+                        name: 'Lucro',
+                        data: chartData.filter(item => item.lucro !== null && item.lucro !== undefined).map(item => ({
+                            value: item.lucro,
+                            itemStyle: { color: item.taxColor }
+                        })),
+                        type: 'bar' as const, // Use type assertion
+                        stack: 'total'
+                    }] : [])
                 ]
             };
 

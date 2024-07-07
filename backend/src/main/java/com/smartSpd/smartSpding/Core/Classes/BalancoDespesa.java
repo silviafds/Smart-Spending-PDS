@@ -24,6 +24,7 @@ public class BalancoDespesa {
     private String dado;
     private Long valor;
     private BigDecimal imposto;
+    private BigDecimal lucro;
     @Transient
     private String nome;
     @Transient

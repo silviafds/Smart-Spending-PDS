@@ -36,6 +36,7 @@ public class BalancoRestauranteStrategy implements BalancoStrategy {
                 BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.025)) // cálculo de 2,5%
                         .setScale(2, RoundingMode.HALF_UP);
                 balanco.setImposto(imposto);
+                balanco.setLucro(BigDecimal.valueOf(0.0));
             } else {
                 balanco.setImposto(BigDecimal.ZERO);
             }
@@ -51,9 +52,10 @@ public class BalancoRestauranteStrategy implements BalancoStrategy {
         for (BalancoDespesaReceita balanco : balancos) {
             if (balanco.getValor() != null) {
                 BigDecimal valor = BigDecimal.valueOf(balanco.getValor());
-                BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.05)) // cálculo de 5%
+                BigDecimal lucro = valor.multiply(BigDecimal.valueOf(0.05)) // cálculo de 5%
                         .setScale(2, RoundingMode.HALF_UP);
-                balanco.setImposto(imposto);
+                balanco.setLucro(lucro);
+                balanco.setImposto(BigDecimal.valueOf(0.0));
             } else {
                 balanco.setImposto(BigDecimal.ZERO);
             }

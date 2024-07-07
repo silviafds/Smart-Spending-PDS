@@ -36,6 +36,7 @@ public class BalancoHospitalStrategy implements BalancoStrategy {
                 BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.015)) // cálculo de 1,5%
                         .setScale(2, RoundingMode.HALF_UP);
                 balanco.setImposto(imposto);
+                balanco.setLucro(BigDecimal.valueOf(0.0));
             } else {
                 balanco.setImposto(BigDecimal.ZERO);
             }
@@ -51,9 +52,10 @@ public class BalancoHospitalStrategy implements BalancoStrategy {
         for (BalancoDespesaReceita balanco : balancos) {
             if (balanco.getValor() != null) {
                 BigDecimal valor = BigDecimal.valueOf(balanco.getValor());
-                BigDecimal imposto = valor.multiply(BigDecimal.valueOf(0.03)) // cálculo de 3%
+                BigDecimal lucro = valor.multiply(BigDecimal.valueOf(0.03)) // cálculo de 3%
                         .setScale(2, RoundingMode.HALF_UP);
-                balanco.setImposto(imposto);
+                balanco.setLucro(lucro);
+                balanco.setImposto(BigDecimal.valueOf(0.0));
             } else {
                 balanco.setImposto(BigDecimal.ZERO);
             }

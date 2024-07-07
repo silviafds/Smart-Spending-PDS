@@ -102,7 +102,8 @@ const ModalCadastrarBalancoHosp: React.FC<BasicModalProps & { id: any }> = ({ on
     const handleBalanco = async (tipoBalanco: any) => {
         if(tipoBalanco != null) {
             setValue('analiseBalanco', tipoBalanco.nome);
-            if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MAQUINARIO) {
+            if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MAQUINARIO_COMPRADO) {
+                console.log("maquinario comprado")
                 setValue('categoriaOuTituloContabilDespesa', true)
             } if(tipoBalanco.nome === AnaliseBalancoDespesaHospital.MANUTENCAO_MAQUINARIO) {
                 setValue('categoriaOuTituloContabilDespesa', true)
@@ -210,7 +211,17 @@ const ModalCadastrarBalancoHosp: React.FC<BasicModalProps & { id: any }> = ({ on
                                     className="inputs relative my-4">
                                     <Selector dado={analiseBalancoDespesaHospital}
                                               placeholder={Titulos.INPUT_CATEGORIA_BALANCO.toString()}
-                                              valorSelecionado={watch('analiseBalanco')} onGenericoSelect={handleBalanco}/>
+                                              valorSelecionado={watch('analiseBalanco')}
+                                              onGenericoSelect={handleBalanco}/>
+                                    <div className="line"></div>
+                                </div>
+
+                                <div
+                                    className="inputs relative my-4">
+                                    <Selector dado={analiseTipoBalancoReceitaDespesaEnum}
+                                              placeholder={Titulos.INPUT_TIPO_CATEGORIA_TITULO_BALANCO.toString()}
+                                              valorSelecionado={watch('categoriaOuTituloContabil')}
+                                              onGenericoSelect={handleBalancoCategoriaOuTituloContabil}/>
                                     <div className="line"></div>
                                 </div>
 

@@ -34,6 +34,7 @@ interface IFormInputs {
     tipoVisualizacao: string;
     categoriaOuTituloContabil: string;
     imposto: Number;
+    lucro: Number;
 }
 
 export function TelaBalancoRapido() {
@@ -66,7 +67,7 @@ export function TelaBalancoRapido() {
 
     // @ts-ignore
     useEffect(() => {
-        let nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao, categoriaOuTituloContabil, imposto;
+        let nome, analiseBalanco, tipoBalanco, dataInicial, dataTermino, tipoVisualizacao, categoriaOuTituloContabil, imposto, lucro;
         for (let prop in dados) {
             setValue("nome", dados[prop].nome)
             setValue("analiseBalanco", dados[prop].analiseBalanco)
@@ -76,6 +77,7 @@ export function TelaBalancoRapido() {
             setValue("tipoVisualizacao", dados[prop].tipoVisualizacao)
             setValue("categoriaOuTituloContabil", dados[prop].categoriaOuTituloContabil)
             setValue("imposto", dados[prop].imposto)
+            setValue("lucro", dados[prop].lucro)
             nome = dados[prop].nome;
             analiseBalanco = dados[prop].analiseBalanco;
             tipoBalanco = dados[prop].tipoBalanco;
@@ -84,6 +86,7 @@ export function TelaBalancoRapido() {
             tipoVisualizacao = dados[prop].tipoVisualizacao;
             categoriaOuTituloContabil = dados[prop].categoriaOuTituloContabil;
             imposto = dados[prop].imposto;
+            lucro = dados[prop].lucro;
             console.log("imposto:" +imposto)
             const dataInicio = parseDate(dados[prop].dataInicio);
             setStartDate(dataInicio);

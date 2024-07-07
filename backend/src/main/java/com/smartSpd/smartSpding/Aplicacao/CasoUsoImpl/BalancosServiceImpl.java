@@ -34,7 +34,10 @@ public class BalancosServiceImpl implements BalancosService {
     static Logger log = Logger.getLogger(String.valueOf(ClassName.class));
 
     @Autowired
-    public BalancosServiceImpl(DespesaReceitaBalancoService despesaReceitaBalancoService, ReceitaBalancoService receitaBalancoService, DespesaBalancoService despesaBalancoService, BalancosRepository balancosRepository, BalancoHospitalStrategy balancoHospitalStrategy, BalancoRestauranteStrategy balancoRestauranteStrategy, BalancoSupermercadoStrategy balancoSupermercadoStrategy) {
+    public BalancosServiceImpl(DespesaReceitaBalancoService despesaReceitaBalancoService, ReceitaBalancoService receitaBalancoService,
+                               DespesaBalancoService despesaBalancoService, BalancosRepository balancosRepository,
+                               BalancoHospitalStrategy balancoHospitalStrategy, BalancoRestauranteStrategy balancoRestauranteStrategy,
+                               BalancoSupermercadoStrategy balancoSupermercadoStrategy) {
         this.despesaReceitaBalancoService = despesaReceitaBalancoService;
         this.receitaBalancoService = receitaBalancoService;
         this.despesaBalancoService = despesaBalancoService;

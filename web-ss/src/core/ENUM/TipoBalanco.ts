@@ -38,7 +38,7 @@ export enum AnaliseTipoDespesaReceita {
 }
 
 export enum AnaliseBalancoDespesaHospital {
-    MAQUINARIO = "Manuntenção de maquinário",
+    MAQUINARIO_COMPRADO = "Maquinário comprado",
     MANUTENCAO_LEITOS_UTI = "Manutenção leitos UTI",
     MANUTENCAO_MAQUINARIO = "Manutenção maquinário"
 }

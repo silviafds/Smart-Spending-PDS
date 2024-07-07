@@ -12,9 +12,9 @@ public enum TiposBalanco {
     MANUTENCAO_LEITOS_UTI("Manutenção leitos UTI"),
     MAQUINARIO_COMPRADO("Maquinário comprado"),
     //Restaurante
-    TREINAMENTO_FUNCIONARIOS("Treinamento de funcionários"),
+    TREINAMENTO_FUNCIONARIOS("Treinamento funcionários"),
     MARKETING_PROPAGANDA("Marketing e propaganda"),
-    DECORACAO_AMBIENTE("Decoração do ambiente"),
+    DECORACAO_AMBIENTE("Decoração de ambiente"),
     //Supermercado
     ENTREGA("Entrega"),
     RELACIONAMENTO_CLIENTES("Relacionamento com clientes"),

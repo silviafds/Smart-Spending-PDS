@@ -5,9 +5,7 @@ import com.smartSpd.smartSpding.Core.CasoUso.ConselhosService;
 import com.smartSpd.smartSpding.Core.DTO.BalancoRapidoDTO;
 import com.smartSpd.smartSpding.Core.DTO.ConselhosDTO;
 import com.smartSpd.smartSpding.Core.Dominio.Conselhos;
-import com.smartSpd.smartSpding.Core.Strategy.ConselhosStrategy;
-import com.smartSpd.smartSpding.Core.Strategy.HospitalConselhosStrategy;
-import com.smartSpd.smartSpding.Core.Strategy.RestauranteConselhosStrategy;
+import com.smartSpd.smartSpding.Core.Strategy.*;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ConselhosRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.DespesaRepository;
 import com.smartSpd.smartSpding.Infraestructure.Repositorio.ReceitaRepository;
@@ -37,38 +35,21 @@ public class ConselhosServiceImpl implements ConselhosService {
 
     private final ReceitaRepository receitaRepository;
 
-    private final ConselhosStrategy hospitalConselhosStrategy;
-    private final ConselhosStrategy restauranteConselhosStrategy;
-    private final ConselhosStrategy supermercadoConselhosStrategy;
+    private final ConselhosStrategyFactory conselhosStrategyFactory;
 
 
     public ConselhosServiceImpl(ConselhosRepository conselhosRepository, GerenciadorConselhos gerenciadorConselhos,
                                 DespesaRepository despesaRepository, ReceitaRepository receitaRepository,
-                                @Qualifier("hospitalConselhosStrategy") ConselhosStrategy hospitalConselhosStrategy,
-                                @Qualifier("restauranteConselhosStrategy") ConselhosStrategy restauranteConselhosStrategy,
-                                @Qualifier("supermercadoConselhosStrategy") ConselhosStrategy supermercadoConselhosStrategy) {
+                                ConselhosStrategyFactory conselhosStrategyFactory) {
         this.conselhosRepository = conselhosRepository;
         this.gerenciadorConselhos = gerenciadorConselhos;
         this.despesaRepository = despesaRepository;
         this.receitaRepository = receitaRepository;
-        this.hospitalConselhosStrategy = hospitalConselhosStrategy;
-        this.restauranteConselhosStrategy = restauranteConselhosStrategy;
-        this.supermercadoConselhosStrategy = supermercadoConselhosStrategy;
+        this.conselhosStrategyFactory = conselhosStrategyFactory;
     }
 
     private ConselhosStrategy getStrategy(String tipoConselho) {
-        switch (tipoConselho.toUpperCase()) {
-            case "HOSPITAL":
-                return hospitalConselhosStrategy;
-            case "RESTAURANTE":
-                return restauranteConselhosStrategy;
-            case "SUPERMERCADO":
-                return supermercadoConselhosStrategy;
-            case "":
-                return null;
-            default:
-                throw new IllegalArgumentException("Tipo de conselho desconhecido: " + tipoConselho);
-        }
+        return conselhosStrategyFactory.getStrategy(tipoConselho);
     }
 
     @Override
